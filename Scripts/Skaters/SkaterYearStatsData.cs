@@ -26,7 +26,7 @@ public class SkaterYearStatsData {
     public int PowerplayGoals { get; set; }
     public int ShorthandedGoals { get; set; }
     public int Shots { get; set; }
-    public int TimePerGame { get; set; }
+    public int TimePerGame { get; set; } // In Seconds
 #endregion
 #region -------------------- Private Variables --------------------
     
