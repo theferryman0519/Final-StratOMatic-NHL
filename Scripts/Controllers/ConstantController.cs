@@ -47,6 +47,12 @@ public class ConstantController : Singleton<ConstantController> {
 
     // Multipliers
 	public const float Fading_Multiplier = 0.35f;
+	public const float Shrinking_Multiplier = 0.05f;
+	public const float Waiting_Multiplier = 0.5f;
+	public const float Sliding_Multiplier = 0.2f;
+	public const float Audio_Multiplier = 2f;
+	public const float BannerFading_Multiplier = 0.5f;
+	public const float BannerWaiting_Multiplier = 2.5f;
 
     // Timers
 	public const float Pausing_Timer = 0.75f;
