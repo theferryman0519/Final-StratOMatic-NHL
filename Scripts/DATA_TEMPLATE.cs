@@ -14,6 +14,7 @@ using UnityEngine.SceneManagement;
 // using SoM.Audio;
 // using SoM.Controllers;
 // using SoM.Core;
+// using SoM.Events;
 // using SoM.Gameplay;
 // using SoM.Multiplayer;
 // using SoM.Playoffs;
