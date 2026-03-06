@@ -16,6 +16,8 @@ public class SkaterStatsData {
     
 #region -------------------- Public Variables --------------------
     public string Id { get; set; }
+
+    public int TotalGames { get; set; }
     
     public float GoalsPer60 { get; set; }
     public float AssistsPer60 { get; set; }
