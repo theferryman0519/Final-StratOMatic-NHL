@@ -50,8 +50,4 @@ public class SkatersController : Singleton<SkatersController> {
 #region -------------------- Private Methods --------------------
     
 #endregion
-}}#endregion
-#region -------------------- Private Methods --------------------
-    
-#endregion
 }}
