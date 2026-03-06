@@ -44,6 +44,16 @@ public class SkatersController : Singleton<SkatersController> {
         await _skaterCreation.CreateSkaters();
         await _goalieCreation.CreateGoalies();
 
+        if (FullSkaters.Count > 0)
+        {
+            await _skaterCreation.CreateSkaterCards();
+        }
+
+        if (FullGoalies.Count > 0)
+        {
+            await _goalieCreation.CreateGoalieCards();
+        }
+
         CoreController.Inst.LoadingStepCompleted();
     }
 #endregion
