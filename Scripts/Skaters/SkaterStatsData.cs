@@ -19,14 +19,14 @@ public class SkaterStatsData {
 
     public int TotalGames { get; set; }
     
-    public float GoalsPer60 { get; set; }
-    public float AssistsPer60 { get; set; }
-    public float PointsPer60 { get; set; }
-    public float PenaltyMinutesPer60 { get; set; }
-    public float PlusMinusPer60 { get; set; }
-    public float PowerplayGoalsPer60 { get; set; }
-    public float ShorthandedGoalsPer60 { get; set; }
-    public float ShotsPer60 { get; set; }
+    public float GoalsPer { get; set; }
+    public float AssistsPer { get; set; }
+    public float PointsPer { get; set; }
+    public float PenaltyMinutesPer { get; set; }
+    public float PlusMinusPer { get; set; }
+    public float PowerplayGoalsPer { get; set; }
+    public float ShorthandedGoalsPer { get; set; }
+    public float ShotsPer { get; set; }
 
     public List<SkaterYearStatsData> YearStats { get; set; } = new();
 #endregion
