@@ -27,6 +27,7 @@ public class SkaterStatsData {
     public float PowerplayGoalsPer { get; set; }
     public float ShorthandedGoalsPer { get; set; }
     public float ShotsPer { get; set; }
+    public float AvgTimeOnIce { get; set; } // In seconds
 
     public List<SkaterYearStatsData> YearStats { get; set; } = new();
 #endregion
