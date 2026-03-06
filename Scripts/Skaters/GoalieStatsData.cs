@@ -16,6 +16,8 @@ public class GoalieStatsData {
     
 #region -------------------- Public Variables --------------------
     public string Id { get; set; }
+
+    public int TotalGames { get; set; }
     
     public float WinPercentage { get; set; }
     public float ShutoutPercentage { get; set; }
