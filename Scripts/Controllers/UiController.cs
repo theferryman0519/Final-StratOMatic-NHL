@@ -23,6 +23,9 @@ public class UiController : Singleton<UiController> {
 #endregion
 #region -------------------- Public Variables --------------------
     public string BannerTitle;
+
+	public bool IsBannerFadingIn;
+	public bool IsBannerFadingOut;
 #endregion
 #region -------------------- Private Variables --------------------
     
