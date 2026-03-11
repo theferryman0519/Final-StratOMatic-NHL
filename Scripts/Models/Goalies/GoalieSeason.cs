@@ -21,7 +21,7 @@ public class GoalieSeason {
     public int GamesPlayed { get; set; }
     public int Wins { get; set; }
     public int Losses { get; set; }
-    public int Ties { get; set; }
+    public int Shutouts { get; set; }
     public int GoalsAgainst { get; set; }
     public int ShotsAgainst { get; set; }
     public int Assists { get; set; }
