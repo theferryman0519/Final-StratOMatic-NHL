@@ -22,7 +22,7 @@ public class UiController : Singleton<UiController> {
     [SerializeField] private List<CanvasGroup> _backgroundElement;
 #endregion
 #region -------------------- Public Variables --------------------
-    
+    public string BannerTitle;
 #endregion
 #region -------------------- Private Variables --------------------
     
