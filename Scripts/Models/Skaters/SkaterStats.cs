@@ -19,7 +19,7 @@ public class SkaterStats {
     public string Id { get; set; }
 
     public int Year { get; set; }
-    public int Games { get; set; }
+    public int GamesPlayed { get; set; }
     public int TotalMinutes { get; set; }
     public int Goals { get; set; }
     public int Assists { get; set; }
