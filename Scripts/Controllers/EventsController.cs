@@ -15,10 +15,11 @@ namespace SoM.Controllers {
 public class EventsController : Singleton<EventsController> {
 
 #region -------------------- Serialized Variables --------------------
-    
+    [Header("Overlay Blocker")]
+	[SerializeField] private GameObject _overlayBlocker;
 #endregion
 #region -------------------- Public Variables --------------------
-    
+    public Action ContinueAction;
 #endregion
 #region -------------------- Private Variables --------------------
     
@@ -33,7 +34,16 @@ public class EventsController : Singleton<EventsController> {
     public void InitializeController()
     {
         CoreController.Inst.WriteLog(this.GetType().Name, $"Initializing the controller.");
+
+        ToggleOverlay(false);
+
+        CoreController.Inst.LoadingStepCompleted();
     }
+
+    public void ToggleOverlay(bool isOverlayOn)
+	{
+		_overlayBlocker.SetActive(isOverlayOn);
+	}
 #endregion
 #region -------------------- Private Methods --------------------
     
