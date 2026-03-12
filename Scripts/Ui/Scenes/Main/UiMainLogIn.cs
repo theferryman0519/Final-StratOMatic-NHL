@@ -92,7 +92,7 @@ public class UiMainLogIn : UiSceneBase {
         {
             Email = email,
             Password = password,
-            SuccessAction = () => { UiController.Inst.IsFadingBannerIn = true; GoToNewScene(CoreController.Inst.Scene_Home00); },
+            SuccessAction = () => { UiController.Inst.IsNewUser = false; GoToNewScene(CoreController.Inst.Scene_Main01); },
             FailAction = null, // TODO: Show invalid email/password bottom panel
         };
 
