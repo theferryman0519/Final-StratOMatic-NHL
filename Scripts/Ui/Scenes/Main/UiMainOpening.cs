@@ -79,7 +79,6 @@ public class UiMainOpening : MonoBehaviour {
         sequence.Join(_version.DOFade(1f, fadeDuration));
 		sequence.AppendInterval(keepDuration);
 		
-		// Complete
 		sequence.OnComplete(() =>
 		{
 			CoreController.Inst.ChangeScene(CoreController.Inst.Scene_Main01);
