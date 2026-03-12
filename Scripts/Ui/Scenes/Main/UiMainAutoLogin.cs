@@ -85,7 +85,6 @@ public class UiMainAutoLogin : MonoBehaviour {
         sequence.Join(_rink.DOFade(0f, fadeDuration));
         sequence.Join(_version.DOFade(0f, fadeDuration));
 		
-		// Complete
 		sequence.OnComplete(() =>
 		{
 			continueAction?.Invoke();
