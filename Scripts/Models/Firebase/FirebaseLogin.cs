@@ -17,8 +17,7 @@ public class FirebaseLogin {
     public string Email;
     public string Password;
     public Action SuccessAction;
-    public Action NoAccountAction;
-    public Action NoDataAction;
+    public Action FailAction;
 #endregion
 #region -------------------- Private Variables --------------------
     
