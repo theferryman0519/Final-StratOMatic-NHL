@@ -35,12 +35,11 @@ public class CoreController : Singleton<CoreController> {
     
     // Main Scenes
     public string Scene_Main00 = "Main_00_Opening";
-    public string Scene_Main01 = "Main_01_AutoLogin";
-    public string Scene_Main02 = "Main_02_Loading";
-    public string Scene_Main03 = "Main_03_LogIn";
-    public string Scene_Main04 = "Main_04_SignUp";
-    public string Scene_Main05 = "Main_05_SignUpTeam";
-    public string Scene_Main06 = "Main_06_SavedGame";
+    public string Scene_Main01 = "Main_01_Loading";
+    public string Scene_Main02 = "Main_02_LogIn";
+    public string Scene_Main03 = "Main_03_SignUp";
+    public string Scene_Main04 = "Main_04_SignUpTeam";
+    public string Scene_Main05 = "Main_05_SavedGame";
 
     // Home Scenes
     public string Scene_Home00 = "Home_00_Main";
