@@ -1,5 +1,4 @@
 // Main Dependencies
-using DG.Tweening;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -14,16 +13,11 @@ using SoM.Controllers;
 using SoM.Models;
 
 namespace SoM.Ui {
-public class UiMainLoading : MonoBehaviour {
+public class UiMainLoading : UiSceneBase {
 
 #region -------------------- Serialized Variables --------------------
     [Header("Canvas Group Elements")]
-    [SerializeField] private CanvasGroup _gameLogo;
-    [SerializeField] private CanvasGroup _studioLogo;
-    [SerializeField] private CanvasGroup _rink;
-    [SerializeField] private CanvasGroup _version;
-    [SerializeField] private CanvasGrouo _loadingBar;
-    [SerializeField] private CanvasGroup _loading;
+    [SerializeField] private List<CanvasGroup> _pageElements;
 
     [Header("Version Text Element")]
     [SerializeField] private TMP_Text _versionText;
@@ -37,7 +31,6 @@ public class UiMainLoading : MonoBehaviour {
     
 #endregion
 #region -------------------- Private Variables --------------------
-    private float fadeDuration = 1f;
     private float loadingTimer = 0f;
 
     private bool isLoading = false;
@@ -60,19 +53,15 @@ public class UiMainLoading : MonoBehaviour {
     
 #endregion
 #region -------------------- Public Methods --------------------
-    
-#endregion
-#region -------------------- Private Methods --------------------
-    private void InitializeUi()
+    protected override void InitializeUi()
 	{
-        CoreController.Inst.WriteLog(this.GetType().Name, $"Initializing the UI for the scene.");
-
         _versionText.text = $"Version: {Application.version}";
         _loadingText.text = RandomizeLoadingText();
 
-        StartLoading();
+        base.InitializeUi(StartLoading);
 	}
-
+#endregion
+#region -------------------- Private Methods --------------------
     private async void StartLoading()
 	{
 		CoreController.Inst.WriteLog(this.GetType().Name, $"Starting to load the game.");
@@ -91,7 +80,7 @@ public class UiMainLoading : MonoBehaviour {
 		_ = FirebaseController.Inst.GettingCurrentVersions();
 	}
 
-    private void CheckLoadingMain()
+    private void CheckLoading()
 	{
 		if (isLoading)
         {
@@ -140,22 +129,14 @@ public class UiMainLoading : MonoBehaviour {
     private void ContinueToGame()
 	{
 		CoreController.Inst.WriteLog(this.GetType().Name, $"Continuing to the game.");
-		
-		sequence = DOTween.Sequence();
-		
-		sequence.Append(_gameLogo.DOFade(0f, fadeDuration));
-        sequence.Join(_studioLogo.DOFade(0f, fadeDuration));
-        sequence.Join(_rink.DOFade(0f, fadeDuration));
-        sequence.Join(_version.DOFade(0f, fadeDuration));
-        sequence.Join(_loadingBar.DOFade(0f, fadeDuration));
-        sequence.Join(_loading.DOFade(0f, fadeDuration));
-		
-		sequence.OnComplete(() =>
-		{
-            // TODO: Check for saved game
-            // TODO: Check if new user
-			CoreController.Inst.ChangeScene(CoreController.Inst.Scene_Home00);
-		});
+
+        _mainContent.Clear();
+        _mainContent = _pageElements;
+
+        // TODO: Check for saved game
+        // TODO: Check if new user
+
+        GoToNewScene(CoreController.Inst.Scene_Home00);
 	}
 
     private bool IsVersionCompatible(string localVersion, string requiredVersion)
