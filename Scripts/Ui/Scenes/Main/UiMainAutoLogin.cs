@@ -102,7 +102,7 @@ public class UiMainAutoLogin : MonoBehaviour {
         {
             Email = email,
             Password = password,
-            SuccessAction = () => { RunSequence(() => { CoreController.Inst.ChangeScene(CoreController.Inst.Scene_Main02); }); },
+            SuccessAction = () => { CoreController.Inst.ChangeScene(CoreController.Inst.Scene_Main02); },
             FailAction = () => { RunSequence(() => { CoreController.Inst.ChangeScene(CoreController.Inst.Scene_Main04); }); },
         };
 
