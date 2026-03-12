@@ -20,7 +20,7 @@ public class SoM_Button : MonoBehavior {
     [SerializeField] private TMP_Text _text;
 #endregion
 #region -------------------- Public Variables --------------------
-    
+    public Button Button => _button;
 #endregion
 #region -------------------- Private Variables --------------------
     
