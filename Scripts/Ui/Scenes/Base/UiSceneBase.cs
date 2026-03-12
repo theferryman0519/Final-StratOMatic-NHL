@@ -37,7 +37,7 @@ public class UiSceneBase : MonoBehaviour {
     
 #endregion
 #region -------------------- Public Methods --------------------
-    protected virtual InitializeUi()
+    protected virtual InitializeUi(Action continueAction = null)
     {
         CoreController.Inst.WriteLog(this.GetType().Name, $"Initializing the UI for the scene.");
 
@@ -56,6 +56,8 @@ public class UiSceneBase : MonoBehaviour {
         AnimationController.Inst.FadeInObjects(fadeInElements, () =>
 		{
 			UiController.Inst.IsFadingBannerIn = false;
+
+			continueAction?.Invoke();
 		});
     }
 
