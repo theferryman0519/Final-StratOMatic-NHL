@@ -69,6 +69,8 @@ public class UiMainOpening : MonoBehaviour {
 
     private void RunSequence()
 	{
+		CoreController.Inst.WriteLog(this.GetType().Name, $"Running fade in sequence.");
+		
 		sequence = DOTween.Sequence();
 		
 		sequence.Append(_gameLogo.DOFade(1f, fadeDuration));
