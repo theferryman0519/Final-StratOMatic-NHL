@@ -61,6 +61,11 @@ public class UiSceneBase : MonoBehaviour {
 		});
     }
 
+	public void SetBanner(Team team)
+	{
+		// TODO
+	}
+
     public void GoToNewScene(string sceneName)
 	{
 		CoreController.Inst.WriteLog(this.GetType().Name, $"Going to a new scene: {sceneName}.");
