@@ -17,6 +17,8 @@ public class UserSeasonStats {
     
 #region -------------------- Public Variables --------------------
     public string Id { get; set; }
+
+    public bool IsInSeason { get; set; }
     
     public int CurrentWins { get; set; }
     public int CurrentLosses { get; set; }
