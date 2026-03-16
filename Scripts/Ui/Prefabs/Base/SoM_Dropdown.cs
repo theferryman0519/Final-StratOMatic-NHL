@@ -31,7 +31,7 @@ public class SoM_Dropdown : MonoBehavior {
     
 #endregion
 #region -------------------- Public Methods --------------------
-    public void SetListeners(Action changeAction)
+    public void SetListener(Action changeAction)
     {
         _dropdown.onValueChanged.RemoveAllListeners();
 
