@@ -81,7 +81,7 @@ public class UiSeasonTeam : UiSceneBase {
     
     private void SetContainer()
     {
-        CoreController.Inst.WriteLog(this.GetType().Name, $"Setting the favorite team container.");
+        CoreController.Inst.WriteLog(this.GetType().Name, $"Setting the selected team container.");
 
         ClearContainer();
 
@@ -94,7 +94,7 @@ public class UiSeasonTeam : UiSceneBase {
             icon.SetIcon(team, false);
             icon.SetListener(() =>
             {
-                CoreController.Inst.WriteLog(this.GetType().Name, $"Choosing {team.Info.Code} as a favorite team.");
+                CoreController.Inst.WriteLog(this.GetType().Name, $"Choosing {team.Info.Code} as a selected team.");
 
                 selectedTeam = team;
                 icon.SetIcon(team, true);
@@ -109,7 +109,7 @@ public class UiSeasonTeam : UiSceneBase {
 
     private void ClearContainer()
     {
-        CoreController.Inst.WriteLog(this.GetType().Name, $"Clearing the favorite team container.");
+        CoreController.Inst.WriteLog(this.GetType().Name, $"Clearing the selected team container.");
 
         foreach (Transform child in _container)
         {
