@@ -92,7 +92,7 @@ public class UiMainOpening : UiSceneBase {
             FailAction = () => { GoToNewScene(CoreController.Inst.Scene_Main03); },
         };
 
-        StartCoroutine(Firebase_Controller.Inst.SigningInUserToFirebase(loginData));
+        StartCoroutine(FirebaseController.Inst.SigningInUserToFirebase(loginData));
     }
 #endregion
 }}
