@@ -19,7 +19,7 @@ public class SoM_Input : MonoBehavior {
     [SerializeField] private TMP_InputField _inputField;
 #endregion
 #region -------------------- Public Variables --------------------
-    public TMP_InputField Input => _inputField
+    public TMP_InputField Input => _inputField;
 #endregion
 #region -------------------- Private Variables --------------------
     
