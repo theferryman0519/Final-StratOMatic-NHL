@@ -104,14 +104,14 @@ public class UiMainSignUp : UiSceneBase {
             FailAction = null, // TODO: Show invalid email/password bottom panel
         };
 
-        StartCoroutine(Firebase_Controller.Inst.CreatingUserInFirebase(signUpData));
+        StartCoroutine(FirebaseController.Inst.CreatingUserInFirebase(signUpData));
     }
 
     private void GoToLogIn()
     {
         CoreController.Inst.WriteLog(this.GetType().Name, $"Going to the log in screen.");
 
-        GoToNewScene(Core_Controller.Inst.Scene_Main02);
+        GoToNewScene(CoreController.Inst.Scene_Main02);
     }
 
     private void OpenKeyboardFor(TMP_InputField field)
