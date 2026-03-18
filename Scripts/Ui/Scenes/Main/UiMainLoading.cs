@@ -34,8 +34,6 @@ public class UiMainLoading : UiSceneBase {
     private float loadingTimer = 0f;
 
     private bool isLoading = false;
-
-    private Sequence sequence;
 #endregion
 #region -------------------- Initial Functions --------------------
     void Start()
