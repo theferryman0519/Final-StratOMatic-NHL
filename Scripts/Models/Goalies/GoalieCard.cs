@@ -20,7 +20,7 @@ public class GoalieCard {
     public string Penalty { get; set; }
     public string Fatigue { get; set; }
 
-    public List<string> GoalieRatingActions = new();
+    public List<string> GoalieRatingActions { get; set; } = new();
 #endregion
 #region -------------------- Private Variables --------------------
     
