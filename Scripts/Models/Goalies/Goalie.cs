@@ -15,15 +15,15 @@ namespace SoM.Models {
 public class Goalie {
     
 #region -------------------- Public Variables --------------------
-    public string Id;
+    public string Id { get; set; }
 
-    public GoalieInfo Info;
-    public GoalieCard Card;
-    public GoalieGame Game;
-    public GoalieSeason Season;
-    public GoaliePlayoff Playoff;
+    public GoalieInfo Info { get; set; }
+    public GoalieCard Card { get; set; }
+    public GoalieGame Game { get; set; }
+    public GoalieSeason Season { get; set; }
+    public GoaliePlayoff Playoff { get; set; }
 
-    public List<GoalieStats> Stats = new();
+    public List<GoalieStats> Stats { get; set; } = new();
 #endregion
 #region -------------------- Private Variables --------------------
     
