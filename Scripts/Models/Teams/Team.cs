@@ -15,12 +15,12 @@ namespace SoM.Models {
 public class Team {
     
 #region -------------------- Public Variables --------------------
-    public string Id;
+    public string Id { get; set; }
 
-    public TeamInfo Info;
-    public TeamGame Game;
-    public TeamSeason Season;
-    public TeamPlayoff Playoff;
+    public TeamInfo Info { get; set; }
+    public TeamGame Game { get; set; }
+    public TeamSeason Season { get; set; }
+    public TeamPlayoff Playoff { get; set; }
 #endregion
 #region -------------------- Private Variables --------------------
     
