@@ -17,7 +17,6 @@ public class SkatersController : Singleton<SkatersController> {
 #region -------------------- Serialized Variables --------------------
     [Header("Creation Elements")]
     [SerializeField] private SkaterCreation _skaterCreation;
-    [SerializeField] private GoalieCreation _goalieCreation;
 #endregion
 #region -------------------- Public Variables --------------------
     
