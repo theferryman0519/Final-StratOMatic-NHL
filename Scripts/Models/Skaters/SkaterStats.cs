@@ -29,6 +29,10 @@ public class SkaterStats {
     public int PowerplayGoals { get; set; }
     public int ShorthandedGoals { get; set; }
     public int Shots { get; set; }
+    public int BlockedShots { get; set; }
+    public int Hits { get; set; }
+    public int FaceoffsWon { get; set; }
+    public int FaceoffsLost { get; set; }
 #endregion
 #region -------------------- Private Variables --------------------
     
