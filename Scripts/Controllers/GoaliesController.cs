@@ -15,7 +15,8 @@ namespace SoM.Controllers {
 public class GoaliesController : Singleton<GoaliesController> {
 
 #region -------------------- Serialized Variables --------------------
-    
+    [Header("Creation Elements")]
+    [SerializeField] private GoalieCreation _goalieCreation;
 #endregion
 #region -------------------- Public Variables --------------------
     
