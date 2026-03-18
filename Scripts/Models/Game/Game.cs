@@ -15,14 +15,14 @@ namespace SoM.Models {
 public class Game {
     
 #region -------------------- Public Variables --------------------
-    public string Id;
-    public string Type;
+    public string Id { get; set; }
+    public string Type { get; set; }
 
-    public User HomeUser;
-    public User AwayUser;
+    public User HomeUser { get; set; }
+    public User AwayUser { get; set; }
 
-    public Team HomeTeam;
-    public Team AwayTeam;
+    public Team HomeTeam { get; set; }
+    public Team AwayTeam { get; set; }
 #endregion
 #region -------------------- Private Variables --------------------
     
