@@ -27,11 +27,11 @@ public class SkaterCard {
     public int Breakaway { get; set; }
     public int Faceoff { get; set; }
 
-    public List<string> OutsideShotActions = new();
-    public List<string> InsideShotActions = new();
-    public List<string> ReboundShotActions = new();
-    public List<string> PassingActions = new();
-    public List<string> DefendingActions = new();
+    public List<string> OutsideShotActions { get; set; } = new();
+    public List<string> InsideShotActions { get; set; } = new();
+    public List<string> ReboundShotActions { get; set; } = new();
+    public List<string> PassingActions { get; set; } = new();
+    public List<string> DefendingActions { get; set; } = new();
 #endregion
 #region -------------------- Private Variables --------------------
     
