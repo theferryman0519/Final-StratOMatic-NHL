@@ -21,8 +21,8 @@ public class Game {
     public User HomeUser;
     public User AwayUser;
 
-    public GameStats HomeStats;
-    public GameStats AwayStats;
+    public Team HomeTeam;
+    public Team AwayTeam;
 #endregion
 #region -------------------- Private Variables --------------------
     
