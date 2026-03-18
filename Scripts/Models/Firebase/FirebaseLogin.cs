@@ -14,10 +14,11 @@ namespace SoM.Models {
 public class FirebaseLogin {
     
 #region -------------------- Public Variables --------------------
-    public string Email;
-    public string Password;
-    public Action SuccessAction;
-    public Action FailAction;
+    public string Email { get; set; }
+    public string Password { get; set; }
+    
+    public Action SuccessAction { get; set; }
+    public Action FailAction { get; set; }
 #endregion
 #region -------------------- Private Variables --------------------
     
