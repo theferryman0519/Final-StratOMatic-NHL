@@ -15,11 +15,11 @@ namespace SoM.Models {
 public class User {
     
 #region -------------------- Public Variables --------------------
-    public string Id;
+    public string Id { get; set; }
     
-    public UserInfo Info;
-    public UserStats Stats;
-    public UserSeasonStats SeasonStats;
+    public UserInfo Info { get; set; }
+    public UserStats Stats { get; set; }
+    public UserSeasonStats SeasonStats { get; set; }
 #endregion
 #region -------------------- Private Variables --------------------
     
