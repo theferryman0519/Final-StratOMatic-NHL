@@ -14,11 +14,12 @@ namespace SoM.Models {
 public class FirebaseRest {
     
 #region -------------------- Public Variables --------------------
-    public string Url;
-    public string Method;
-    public string Json;
-    public Action<string> SuccessAction;
-    public Action<string> FailAction;
+    public string Url { get; set; }
+    public string Method { get; set; }
+    public string Json { get; set; }
+
+    public Action<string> SuccessAction { get; set; }
+    public Action<string> FailAction { get; set; }
 #endregion
 #region -------------------- Private Variables --------------------
     
