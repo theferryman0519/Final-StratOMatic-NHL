@@ -15,15 +15,15 @@ namespace SoM.Models {
 public class Skater {
     
 #region -------------------- Public Variables --------------------
-    public string Id;
+    public string Id { get; set; }
 
-    public SkaterInfo Info;
-    public SkaterCard Card;
-    public SkaterGame Game;
-    public SkaterSeason Season;
-    public SkaterPlayoff Playoff;
+    public SkaterInfo Info { get; set; }
+    public SkaterCard Card { get; set; }
+    public SkaterGame Game { get; set; }
+    public SkaterSeason Season { get; set; }
+    public SkaterPlayoff Playoff { get; set; }
 
-    public List<SkaterStats> Stats = new();
+    public List<SkaterStats> Stats { get; set; } = new();
 #endregion
 #region -------------------- Private Variables --------------------
     
