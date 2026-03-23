@@ -17,9 +17,8 @@ public class Game {
 #region -------------------- Public Variables --------------------
     public string Id { get; set; }
     public string Type { get; set; }
-
-    public User HomeUser { get; set; }
-    public User AwayUser { get; set; }
+    public string HomeUserType { get; set; }
+    public string AwayUserType { get; set; }
 
     public Team HomeTeam { get; set; }
     public Team AwayTeam { get; set; }
