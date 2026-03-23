@@ -10,6 +10,7 @@ using UnityEngine.SceneManagement;
 
 // Game Dependencies
 using SoM.Core;
+using SoM.Goalies;
 
 namespace SoM.Controllers {
 public class GoaliesController : Singleton<GoaliesController> {
