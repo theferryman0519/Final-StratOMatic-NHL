@@ -10,12 +10,14 @@ using UnityEngine.SceneManagement;
 
 // Game Dependencies
 using SoM.Core;
+using SoM.Teams;
 
 namespace SoM.Controllers {
 public class TeamsController : Singleton<TeamsController> {
 
 #region -------------------- Serialized Variables --------------------
-    
+    [Header("Creation Elements")]
+    [SerializeField] private TeamCreation _teamCreation;
 #endregion
 #region -------------------- Public Variables --------------------
     
