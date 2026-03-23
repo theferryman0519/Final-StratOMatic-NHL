@@ -2,6 +2,9 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -45,6 +48,8 @@ public class SkaterCreation : MonoBehaviour {
     private float minutesPerGame = 0f;
 
     private int[] orderedSums = { 7, 6, 9, 5, 10, 4, 11, 3, 12, 2 };
+
+    private SemaphoreSlim createSkaterLock = new(1, 1);
 #endregion
 #region -------------------- Initial Functions --------------------
     
@@ -55,23 +60,50 @@ public class SkaterCreation : MonoBehaviour {
 #region -------------------- Public Methods --------------------
     public async Task<Skater> CreateSkater(SkaterDatabase skaterDatabase)
     {
-        CoreController.Inst.WriteLog(this.GetType().Name, $"Creating the skater.");
-
-        skaterId = skaterDatabase.Id;
-
-        Skater newSkater = new Skater
+        await createSkaterLock.WaitAsync();
+        try
         {
-            Id = skaterDatabase.Id,
-        };
+            CoreController.Inst.WriteLog(this.GetType().Name, $"Creating the skater.");
 
-        newSkater.Info = await CreateInfo(skaterDatabase.InfoString);
-        newSkater.Game = await CreateGame();
-        newSkater.Season = await CreateSeason(skaterDatabase.SeasonString);
-        newSkater.Playoff = await CreatePlayoff(skaterDatabase.PlayoffString);
-        newSkater.Stats = await CreateStats(skaterDatabase.StatsStrings);
-        newSkater.Card = await CreateCard();
+            skaterId = skaterDatabase.Id;
+            skaterPos = string.Empty;
+            skaterPass = string.Empty;
+            skaterPenalty = string.Empty;
+            skaterDef = 1;
+            totalGames = 0;
 
-        return newSkater;
+            goalsPerGame = 0f;
+            assistsPerGame = 0f;
+            pointsPerGame = 0f;
+            plusMinusPerGame = 0f;
+            penaltyMinutesPerGame = 0f;
+            ppgPerGame = 0f;
+            shgPerGame = 0f;
+            shotsPerGame = 0f;
+            blockedShotsPerGame = 0f;
+            hitsPerGame = 0f;
+            faceoffPercentage = 0f;
+            minutesPerGame = 0f;
+
+            Skater newSkater = new Skater
+            {
+                Id = skaterDatabase.Id,
+            };
+
+            newSkater.Info = await CreateInfo(skaterDatabase.InfoString);
+            newSkater.Game = await CreateGame();
+            newSkater.Season = await CreateSeason(skaterDatabase.SeasonString);
+            newSkater.Playoff = await CreatePlayoff(skaterDatabase.PlayoffString);
+            newSkater.Stats = await CreateStats(skaterDatabase.StatsStrings);
+            newSkater.Card = await CreateCard();
+
+            CoreController.Inst.WriteLog(this.GetType().Name, $"Skater data for {newSkater.Info.FirstName} {newSkater.Info.LastName} has been created.");
+            return newSkater;
+        }
+        finally
+        {
+            createSkaterLock.Release();
+        }
     }
 #endregion
 #region -------------------- Private Methods --------------------
@@ -595,7 +627,7 @@ public class SkaterCreation : MonoBehaviour {
 
         for (int i = 0; i < 7; i++)
         {
-            index = -1;
+            int index = -1;
 
             if (skaterDef == 5) { index = Random.Range(0, 2); }
             else if (skaterDef == 4) { index = Random.Range(0, 3); }
@@ -635,7 +667,7 @@ public class SkaterCreation : MonoBehaviour {
 
         for (int i = 0; i < 3; i++)
         {
-            index = -1;
+            int index = -1;
 
             if (skaterDef == 5) { index = Random.Range(0, 2); }
             else if (skaterDef == 4) { index = Random.Range(0, 3); }
@@ -730,7 +762,7 @@ public class SkaterCreation : MonoBehaviour {
 
     private List<int> TakeClosestAvailable(int count, double center, HashSet<int> available)
     {
-        var chosen = new List<int>();
+        List<int> chosen = new();
         if (count <= 0) { return chosen; }
 
         var orderedIndices = Enumerable.Range(0, orderedSums.Length).OrderBy(i => Math.Abs(i - center)).ThenBy(i => i);
