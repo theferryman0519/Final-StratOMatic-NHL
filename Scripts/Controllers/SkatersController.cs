@@ -10,6 +10,7 @@ using UnityEngine.SceneManagement;
 
 // Game Dependencies
 using SoM.Core;
+using SoM.Skaters;
 
 namespace SoM.Controllers {
 public class SkatersController : Singleton<SkatersController> {
