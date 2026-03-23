@@ -25,6 +25,9 @@ public class SkaterCreation : MonoBehaviour {
     private string skaterId = string.Empty;
     private string skaterPos = string.Empty;
     private string skaterPass = string.Empty;
+    private string skaterPenalty = string.Empty;
+
+    private int skaterDef = 1;
 
     private int totalGames = 0;
 
@@ -309,12 +312,14 @@ public class SkaterCreation : MonoBehaviour {
     {
         CoreController.Inst.WriteLog(this.GetType().Name, $"Setting the skater penalty.");
 
-        if (totalGames < 1) { return "D"; }
+        if (totalGames < 1) { skaterPenalty = "D"; return "D"; }
 
-        if (penaltyMinutesPerGame >= 2f) return "AA";
-        if (penaltyMinutesPerGame >= 1.2f) return "A";
-        if (penaltyMinutesPerGame >= 0.7f) return "B";
-        if (penaltyMinutesPerGame >= 0.3f) return "C";
+        if (penaltyMinutesPerGame >= 2f) { skaterPenalty = "AA"; return "AA"; }
+        if (penaltyMinutesPerGame >= 1.2f) { skaterPenalty = "A"; return "A"; }
+        if (penaltyMinutesPerGame >= 0.7f) { skaterPenalty = "B"; return "B"; }
+        if (penaltyMinutesPerGame >= 0.3f) { skaterPenalty = "C"; return "C"; }
+
+        skaterPenalty = "D";
         return "D";
     }
 
@@ -343,7 +348,7 @@ public class SkaterCreation : MonoBehaviour {
     {
         CoreController.Inst.WriteLog(this.GetType().Name, $"Setting the skater passing.");
 
-        if (totalGames < 1) { return "None"; }
+        if (totalGames < 1) { skaterPass = "None"; return "None"; }
 
         float assists = 30f * assistsPerGame;
         float points = 8f * pointsPerGame;
@@ -400,7 +405,7 @@ public class SkaterCreation : MonoBehaviour {
     {
         CoreController.Inst.WriteLog(this.GetType().Name, $"Setting the skater defense.");
 
-        if (totalGames < 1) { return 1; }
+        if (totalGames < 1) { skaterDef = 1; return 1; }
 
         float time = 0.95f * minutesPerGame;
         float blockedShots = 7.5f * blockedShotsPerGame;
@@ -414,10 +419,12 @@ public class SkaterCreation : MonoBehaviour {
         float rookieFactor = Mathf.Clamp(totalGames, 0f, 20f) / 20f;
         float adj = 18f + rookieFactor * (raw - 18f);
 
-        if (adj >= 34f) { return 5; }
-        if (adj >= 24f) { return 4; }
-        if (adj >= 19f) { return 3; }
-        if (adj >= 13f) { return 2; }
+        if (adj >= 34f) { skaterDef = 5; return 5; }
+        if (adj >= 24f) { skaterDef = 4; return 4; }
+        if (adj >= 19f) { skaterDef = 3; return 3; }
+        if (adj >= 13f) { skaterDef = 2; return 2; }
+
+        skaterDef = 1;
         return 1;
     }
 
@@ -575,9 +582,71 @@ public class SkaterCreation : MonoBehaviour {
     {
         CoreController.Inst.WriteLog(this.GetType().Name, $"Setting the skater defending actions.");
 
-        // TODO
+        if (totalGames < 1)
+        {
+            return new List<string>() {
+                "TA-OUT", "TA-OUT", "OUT", "OUT", "IN", "IN", "TA", "TA", "TA", "TA", 
+                "PENALTY", "OUT", "IN", "IN"
+            };
+        }
 
-        return null; // TEST
+        List<string> defOptions = new() { "TA-IN", "TA-OUT", "TA", "OUT", "IN" };
+        List<string> defActions = new();
+
+        for (int i = 0; i < 7; i++)
+        {
+            index = -1;
+
+            if (skaterDef == 5) { index = Random.Range(0, 2); }
+            else if (skaterDef == 4) { index = Random.Range(0, 3); }
+            else if (skaterDef == 3) { index = Random.Range(1, 4); }
+            else if (skaterDef == 2) { index = Random.Range(2, 5); }
+            else { index = Random.Range(3, 5); }
+
+            defActions.Add(defOptions[index]);
+        }
+
+        if (skaterPenalty == "AA")
+        {
+            defActions.Add("PENALTY"); defActions.Add("PENALTY"); defActions.Add("PENALTY"); defActions.Add("PENALTY");
+        }
+
+        else if (skaterPenalty == "A")
+        {
+            defActions.Add("TA"); defActions.Add("PENALTY"); defActions.Add("PENALTY"); defActions.Add("PENALTY");
+        }
+
+        else if (skaterPenalty == "B")
+        {
+            defActions.Add("TA"); defActions.Add("TA"); defActions.Add("PENALTY"); defActions.Add("PENALTY");
+        }
+
+        else if (skaterPenalty == "C")
+        {
+            defActions.Add("TA"); defActions.Add("TA"); defActions.Add("TA"); defActions.Add("PENALTY");
+        }
+
+        else
+        {
+            defActions.Add("TA"); defActions.Add("TA"); defActions.Add("TA"); defActions.Add("TA");
+        }
+
+        defActions.Add("PENALTY");
+
+        for (int i = 0; i < 3; i++)
+        {
+            index = -1;
+
+            if (skaterDef == 5) { index = Random.Range(0, 2); }
+            else if (skaterDef == 4) { index = Random.Range(0, 3); }
+            else if (skaterDef == 3) { index = Random.Range(1, 4); }
+            else if (skaterDef == 2) { index = Random.Range(2, 5); }
+            else { index = Random.Range(3, 5); }
+
+            defActions.Add(defOptions[index]);
+        }
+
+        return defActions;
     }
 
     private async Task<float> GetShotOverallRating(int shot)
