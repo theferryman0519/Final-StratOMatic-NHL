@@ -112,7 +112,7 @@ public class SkaterCreation : MonoBehaviour {
         CoreController.Inst.WriteLog(this.GetType().Name, $"Creating the skater info.");
 
         string[] infoArray = infoString.Split('/');
-        if (infoArray.Length < 3) { return null; }
+        if (infoArray.Length < 4) { return null; }
 
         SkaterInfo newInfo = new SkaterInfo
         {
