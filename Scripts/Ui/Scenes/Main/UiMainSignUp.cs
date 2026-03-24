@@ -101,7 +101,7 @@ public class UiMainSignUp : UiSceneBase {
             Email = email,
             Password = password,
             SuccessAction = () => { UiController.Inst.IsNewUser = true; GoToNewScene(CoreController.Inst.Scene_Main01); },
-            FailAction = null, // TODO: Show invalid email/password bottom panel
+            FailAction = PanelController.Inst.ShowBottomPanel(ConstantController.PanelType.SignUpInvalidCredentials),
         };
 
         StartCoroutine(FirebaseController.Inst.CreatingUserInFirebase(signUpData));
