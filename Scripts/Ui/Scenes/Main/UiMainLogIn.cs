@@ -93,7 +93,7 @@ public class UiMainLogIn : UiSceneBase {
             Email = email,
             Password = password,
             SuccessAction = () => { UiController.Inst.IsNewUser = false; GoToNewScene(CoreController.Inst.Scene_Main01); },
-            FailAction = null, // TODO: Show invalid email/password bottom panel
+            FailAction = PanelController.Inst.ShowBottomPanel(ConstantController.PanelType.LoginInvalidCredentials),
         };
 
         StartCoroutine(FirebaseController.Inst.SigningInUserToFirebase(loginData));
