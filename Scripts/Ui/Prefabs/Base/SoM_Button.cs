@@ -18,6 +18,11 @@ public class SoM_Button : MonoBehavior {
     [Header("Button Elements")]
     [SerializeField] private Button _button;
     [SerializeField] private TMP_Text _text;
+    [SerializeField] private Image _image;
+
+    [Header("Sprite Elements")]
+    [SerializeField] private Sprite _positive;
+	[SerializeField] private Sprite _negative;
 #endregion
 #region -------------------- Public Variables --------------------
     public Button Button => _button;
@@ -49,6 +54,11 @@ public class SoM_Button : MonoBehavior {
     public void SetText(string buttonText)
     {
         _text.text = buttonText;
+    }
+
+    public void SetSprite(int option)
+    {
+        _image.sprite = option == 0 ? _positive : _negative;
     }
 #endregion
 #region -------------------- Private Methods --------------------
