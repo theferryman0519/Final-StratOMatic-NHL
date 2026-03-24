@@ -81,6 +81,7 @@ public class ConstantController : Singleton<ConstantController> {
         OpeningInternetError = 100,
         LoadingError = 101,
         LoadingOutdatedVersion = 102,
+        LoginInvalidCredentials = 103,
     };
 #endregion
 #region -------------------- Private Variables --------------------
