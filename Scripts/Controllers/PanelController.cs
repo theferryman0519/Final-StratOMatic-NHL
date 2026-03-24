@@ -34,7 +34,7 @@ public class PanelController : Singleton<PanelController> {
     public void InitializeController()
     {
         CoreController.Inst.WriteLog(this.GetType().Name, $"Initializing the controller.");
-        
+
         IsBottomVisible = false;
     }
 
@@ -69,6 +69,14 @@ public class PanelController : Singleton<PanelController> {
             case ConstantController.PanelType.OpeningInternetError:
                 newPanel.Title = "No Internet";
                 newPanel.Body = "You do not appear to be connected to the internet. Please connect to the internet, then restart the game and try again.";
+                break;
+            case ConstantController.PanelType.LoadingError:
+                newPanel.Title = "Loading Error";
+                newPanel.Body = "There appears to be an error loading the data. Please restart the game and try again.";
+                break;
+            case ConstantController.PanelType.LoadingOutdatedVersion:
+                newPanel.Title = "Outdated Version";
+                newPanel.Body = "It looks like your current game version is out of date. Please visit the appropriate app store to download the latest udpate.";
                 break;
             default:
                 newPanel.Title = "Game Error";
