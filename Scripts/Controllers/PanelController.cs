@@ -114,6 +114,14 @@ public class PanelController : Singleton<PanelController> {
                 newPanel.SpriteA = 1;
                 break;
             
+            // Multiplayer
+            case ConstantController.PanelType.MultiplayerOpponentLeft:
+                newPanel.Title = "Opponent Left";
+                newPanel.Body = "It looks like your opponent has left the multiplayer game. Please return to the lobby.";
+                newPanel.ButtonA = "Return";
+                newPanel.ButtonCount = 1;
+                break;
+            
             // Default
             default:
                 newPanel.Title = "Game Error";
