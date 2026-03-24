@@ -82,8 +82,9 @@ public class PanelController : Singleton<PanelController> {
                 newPanel.Body = "It looks like your current game version is out of date. Please visit the appropriate app store to download the latest udpate.";
                 break;
             case ConstantController.PanelType.LoginInvalidCredentials:
+            case ConstantController.PanelType.SignUpInvalidCredentials:
                 newPanel.Title = "Invalid Credentials";
-                newPanel.Body = "It looks like your login information is incorrect. Please return and enter the correct email and password to log into the game.";
+                newPanel.Body = "It looks like your information is incorrect. Please return and enter the correct email and password to log into the game.";
                 newPanel.ButtonA = "Return";
                 newPanel.HasCloseButton = true;
                 newPanel.ButtonCount = 1;
