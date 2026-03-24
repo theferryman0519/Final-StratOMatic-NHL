@@ -25,6 +25,10 @@ public class FirebaseController : Singleton<FirebaseController> {
 #region -------------------- Public Variables --------------------
     public bool IsNewUser = false;
 
+	public string CurrentGameVersion;
+
+	public FirebaseUser OnlineUser;
+
     public User NewUser;
 #endregion
 #region -------------------- Private Variables --------------------
