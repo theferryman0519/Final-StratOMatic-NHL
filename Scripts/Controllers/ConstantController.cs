@@ -77,7 +77,10 @@ public class ConstantController : Singleton<ConstantController> {
 
     public enum PanelType
     {
+        // Main
         OpeningInternetError = 100,
+        LoadingError = 101,
+        LoadingOutdatedVersion = 102,
     };
 #endregion
 #region -------------------- Private Variables --------------------
