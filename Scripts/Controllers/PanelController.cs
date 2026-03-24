@@ -38,11 +38,11 @@ public class PanelController : Singleton<PanelController> {
         IsBottomVisible = false;
     }
 
-    public void ShowBottomPanel(ConstantController.PanelType panelType)
+    public void ShowBottomPanel(ConstantController.PanelType panelType, Action actionA = null, Action actionB = null)
     {
         CoreController.Inst.WriteLog(this.GetType().Name, $"Showing the bottom panel.");
 
-        PanelData newPanel = GetBottomPanel(panelType);
+        PanelData newPanel = GetBottomPanel(panelType, actionA, actionB);
 
         if (!IsBottomVisible && (newPanel != null))
         {
@@ -52,7 +52,7 @@ public class PanelController : Singleton<PanelController> {
     }
 #endregion
 #region -------------------- Private Methods --------------------
-    private BottomPanel GetBottomPanel(ConstantController.PanelType panelType)
+    private BottomPanel GetBottomPanel(ConstantController.PanelType panelType, Action actionA, Action actionB)
     {
         BottomPanel newPanel = new BottomPanel
         {
@@ -62,9 +62,10 @@ public class PanelController : Singleton<PanelController> {
             ButtonCount = 0,
             SpriteA = 0,
             SpriteB = 0,
-            ActionA = null,
-            ActionB = null,
         };
+
+        if (actionA == null) { newPanel.ActionA = () => { _bottomPanel.ClosePanel(); }; }
+        if (actionB == null) { newPanel.ActionB = () => { _bottomPanel.ClosePanel(); }; }
 
         switch (panelType)
         {
@@ -86,7 +87,6 @@ public class PanelController : Singleton<PanelController> {
                 newPanel.ButtonA = "Return";
                 newPanel.HasCloseButton = true;
                 newPanel.ButtonCount = 1;
-                newPanel.ActionA = () => { _bottomPanel.ClosePanel(); };
                 break;
             default:
                 newPanel.Title = "Game Error";
