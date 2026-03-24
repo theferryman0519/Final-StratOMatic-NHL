@@ -68,7 +68,7 @@ public class UiMainLoading : UiSceneBase {
 
 		if (!hasInternet)
 		{
-			// TODO: Show no internet bottom panel
+			PanelController.Inst.ShowBottomPanel(ConstantController.PanelType.OpeningInternetError);
 			return;
 		}
 
@@ -87,7 +87,7 @@ public class UiMainLoading : UiSceneBase {
 
 		if (isLoading && loadingTimer >= ConstantController.Loading_Threshold)
 		{
-			// TODO: Show error loading bottom panel
+			PanelController.Inst.ShowBottomPanel(ConstantController.PanelType.LoadingError);
 			isLoading = false;
 			return;
 		}
@@ -108,7 +108,7 @@ public class UiMainLoading : UiSceneBase {
 			{
 				if (!IsVersionCompatible(Application.version, FirebaseController.Inst.CurrentGameVersion))
 				{
-					// TODO: Show outdated version bottom panel
+					PanelController.Inst.ShowBottomPanel(ConstantController.PanelType.LoadingOutdatedVersion);
 					isLoading = false;
 				}
 			}
