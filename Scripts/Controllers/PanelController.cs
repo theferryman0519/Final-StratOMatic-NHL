@@ -62,6 +62,8 @@ public class PanelController : Singleton<PanelController> {
             ButtonCount = 0,
             SpriteA = 0,
             SpriteB = 0,
+            ActionA = null,
+            ActionB = null,
         };
 
         switch (panelType)
@@ -78,6 +80,14 @@ public class PanelController : Singleton<PanelController> {
                 newPanel.Title = "Outdated Version";
                 newPanel.Body = "It looks like your current game version is out of date. Please visit the appropriate app store to download the latest udpate.";
                 break;
+            case ConstantController.PanelType.LoginInvalidCredentials:
+                newPanel.Title = "Invalid Credentials";
+                newPanel.Body = "It looks like your login information is incorrect. Please return and enter the correct email and password to log into the game.";
+                newPanel.ButtonA = "Return";
+                newPanel.HasCloseButton = true;
+                newPanel.ButtonCount = 1;
+                newPanel.ActionA = () => { _bottomPanel.ClosePanel(); };
+                break;
             default:
                 newPanel.Title = "Game Error";
                 newPanel.Body = "There appears to be an error with the game, making you unable to continue. Please restart the game and try again.";
@@ -88,3 +98,8 @@ public class PanelController : Singleton<PanelController> {
     }
 #endregion
 }}
+
+// case ConstantController.PanelType.xxxx:
+//                 newPanel.Title = "xxxx";
+//                 newPanel.Body = "xxxx.";
+//                 break;
