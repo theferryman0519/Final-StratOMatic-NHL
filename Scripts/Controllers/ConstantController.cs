@@ -74,6 +74,11 @@ public class ConstantController : Singleton<ConstantController> {
         Season,
         Playoff,
     };
+
+    public enum PanelType
+    {
+        OpeningInternetError = 100,
+    };
 #endregion
 #region -------------------- Private Variables --------------------
     
