@@ -59,7 +59,7 @@ public class UiMainOpening : UiSceneBase {
 
 		if (!hasInternet)
 		{
-            // TODO: Show "Internet Error" bottom panel
+            PanelController.Inst.ShowBottomPanel(ConstantController.PanelType.OpeningInternetError);
 			return;
 		}
 
