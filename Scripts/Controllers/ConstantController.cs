@@ -78,11 +78,15 @@ public class ConstantController : Singleton<ConstantController> {
     public enum PanelType
     {
         // Main
-        OpeningInternetError = 100,
-        LoadingError = 101,
-        LoadingOutdatedVersion = 102,
-        LoginInvalidCredentials = 103,
-        SignUpInvalidCredentials = 104,
+        OpeningInternetError,
+        LoadingError,
+        LoadingOutdatedVersion,
+        LoginInvalidCredentials,
+        SignUpInvalidCredentials,
+
+        // Settings
+        SettingsResetAccount,
+        SettingsDeleteAccount,
     };
 #endregion
 #region -------------------- Private Variables --------------------
