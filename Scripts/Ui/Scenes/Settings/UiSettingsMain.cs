@@ -82,14 +82,14 @@ public class UiSettingsMain : UiSceneBase {
     {
         CoreController.Inst.WriteLog(this.GetType().Name, $"Showing the reset account panel.");
 
-		// TODO
+		PanelController.Inst.ShowBottomPanel(ConstantController.PanelType.SettingsResetAccount);
     }
 
 	private void ShowDeletePanel()
     {
         CoreController.Inst.WriteLog(this.GetType().Name, $"Showing the delete account panel.");
 
-		// TODO
+		PanelController.Inst.ShowBottomPanel(ConstantController.PanelType.SettingsDeleteAccount);
     }
 
 	private void GoToHome()
