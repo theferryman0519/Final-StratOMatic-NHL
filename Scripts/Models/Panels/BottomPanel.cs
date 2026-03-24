@@ -25,8 +25,8 @@ public class BottomPanel {
     public int SpriteA { get; set; }
     public int SpriteB { get; set; }
 
-    public Action ActionA { get; set; }
-    public Action ActionB { get; set; }
+    public Action ActionA { get; set; } = null;
+    public Action ActionB { get; set; } = null;
 #endregion
 #region -------------------- Private Variables --------------------
     
