@@ -22,6 +22,8 @@ public class BottomPanel {
     public bool HasCloseButton { get; set; }
 
     public int ButtonCount { get; set; }
+    public int SpriteA { get; set; }
+    public int SpriteB { get; set; }
 
     public Action ActionA { get; set; }
     public Action ActionB { get; set; }
