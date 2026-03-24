@@ -65,10 +65,14 @@ public class PanelController : Singleton<PanelController> {
         };
 
         if (actionA == null) { newPanel.ActionA = () => { _bottomPanel.ClosePanel(); }; }
+        else { newPanel.ActionA = () => { actionA?.Invoke(); }; }
+
         if (actionB == null) { newPanel.ActionB = () => { _bottomPanel.ClosePanel(); }; }
+        else { newPanel.ActionB = () => { actionB?.Invoke(); }; }
 
         switch (panelType)
         {
+            // Main
             case ConstantController.PanelType.OpeningInternetError:
                 newPanel.Title = "No Internet";
                 newPanel.Body = "You do not appear to be connected to the internet. Please connect to the internet, then restart the game and try again.";
@@ -89,6 +93,28 @@ public class PanelController : Singleton<PanelController> {
                 newPanel.HasCloseButton = true;
                 newPanel.ButtonCount = 1;
                 break;
+            
+            // Settings
+            case ConstantController.PanelType.SettingsResetAccount:
+                newPanel.Title = "Reset Statistics";
+                newPanel.Body = "Are you sure you want to reset your user statistics? This will not delete your account, but all your records will be deleted.";
+                newPanel.ButtonA = "Yes, Reset Statistics";
+                newPanel.ButtonB = "No, Return";
+                newPanel.HasCloseButton = true;
+                newPanel.ButtonCount = 2;
+                newPanel.SpriteA = 1;
+                break;
+            case ConstantController.PanelType.SettingsDeleteAccount:
+                newPanel.Title = "Delete Account";
+                newPanel.Body = "Are you sure you want to delete your user account? This will remove all data as well, and you will need to start a new account.";
+                newPanel.ButtonA = "Yes, Delete Account";
+                newPanel.ButtonB = "No, Return";
+                newPanel.HasCloseButton = true;
+                newPanel.ButtonCount = 2;
+                newPanel.SpriteA = 1;
+                break;
+            
+            // Default
             default:
                 newPanel.Title = "Game Error";
                 newPanel.Body = "There appears to be an error with the game, making you unable to continue. Please restart the game and try again.";
