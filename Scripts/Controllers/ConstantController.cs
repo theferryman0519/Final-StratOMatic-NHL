@@ -87,6 +87,9 @@ public class ConstantController : Singleton<ConstantController> {
         // Settings
         SettingsResetAccount,
         SettingsDeleteAccount,
+
+        // Multiplayer
+        MultiplayerOpponentLeft,
     };
 #endregion
 #region -------------------- Private Variables --------------------
