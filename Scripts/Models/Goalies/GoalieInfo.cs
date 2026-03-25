@@ -20,6 +20,7 @@ public class GoalieInfo {
     public string FirstName { get; set; }
     public string LastName { get; set; }
     public string Team { get; set; }
+    public string League { get; set; }
 #endregion
 #region -------------------- Private Variables --------------------
     
