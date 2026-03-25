@@ -94,6 +94,214 @@ public class PanelController : Singleton<PanelController> {
                 newPanel.ButtonCount = 1;
                 break;
             
+            // Firebase - Get
+            case ConstantController.PanelType.FirebaseCannotGetVersions:
+                newPanel.Title = "Firebase Error";
+                newPanel.Body = "It looks like you are unable to connect to the server and retrieve the current version. Please contact support and try running the game again shortly.";
+                newPanel.ButtonA = "Contact Support";
+                newPanel.ButtonCount = 1;
+                break;
+            case ConstantController.PanelType.FirebaseCannotGetUser:
+                newPanel.Title = "Firebase Error";
+                newPanel.Body = "It looks like you are unable to connect to the server and retrieve the user account. Please contact support and try running the game again shortly.";
+                newPanel.ButtonA = "Contact Support";
+                newPanel.ButtonCount = 1;
+                break;
+            case ConstantController.PanelType.FirebaseCannotGetUserGame:
+                newPanel.Title = "Firebase Error";
+                newPanel.Body = "It looks like you are unable to connect to the server and retrieve your current game. Please contact support and try running the game again shortly.";
+                newPanel.ButtonA = "Contact Support";
+                newPanel.ButtonCount = 1;
+                break;
+            case ConstantController.PanelType.FirebaseCannotGetUserSeason:
+                newPanel.Title = "Firebase Error";
+                newPanel.Body = "It looks like you are unable to connect to the server and retrieve your current season. Please contact support and try running the game again shortly.";
+                newPanel.ButtonA = "Contact Support";
+                newPanel.ButtonCount = 1;
+                break;
+            case ConstantController.PanelType.FirebaseCannotGetUserPlayoff:
+                newPanel.Title = "Firebase Error";
+                newPanel.Body = "It looks like you are unable to connect to the server and retrieve your current playoff. Please contact support and try running the game again shortly.";
+                newPanel.ButtonA = "Contact Support";
+                newPanel.ButtonCount = 1;
+                break;
+            case ConstantController.PanelType.FirebaseCannotGetTeam:
+                newPanel.Title = "Firebase Error";
+                newPanel.Body = "It looks like you are unable to connect to the server and retrieve the team data. Please contact support and try running the game again shortly.";
+                newPanel.ButtonA = "Contact Support";
+                newPanel.ButtonCount = 1;
+                break;
+            case ConstantController.PanelType.FirebaseCannotGetTeams:
+                newPanel.Title = "Firebase Error";
+                newPanel.Body = "It looks like you are unable to connect to the server and retrieve all teams. Please contact support and try running the game again shortly.";
+                newPanel.ButtonA = "Contact Support";
+                newPanel.ButtonCount = 1;
+                break;
+            case ConstantController.PanelType.FirebaseCannotGetTeamSeason:
+                newPanel.Title = "Firebase Error";
+                newPanel.Body = "It looks like you are unable to connect to the server and retrieve your team season. Please contact support and try running the game again shortly.";
+                newPanel.ButtonA = "Contact Support";
+                newPanel.ButtonCount = 1;
+                break;
+            case ConstantController.PanelType.FirebaseCannotGetTeamPlayoff:
+                newPanel.Title = "Firebase Error";
+                newPanel.Body = "It looks like you are unable to connect to the server and retrieve your team playoff. Please contact support and try running the game again shortly.";
+                newPanel.ButtonA = "Contact Support";
+                newPanel.ButtonCount = 1;
+                break;
+            case ConstantController.PanelType.FirebaseCannotGetSkater:
+                newPanel.Title = "Firebase Error";
+                newPanel.Body = "It looks like you are unable to connect to the server and retrieve the skater data. Please contact support and try running the game again shortly.";
+                newPanel.ButtonA = "Contact Support";
+                newPanel.ButtonCount = 1;
+                break;
+            case ConstantController.PanelType.FirebaseCannotGetSkaters:
+                newPanel.Title = "Firebase Error";
+                newPanel.Body = "It looks like you are unable to connect to the server and retrieve all skater. Please contact support and try running the game again shortly.";
+                newPanel.ButtonA = "Contact Support";
+                newPanel.ButtonCount = 1;
+                break;
+            case ConstantController.PanelType.FirebaseCannotGetSkaterSeason:
+                newPanel.Title = "Firebase Error";
+                newPanel.Body = "It looks like you are unable to connect to the server and retrieve your skater season. Please contact support and try running the game again shortly.";
+                newPanel.ButtonA = "Contact Support";
+                newPanel.ButtonCount = 1;
+                break;
+            case ConstantController.PanelType.FirebaseCannotGetSkaterPlayoff:
+                newPanel.Title = "Firebase Error";
+                newPanel.Body = "It looks like you are unable to connect to the server and retrieve your skater playoff. Please contact support and try running the game again shortly.";
+                newPanel.ButtonA = "Contact Support";
+                newPanel.ButtonCount = 1;
+                break;
+            case ConstantController.PanelType.FirebaseCannotGetGoalie:
+                newPanel.Title = "Firebase Error";
+                newPanel.Body = "It looks like you are unable to connect to the server and retrieve the goalie data. Please contact support and try running the game again shortly.";
+                newPanel.ButtonA = "Contact Support";
+                newPanel.ButtonCount = 1;
+                break;
+            case ConstantController.PanelType.FirebaseCannotGetGoalies:
+                newPanel.Title = "Firebase Error";
+                newPanel.Body = "It looks like you are unable to connect to the server and retrieve all goalie. Please contact support and try running the game again shortly.";
+                newPanel.ButtonA = "Contact Support";
+                newPanel.ButtonCount = 1;
+                break;
+            case ConstantController.PanelType.FirebaseCannotGetGoalieSeason:
+                newPanel.Title = "Firebase Error";
+                newPanel.Body = "It looks like you are unable to connect to the server and retrieve your goalie season. Please contact support and try running the game again shortly.";
+                newPanel.ButtonA = "Contact Support";
+                newPanel.ButtonCount = 1;
+                break;
+            case ConstantController.PanelType.FirebaseCannotGetGoaliePlayoff:
+                newPanel.Title = "Firebase Error";
+                newPanel.Body = "It looks like you are unable to connect to the server and retrieve your goalie playoff. Please contact support and try running the game again shortly.";
+                newPanel.ButtonA = "Contact Support";
+                newPanel.ButtonCount = 1;
+                break;
+
+            // Firebase - Put
+            case ConstantController.PanelType.FirebaseCannotPutVersions:
+                newPanel.Title = "Firebase Error";
+                newPanel.Body = "It looks like you are unable to connect to the server and update the current version. Please contact support and try running the game again shortly.";
+                newPanel.ButtonA = "Contact Support";
+                newPanel.ButtonCount = 1;
+                break;
+            case ConstantController.PanelType.FirebaseCannotPutUser:
+                newPanel.Title = "Firebase Error";
+                newPanel.Body = "It looks like you are unable to connect to the server and update the user account. Please contact support and try running the game again shortly.";
+                newPanel.ButtonA = "Contact Support";
+                newPanel.ButtonCount = 1;
+                break;
+            case ConstantController.PanelType.FirebaseCannotPutUserGame:
+                newPanel.Title = "Firebase Error";
+                newPanel.Body = "It looks like you are unable to connect to the server and update your current game. Please contact support and try running the game again shortly.";
+                newPanel.ButtonA = "Contact Support";
+                newPanel.ButtonCount = 1;
+                break;
+            case ConstantController.PanelType.FirebaseCannotPutUserSeason:
+                newPanel.Title = "Firebase Error";
+                newPanel.Body = "It looks like you are unable to connect to the server and update your current season. Please contact support and try running the game again shortly.";
+                newPanel.ButtonA = "Contact Support";
+                newPanel.ButtonCount = 1;
+                break;
+            case ConstantController.PanelType.FirebaseCannotPutUserPlayoff:
+                newPanel.Title = "Firebase Error";
+                newPanel.Body = "It looks like you are unable to connect to the server and update your current playoff. Please contact support and try running the game again shortly.";
+                newPanel.ButtonA = "Contact Support";
+                newPanel.ButtonCount = 1;
+                break;
+            case ConstantController.PanelType.FirebaseCannotPutTeam:
+                newPanel.Title = "Firebase Error";
+                newPanel.Body = "It looks like you are unable to connect to the server and update the team data. Please contact support and try running the game again shortly.";
+                newPanel.ButtonA = "Contact Support";
+                newPanel.ButtonCount = 1;
+                break;
+            case ConstantController.PanelType.FirebaseCannotPutTeams:
+                newPanel.Title = "Firebase Error";
+                newPanel.Body = "It looks like you are unable to connect to the server and update all teams. Please contact support and try running the game again shortly.";
+                newPanel.ButtonA = "Contact Support";
+                newPanel.ButtonCount = 1;
+                break;
+            case ConstantController.PanelType.FirebaseCannotPutTeamSeason:
+                newPanel.Title = "Firebase Error";
+                newPanel.Body = "It looks like you are unable to connect to the server and update your team season. Please contact support and try running the game again shortly.";
+                newPanel.ButtonA = "Contact Support";
+                newPanel.ButtonCount = 1;
+                break;
+            case ConstantController.PanelType.FirebaseCannotPutTeamPlayoff:
+                newPanel.Title = "Firebase Error";
+                newPanel.Body = "It looks like you are unable to connect to the server and update your team playoff. Please contact support and try running the game again shortly.";
+                newPanel.ButtonA = "Contact Support";
+                newPanel.ButtonCount = 1;
+                break;
+            case ConstantController.PanelType.FirebaseCannotPutSkater:
+                newPanel.Title = "Firebase Error";
+                newPanel.Body = "It looks like you are unable to connect to the server and update the skater data. Please contact support and try running the game again shortly.";
+                newPanel.ButtonA = "Contact Support";
+                newPanel.ButtonCount = 1;
+                break;
+            case ConstantController.PanelType.FirebaseCannotPutSkaters:
+                newPanel.Title = "Firebase Error";
+                newPanel.Body = "It looks like you are unable to connect to the server and update all skater. Please contact support and try running the game again shortly.";
+                newPanel.ButtonA = "Contact Support";
+                newPanel.ButtonCount = 1;
+                break;
+            case ConstantController.PanelType.FirebaseCannotPutSkaterSeason:
+                newPanel.Title = "Firebase Error";
+                newPanel.Body = "It looks like you are unable to connect to the server and update your skater season. Please contact support and try running the game again shortly.";
+                newPanel.ButtonA = "Contact Support";
+                newPanel.ButtonCount = 1;
+                break;
+            case ConstantController.PanelType.FirebaseCannotPutSkaterPlayoff:
+                newPanel.Title = "Firebase Error";
+                newPanel.Body = "It looks like you are unable to connect to the server and update your skater playoff. Please contact support and try running the game again shortly.";
+                newPanel.ButtonA = "Contact Support";
+                newPanel.ButtonCount = 1;
+                break;
+            case ConstantController.PanelType.FirebaseCannotPutGoalie:
+                newPanel.Title = "Firebase Error";
+                newPanel.Body = "It looks like you are unable to connect to the server and update the goalie data. Please contact support and try running the game again shortly.";
+                newPanel.ButtonA = "Contact Support";
+                newPanel.ButtonCount = 1;
+                break;
+            case ConstantController.PanelType.FirebaseCannotPutGoalies:
+                newPanel.Title = "Firebase Error";
+                newPanel.Body = "It looks like you are unable to connect to the server and update all goalie. Please contact support and try running the game again shortly.";
+                newPanel.ButtonA = "Contact Support";
+                newPanel.ButtonCount = 1;
+                break;
+            case ConstantController.PanelType.FirebaseCannotPutGoalieSeason:
+                newPanel.Title = "Firebase Error";
+                newPanel.Body = "It looks like you are unable to connect to the server and update your goalie season. Please contact support and try running the game again shortly.";
+                newPanel.ButtonA = "Contact Support";
+                newPanel.ButtonCount = 1;
+                break;
+            case ConstantController.PanelType.FirebaseCannotPutGoaliePlayoff:
+                newPanel.Title = "Firebase Error";
+                newPanel.Body = "It looks like you are unable to connect to the server and update your goalie playoff. Please contact support and try running the game again shortly.";
+                newPanel.ButtonA = "Contact Support";
+                newPanel.ButtonCount = 1;
+                break;
+            
             // Settings
             case ConstantController.PanelType.SettingsResetAccount:
                 newPanel.Title = "Reset Statistics";
