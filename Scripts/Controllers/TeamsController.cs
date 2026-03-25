@@ -10,6 +10,7 @@ using UnityEngine.SceneManagement;
 
 // Game Dependencies
 using SoM.Core;
+using SoM.Models;
 using SoM.Teams;
 
 namespace SoM.Controllers {
@@ -20,7 +21,10 @@ public class TeamsController : Singleton<TeamsController> {
     [SerializeField] private TeamCreation _teamCreation;
 #endregion
 #region -------------------- Public Variables --------------------
-    
+    public List<Team> AllNhlTeams = new();
+    public List<Team> AllPwhlTeams = new();
+    public List<Team> AllNhlFranchiseTeams = new();
+    public List<Team> AllPwhlFranchiseTeams = new();
 #endregion
 #region -------------------- Private Variables --------------------
     
@@ -35,9 +39,37 @@ public class TeamsController : Singleton<TeamsController> {
     public void InitializeController()
     {
         CoreController.Inst.WriteLog(this.GetType().Name, $"Initializing the controller.");
+
+        AllNhlTeams.Clear();
+        AllPwhlTeams.Clear();
+        AllNhlFranchiseTeams.Clear();
+        AllPwhlFranchiseTeams.Clear();
+
+        SetAllTeams();
     }
 #endregion
 #region -------------------- Private Methods --------------------
-    
+    private async void SetAllTeams()
+    {
+        CoreController.Inst.WriteLog(this.GetType().Name, $"Setting all teams.");
+
+        await FirebaseController.Inst.GetAllTeams(allTeamsData =>
+        {
+            foreach (TeamDatabase teamData in allTeamsData)
+            {
+                Team team = await _teamCreation.CreateTeam(teamData);
+
+                switch (team.Info.League)
+                {
+                    case "NHL": AllNhlTeams.Add(team); break;
+                    case "PWHL": AllPwhlTeams.Add(team); break;
+                    case "NHL-Franchise": AllNhlFranchiseTeams.Add(team); break;
+                    case "PWHL-Franchise": AllPwhlFranchiseTeams.Add(team); break;
+                }
+            }
+
+            CoreController.Inst.LoadingStepCompleted();
+        });
+    }
 #endregion
 }}
