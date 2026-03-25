@@ -33,7 +33,7 @@ public class TeamCreation : MonoBehaviour {
     
 #endregion
 #region -------------------- Public Methods --------------------
-    public async Task<Skater> CreateTeam(TeamDatabase teamDatabase)
+    public async Task<Team> CreateTeam(TeamDatabase teamDatabase)
     {
         await createTeamLock.WaitAsync();
         try
