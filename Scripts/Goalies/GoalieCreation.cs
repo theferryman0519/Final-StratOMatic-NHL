@@ -90,7 +90,7 @@ public class GoalieCreation : MonoBehaviour {
         CoreController.Inst.WriteLog(this.GetType().Name, $"Creating the goalie info.");
 
         string[] infoArray = infoString.Split('/');
-        if (infoArray.Length < 3) { return null; }
+        if (infoArray.Length < 4) { return null; }
 
         GoalieInfo newInfo = new GoalieInfo
         {
@@ -98,6 +98,7 @@ public class GoalieCreation : MonoBehaviour {
             FirstName = infoArray[0],
             LastName = infoArray[1],
             Team = infoArray[2],
+            League = infoArray[3],
         };
 
         return newInfo;
