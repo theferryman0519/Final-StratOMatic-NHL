@@ -845,11 +845,6 @@ public class FirebaseController : Singleton<FirebaseController> {
 		await RestGet(newRest);
 	}
 
-	public async Task DeleteTeamSeason(Action continueAction = null)
-	{
-		CoreController.Inst.WriteLog(this.GetType().Name, $"Deleting a team season from Firebase.");
-	}
-
 	public async Task PutTeamPlayoffs(Action continueAction = null)
 	{
 		CoreController.Inst.WriteLog(this.GetType().Name, $"Putting a team playoffs to Firebase.");
@@ -911,11 +906,6 @@ public class FirebaseController : Singleton<FirebaseController> {
 		};
 
 		await RestGet(newRest);
-	}
-
-	public async Task DeleteTeamPlayoffs(Action continueAction = null)
-	{
-		CoreController.Inst.WriteLog(this.GetType().Name, $"Deleting a team playoffs from Firebase.");
 	}
 #endregion
 #region ---------- Skaters ----------
@@ -1041,11 +1031,6 @@ public class FirebaseController : Singleton<FirebaseController> {
 		await RestGet(newRest);
 	}
 
-	public async Task DeleteSkaterSeason(Action continueAction = null)
-	{
-		CoreController.Inst.WriteLog(this.GetType().Name, $"Deleting a skater season from Firebase.");
-	}
-
 	public async Task PutSkaterPlayoffs(Action continueAction = null)
 	{
 		CoreController.Inst.WriteLog(this.GetType().Name, $"Putting a skater playoffs to Firebase.");
@@ -1107,11 +1092,6 @@ public class FirebaseController : Singleton<FirebaseController> {
 		};
 
 		await RestGet(newRest);
-	}
-
-	public async Task DeleteSkaterPlayoffs(Action continueAction = null)
-	{
-		CoreController.Inst.WriteLog(this.GetType().Name, $"Deleting a skater playoffs from Firebase.");
 	}
 #endregion
 #region ---------- Goalies ----------
@@ -1237,11 +1217,6 @@ public class FirebaseController : Singleton<FirebaseController> {
 		await RestGet(newRest);
 	}
 
-	public async Task DeleteGoalieSeason(Action continueAction = null)
-	{
-		CoreController.Inst.WriteLog(this.GetType().Name, $"Deleting a goalie season from Firebase.");
-	}
-
 	public async Task PutGoaliePlayoffs(Action continueAction = null)
 	{
 		CoreController.Inst.WriteLog(this.GetType().Name, $"Putting a goalie playoffs to Firebase.");
@@ -1303,11 +1278,6 @@ public class FirebaseController : Singleton<FirebaseController> {
 		};
 
 		await RestGet(newRest);
-	}
-
-	public async Task DeleteGoaliePlayoffs(Action continueAction = null)
-	{
-		CoreController.Inst.WriteLog(this.GetType().Name, $"Deleting a goalie playoffs from Firebase.");
 	}
 #endregion
 #region ---------- Contact Support ----------
