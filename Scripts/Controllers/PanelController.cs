@@ -301,6 +301,110 @@ public class PanelController : Singleton<PanelController> {
                 newPanel.ButtonA = "Contact Support";
                 newPanel.ButtonCount = 1;
                 break;
+
+            // Firebase - Delete
+            case ConstantController.PanelType.FirebaseCannotDeleteVersions:
+                newPanel.Title = "Firebase Error";
+                newPanel.Body = "It looks like you are unable to connect to the server and delete the current version. Please contact support and try running the game again shortly.";
+                newPanel.ButtonA = "Contact Support";
+                newPanel.ButtonCount = 1;
+                break;
+            case ConstantController.PanelType.FirebaseCannotDeleteUser:
+                newPanel.Title = "Firebase Error";
+                newPanel.Body = "It looks like you are unable to connect to the server and delete the user account. Please contact support and try running the game again shortly.";
+                newPanel.ButtonA = "Contact Support";
+                newPanel.ButtonCount = 1;
+                break;
+            case ConstantController.PanelType.FirebaseCannotDeleteUserGame:
+                newPanel.Title = "Firebase Error";
+                newPanel.Body = "It looks like you are unable to connect to the server and delete your current game. Please contact support and try running the game again shortly.";
+                newPanel.ButtonA = "Contact Support";
+                newPanel.ButtonCount = 1;
+                break;
+            case ConstantController.PanelType.FirebaseCannotDeleteUserSeason:
+                newPanel.Title = "Firebase Error";
+                newPanel.Body = "It looks like you are unable to connect to the server and delete your current season. Please contact support and try running the game again shortly.";
+                newPanel.ButtonA = "Contact Support";
+                newPanel.ButtonCount = 1;
+                break;
+            case ConstantController.PanelType.FirebaseCannotDeleteUserPlayoff:
+                newPanel.Title = "Firebase Error";
+                newPanel.Body = "It looks like you are unable to connect to the server and delete your current playoff. Please contact support and try running the game again shortly.";
+                newPanel.ButtonA = "Contact Support";
+                newPanel.ButtonCount = 1;
+                break;
+            case ConstantController.PanelType.FirebaseCannotDeleteTeam:
+                newPanel.Title = "Firebase Error";
+                newPanel.Body = "It looks like you are unable to connect to the server and delete the team data. Please contact support and try running the game again shortly.";
+                newPanel.ButtonA = "Contact Support";
+                newPanel.ButtonCount = 1;
+                break;
+            case ConstantController.PanelType.FirebaseCannotDeleteTeams:
+                newPanel.Title = "Firebase Error";
+                newPanel.Body = "It looks like you are unable to connect to the server and delete all teams. Please contact support and try running the game again shortly.";
+                newPanel.ButtonA = "Contact Support";
+                newPanel.ButtonCount = 1;
+                break;
+            case ConstantController.PanelType.FirebaseCannotDeleteTeamSeason:
+                newPanel.Title = "Firebase Error";
+                newPanel.Body = "It looks like you are unable to connect to the server and delete your team season. Please contact support and try running the game again shortly.";
+                newPanel.ButtonA = "Contact Support";
+                newPanel.ButtonCount = 1;
+                break;
+            case ConstantController.PanelType.FirebaseCannotDeleteTeamPlayoff:
+                newPanel.Title = "Firebase Error";
+                newPanel.Body = "It looks like you are unable to connect to the server and delete your team playoff. Please contact support and try running the game again shortly.";
+                newPanel.ButtonA = "Contact Support";
+                newPanel.ButtonCount = 1;
+                break;
+            case ConstantController.PanelType.FirebaseCannotDeleteSkater:
+                newPanel.Title = "Firebase Error";
+                newPanel.Body = "It looks like you are unable to connect to the server and delete the skater data. Please contact support and try running the game again shortly.";
+                newPanel.ButtonA = "Contact Support";
+                newPanel.ButtonCount = 1;
+                break;
+            case ConstantController.PanelType.FirebaseCannotDeleteSkaters:
+                newPanel.Title = "Firebase Error";
+                newPanel.Body = "It looks like you are unable to connect to the server and delete all skater. Please contact support and try running the game again shortly.";
+                newPanel.ButtonA = "Contact Support";
+                newPanel.ButtonCount = 1;
+                break;
+            case ConstantController.PanelType.FirebaseCannotDeleteSkaterSeason:
+                newPanel.Title = "Firebase Error";
+                newPanel.Body = "It looks like you are unable to connect to the server and delete your skater season. Please contact support and try running the game again shortly.";
+                newPanel.ButtonA = "Contact Support";
+                newPanel.ButtonCount = 1;
+                break;
+            case ConstantController.PanelType.FirebaseCannotDeleteSkaterPlayoff:
+                newPanel.Title = "Firebase Error";
+                newPanel.Body = "It looks like you are unable to connect to the server and delete your skater playoff. Please contact support and try running the game again shortly.";
+                newPanel.ButtonA = "Contact Support";
+                newPanel.ButtonCount = 1;
+                break;
+            case ConstantController.PanelType.FirebaseCannotDeleteGoalie:
+                newPanel.Title = "Firebase Error";
+                newPanel.Body = "It looks like you are unable to connect to the server and delete the goalie data. Please contact support and try running the game again shortly.";
+                newPanel.ButtonA = "Contact Support";
+                newPanel.ButtonCount = 1;
+                break;
+            case ConstantController.PanelType.FirebaseCannotDeleteGoalies:
+                newPanel.Title = "Firebase Error";
+                newPanel.Body = "It looks like you are unable to connect to the server and delete all goalie. Please contact support and try running the game again shortly.";
+                newPanel.ButtonA = "Contact Support";
+                newPanel.ButtonCount = 1;
+                break;
+            case ConstantController.PanelType.FirebaseCannotDeleteGoalieSeason:
+                newPanel.Title = "Firebase Error";
+                newPanel.Body = "It looks like you are unable to connect to the server and delete your goalie season. Please contact support and try running the game again shortly.";
+                newPanel.ButtonA = "Contact Support";
+                newPanel.ButtonCount = 1;
+                break;
+            case ConstantController.PanelType.FirebaseCannotDeleteGoaliePlayoff:
+                newPanel.Title = "Firebase Error";
+                newPanel.Body = "It looks like you are unable to connect to the server and delete your goalie playoff. Please contact support and try running the game again shortly.";
+                newPanel.ButtonA = "Contact Support";
+                newPanel.ButtonCount = 1;
+                break;
             
             // Settings
             case ConstantController.PanelType.SettingsResetAccount:
