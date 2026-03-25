@@ -426,6 +426,48 @@ public class FirebaseController : Singleton<FirebaseController> {
 	public async Task DeleteUser(Action continueAction = null)
 	{
 		CoreController.Inst.WriteLog(this.GetType().Name, $"Deleting a user from Firebase.");
+
+		PlayerPrefs.DeleteAll();
+		PlayerPrefs.Save();
+
+		FirebaseRest newRest = new FirebaseRest
+		{
+			Url = $"Users/{id}",
+			Method = "Users",
+			Json = string.Empty,
+		};
+
+		newRest.SuccessAction = (responseText) =>
+		{
+			CoreController.Inst.WriteLog(this.GetType().Name, $"Successfully deleted the user account.");
+
+			DeleteUserAuthentication(continueAction);
+		};
+
+		newRest.FailAction = (errorText) =>
+		{
+			CoreController.Inst.WriteError(this.GetType().Name, $"Cannot delete the user account.");
+			PanelController.Inst.ShowBottomPanel(ConstantController.PanelType.FirebaseCannotDeleteUser);
+		};
+
+		await RestDelete(newRest);
+	}
+
+	public async Task DeleteUserAuthentication(Action continueAction)
+	{
+		CoreController.Inst.WriteLog(this.GetType().Name, $"Deleting the user authentication.");
+		
+		FirebaseUser user = auth.CurrentUser;
+		
+		if (user != null)
+		{
+			user.DeleteAsync().ContinueWith(task =>
+			{
+				CoreController.Inst.WriteLog(this.GetType().Name, $"Successfully deleted the user authentication.");
+				
+				continueAction?.Invoke();
+			});
+		}
 	}
 #endregion
 #region ---------- Current Games ----------
@@ -488,6 +530,28 @@ public class FirebaseController : Singleton<FirebaseController> {
 	public async Task DeleteCurrentGame(Action continueAction = null)
 	{
 		CoreController.Inst.WriteLog(this.GetType().Name, $"Deleting a current game from Firebase.");
+
+		FirebaseRest newRest = new FirebaseRest
+		{
+			Url = $"Games/{id}",
+			Method = "Games",
+			Json = string.Empty,
+		};
+
+		newRest.SuccessAction = (responseText) =>
+		{
+			CoreController.Inst.WriteLog(this.GetType().Name, $"Successfully deleted the user current game.");
+
+			continueAction?.Invoke();
+		};
+
+		newRest.FailAction = (errorText) =>
+		{
+			CoreController.Inst.WriteError(this.GetType().Name, $"Cannot delete the user current game.");
+			PanelController.Inst.ShowBottomPanel(ConstantController.PanelType.FirebaseCannotDeleteUserGame);
+		};
+
+		await RestDelete(newRest);
 	}
 #endregion
 #region ---------- Current Seasons ----------
