@@ -122,6 +122,25 @@ public class ConstantController : Singleton<ConstantController> {
         FirebaseCannotPutGoalieSeason,
         FirebaseCannotPutGoaliePlayoff,
 
+        // Firebase - Delete
+        FirebaseCannotDeleteVersions,
+        FirebaseCannotDeleteUser,
+        FirebaseCannotDeleteUserGame,
+        FirebaseCannotDeleteUserSeason,
+        FirebaseCannotDeleteUserPlayoff,
+        FirebaseCannotDeleteTeam,
+        FirebaseCannotDeleteTeams,
+        FirebaseCannotDeleteTeamSeason,
+        FirebaseCannotDeleteTeamPlayoff,
+        FirebaseCannotDeleteSkater,
+        FirebaseCannotDeleteSkaters,
+        FirebaseCannotDeleteSkaterSeason,
+        FirebaseCannotDeleteSkaterPlayoff,
+        FirebaseCannotDeleteGoalie,
+        FirebaseCannotDeleteGoalies,
+        FirebaseCannotDeleteGoalieSeason,
+        FirebaseCannotDeleteGoaliePlayoff,
+
         // Settings
         SettingsResetAccount,
         SettingsDeleteAccount,
