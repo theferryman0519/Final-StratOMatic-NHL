@@ -121,6 +121,7 @@ public class SkaterCreation : MonoBehaviour {
             LastName = infoArray[1],
             Position = infoArray[2],
             Team = infoArray[3],
+            League = infoArray[4],
         };
 
         skaterPos = newInfo.Position;
