@@ -838,7 +838,7 @@ public class FirebaseController : Singleton<FirebaseController> {
 		await RestGet(newRest);
 	}
 
-	public async Task DeleteTeamSeason(string teamId, string id, Action<string> continueAction = null)
+	public async Task DeleteTeamSeason(string teamId, string id, Action continueAction = null)
 	{
 		CoreController.Inst.WriteLog(this.GetType().Name, $"Deleting a team season from Firebase.");
 
@@ -921,7 +921,7 @@ public class FirebaseController : Singleton<FirebaseController> {
 		await RestGet(newRest);
 	}
 
-	public async Task DeleteTeamPlayoffs(string teamId, string id, Action<string> continueAction = null)
+	public async Task DeleteTeamPlayoffs(string teamId, string id, Action continueAction = null)
 	{
 		CoreController.Inst.WriteLog(this.GetType().Name, $"Deleting a team playoffs from Firebase.");
 
@@ -1008,9 +1008,31 @@ public class FirebaseController : Singleton<FirebaseController> {
 		await RestGet(newRest);
 	}
 
-	public async Task PutSkaterSeason(Action continueAction = null)
+	public async Task PutSkaterSeason(string skaterId, string id, string seasonString, Action continueAction = null)
 	{
 		CoreController.Inst.WriteLog(this.GetType().Name, $"Putting a skater season to Firebase.");
+
+		FirebaseRest newRest = new FirebaseRest
+		{
+			Url = $"Skaters/{skaterId}/SeasonStrings/{id}",
+			Method = "Skater",
+			Json = JsonConvert.SerializeObject(seasonString),
+		};
+
+		newRest.SuccessAction = (responseText) =>
+		{
+			CoreController.Inst.WriteLog(this.GetType().Name, $"Successfully put the skater season.");
+
+			continueAction?.Invoke();
+		};
+
+		newRest.FailAction = (errorText) =>
+		{
+			CoreController.Inst.WriteError(this.GetType().Name, $"Cannot put the skater season.");
+			PanelController.Inst.ShowBottomPanel(ConstantController.PanelType.FirebaseCannotPutSkaterSeason);
+		};
+
+		await RestPut(newRest);
 	}
 
 	public async Task GetSkaterSeason(string skaterId, string id, Action<string> continueAction = null)
@@ -1019,61 +1041,81 @@ public class FirebaseController : Singleton<FirebaseController> {
 
 		FirebaseRest newRest = new FirebaseRest
 		{
-			Url = $"Skaters/{skaterId}",
+			Url = $"Skaters/{skaterId}/SeasonStrings/{id}",
 			Method = "Skater",
 			Json = string.Empty,
 		};
 
 		newRest.SuccessAction = (responseText) =>
 		{
-			SkaterDatabase newSkater = JsonConvert.DeserializeObject<SkaterDatabase>(responseText);
+			CoreController.Inst.WriteLog(this.GetType().Name, $"Successfully got the skater season.");
 
-			if (newSkater.SeasonStrings.Count < 1)
-			{
-				CoreController.Inst.WriteError(this.GetType().Name, $"Single skater season is not available.");
-				PanelController.Inst.ShowBottomPanel(ConstantController.PanelType.FirebaseCannotGetSkaterSeason);
-			}
+			string newSkaterSeason = JsonConvert.DeserializeObject<string>(responseText);
 
-			else
-			{
-				string newUserSeason = string.Empty;
-
-				foreach (string season in newSkater.SeasonStrings)
-				{
-					string[] seasonData = season.Split('/');
-					
-					if (seasonData[0] == id)
-					{
-						newUserSeason = season;
-					}
-				}
-			}
-
-			if (string.IsNullOrEmpty(newUserSeason))
-			{
-				CoreController.Inst.WriteError(this.GetType().Name, $"Single skater season is not available for user.");
-				PanelController.Inst.ShowBottomPanel(ConstantController.PanelType.FirebaseCannotGetSkaterSeason);
-			}
-
-			else
-			{
-				CoreController.Inst.WriteLog(this.GetType().Name, $"Successfully got the single skater season.");
-				continueAction?.Invoke(newUserSeason);
-			}
+			continueAction?.Invoke(newSkaterSeason);
 		};
 
 		newRest.FailAction = (errorText) =>
 		{
-			CoreController.Inst.WriteError(this.GetType().Name, $"Cannot get the single skater season.");
+			CoreController.Inst.WriteError(this.GetType().Name, $"Cannot get the skater season.");
 			PanelController.Inst.ShowBottomPanel(ConstantController.PanelType.FirebaseCannotGetSkaterSeason);
 		};
 
 		await RestGet(newRest);
 	}
 
-	public async Task PutSkaterPlayoffs(Action continueAction = null)
+	public async Task DeleteSkaterSeason(string skaterId, string id, Action continueAction = null)
+	{
+		CoreController.Inst.WriteLog(this.GetType().Name, $"Deleting a skater season from Firebase.");
+
+		FirebaseRest newRest = new FirebaseRest
+		{
+			Url = $"Skaters/{skaterId}/SeasonStrings/{id}",
+			Method = "Skater",
+			Json = string.Empty,
+		};
+
+		newRest.SuccessAction = (responseText) =>
+		{
+			CoreController.Inst.WriteLog(this.GetType().Name, $"Successfully deleted the skater season.");
+
+			continueAction?.Invoke();
+		};
+
+		newRest.FailAction = (errorText) =>
+		{
+			CoreController.Inst.WriteError(this.GetType().Name, $"Cannot delete the skater season.");
+			PanelController.Inst.ShowBottomPanel(ConstantController.PanelType.FirebaseCannotDeleteSkaterSeason);
+		};
+
+		await RestDelete(newRest);
+	}
+
+	public async Task PutSkaterPlayoffs(string skaterId, string id, string playoffString, Action continueAction = null)
 	{
 		CoreController.Inst.WriteLog(this.GetType().Name, $"Putting a skater playoffs to Firebase.");
+
+		FirebaseRest newRest = new FirebaseRest
+		{
+			Url = $"Skaters/{skaterId}/PlayoffStrings/{id}",
+			Method = "Skater",
+			Json = JsonConvert.SerializeObject(playoffString),
+		};
+
+		newRest.SuccessAction = (responseText) =>
+		{
+			CoreController.Inst.WriteLog(this.GetType().Name, $"Successfully put the skater playoff.");
+
+			continueAction?.Invoke();
+		};
+
+		newRest.FailAction = (errorText) =>
+		{
+			CoreController.Inst.WriteError(this.GetType().Name, $"Cannot put the skater playoff.");
+			PanelController.Inst.ShowBottomPanel(ConstantController.PanelType.FirebaseCannotPutSkaterPlayoff);
+		};
+
+		await RestPut(newRest);
 	}
 
 	public async Task GetSkaterPlayoffs(string skaterId, string id, Action<string> continueAction = null)
@@ -1082,56 +1124,54 @@ public class FirebaseController : Singleton<FirebaseController> {
 
 		FirebaseRest newRest = new FirebaseRest
 		{
-			Url = $"Skaters/{skaterId}",
+			Url = $"Skaters/{skaterId}/PlayoffStrings/{id}",
 			Method = "Skater",
 			Json = string.Empty,
 		};
 
 		newRest.SuccessAction = (responseText) =>
 		{
-			SkaterDatabase newSkater = JsonConvert.DeserializeObject<SkaterDatabase>(responseText);
+			CoreController.Inst.WriteLog(this.GetType().Name, $"Successfully got the skater playoff.");
 
-			if (newSkater.PlayoffStrings.Count < 1)
-			{
-				CoreController.Inst.WriteError(this.GetType().Name, $"Single skater playoff is not available.");
-				PanelController.Inst.ShowBottomPanel(ConstantController.PanelType.FirebaseCannotGetSkaterPlayoff);
-			}
+			string newSkaterPlayoff = JsonConvert.DeserializeObject<string>(responseText);
 
-			else
-			{
-				string newUserPlayoff = string.Empty;
-
-				foreach (string playoff in newSkater.PlayoffStrings)
-				{
-					string[] playoffData = playoff.Split('/');
-					
-					if (playoffData[0] == id)
-					{
-						newUserPlayoff = playoff;
-					}
-				}
-			}
-
-			if (string.IsNullOrEmpty(newUserPlayoff))
-			{
-				CoreController.Inst.WriteError(this.GetType().Name, $"Single skater playoff is not available for user.");
-				PanelController.Inst.ShowBottomPanel(ConstantController.PanelType.FirebaseCannotGetSkaterPlayoff);
-			}
-
-			else
-			{
-				CoreController.Inst.WriteLog(this.GetType().Name, $"Successfully got the single skater playoff.");
-				continueAction?.Invoke(newUserPlayoff);
-			}
+			continueAction?.Invoke(newSkaterPlayoff);
 		};
 
 		newRest.FailAction = (errorText) =>
 		{
-			CoreController.Inst.WriteError(this.GetType().Name, $"Cannot get the single skater playoff.");
+			CoreController.Inst.WriteError(this.GetType().Name, $"Cannot get the skater playoff.");
 			PanelController.Inst.ShowBottomPanel(ConstantController.PanelType.FirebaseCannotGetSkaterPlayoff);
 		};
 
 		await RestGet(newRest);
+	}
+
+	public async Task DeleteSkaterPlayoffs(string skaterId, string id, Action continueAction = null)
+	{
+		CoreController.Inst.WriteLog(this.GetType().Name, $"Deleting a skater playoffs from Firebase.");
+
+		FirebaseRest newRest = new FirebaseRest
+		{
+			Url = $"Skaters/{skaterId}/PlayoffStrings/{id}",
+			Method = "Skater",
+			Json = string.Empty,
+		};
+
+		newRest.SuccessAction = (responseText) =>
+		{
+			CoreController.Inst.WriteLog(this.GetType().Name, $"Successfully deleted the skater playoff.");
+
+			continueAction?.Invoke();
+		};
+
+		newRest.FailAction = (errorText) =>
+		{
+			CoreController.Inst.WriteError(this.GetType().Name, $"Cannot delete the skater playoff.");
+			PanelController.Inst.ShowBottomPanel(ConstantController.PanelType.FirebaseCannotDeleteSkaterPlayoff);
+		};
+
+		await RestDelete(newRest);
 	}
 #endregion
 #region ---------- Goalies ----------
@@ -1194,9 +1234,31 @@ public class FirebaseController : Singleton<FirebaseController> {
 		await RestGet(newRest);
 	}
 
-	public async Task PutGoalieSeason(Action continueAction = null)
+	public async Task PutGoalieSeason(string goalieId, string id, string seasonString, Action continueAction = null)
 	{
 		CoreController.Inst.WriteLog(this.GetType().Name, $"Putting a goalie season to Firebase.");
+
+		FirebaseRest newRest = new FirebaseRest
+		{
+			Url = $"Goalies/{goalieId}/SeasonStrings/{id}",
+			Method = "Goalie",
+			Json = JsonConvert.SerializeObject(seasonString),
+		};
+
+		newRest.SuccessAction = (responseText) =>
+		{
+			CoreController.Inst.WriteLog(this.GetType().Name, $"Successfully put the goalie season.");
+
+			continueAction?.Invoke();
+		};
+
+		newRest.FailAction = (errorText) =>
+		{
+			CoreController.Inst.WriteError(this.GetType().Name, $"Cannot put the goalie season.");
+			PanelController.Inst.ShowBottomPanel(ConstantController.PanelType.FirebaseCannotPutGoalieSeason);
+		};
+
+		await RestPut(newRest);
 	}
 
 	public async Task GetGoalieSeason(string goalieId, string id, Action<string> continueAction = null)
@@ -1205,61 +1267,81 @@ public class FirebaseController : Singleton<FirebaseController> {
 
 		FirebaseRest newRest = new FirebaseRest
 		{
-			Url = $"Goalies/{goalieId}",
+			Url = $"Goalies/{goalieId}/SeasonStrings/{id}",
 			Method = "Goalie",
 			Json = string.Empty,
 		};
 
 		newRest.SuccessAction = (responseText) =>
 		{
-			GoalieDatabase newGoalie = JsonConvert.DeserializeObject<GoalieDatabase>(responseText);
+			CoreController.Inst.WriteLog(this.GetType().Name, $"Successfully got the goalie season.");
 
-			if (newGoalie.SeasonStrings.Count < 1)
-			{
-				CoreController.Inst.WriteError(this.GetType().Name, $"Single goalie season is not available.");
-				PanelController.Inst.ShowBottomPanel(ConstantController.PanelType.FirebaseCannotGetGoalieSeason);
-			}
+			string newGoalieSeason = JsonConvert.DeserializeObject<string>(responseText);
 
-			else
-			{
-				string newUserSeason = string.Empty;
-
-				foreach (string season in newGoalie.SeasonStrings)
-				{
-					string[] seasonData = season.Split('/');
-					
-					if (seasonData[0] == id)
-					{
-						newUserSeason = season;
-					}
-				}
-			}
-
-			if (string.IsNullOrEmpty(newUserSeason))
-			{
-				CoreController.Inst.WriteError(this.GetType().Name, $"Single goalie season is not available for user.");
-				PanelController.Inst.ShowBottomPanel(ConstantController.PanelType.FirebaseCannotGetGoalieSeason);
-			}
-
-			else
-			{
-				CoreController.Inst.WriteLog(this.GetType().Name, $"Successfully got the single goalie season.");
-				continueAction?.Invoke(newUserSeason);
-			}
+			continueAction?.Invoke(newGoalieSeason);
 		};
 
 		newRest.FailAction = (errorText) =>
 		{
-			CoreController.Inst.WriteError(this.GetType().Name, $"Cannot get the single goalie season.");
+			CoreController.Inst.WriteError(this.GetType().Name, $"Cannot get the goalie season.");
 			PanelController.Inst.ShowBottomPanel(ConstantController.PanelType.FirebaseCannotGetGoalieSeason);
 		};
 
 		await RestGet(newRest);
 	}
 
-	public async Task PutGoaliePlayoffs(Action continueAction = null)
+	public async Task DeleteGoalieSeason(string goalieId, string id, Action continueAction = null)
+	{
+		CoreController.Inst.WriteLog(this.GetType().Name, $"Deleting a goalie season from Firebase.");
+
+		FirebaseRest newRest = new FirebaseRest
+		{
+			Url = $"Goalies/{goalieId}/SeasonStrings/{id}",
+			Method = "Goalie",
+			Json = string.Empty,
+		};
+
+		newRest.SuccessAction = (responseText) =>
+		{
+			CoreController.Inst.WriteLog(this.GetType().Name, $"Successfully deleted the goalie season.");
+
+			continueAction?.Invoke();
+		};
+
+		newRest.FailAction = (errorText) =>
+		{
+			CoreController.Inst.WriteError(this.GetType().Name, $"Cannot delete the goalie season.");
+			PanelController.Inst.ShowBottomPanel(ConstantController.PanelType.FirebaseCannotDeleteGoalieSeason);
+		};
+
+		await RestDelete(newRest);
+	}
+
+	public async Task PutGoaliePlayoffs(string goalieId, string id, string playoffString, Action continueAction = null)
 	{
 		CoreController.Inst.WriteLog(this.GetType().Name, $"Putting a goalie playoffs to Firebase.");
+
+		FirebaseRest newRest = new FirebaseRest
+		{
+			Url = $"Goalies/{goalieId}/PlayoffStrings/{id}",
+			Method = "Goalie",
+			Json = JsonConvert.SerializeObject(playoffString),
+		};
+
+		newRest.SuccessAction = (responseText) =>
+		{
+			CoreController.Inst.WriteLog(this.GetType().Name, $"Successfully put the goalie playoffs.");
+
+			continueAction?.Invoke();
+		};
+
+		newRest.FailAction = (errorText) =>
+		{
+			CoreController.Inst.WriteError(this.GetType().Name, $"Cannot put the goalie playoffs.");
+			PanelController.Inst.ShowBottomPanel(ConstantController.PanelType.FirebaseCannotPutGoaliePlayoff);
+		};
+
+		await RestPut(newRest);
 	}
 
 	public async Task GetGoaliePlayoffs(string goalieId, string id, Action<string> continueAction = null)
@@ -1268,56 +1350,54 @@ public class FirebaseController : Singleton<FirebaseController> {
 
 		FirebaseRest newRest = new FirebaseRest
 		{
-			Url = $"Goalies/{goalieId}",
+			Url = $"Goalies/{goalieId}/PlayoffStrings/{id}",
 			Method = "Goalie",
 			Json = string.Empty,
 		};
 
 		newRest.SuccessAction = (responseText) =>
 		{
-			GoalieDatabase newGoalie = JsonConvert.DeserializeObject<GoalieDatabase>(responseText);
+			CoreController.Inst.WriteLog(this.GetType().Name, $"Successfully got the goalie playoffs.");
 
-			if (newGoalie.PlayoffStrings.Count < 1)
-			{
-				CoreController.Inst.WriteError(this.GetType().Name, $"Single goalie playoff is not available.");
-				PanelController.Inst.ShowBottomPanel(ConstantController.PanelType.FirebaseCannotGetGoaliePlayoff);
-			}
+			string newGoaliePlayoff = JsonConvert.DeserializeObject<string>(responseText);
 
-			else
-			{
-				string newUserPlayoff = string.Empty;
-
-				foreach (string playoff in newGoalie.PlayoffStrings)
-				{
-					string[] playoffData = playoff.Split('/');
-					
-					if (playoffData[0] == id)
-					{
-						newUserPlayoff = playoff;
-					}
-				}
-			}
-
-			if (string.IsNullOrEmpty(newUserPlayoff))
-			{
-				CoreController.Inst.WriteError(this.GetType().Name, $"Single goalie playoff is not available for user.");
-				PanelController.Inst.ShowBottomPanel(ConstantController.PanelType.FirebaseCannotGetGoaliePlayoff);
-			}
-
-			else
-			{
-				CoreController.Inst.WriteLog(this.GetType().Name, $"Successfully got the single goalie playoff.");
-				continueAction?.Invoke(newUserPlayoff);
-			}
+			continueAction?.Invoke(newGoaliePlayoff);
 		};
 
 		newRest.FailAction = (errorText) =>
 		{
-			CoreController.Inst.WriteError(this.GetType().Name, $"Cannot get the single goalie playoff.");
+			CoreController.Inst.WriteError(this.GetType().Name, $"Cannot get the goalie playoffs.");
 			PanelController.Inst.ShowBottomPanel(ConstantController.PanelType.FirebaseCannotGetGoaliePlayoff);
 		};
 
 		await RestGet(newRest);
+	}
+
+	public async Task DeleteGoaliePlayoffs(string goalieId, string id, Action continueAction = null)
+	{
+		CoreController.Inst.WriteLog(this.GetType().Name, $"Deleting a goalie playoffs from Firebase.");
+
+		FirebaseRest newRest = new FirebaseRest
+		{
+			Url = $"Goalies/{goalieId}/PlayoffStrings/{id}",
+			Method = "Goalie",
+			Json = string.Empty,
+		};
+
+		newRest.SuccessAction = (responseText) =>
+		{
+			CoreController.Inst.WriteLog(this.GetType().Name, $"Successfully deleted the goalie playoffs.");
+
+			continueAction?.Invoke();
+		};
+
+		newRest.FailAction = (errorText) =>
+		{
+			CoreController.Inst.WriteError(this.GetType().Name, $"Cannot delete the goalie playoffs.");
+			PanelController.Inst.ShowBottomPanel(ConstantController.PanelType.FirebaseCannotDeleteGoaliePlayoff);
+		};
+
+		await RestDelete(newRest);
 	}
 #endregion
 #region ---------- Contact Support ----------
@@ -1379,11 +1459,11 @@ public class FirebaseController : Singleton<FirebaseController> {
 			// [string]
 			// [string]
 		// SeasonStrings
-			// [string]
-			// [string]
+			// [UserId]: [string]
+			// [UserId]: [string]
 		// PlayoffStrings
-			// [string]
-			// [string]
+			// [UserId]: [string]
+			// [UserId]: [string]
 // Playoffs
 	// [UserId]
 		// Id: [string]
@@ -1406,18 +1486,18 @@ public class FirebaseController : Singleton<FirebaseController> {
 			// [string]
 			// [string]
 		// SeasonStrings
-			// [string]
-			// [string]
+			// [UserId]: [string]
+			// [UserId]: [string]
 		// PlayoffStrings
-			// [string]
-			// [string]
+			// [UserId]: [string]
+			// [UserId]: [string]
 // Teams
 	// [Id]
 		// Id: [string]
 		// InfoString: [string]
 		// SeasonStrings
-			// [string]
-			// [string]
+			// [UserId]: [string]
+			// [UserId]: [string]
 		// PlayoffStrings
-			// [string]
-			// [string]
+			// [UserId]: [string]
+			// [UserId]: [string]
