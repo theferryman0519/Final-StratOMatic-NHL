@@ -782,9 +782,31 @@ public class FirebaseController : Singleton<FirebaseController> {
 		await RestGet(newRest);
 	}
 
-	public async Task PutTeamSeason(Action continueAction = null)
+	public async Task PutTeamSeason(string teamId, string id, string seasonString, Action continueAction = null)
 	{
 		CoreController.Inst.WriteLog(this.GetType().Name, $"Putting a team season to Firebase.");
+
+		FirebaseRest newRest = new FirebaseRest
+		{
+			Url = $"Teams/{teamId}/SeasonStrings/{id}",
+			Method = "Team",
+			Json = JsonConvert.SerializeObject(seasonString),
+		};
+
+		newRest.SuccessAction = (responseText) =>
+		{
+			CoreController.Inst.WriteLog(this.GetType().Name, $"Successfully put the team season.");
+
+			continueAction?.Invoke();
+		};
+
+		newRest.FailAction = (errorText) =>
+		{
+			CoreController.Inst.WriteError(this.GetType().Name, $"Cannot put the team season.");
+			PanelController.Inst.ShowBottomPanel(ConstantController.PanelType.FirebaseCannotPutTeamSeason);
+		};
+
+		await RestPut(newRest);
 	}
 
 	public async Task GetTeamSeason(string teamId, string id, Action<string> continueAction = null)
@@ -793,61 +815,81 @@ public class FirebaseController : Singleton<FirebaseController> {
 
 		FirebaseRest newRest = new FirebaseRest
 		{
-			Url = $"Teams/{teamId}",
+			Url = $"Teams/{teamId}/SeasonStrings/{id}",
 			Method = "Team",
 			Json = string.Empty,
 		};
 
 		newRest.SuccessAction = (responseText) =>
 		{
-			TeamDatabase newTeam = JsonConvert.DeserializeObject<TeamDatabase>(responseText);
+			CoreController.Inst.WriteLog(this.GetType().Name, $"Successfully got the team season.");
 
-			if (newTeam.SeasonStrings.Count < 1)
-			{
-				CoreController.Inst.WriteError(this.GetType().Name, $"Single team season is not available.");
-				PanelController.Inst.ShowBottomPanel(ConstantController.PanelType.FirebaseCannotGetTeamSeason);
-			}
+			string newTeamSeason = JsonConvert.DeserializeObject<string>(responseText);
 
-			else
-			{
-				string newUserSeason = string.Empty;
-
-				foreach (string season in newTeam.SeasonStrings)
-				{
-					string[] seasonData = season.Split('/');
-					
-					if (seasonData[0] == id)
-					{
-						newUserSeason = season;
-					}
-				}
-			}
-
-			if (string.IsNullOrEmpty(newUserSeason))
-			{
-				CoreController.Inst.WriteError(this.GetType().Name, $"Single team season is not available for user.");
-				PanelController.Inst.ShowBottomPanel(ConstantController.PanelType.FirebaseCannotGetTeamSeason);
-			}
-
-			else
-			{
-				CoreController.Inst.WriteLog(this.GetType().Name, $"Successfully got the single team season.");
-				continueAction?.Invoke(newUserSeason);
-			}
+			continueAction?.Invoke(newTeamSeason);
 		};
 
 		newRest.FailAction = (errorText) =>
 		{
-			CoreController.Inst.WriteError(this.GetType().Name, $"Cannot get the single team season.");
+			CoreController.Inst.WriteError(this.GetType().Name, $"Cannot get the team season.");
 			PanelController.Inst.ShowBottomPanel(ConstantController.PanelType.FirebaseCannotGetTeamSeason);
 		};
 
 		await RestGet(newRest);
 	}
 
-	public async Task PutTeamPlayoffs(Action continueAction = null)
+	public async Task DeleteTeamSeason(string teamId, string id, Action<string> continueAction = null)
+	{
+		CoreController.Inst.WriteLog(this.GetType().Name, $"Deleting a team season from Firebase.");
+
+		FirebaseRest newRest = new FirebaseRest
+		{
+			Url = $"Teams/{teamId}/SeasonStrings/{id}",
+			Method = "Team",
+			Json = string.Empty,
+		};
+
+		newRest.SuccessAction = (responseText) =>
+		{
+			CoreController.Inst.WriteLog(this.GetType().Name, $"Successfully deleted the team season.");
+
+			continueAction?.Invoke();
+		};
+
+		newRest.FailAction = (errorText) =>
+		{
+			CoreController.Inst.WriteError(this.GetType().Name, $"Cannot delete the team season.");
+			PanelController.Inst.ShowBottomPanel(ConstantController.PanelType.FirebaseCannotDeleteTeamSeason);
+		};
+
+		await RestDelete(newRest);
+	}
+
+	public async Task PutTeamPlayoffs(string teamId, string id, string playoffString, Action continueAction = null)
 	{
 		CoreController.Inst.WriteLog(this.GetType().Name, $"Putting a team playoffs to Firebase.");
+
+		FirebaseRest newRest = new FirebaseRest
+		{
+			Url = $"Teams/{teamId}/PlayoffStrings/{id}",
+			Method = "Team",
+			Json = JsonConvert.SerializeObject(playoffString),
+		};
+
+		newRest.SuccessAction = (responseText) =>
+		{
+			CoreController.Inst.WriteLog(this.GetType().Name, $"Successfully put the team playoffs.");
+
+			continueAction?.Invoke();
+		};
+
+		newRest.FailAction = (errorText) =>
+		{
+			CoreController.Inst.WriteError(this.GetType().Name, $"Cannot put the team playoffs.");
+			PanelController.Inst.ShowBottomPanel(ConstantController.PanelType.FirebaseCannotPutTeamPlayoff);
+		};
+
+		await RestPut(newRest);
 	}
 
 	public async Task GetTeamPlayoffs(string teamId, string id, Action<string> continueAction = null)
@@ -856,56 +898,54 @@ public class FirebaseController : Singleton<FirebaseController> {
 
 		FirebaseRest newRest = new FirebaseRest
 		{
-			Url = $"Teams/{teamId}",
+			Url = $"Teams/{teamId}/PlayoffStrings/{id}",
 			Method = "Team",
 			Json = string.Empty,
 		};
 
 		newRest.SuccessAction = (responseText) =>
 		{
-			TeamDatabase newTeam = JsonConvert.DeserializeObject<TeamDatabase>(responseText);
+			CoreController.Inst.WriteLog(this.GetType().Name, $"Successfully got the team playoffs.");
 
-			if (newTeam.PlayoffStrings.Count < 1)
-			{
-				CoreController.Inst.WriteError(this.GetType().Name, $"Single team playoff is not available.");
-				PanelController.Inst.ShowBottomPanel(ConstantController.PanelType.FirebaseCannotGetTeamPlayoff);
-			}
+			string newTeamPlayoff = JsonConvert.DeserializeObject<string>(responseText);
 
-			else
-			{
-				string newUserPlayoff = string.Empty;
-
-				foreach (string playoff in newTeam.PlayoffStrings)
-				{
-					string[] playoffData = playoff.Split('/');
-					
-					if (playoffData[0] == id)
-					{
-						newUserPlayoff = playoff;
-					}
-				}
-			}
-
-			if (string.IsNullOrEmpty(newUserPlayoff))
-			{
-				CoreController.Inst.WriteError(this.GetType().Name, $"Single team playoff is not available for user.");
-				PanelController.Inst.ShowBottomPanel(ConstantController.PanelType.FirebaseCannotGetTeamPlayoff);
-			}
-
-			else
-			{
-				CoreController.Inst.WriteLog(this.GetType().Name, $"Successfully got the single team playoff.");
-				continueAction?.Invoke(newUserPlayoff);
-			}
+			continueAction?.Invoke(newTeamPlayoff);
 		};
 
 		newRest.FailAction = (errorText) =>
 		{
-			CoreController.Inst.WriteError(this.GetType().Name, $"Cannot get the single team playoff.");
+			CoreController.Inst.WriteError(this.GetType().Name, $"Cannot get the team playoffs.");
 			PanelController.Inst.ShowBottomPanel(ConstantController.PanelType.FirebaseCannotGetTeamPlayoff);
 		};
 
 		await RestGet(newRest);
+	}
+
+	public async Task DeleteTeamPlayoffs(string teamId, string id, Action<string> continueAction = null)
+	{
+		CoreController.Inst.WriteLog(this.GetType().Name, $"Deleting a team playoffs from Firebase.");
+
+		FirebaseRest newRest = new FirebaseRest
+		{
+			Url = $"Teams/{teamId}/PlayoffStrings/{id}",
+			Method = "Team",
+			Json = string.Empty,
+		};
+
+		newRest.SuccessAction = (responseText) =>
+		{
+			CoreController.Inst.WriteLog(this.GetType().Name, $"Successfully deleted the team playoffs.");
+
+			continueAction?.Invoke();
+		};
+
+		newRest.FailAction = (errorText) =>
+		{
+			CoreController.Inst.WriteError(this.GetType().Name, $"Cannot delete the team playoffs.");
+			PanelController.Inst.ShowBottomPanel(ConstantController.PanelType.FirebaseCannotDeleteTeamPlayoff);
+		};
+
+		await RestDelete(newRest);
 	}
 #endregion
 #region ---------- Skaters ----------
@@ -1339,11 +1379,11 @@ public class FirebaseController : Singleton<FirebaseController> {
 			// [string]
 			// [string]
 		// SeasonStrings
-			// [UserId]: [string]
-			// [UserId]: [string]
+			// [string]
+			// [string]
 		// PlayoffStrings
-			// [UserId]: [string]
-			// [UserId]: [string]
+			// [string]
+			// [string]
 // Playoffs
 	// [UserId]
 		// Id: [string]
@@ -1366,18 +1406,18 @@ public class FirebaseController : Singleton<FirebaseController> {
 			// [string]
 			// [string]
 		// SeasonStrings
-			// [UserId]: [string]
-			// [UserId]: [string]
+			// [string]
+			// [string]
 		// PlayoffStrings
-			// [UserId]: [string]
-			// [UserId]: [string]
+			// [string]
+			// [string]
 // Teams
 	// [Id]
 		// Id: [string]
 		// InfoString: [string]
 		// SeasonStrings
-			// [UserId]: [string]
-			// [UserId]: [string]
+			// [string]
+			// [string]
 		// PlayoffStrings
-			// [UserId]: [string]
-			// [UserId]: [string]
+			// [string]
+			// [string]
