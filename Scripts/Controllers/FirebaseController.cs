@@ -614,6 +614,28 @@ public class FirebaseController : Singleton<FirebaseController> {
 	public async Task DeleteSeason(Action continueAction = null)
 	{
 		CoreController.Inst.WriteLog(this.GetType().Name, $"Deleting a season from Firebase.");
+
+		FirebaseRest newRest = new FirebaseRest
+		{
+			Url = $"Seasons/{id}",
+			Method = "Season",
+			Json = string.Empty,
+		};
+
+		newRest.SuccessAction = (responseText) =>
+		{
+			CoreController.Inst.WriteLog(this.GetType().Name, $"Successfully deleted the user current season.");
+
+			continueAction?.Invoke();
+		};
+
+		newRest.FailAction = (errorText) =>
+		{
+			CoreController.Inst.WriteError(this.GetType().Name, $"Cannot delete the user current season.");
+			PanelController.Inst.ShowBottomPanel(ConstantController.PanelType.FirebaseCannotDeleteUserSeason);
+		};
+
+		await RestDelete(newRest);
 	}
 #endregion
 #region ---------- Current Playoffs ----------
@@ -676,6 +698,28 @@ public class FirebaseController : Singleton<FirebaseController> {
 	public async Task DeletePlayoffs(Action continueAction = null)
 	{
 		CoreController.Inst.WriteLog(this.GetType().Name, $"Deleting a playoffs from Firebase.");
+
+		FirebaseRest newRest = new FirebaseRest
+		{
+			Url = $"Playoffs/{id}",
+			Method = "Playoff",
+			Json = string.Empty,
+		};
+
+		newRest.SuccessAction = (responseText) =>
+		{
+			CoreController.Inst.WriteLog(this.GetType().Name, $"Successfully deleted the user current playoffs.");
+
+			continueAction?.Invoke();
+		};
+
+		newRest.FailAction = (errorText) =>
+		{
+			CoreController.Inst.WriteError(this.GetType().Name, $"Cannot delete the user current playoffs.");
+			PanelController.Inst.ShowBottomPanel(ConstantController.PanelType.FirebaseCannotDeleteUserPlayoff);
+		};
+
+		await RestDelete(newRest);
 	}
 #endregion
 #region ---------- Teams ----------
