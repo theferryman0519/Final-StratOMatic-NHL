@@ -18,9 +18,9 @@ public class GoalieDatabase {
 #region -------------------- Public Variables --------------------
     public string Id { get; set; }
     public string InfoString { get; set; }
-    public string SeasonString { get; set; }
-    public string PlayoffString { get; set; }
 
+    public List<string> SeasonStrings { get; set; } = new();
+    public List<string> PlayoffStrings { get; set; } = new();
     public List<string> StatsStrings { get; set; } = new();
 #endregion
 #region -------------------- Private Variables --------------------
