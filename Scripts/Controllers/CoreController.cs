@@ -117,6 +117,7 @@ public class CoreController : Singleton<CoreController> {
         IsLoaded = false;
         SceneManager.LoadSceneAsync(Scene_Main00, LoadSceneMode.Single);
         StartCoroutine(RequestNotificationPermissions());
+        InitializeController();
     }
 #endregion
 #region -------------------- Coroutines --------------------
