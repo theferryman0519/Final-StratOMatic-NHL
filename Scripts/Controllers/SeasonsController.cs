@@ -10,6 +10,7 @@ using UnityEngine.SceneManagement;
 
 // Game Dependencies
 using SoM.Core;
+using SoM.Models;
 using SoM.Seasons;
 
 namespace SoM.Controllers {
@@ -20,7 +21,7 @@ public class SeasonsController : Singleton<SeasonsController> {
     [SerializeField] private SeasonCreation _seasonCreation;
 #endregion
 #region -------------------- Public Variables --------------------
-    
+    public Season SeasonData;
 #endregion
 #region -------------------- Private Variables --------------------
     
