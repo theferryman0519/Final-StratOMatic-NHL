@@ -10,6 +10,7 @@ using UnityEngine.SceneManagement;
 
 // Game Dependencies
 using SoM.Core;
+using SoM.Models;
 
 namespace SoM.Controllers {
 public class GameplayController : Singleton<GameplayController> {
@@ -18,7 +19,7 @@ public class GameplayController : Singleton<GameplayController> {
     
 #endregion
 #region -------------------- Public Variables --------------------
-    
+    public GameDatabase SavedGame;
 #endregion
 #region -------------------- Private Variables --------------------
     
