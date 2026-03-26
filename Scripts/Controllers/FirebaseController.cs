@@ -60,8 +60,7 @@ public class FirebaseController : Singleton<FirebaseController> {
 		{
 			CoreController.Inst.WriteError(this.GetType().Name, "Firebase initialization failed.");
 
-			string error = "The loading process has failed. Please contact support and try running the game again shortly.";
-			Ui_Controller.Inst.ShowErrorPanel(error);
+			PanelController.Inst.ShowBottomPanel(ConstantController.PanelType.FirebaseCannotIntialize);
 		}
 	}
 
