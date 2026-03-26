@@ -256,7 +256,7 @@ public class FirebaseController : Singleton<FirebaseController> {
 			PlayerPrefs.SetString(ConstantController.Pref_Password, login.Password);
 			PlayerPrefs.Save();
 
-			UsersController.Inst.SetUserData(() =>
+			UsersController.Inst.SetUserData(OnlineUser.UserId, () =>
 			{
 				login.SuccessAction?.Invoke();
 			});
