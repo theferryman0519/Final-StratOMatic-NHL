@@ -83,6 +83,7 @@ public class ConstantController : Singleton<ConstantController> {
         LoadingOutdatedVersion,
         LoginInvalidCredentials,
         SignUpInvalidCredentials,
+        FirebaseCannotIntialize,
 
         // Firebase - Get
         FirebaseCannotGetVersions,
