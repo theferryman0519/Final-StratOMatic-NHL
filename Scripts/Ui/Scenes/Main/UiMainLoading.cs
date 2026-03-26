@@ -75,7 +75,21 @@ public class UiMainLoading : UiSceneBase {
 		loadingTimer = 0f;
 		isLoading = true;
 
-		_ = FirebaseController.Inst.GettingCurrentVersions();
+		await FirebaseController.Inst.GettingCurrentVersions(() =>
+		{
+			AiController.Inst.InitializeController();
+			AnimationController.Inst.InitializeController();
+			EventsController.Inst.InitializeController();
+			GameplayController.Inst.InitializeController();
+			MultiplayerController.Inst.InitializeController();
+			SaveController.Inst.InitializeController();
+			UsersController.Inst.InitializeController();
+			TeamsController.Inst.InitializeController();
+			SkatersController.Inst.InitializeController();
+			GoaliesController.Inst.InitializeController();
+			SeasonsController.Inst.InitializeController();
+			PlayoffsController.Inst.InitializeController();
+		});
 	}
 
     private void CheckLoading()
@@ -124,17 +138,29 @@ public class UiMainLoading : UiSceneBase {
 		}
 	}
 
-    private void ContinueToGame()
+    private async void ContinueToGame()
 	{
 		CoreController.Inst.WriteLog(this.GetType().Name, $"Continuing to the game.");
 
         _mainContent.Clear();
         _mainContent = _pageElements;
 
-        // TODO: Check for saved game
-        // TODO: Check if new user
+		GameDatabase savedGame = await GetCurrentGame(UsersController.Inst.User.Id);
 
-        GoToNewScene(CoreController.Inst.Scene_Home00);
+		if (savedGame == null)
+		{
+			// TODO: Check if new user
+			// TODO: If so, go to tutorial
+			// TODO: If not, go to home
+
+			GoToNewScene(CoreController.Inst.Scene_Home00);
+		}
+
+		else
+		{
+			GameplayController.Inst.SavedGame = savedGame;
+			GoToNewScene(CoreController.Inst.Scene_Main05);
+		}
 	}
 
     private bool IsVersionCompatible(string localVersion, string requiredVersion)
