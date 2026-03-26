@@ -256,7 +256,11 @@ public class FirebaseController : Singleton<FirebaseController> {
 			PlayerPrefs.SetString(ConstantController.Pref_Password, login.Password);
 			PlayerPrefs.Save();
 
-			login.SuccessAction?.Invoke();
+			UsersController.Inst.SetUserData(() =>
+			{
+				login.SuccessAction?.Invoke();
+			});
+
             yield break;
         }
     }
@@ -326,7 +330,11 @@ public class FirebaseController : Singleton<FirebaseController> {
 			PlayerPrefs.SetString(ConstantController.Pref_Password, creation.Password);
 			PlayerPrefs.Save();
 
-			creation.SuccessAction?.Invoke();
+			UsersController.Inst.CreateUserData(() =>
+			{
+				creation.SuccessAction?.Invoke();
+			});
+
             yield break;
         }
     }
@@ -520,7 +528,8 @@ public class FirebaseController : Singleton<FirebaseController> {
 		newRest.FailAction = (errorText) =>
 		{
 			CoreController.Inst.WriteError(this.GetType().Name, $"Cannot get the user current game.");
-			PanelController.Inst.ShowBottomPanel(ConstantController.PanelType.FirebaseCannotGetUserGame);
+
+			continueAction?.Invoke(null);
 		};
 
 		await RestGet(newRest);
