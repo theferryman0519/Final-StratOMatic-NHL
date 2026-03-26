@@ -47,6 +47,12 @@ public class TeamsController : Singleton<TeamsController> {
 
         SetAllTeams();
     }
+
+    public Team GetTeamFromCode(string code)
+    {
+        // TODO
+        return null;
+    }
 #endregion
 #region -------------------- Private Methods --------------------
     private async void SetAllTeams()
