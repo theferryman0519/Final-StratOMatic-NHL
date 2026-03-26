@@ -10,6 +10,7 @@ using UnityEngine.SceneManagement;
 
 // Game Dependencies
 using SoM.Core;
+using SoM.Models;
 
 namespace SoM.Controllers {
 public class PlayoffsController : Singleton<PlayoffsController> {
@@ -18,7 +19,7 @@ public class PlayoffsController : Singleton<PlayoffsController> {
     
 #endregion
 #region -------------------- Public Variables --------------------
-    
+    public Playoff PlayoffData;
 #endregion
 #region -------------------- Private Variables --------------------
     
