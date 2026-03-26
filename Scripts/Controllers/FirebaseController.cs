@@ -424,7 +424,8 @@ public class FirebaseController : Singleton<FirebaseController> {
 		newRest.FailAction = (errorText) =>
 		{
 			CoreController.Inst.WriteError(this.GetType().Name, $"Cannot get the user account.");
-			PanelController.Inst.ShowBottomPanel(ConstantController.PanelType.FirebaseCannotGetUser);
+			
+			continueAction?.Invoke(null);
 		};
 
 		await RestGet(newRest);
@@ -613,7 +614,8 @@ public class FirebaseController : Singleton<FirebaseController> {
 		newRest.FailAction = (errorText) =>
 		{
 			CoreController.Inst.WriteError(this.GetType().Name, $"Cannot get the user current season.");
-			PanelController.Inst.ShowBottomPanel(ConstantController.PanelType.FirebaseCannotGetUserSeason);
+			
+			continueAction?.Invoke(null);
 		};
 
 		await RestGet(newRest);
@@ -697,7 +699,8 @@ public class FirebaseController : Singleton<FirebaseController> {
 		newRest.FailAction = (errorText) =>
 		{
 			CoreController.Inst.WriteError(this.GetType().Name, $"Cannot get the user current playoffs.");
-			PanelController.Inst.ShowBottomPanel(ConstantController.PanelType.FirebaseCannotGetUserPlayoff);
+			
+			continueAction?.Invoke(null);
 		};
 
 		await RestGet(newRest);
@@ -840,7 +843,8 @@ public class FirebaseController : Singleton<FirebaseController> {
 		newRest.FailAction = (errorText) =>
 		{
 			CoreController.Inst.WriteError(this.GetType().Name, $"Cannot get the team season.");
-			PanelController.Inst.ShowBottomPanel(ConstantController.PanelType.FirebaseCannotGetTeamSeason);
+			
+			continueAction?.Invoke(null);
 		};
 
 		await RestGet(newRest);
@@ -923,7 +927,8 @@ public class FirebaseController : Singleton<FirebaseController> {
 		newRest.FailAction = (errorText) =>
 		{
 			CoreController.Inst.WriteError(this.GetType().Name, $"Cannot get the team playoffs.");
-			PanelController.Inst.ShowBottomPanel(ConstantController.PanelType.FirebaseCannotGetTeamPlayoff);
+			
+			continueAction?.Invoke(null);
 		};
 
 		await RestGet(newRest);
@@ -1066,7 +1071,8 @@ public class FirebaseController : Singleton<FirebaseController> {
 		newRest.FailAction = (errorText) =>
 		{
 			CoreController.Inst.WriteError(this.GetType().Name, $"Cannot get the skater season.");
-			PanelController.Inst.ShowBottomPanel(ConstantController.PanelType.FirebaseCannotGetSkaterSeason);
+			
+			continueAction?.Invoke(null);
 		};
 
 		await RestGet(newRest);
@@ -1149,7 +1155,8 @@ public class FirebaseController : Singleton<FirebaseController> {
 		newRest.FailAction = (errorText) =>
 		{
 			CoreController.Inst.WriteError(this.GetType().Name, $"Cannot get the skater playoff.");
-			PanelController.Inst.ShowBottomPanel(ConstantController.PanelType.FirebaseCannotGetSkaterPlayoff);
+			
+			continueAction?.Invoke(null);
 		};
 
 		await RestGet(newRest);
@@ -1292,7 +1299,8 @@ public class FirebaseController : Singleton<FirebaseController> {
 		newRest.FailAction = (errorText) =>
 		{
 			CoreController.Inst.WriteError(this.GetType().Name, $"Cannot get the goalie season.");
-			PanelController.Inst.ShowBottomPanel(ConstantController.PanelType.FirebaseCannotGetGoalieSeason);
+			
+			continueAction?.Invoke(null);
 		};
 
 		await RestGet(newRest);
@@ -1375,7 +1383,8 @@ public class FirebaseController : Singleton<FirebaseController> {
 		newRest.FailAction = (errorText) =>
 		{
 			CoreController.Inst.WriteError(this.GetType().Name, $"Cannot get the goalie playoffs.");
-			PanelController.Inst.ShowBottomPanel(ConstantController.PanelType.FirebaseCannotGetGoaliePlayoff);
+			
+			continueAction?.Invoke(null);
 		};
 
 		await RestGet(newRest);
