@@ -240,6 +240,13 @@ public class CoreController : Singleton<CoreController> {
 		SceneManager.LoadScene(sceneName);
 	}
 
+    public string GetSceneName()
+	{
+		WriteLog(this.GetType().Name, $"Getting the name of the current scene.");
+		
+		return SceneManager.GetActiveScene().name;
+	}
+
     public void Schedule24hFromNow()
     {
         CancelScheduled();
