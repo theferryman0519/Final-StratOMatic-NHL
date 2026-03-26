@@ -124,6 +124,7 @@ public class CoreController : Singleton<CoreController> {
         AudioController.Inst.InitializeController();
         PanelController.Inst.InitializeController();
         UiController.Inst.InitializeController();
+        UsersController.Inst.InitializeController();
     }
 #endregion
 #region -------------------- Coroutines --------------------
