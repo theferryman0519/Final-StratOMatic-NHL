@@ -93,6 +93,12 @@ public class PanelController : Singleton<PanelController> {
                 newPanel.HasCloseButton = true;
                 newPanel.ButtonCount = 1;
                 break;
+            case ConstantController.PanelType.FirebaseCannotIntialize:
+                newPanel.Title = "Firebase Error";
+                newPanel.Body = "It looks like you are unable to connect to the server. Please contact support and try running the game again shortly.";
+                newPanel.ButtonA = "Contact Support";
+                newPanel.ButtonCount = 1;
+                break;
             
             // Firebase - Get
             case ConstantController.PanelType.FirebaseCannotGetVersions:
