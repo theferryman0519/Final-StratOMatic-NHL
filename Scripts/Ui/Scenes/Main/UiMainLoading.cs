@@ -83,7 +83,6 @@ public class UiMainLoading : UiSceneBase {
 			GameplayController.Inst.InitializeController();
 			MultiplayerController.Inst.InitializeController();
 			SaveController.Inst.InitializeController();
-			UsersController.Inst.InitializeController();
 			TeamsController.Inst.InitializeController();
 			SkatersController.Inst.InitializeController();
 			GoaliesController.Inst.InitializeController();
