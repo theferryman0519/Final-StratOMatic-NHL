@@ -20,6 +20,7 @@ public class GameplayController : Singleton<GameplayController> {
 #endregion
 #region -------------------- Public Variables --------------------
     public GameDatabase SavedGame;
+    public Game GameData;
 #endregion
 #region -------------------- Private Variables --------------------
     
