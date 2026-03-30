@@ -347,10 +347,10 @@ public class SkaterCreation : MonoBehaviour {
 
         if (totalGames < 1) { skaterPenalty = "D"; return "D"; }
 
-        if (penaltyMinutesPerGame >= 2f) { skaterPenalty = "AA"; return "AA"; }
-        if (penaltyMinutesPerGame >= 1.2f) { skaterPenalty = "A"; return "A"; }
-        if (penaltyMinutesPerGame >= 0.7f) { skaterPenalty = "B"; return "B"; }
-        if (penaltyMinutesPerGame >= 0.3f) { skaterPenalty = "C"; return "C"; }
+        if (penaltyMinutesPerGame >= 2.4f) { skaterPenalty = "AA"; return "AA"; }
+        if (penaltyMinutesPerGame >= 1.5f) { skaterPenalty = "A"; return "A"; }
+        if (penaltyMinutesPerGame >= 0.9f) { skaterPenalty = "B"; return "B"; }
+        if (penaltyMinutesPerGame >= 0.5f) { skaterPenalty = "C"; return "C"; }
 
         skaterPenalty = "D";
         return "D";
@@ -405,10 +405,10 @@ public class SkaterCreation : MonoBehaviour {
 
         if (totalGames < 1) { return "B"; }
 
-        if (minutesPerGame >= 18f) { return "D"; }
-        if (minutesPerGame >= 14f) { return "C"; }
-        if (minutesPerGame >= 10f) { return "B"; }
-        if (minutesPerGame >= 6f) { return "A"; }
+        if (minutesPerGame >= 16f) { return "D"; }
+        if (minutesPerGame >= 12f) { return "C"; }
+        if (minutesPerGame >= 8f) { return "B"; }
+        if (minutesPerGame >= 4f) { return "A"; }
         return "AA";
     }
 
