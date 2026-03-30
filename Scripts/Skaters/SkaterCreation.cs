@@ -405,10 +405,10 @@ public class SkaterCreation : MonoBehaviour {
 
         if (totalGames < 1) { return "B"; }
 
-        if (minutesPerGame >= 16f) { return "D"; }
+        if (minutesPerGame >= 15f) { return "D"; }
         if (minutesPerGame >= 12f) { return "C"; }
-        if (minutesPerGame >= 8f) { return "B"; }
-        if (minutesPerGame >= 4f) { return "A"; }
+        if (minutesPerGame >= 9f) { return "B"; }
+        if (minutesPerGame >= 5f) { return "A"; }
         return "AA";
     }
 
