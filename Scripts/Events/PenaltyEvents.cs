@@ -27,7 +27,59 @@ public class PenaltyEvents : MonoBehaviour {
     
 #endregion
 #region -------------------- Coroutines --------------------
-    
+    public IEnumerator PenaltyCheck()
+    {
+        CoreController.Inst.WriteLog(this.GetType().Name, $"Adding PenaltyCheck to the queue.");
+
+        // TODO
+
+        yield return null;
+    }
+
+    public IEnumerator PenaltyShotsList()
+    {
+        CoreController.Inst.WriteLog(this.GetType().Name, $"Adding PenaltyShotsList to the queue.");
+
+        // TODO
+
+        yield return null;
+    }
+
+    public IEnumerator PenaltyShotsStart()
+    {
+        CoreController.Inst.WriteLog(this.GetType().Name, $"Adding PenaltyShotsStart to the queue.");
+
+        // TODO
+
+        yield return null;
+    }
+
+    public IEnumerator PenaltyShotsAttemptStart()
+    {
+        CoreController.Inst.WriteLog(this.GetType().Name, $"Adding PenaltyShotsAttemptStart to the queue.");
+
+        // TODO
+
+        yield return null;
+    }
+
+    public IEnumerator PenaltyShotsAttemptResult()
+    {
+        CoreController.Inst.WriteLog(this.GetType().Name, $"Adding PenaltyShotsAttemptResult to the queue.");
+
+        // TODO
+
+        yield return null;
+    }
+
+    public IEnumerator PenaltyShotsResult()
+    {
+        CoreController.Inst.WriteLog(this.GetType().Name, $"Adding PenaltyShotsResult to the queue.");
+
+        // TODO
+
+        yield return null;
+    }
 #endregion
 #region -------------------- Public Methods --------------------
     
