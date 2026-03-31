@@ -16,9 +16,16 @@ public class Game {
     
 #region -------------------- Public Variables --------------------
     public string Id { get; set; }
-    public string Type { get; set; }
+    public string Type { get; set; } // Exhibition, Season, Playoff, Multiplayer
     public string HomeUserType { get; set; } // User, Ai
     public string AwayUserType { get; set; } // User, Ai
+    public string PowerplayTeam { get; set; } // Home, Away
+    public string PossTeam { get; set; } // None, Home, Away
+
+    public int CardsDrawn { get; set; }
+    public int Period { get; set; }
+
+    public List<string> PossPos { get; set; } = new();
 
     public GameTeam HomeTeam { get; set; }
     public GameTeam AwayTeam { get; set; }
