@@ -33,6 +33,15 @@ public class DefenseEvents : MonoBehaviour {
 
         // TODO
 
+        EventRun newEventRun = new EventRun
+        {
+            InfoText = "",
+            ActionText = "",
+            PossPos = "",
+        };
+
+        EventsController.Inst.CurrentEventRun = newEventRun;
+
         yield return null;
     }
 
@@ -41,6 +50,15 @@ public class DefenseEvents : MonoBehaviour {
         CoreController.Inst.WriteLog(this.GetType().Name, $"Adding IntimidationResult to the queue.");
 
         // TODO
+
+        EventRun newEventRun = new EventRun
+        {
+            InfoText = "",
+            ActionText = "",
+            PossPos = "",
+        };
+
+        EventsController.Inst.CurrentEventRun = newEventRun;
 
         yield return null;
     }
@@ -51,6 +69,15 @@ public class DefenseEvents : MonoBehaviour {
 
         // TODO
 
+        EventRun newEventRun = new EventRun
+        {
+            InfoText = "",
+            ActionText = "",
+            PossPos = "",
+        };
+
+        EventsController.Inst.CurrentEventRun = newEventRun;
+
         yield return null;
     }
 
@@ -59,6 +86,15 @@ public class DefenseEvents : MonoBehaviour {
         CoreController.Inst.WriteLog(this.GetType().Name, $"Adding DefendingResult to the queue.");
 
         // TODO
+
+        EventRun newEventRun = new EventRun
+        {
+            InfoText = "",
+            ActionText = "",
+            PossPos = "",
+        };
+
+        EventsController.Inst.CurrentEventRun = newEventRun;
 
         yield return null;
     }
