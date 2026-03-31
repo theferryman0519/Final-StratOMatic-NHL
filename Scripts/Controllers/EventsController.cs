@@ -10,6 +10,7 @@ using UnityEngine.SceneManagement;
 
 // Game Dependencies
 using SoM.Core;
+using SoM.Models;
 
 namespace SoM.Controllers {
 public class EventsController : Singleton<EventsController> {
@@ -22,6 +23,8 @@ public class EventsController : Singleton<EventsController> {
     public GameplayEvents GameplayEvents;
 
     public Action ContinueAction;
+
+    public EventRun CurrentEventRun;
 
     public UiGameplayMain MainUi;
 #endregion
@@ -60,81 +63,53 @@ public class EventsController : Singleton<EventsController> {
         MainUi = mainUi;
     }
 
-    public void FaceoffEvents()
+    public void RunFaceoffEvent(int index)
     {
-        if (GameplayEvents == null || GameplayEvents.FaceoffEvents == null) { return; }
+        CoreController.Inst.WriteLog(this.GetType().Name, $"---------- Running a FaceoffEvent ----------");
 
-        CoreController.Inst.WriteLog(this.GetType().Name, $"---------- Running FaceoffEvents ----------.");
-
-        // ADD ENQUEUE HERE
-
-        GameplayEvents.RunFaceoffEvents();
+        GameplayEvents.RunFaceoffEvent(index);
     }
 
-    public void OffenseEvents()
+    public void RunOffenseEvent(int index)
     {
-        if (GameplayEvents == null || GameplayEvents.OffenseEvents == null) { return; }
+        CoreController.Inst.WriteLog(this.GetType().Name, $"---------- Running a OffenseEvent ----------");
 
-        CoreController.Inst.WriteLog(this.GetType().Name, $"---------- Running OffenseEvents ----------.");
-
-        // ADD ENQUEUE HERE
-
-        GameplayEvents.RunOffenseEvents();
+        GameplayEvents.RunOffenseEvent(index);
     }
 
-    public void DefenseEvents()
+    public void RunDefenseEvent(int index)
     {
-        if (GameplayEvents == null || GameplayEvents.DefenseEvents == null) { return; }
+        CoreController.Inst.WriteLog(this.GetType().Name, $"---------- Running a DefenseEvent ----------");
 
-        CoreController.Inst.WriteLog(this.GetType().Name, $"---------- Running DefenseEvents ----------.");
-
-        // ADD ENQUEUE HERE
-
-        GameplayEvents.RunDefenseEvents();
+        GameplayEvents.RunDefenseEvent(index);
     }
 
-    public void PenaltyEvents()
+    public void RunPenaltyEvent(int index)
     {
-        if (GameplayEvents == null || GameplayEvents.PenaltyEvents == null) { return; }
+        CoreController.Inst.WriteLog(this.GetType().Name, $"---------- Running a PenaltyEvent ----------");
 
-        CoreController.Inst.WriteLog(this.GetType().Name, $"---------- Running PenaltyEvents ----------.");
-
-        // ADD ENQUEUE HERE
-
-        GameplayEvents.RunPenaltyEvents();
+        GameplayEvents.RunPenaltyEvent(index);
     }
 
-    public void GoalEvents()
+    public void RunGoalEvent(int index)
     {
-        if (GameplayEvents == null || GameplayEvents.GoalEvents == null) { return; }
+        CoreController.Inst.WriteLog(this.GetType().Name, $"---------- Running a GoalEvent ----------");
 
-        CoreController.Inst.WriteLog(this.GetType().Name, $"---------- Running GoalEvents ----------.");
-
-        // ADD ENQUEUE HERE
-
-        GameplayEvents.RunGoalEvents();
+        GameplayEvents.RunGoalEvent(index);
     }
 
-    public void PullGoalieEvents()
+    public void RunPullGoalieEvent(int index)
     {
-        if (GameplayEvents == null || GameplayEvents.PullGoalieEvents == null) { return; }
+        CoreController.Inst.WriteLog(this.GetType().Name, $"---------- Running a PullGoalieEvent ----------");
 
-        CoreController.Inst.WriteLog(this.GetType().Name, $"---------- Running PullGoalieEvents ----------.");
-
-        // ADD ENQUEUE HERE
-
-        GameplayEvents.RunPullGoalieEvents();
+        GameplayEvents.RunPullGoalieEvent(index);
     }
 
-    public void GameFlowEvents()
+    public void RunGameFlowEvent(int index)
     {
-        if (GameplayEvents == null || GameplayEvents.GameFlowEvents == null) { return; }
+        CoreController.Inst.WriteLog(this.GetType().Name, $"---------- Running a GameFlowEvent ----------");
 
-        CoreController.Inst.WriteLog(this.GetType().Name, $"---------- Running GameFlowEvents ----------.");
-
-        // ADD ENQUEUE HERE
-
-        GameplayEvents.RunGameFlowEvents();
+        GameplayEvents.RunGameFlowEvent(index);
     }
 
     public void ToggleOverlay(bool isOverlayOn)
