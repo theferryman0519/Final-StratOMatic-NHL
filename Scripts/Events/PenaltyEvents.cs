@@ -33,6 +33,15 @@ public class PenaltyEvents : MonoBehaviour {
 
         // TODO
 
+        EventRun newEventRun = new EventRun
+        {
+            InfoText = "",
+            ActionText = "",
+            PossPos = "",
+        };
+
+        EventsController.Inst.CurrentEventRun = newEventRun;
+
         yield return null;
     }
 
@@ -41,6 +50,15 @@ public class PenaltyEvents : MonoBehaviour {
         CoreController.Inst.WriteLog(this.GetType().Name, $"Adding PenaltyShotsList to the queue.");
 
         // TODO
+
+        EventRun newEventRun = new EventRun
+        {
+            InfoText = "",
+            ActionText = "",
+            PossPos = "",
+        };
+
+        EventsController.Inst.CurrentEventRun = newEventRun;
 
         yield return null;
     }
@@ -51,6 +69,15 @@ public class PenaltyEvents : MonoBehaviour {
 
         // TODO
 
+        EventRun newEventRun = new EventRun
+        {
+            InfoText = "",
+            ActionText = "",
+            PossPos = "",
+        };
+
+        EventsController.Inst.CurrentEventRun = newEventRun;
+
         yield return null;
     }
 
@@ -59,6 +86,15 @@ public class PenaltyEvents : MonoBehaviour {
         CoreController.Inst.WriteLog(this.GetType().Name, $"Adding PenaltyShotsAttemptStart to the queue.");
 
         // TODO
+
+        EventRun newEventRun = new EventRun
+        {
+            InfoText = "",
+            ActionText = "",
+            PossPos = "",
+        };
+
+        EventsController.Inst.CurrentEventRun = newEventRun;
 
         yield return null;
     }
@@ -69,6 +105,15 @@ public class PenaltyEvents : MonoBehaviour {
 
         // TODO
 
+        EventRun newEventRun = new EventRun
+        {
+            InfoText = "",
+            ActionText = "",
+            PossPos = "",
+        };
+
+        EventsController.Inst.CurrentEventRun = newEventRun;
+
         yield return null;
     }
 
@@ -77,6 +122,15 @@ public class PenaltyEvents : MonoBehaviour {
         CoreController.Inst.WriteLog(this.GetType().Name, $"Adding PenaltyShotsResult to the queue.");
 
         // TODO
+
+        EventRun newEventRun = new EventRun
+        {
+            InfoText = "",
+            ActionText = "",
+            PossPos = "",
+        };
+
+        EventsController.Inst.CurrentEventRun = newEventRun;
 
         yield return null;
     }
