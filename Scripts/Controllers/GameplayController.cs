@@ -36,6 +36,133 @@ public class GameplayController : Singleton<GameplayController> {
     {
         CoreController.Inst.WriteLog(this.GetType().Name, $"Initializing the controller.");
     }
+
+    public void CreateExhibitionGame()
+    {
+        CoreController.Inst.WriteLog(this.GetType().Name, $"Creating a new exhibition game.");
+
+        GameData = new Game
+        {
+            Id = Guid.NewGuid().ToString(),
+            Type = "Exhibition",
+            HomeUserType = "User",
+            AwayUserType = "Ai",
+            PowerplayTeam = "None",
+            PossTeam = "None",
+            CardsDrawn = 0,
+            Period = 1,
+            PossPos = new(),
+            HomeTeam = null,
+            AwayTeam = null,
+        };
+    }
+
+    public void CreateMultiplayerGame()
+    {
+        CoreController.Inst.WriteLog(this.GetType().Name, $"Creating a new multiplayer game.");
+
+        GameData = new Game
+        {
+            Id = Guid.NewGuid().ToString(),
+            Type = "Multiplayer",
+            HomeUserType = "User",
+            AwayUserType = "User",
+            PowerplayTeam = "None",
+            PossTeam = "None",
+            CardsDrawn = 0,
+            Period = 1,
+            PossPos = new(),
+            HomeTeam = null,
+            AwayTeam = null,
+        };
+    }
+
+    public void CreateSeasonGame()
+    {
+        CoreController.Inst.WriteLog(this.GetType().Name, $"Creating a new season game.");
+
+        GameData = new Game
+        {
+            Id = Guid.NewGuid().ToString(),
+            Type = "Season",
+            HomeUserType = "User",
+            AwayUserType = "Ai",
+            PowerplayTeam = "None",
+            PossTeam = "None",
+            CardsDrawn = 0,
+            Period = 1,
+            PossPos = new(),
+            HomeTeam = null,
+            AwayTeam = null,
+        };
+    }
+
+    public void CreatePlayoffGame()
+    {
+        CoreController.Inst.WriteLog(this.GetType().Name, $"Creating a new playoff game.");
+
+        GameData = new Game
+        {
+            Id = Guid.NewGuid().ToString(),
+            Type = "Playoff",
+            HomeUserType = "User",
+            AwayUserType = "Ai",
+            PowerplayTeam = "None",
+            PossTeam = "None",
+            CardsDrawn = 0,
+            Period = 1,
+            PossPos = new(),
+            HomeTeam = null,
+            AwayTeam = null,
+        };
+    }
+
+    public void SetGameTeam(Team team, bool isHome)
+    {
+        CoreController.Inst.WriteLog(this.GetType().Name, $"Setting the game team.");
+
+        GameTeam newTeam = new GameTeam
+        {
+            SkaterLineup = new(),
+            GoalieLineup = new(),
+            CurrentLine = 1,
+            CurrentPair = 1,
+            CurrentStrategy = 3,
+            IsGoaliePulled = false,
+            Team = team.Info,
+            Stats = team.Game,
+        };
+
+        if (isHome)
+        {
+            GameData.HomeTeam = newTeam;
+        }
+
+        else
+        {
+            GameData.AwayTeam = newTeam;
+        }
+    }
+
+    public void SetGameTeamLineup(Dictionary<string, Skater> skaters, Goalie goalie, bool isHome)
+    {
+        CoreController.Inst.WriteLog(this.GetType().Name, $"Setting the game team lineup.");
+
+        Dictionary<string, Goalie> goalieLineup = new();
+        goalieLineup.Add("G", goalie);
+
+        if (isHome)
+        {
+            GameData.HomeTeam.SkaterLineup = skaters;
+            GameData.HomeTeam.GoalieLineup = goalieLineup;
+        }
+
+        else
+        {
+            GameData.AwayTeam.SkaterLineup = skaters;
+            GameData.AwayTeam.GoalieLineup = goalieLineup;
+        }
+    }
 #endregion
 #region -------------------- Private Methods --------------------
     
