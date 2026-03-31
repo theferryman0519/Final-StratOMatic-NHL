@@ -75,6 +75,13 @@ public class ConstantController : Singleton<ConstantController> {
         Playoff,
     };
 
+    public enum ShotType
+    {
+        Outside,
+        Inside,
+        RebBreak,
+    };
+
     public enum PanelType
     {
         // Main
