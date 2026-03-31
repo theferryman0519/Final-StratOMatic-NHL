@@ -27,7 +27,68 @@ public class OffenseEvents : MonoBehaviour {
     
 #endregion
 #region -------------------- Coroutines --------------------
-    
+    public IEnumerator ActionCard()
+    {
+        CoreController.Inst.WriteLog(this.GetType().Name, $"Adding IntimidationStart to the queue.");
+
+        // TODO
+
+        yield return null;
+    }
+
+    public IEnumerator OutsideOptions()
+    {
+        CoreController.Inst.WriteLog(this.GetType().Name, $"Adding IntimidationStart to the queue.");
+
+        // TODO
+
+        yield return null;
+    }
+
+    public IEnumerator ShotStart(ConstantController.ShotType shotType)
+    {
+        CoreController.Inst.WriteLog(this.GetType().Name, $"Adding IntimidationStart to the queue.");
+
+        // TODO
+
+        yield return null;
+    }
+
+    public IEnumerator ShotResult(ConstantController.ShotType shotType)
+    {
+        CoreController.Inst.WriteLog(this.GetType().Name, $"Adding IntimidationStart to the queue.");
+
+        // TODO
+
+        yield return null;
+    }
+
+    public IEnumerator ReboundCheck()
+    {
+        CoreController.Inst.WriteLog(this.GetType().Name, $"Adding IntimidationStart to the queue.");
+
+        // TODO
+
+        yield return null;
+    }
+
+    public IEnumerator PassingStart()
+    {
+        CoreController.Inst.WriteLog(this.GetType().Name, $"Adding IntimidationStart to the queue.");
+
+        // TODO
+
+        yield return null;
+    }
+
+    public IEnumerator PassingResult()
+    {
+        CoreController.Inst.WriteLog(this.GetType().Name, $"Adding IntimidationStart to the queue.");
+
+        // TODO
+
+        yield return null;
+    }
 #endregion
 #region -------------------- Public Methods --------------------
     
