@@ -27,7 +27,32 @@ public class FaceoffEvents : MonoBehaviour {
     
 #endregion
 #region -------------------- Coroutines --------------------
-    
+    public IEnumerator PuckDrop()
+    {
+        CoreController.Inst.WriteLog(this.GetType().Name, $"Adding PuckDrop to the queue.");
+
+        // TODO
+
+        yield return null;
+    }
+
+    public IEnumerator FaceoffStart()
+    {
+        CoreController.Inst.WriteLog(this.GetType().Name, $"Adding FaceoffStart to the queue.");
+
+        // TODO
+
+        yield return null;
+    }
+
+    public IEnumerator FaceoffResult()
+    {
+        CoreController.Inst.WriteLog(this.GetType().Name, $"Adding FaceoffResult to the queue.");
+
+        // TODO
+
+        yield return null;
+    }
 #endregion
 #region -------------------- Public Methods --------------------
     
