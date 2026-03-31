@@ -153,6 +153,7 @@ public class SkaterCreation : MonoBehaviour {
             FaceoffsWon = 0,
             FaceoffsLost = 0,
             SecondsPlayed = 0,
+            Stamina = 100,
         };
 
         return newGame;
