@@ -27,33 +27,21 @@ public class GameplayEvents : MonoBehaviour {
     public GameFlowEvents GameFlowEvents;
 #endregion
 #region -------------------- Private Variables --------------------
-    private List<Func<IEnumerator>> gameplayQueues;
-
     private bool isQueueRunning;
 #endregion
 #region -------------------- Initial Functions --------------------
     
 #endregion
 #region -------------------- Coroutines --------------------
-    private IEnumerator RunningEvents()
+    private IEnumerator RunningEvent(IEnumerator runEvent)
     {
         isQueueRunning = true;
-        
-        List<Func<IEnumerator>> currentQueue = gameplayQueues;
-        int index = 0;
 
-        while (index < currentQueue.Count)
-        {
-            yield return StartCoroutine(currentQueue[index]());
+        yield return StartCoroutine(runEvent);
 
-            if (EventsController.Inst.MainUi != null) { EventsController.Inst.MainUi.UpdateVisual(); }
+        if (EventsController.Inst.MainUi != null) { EventsController.Inst.MainUi.UpdateVisual(); }
 
-            yield return new WaitForSeconds(0.15f);
-
-            index++;
-        }
-
-        gameplayQueues.Clear();
+        yield return new WaitForSeconds(0.15f);
 
         isQueueRunning = false;
 
@@ -82,37 +70,15 @@ public class GameplayEvents : MonoBehaviour {
         if (GameFlowEvents == null) { GameFlowEvents = gameObject.AddComponent<GameFlowEvents>(); }
     }
 
-    public void Enqueue(Func<IEnumerator> actionFactory, bool isFirst = false)
+    public void RunEvent(IEnumerator runEvent)
     {
-        if (actionFactory == null) { return; }
+        if (runEvent = null) { return; }
 
-        CoreController.Inst.WriteLog(this.GetType().Name, $"Adding gameplay events to the queue.");
-
-        if (gameplayQueues == null)
-        {
-            InitializeEvents();
-        }
-
-        if (isFirst)
-        {
-            gameplayQueues.Insert(0, actionFactory);
-        }
-
-        else
-        {
-            gameplayQueues.Add(actionFactory);
-        }
-    }
-
-    public void RunEvents()
-    {
-        if (gameplayQueues.Count < 1) { return; }
-
-        CoreController.Inst.WriteLog(this.GetType().Name, $"Running gameplay events from the queue.");
+        CoreController.Inst.WriteLog(this.GetType().Name, $"Running gameplay event.");
 
         EventsController.Inst.ToggleOverlay(true);
 
-        StartCoroutine(RunningEvents());
+        StartCoroutine(RunningEvent(runEvent));
     }
 
     public void StopAllEvents()
@@ -122,8 +88,6 @@ public class GameplayEvents : MonoBehaviour {
         CoreController.Inst.WriteLog(this.GetType().Name, $"Stopping all gameplay events from running.");
 
         StopAllCoroutines();
-
-        gameplayQueues.Clear();
 
         EventsController.Inst.ContinueAction = null;
     }
