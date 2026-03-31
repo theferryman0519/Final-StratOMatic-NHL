@@ -18,7 +18,7 @@ public class OffenseEvents : MonoBehaviour {
     
 #endregion
 #region -------------------- Public Variables --------------------
-    
+    public ConstantController.ShotType SelectedShotType;
 #endregion
 #region -------------------- Private Variables --------------------
     
@@ -33,6 +33,15 @@ public class OffenseEvents : MonoBehaviour {
 
         // TODO
 
+        EventRun newEventRun = new EventRun
+        {
+            InfoText = "",
+            ActionText = "",
+            PossPos = "",
+        };
+
+        EventsController.Inst.CurrentEventRun = newEventRun;
+
         yield return null;
     }
 
@@ -42,23 +51,50 @@ public class OffenseEvents : MonoBehaviour {
 
         // TODO
 
+        EventRun newEventRun = new EventRun
+        {
+            InfoText = "",
+            ActionText = "",
+            PossPos = "",
+        };
+
+        EventsController.Inst.CurrentEventRun = newEventRun;
+
         yield return null;
     }
 
-    public IEnumerator ShotStart(ConstantController.ShotType shotType)
+    public IEnumerator ShotStart()
     {
         CoreController.Inst.WriteLog(this.GetType().Name, $"Adding ShotStart to the queue.");
 
         // TODO
 
+        EventRun newEventRun = new EventRun
+        {
+            InfoText = "",
+            ActionText = "",
+            PossPos = "",
+        };
+
+        EventsController.Inst.CurrentEventRun = newEventRun;
+
         yield return null;
     }
 
-    public IEnumerator ShotResult(ConstantController.ShotType shotType)
+    public IEnumerator ShotResult()
     {
         CoreController.Inst.WriteLog(this.GetType().Name, $"Adding ShotResult to the queue.");
 
         // TODO
+
+        EventRun newEventRun = new EventRun
+        {
+            InfoText = "",
+            ActionText = "",
+            PossPos = "",
+        };
+
+        EventsController.Inst.CurrentEventRun = newEventRun;
 
         yield return null;
     }
@@ -69,6 +105,15 @@ public class OffenseEvents : MonoBehaviour {
 
         // TODO
 
+        EventRun newEventRun = new EventRun
+        {
+            InfoText = "",
+            ActionText = "",
+            PossPos = "",
+        };
+
+        EventsController.Inst.CurrentEventRun = newEventRun;
+
         yield return null;
     }
 
@@ -78,6 +123,15 @@ public class OffenseEvents : MonoBehaviour {
 
         // TODO
 
+        EventRun newEventRun = new EventRun
+        {
+            InfoText = "",
+            ActionText = "",
+            PossPos = "",
+        };
+
+        EventsController.Inst.CurrentEventRun = newEventRun;
+
         yield return null;
     }
 
@@ -86,6 +140,15 @@ public class OffenseEvents : MonoBehaviour {
         CoreController.Inst.WriteLog(this.GetType().Name, $"Adding PassingResult to the queue.");
 
         // TODO
+
+        EventRun newEventRun = new EventRun
+        {
+            InfoText = "",
+            ActionText = "",
+            PossPos = "",
+        };
+
+        EventsController.Inst.CurrentEventRun = newEventRun;
 
         yield return null;
     }
