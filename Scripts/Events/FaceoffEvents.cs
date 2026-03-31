@@ -10,6 +10,7 @@ using UnityEngine.SceneManagement;
 
 // Game Dependencies
 using SoM.Controllers;
+using SoM.Models;
 
 namespace SoM.Events {
 public class FaceoffEvents : MonoBehaviour {
@@ -33,6 +34,15 @@ public class FaceoffEvents : MonoBehaviour {
 
         // TODO
 
+        EventRun newEventRun = new EventRun
+        {
+            InfoText = "",
+            ActionText = "",
+            PossPos = string.Empty,
+        };
+
+        EventsController.Inst.CurrentEventRun = newEventRun;
+
         yield return null;
     }
 
@@ -42,6 +52,15 @@ public class FaceoffEvents : MonoBehaviour {
 
         // TODO
 
+        EventRun newEventRun = new EventRun
+        {
+            InfoText = "",
+            ActionText = "",
+            PossPos = string.Empty,
+        };
+
+        EventsController.Inst.CurrentEventRun = newEventRun;
+
         yield return null;
     }
 
@@ -50,6 +69,15 @@ public class FaceoffEvents : MonoBehaviour {
         CoreController.Inst.WriteLog(this.GetType().Name, $"Adding FaceoffResult to the queue.");
 
         // TODO
+
+        EventRun newEventRun = new EventRun
+        {
+            InfoText = "",
+            ActionText = "",
+            PossPos = "",
+        };
+
+        EventsController.Inst.CurrentEventRun = newEventRun;
 
         yield return null;
     }
