@@ -19,7 +19,11 @@ public class EventsController : Singleton<EventsController> {
 	[SerializeField] private GameObject _overlayBlocker;
 #endregion
 #region -------------------- Public Variables --------------------
+    public GameplayEvents GameplayEvents;
+
     public Action ContinueAction;
+
+    public UiGameplayMain MainUi;
 #endregion
 #region -------------------- Private Variables --------------------
     
@@ -35,9 +39,102 @@ public class EventsController : Singleton<EventsController> {
     {
         CoreController.Inst.WriteLog(this.GetType().Name, $"Initializing the controller.");
 
+        if (GameplayEvents == null)
+        {
+            GameplayEvents = gameObject.AddComponent<GameplayEvents>();
+        }
+
         ToggleOverlay(false);
 
         CoreController.Inst.LoadingStepCompleted();
+    }
+
+    public void InitializeEvents(UiGameplayMain mainUi)
+    {
+        if (mainUi == null) { return; }
+
+        CoreController.Inst.WriteLog(this.GetType().Name, $"Initializing the gameplay events.");
+
+        GameplayEvents.InitializeEvents();
+        ContinueAction = null;
+        MainUi = mainUi;
+    }
+
+    public void FaceoffEvents()
+    {
+        if (GameplayEvents == null || GameplayEvents.FaceoffEvents == null) { return; }
+
+        CoreController.Inst.WriteLog(this.GetType().Name, $"---------- Running FaceoffEvents ----------.");
+
+        // ADD ENQUEUE HERE
+
+        GameplayEvents.RunFaceoffEvents();
+    }
+
+    public void OffenseEvents()
+    {
+        if (GameplayEvents == null || GameplayEvents.OffenseEvents == null) { return; }
+
+        CoreController.Inst.WriteLog(this.GetType().Name, $"---------- Running OffenseEvents ----------.");
+
+        // ADD ENQUEUE HERE
+
+        GameplayEvents.RunOffenseEvents();
+    }
+
+    public void DefenseEvents()
+    {
+        if (GameplayEvents == null || GameplayEvents.DefenseEvents == null) { return; }
+
+        CoreController.Inst.WriteLog(this.GetType().Name, $"---------- Running DefenseEvents ----------.");
+
+        // ADD ENQUEUE HERE
+
+        GameplayEvents.RunDefenseEvents();
+    }
+
+    public void PenaltyEvents()
+    {
+        if (GameplayEvents == null || GameplayEvents.PenaltyEvents == null) { return; }
+
+        CoreController.Inst.WriteLog(this.GetType().Name, $"---------- Running PenaltyEvents ----------.");
+
+        // ADD ENQUEUE HERE
+
+        GameplayEvents.RunPenaltyEvents();
+    }
+
+    public void GoalEvents()
+    {
+        if (GameplayEvents == null || GameplayEvents.GoalEvents == null) { return; }
+
+        CoreController.Inst.WriteLog(this.GetType().Name, $"---------- Running GoalEvents ----------.");
+
+        // ADD ENQUEUE HERE
+
+        GameplayEvents.RunGoalEvents();
+    }
+
+    public void PullGoalieEvents()
+    {
+        if (GameplayEvents == null || GameplayEvents.PullGoalieEvents == null) { return; }
+
+        CoreController.Inst.WriteLog(this.GetType().Name, $"---------- Running PullGoalieEvents ----------.");
+
+        // ADD ENQUEUE HERE
+
+        GameplayEvents.RunPullGoalieEvents();
+    }
+
+    public void GameFlowEvents()
+    {
+        if (GameplayEvents == null || GameplayEvents.GameFlowEvents == null) { return; }
+
+        CoreController.Inst.WriteLog(this.GetType().Name, $"---------- Running GameFlowEvents ----------.");
+
+        // ADD ENQUEUE HERE
+
+        GameplayEvents.RunGameFlowEvents();
     }
 
     public void ToggleOverlay(bool isOverlayOn)
