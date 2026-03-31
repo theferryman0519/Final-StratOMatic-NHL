@@ -70,11 +70,11 @@ public class EventsController : Singleton<EventsController> {
         GameplayEvents.RunFaceoffEvent(index);
     }
 
-    public void RunOffenseEvent(int index)
+    public void RunOffenseEvent(int index, ConstantController.ShotType shotType = ConstantController.ShotType.Outside)
     {
         CoreController.Inst.WriteLog(this.GetType().Name, $"---------- Running a OffenseEvent ----------");
 
-        GameplayEvents.RunOffenseEvent(index);
+        GameplayEvents.RunOffenseEvent(index, shotType);
     }
 
     public void RunDefenseEvent(int index)
