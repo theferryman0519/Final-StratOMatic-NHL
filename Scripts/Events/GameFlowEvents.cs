@@ -36,6 +36,15 @@ public class GameFlowEvents : MonoBehaviour {
 
         // TODO
 
+        EventRun newEventRun = new EventRun
+        {
+            InfoText = "",
+            ActionText = "",
+            PossPos = "",
+        };
+
+        EventsController.Inst.CurrentEventRun = newEventRun;
+
         yield return null;
     }
 
@@ -44,6 +53,15 @@ public class GameFlowEvents : MonoBehaviour {
         CoreController.Inst.WriteLog(this.GetType().Name, $"Adding StartOfPeriod to the queue.");
 
         // TODO
+
+        EventRun newEventRun = new EventRun
+        {
+            InfoText = "",
+            ActionText = "",
+            PossPos = "",
+        };
+
+        EventsController.Inst.CurrentEventRun = newEventRun;
 
         yield return null;
     }
@@ -54,6 +72,15 @@ public class GameFlowEvents : MonoBehaviour {
 
         // TODO
 
+        EventRun newEventRun = new EventRun
+        {
+            InfoText = "",
+            ActionText = "",
+            PossPos = "",
+        };
+
+        EventsController.Inst.CurrentEventRun = newEventRun;
+
         yield return null;
     }
 
@@ -62,6 +89,15 @@ public class GameFlowEvents : MonoBehaviour {
         CoreController.Inst.WriteLog(this.GetType().Name, $"Adding EndOfPeriod to the queue.");
 
         // TODO
+
+        EventRun newEventRun = new EventRun
+        {
+            InfoText = "",
+            ActionText = "",
+            PossPos = "",
+        };
+
+        EventsController.Inst.CurrentEventRun = newEventRun;
 
         yield return null;
     }
@@ -72,6 +108,15 @@ public class GameFlowEvents : MonoBehaviour {
 
         // TODO
 
+        EventRun newEventRun = new EventRun
+        {
+            InfoText = "",
+            ActionText = "",
+            PossPos = "",
+        };
+
+        EventsController.Inst.CurrentEventRun = newEventRun;
+
         yield return null;
     }
 
@@ -81,6 +126,15 @@ public class GameFlowEvents : MonoBehaviour {
 
         // TODO
 
+        EventRun newEventRun = new EventRun
+        {
+            InfoText = "",
+            ActionText = "",
+            PossPos = "",
+        };
+
+        EventsController.Inst.CurrentEventRun = newEventRun;
+
         yield return null;
     }
 
@@ -89,6 +143,15 @@ public class GameFlowEvents : MonoBehaviour {
         CoreController.Inst.WriteLog(this.GetType().Name, $"Adding CompleteGame to the queue.");
 
         // TODO
+
+        EventRun newEventRun = new EventRun
+        {
+            InfoText = "",
+            ActionText = "",
+            PossPos = "",
+        };
+
+        EventsController.Inst.CurrentEventRun = newEventRun;
 
         yield return null;
     }
