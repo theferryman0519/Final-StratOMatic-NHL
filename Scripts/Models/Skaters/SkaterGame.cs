@@ -35,6 +35,7 @@ public class SkaterGame {
     public int FaceoffsWon { get; set; }
     public int FaceoffsLost { get; set; }
     public int SecondsPlayed { get; set; }
+    public int Stamina { get; set; }
 #endregion
 #region -------------------- Private Variables --------------------
     
