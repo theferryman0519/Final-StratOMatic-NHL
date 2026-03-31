@@ -27,7 +27,50 @@ public class PullGoalieEvents : MonoBehaviour {
     
 #endregion
 #region -------------------- Coroutines --------------------
-    
+    public IEnumerator PullGoalieShotsList()
+    {
+        CoreController.Inst.WriteLog(this.GetType().Name, $"Adding PullGoalieShotsList to the queue.");
+
+        // TODO
+
+        yield return null;
+    }
+
+    public IEnumerator PullGoalieShotsStart()
+    {
+        CoreController.Inst.WriteLog(this.GetType().Name, $"Adding PullGoalieShotsStart to the queue.");
+
+        // TODO
+
+        yield return null;
+    }
+
+    public IEnumerator PullGoalieShotsAttemptStart()
+    {
+        CoreController.Inst.WriteLog(this.GetType().Name, $"Adding PullGoalieShotsAttemptStart to the queue.");
+
+        // TODO
+
+        yield return null;
+    }
+
+    public IEnumerator PullGoalieShotsAttemptResult()
+    {
+        CoreController.Inst.WriteLog(this.GetType().Name, $"Adding PullGoalieShotsAttemptResult to the queue.");
+
+        // TODO
+
+        yield return null;
+    }
+
+    public IEnumerator PullGoalieShotsResult()
+    {
+        CoreController.Inst.WriteLog(this.GetType().Name, $"Adding PullGoalieShotsResult to the queue.");
+
+        // TODO
+
+        yield return null;
+    }
 #endregion
 #region -------------------- Public Methods --------------------
     
