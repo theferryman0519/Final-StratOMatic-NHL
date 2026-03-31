@@ -29,7 +29,7 @@ public class OffenseEvents : MonoBehaviour {
 #region -------------------- Coroutines --------------------
     public IEnumerator ActionCard()
     {
-        CoreController.Inst.WriteLog(this.GetType().Name, $"Adding IntimidationStart to the queue.");
+        CoreController.Inst.WriteLog(this.GetType().Name, $"Adding ActionCard to the queue.");
 
         // TODO
 
@@ -38,7 +38,7 @@ public class OffenseEvents : MonoBehaviour {
 
     public IEnumerator OutsideOptions()
     {
-        CoreController.Inst.WriteLog(this.GetType().Name, $"Adding IntimidationStart to the queue.");
+        CoreController.Inst.WriteLog(this.GetType().Name, $"Adding OutsideOptions to the queue.");
 
         // TODO
 
@@ -47,7 +47,7 @@ public class OffenseEvents : MonoBehaviour {
 
     public IEnumerator ShotStart(ConstantController.ShotType shotType)
     {
-        CoreController.Inst.WriteLog(this.GetType().Name, $"Adding IntimidationStart to the queue.");
+        CoreController.Inst.WriteLog(this.GetType().Name, $"Adding ShotStart to the queue.");
 
         // TODO
 
@@ -56,7 +56,7 @@ public class OffenseEvents : MonoBehaviour {
 
     public IEnumerator ShotResult(ConstantController.ShotType shotType)
     {
-        CoreController.Inst.WriteLog(this.GetType().Name, $"Adding IntimidationStart to the queue.");
+        CoreController.Inst.WriteLog(this.GetType().Name, $"Adding ShotResult to the queue.");
 
         // TODO
 
@@ -65,7 +65,7 @@ public class OffenseEvents : MonoBehaviour {
 
     public IEnumerator ReboundCheck()
     {
-        CoreController.Inst.WriteLog(this.GetType().Name, $"Adding IntimidationStart to the queue.");
+        CoreController.Inst.WriteLog(this.GetType().Name, $"Adding ReboundCheck to the queue.");
 
         // TODO
 
@@ -74,7 +74,7 @@ public class OffenseEvents : MonoBehaviour {
 
     public IEnumerator PassingStart()
     {
-        CoreController.Inst.WriteLog(this.GetType().Name, $"Adding IntimidationStart to the queue.");
+        CoreController.Inst.WriteLog(this.GetType().Name, $"Adding PassingStart to the queue.");
 
         // TODO
 
@@ -83,7 +83,7 @@ public class OffenseEvents : MonoBehaviour {
 
     public IEnumerator PassingResult()
     {
-        CoreController.Inst.WriteLog(this.GetType().Name, $"Adding IntimidationStart to the queue.");
+        CoreController.Inst.WriteLog(this.GetType().Name, $"Adding PassingResult to the queue.");
 
         // TODO
 
