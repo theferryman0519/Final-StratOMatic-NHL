@@ -27,7 +27,41 @@ public class GoalEvents : MonoBehaviour {
     
 #endregion
 #region -------------------- Coroutines --------------------
-    
+    public IEnumerator GoalieRatingStart()
+    {
+        CoreController.Inst.WriteLog(this.GetType().Name, $"Adding GoalieRatingStart to the queue.");
+
+        // TODO
+
+        yield return null;
+    }
+
+    public IEnumerator GoalieRatingResult()
+    {
+        CoreController.Inst.WriteLog(this.GetType().Name, $"Adding GoalieRatingResult to the queue.");
+
+        // TODO
+
+        yield return null;
+    }
+
+    public IEnumerator GoalCheck()
+    {
+        CoreController.Inst.WriteLog(this.GetType().Name, $"Adding GoalCheck to the queue.");
+
+        // TODO
+
+        yield return null;
+    }
+
+    public IEnumerator Goal()
+    {
+        CoreController.Inst.WriteLog(this.GetType().Name, $"Adding Goal to the queue.");
+
+        // TODO
+
+        yield return null;
+    }
 #endregion
 #region -------------------- Public Methods --------------------
     
