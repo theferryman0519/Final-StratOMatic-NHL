@@ -169,6 +169,17 @@ public class GameplayController : Singleton<GameplayController> {
             GameData.AwayTeam.GoalieLineup = goalieLineup;
         }
     }
+
+    public Skater GetPossSkater()
+    {
+        CoreController.Inst.WriteLog(this.GetType().Name, $"Getting the current possession skater.");
+
+        if (GameData.PossTeam == "None") { return null; }
+
+        GameTeam possTeam = (GameData.PossTeam == "Home") ? GameData.HomeTeam : GameData.AwayTeam;
+        string possPos = GameData.PossPos[GameData.PossPos.Count];
+        return possTeam.SkaterLineup[possPos];
+    }
 #endregion
 #region -------------------- Private Methods --------------------
     
