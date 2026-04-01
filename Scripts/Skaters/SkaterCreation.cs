@@ -150,6 +150,8 @@ public class SkaterCreation : MonoBehaviour {
             Shots = 0,
             Giveaways = 0,
             Takeaways = 0,
+            Hits = 0,
+            BlockedShots = 0,
             FaceoffsWon = 0,
             FaceoffsLost = 0,
             SecondsPlayed = 0,
