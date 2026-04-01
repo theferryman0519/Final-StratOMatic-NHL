@@ -46,11 +46,6 @@ public class GameplayEvents : MonoBehaviour {
         isQueueRunning = false;
 
         EventsController.Inst.ToggleOverlay(false);
-
-        Action nextAction = EventsController.Inst.ContinueAction;
-        EventsController.Inst.ContinueAction = null;
-        
-        nextAction?.Invoke();
     }
 #endregion
 #region -------------------- Public Methods --------------------
@@ -76,8 +71,6 @@ public class GameplayEvents : MonoBehaviour {
         CoreController.Inst.WriteLog(this.GetType().Name, $"Stopping all gameplay events from running.");
 
         StopAllCoroutines();
-
-        EventsController.Inst.ContinueAction = null;
     }
 
     public void RunFaceoffEvent(int index)
