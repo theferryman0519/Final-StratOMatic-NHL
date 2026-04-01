@@ -172,13 +172,23 @@ public class GameplayController : Singleton<GameplayController> {
 
     public Skater GetPossSkater()
     {
-        CoreController.Inst.WriteLog(this.GetType().Name, $"Getting the current possession skater.");
-
         if (GameData.PossTeam == "None") { return null; }
+
+        CoreController.Inst.WriteLog(this.GetType().Name, $"Getting the current possession skater.");
 
         GameTeam possTeam = (GameData.PossTeam == "Home") ? GameData.HomeTeam : GameData.AwayTeam;
         string possPos = GameData.PossPos[GameData.PossPos.Count - 1];
         return possTeam.SkaterLineup[possPos];
+    }
+
+    public Goalie GetOpposingGoalie()
+    {
+        if (GameData.PossTeam == "None") { return null; }
+
+        CoreController.Inst.WriteLog(this.GetType().Name, $"Getting the current opposing goalie.");
+
+        GameTeam oppositeTeam = (GameData.PossTeam == "Home") ? GameData.AwayTeam : GameData.HomeTeam;
+        return oppositeTeam.GoalieLineup["G"];
     }
 #endregion
 #region -------------------- Private Methods --------------------
