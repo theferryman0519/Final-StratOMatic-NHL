@@ -32,6 +32,8 @@ public class SkaterGame {
     public int Shots { get; set; }
     public int Giveaways { get; set; }
     public int Takeaways { get; set; }
+    public int Hits { get; set; }
+    public int BlockedShots { get; set; }
     public int FaceoffsWon { get; set; }
     public int FaceoffsLost { get; set; }
     public int SecondsPlayed { get; set; }
