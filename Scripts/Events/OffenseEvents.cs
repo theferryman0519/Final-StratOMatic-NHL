@@ -342,6 +342,7 @@ public class OffenseEvents : MonoBehaviour {
         // Set action outcome based on team strategy
         // Add to total cards drawn
         // Update game time
+        // Check for injury of possession player
         // Reduce current line stamina for both teams
         // Reduce current pair stamina for both teams
         // Set continue action to outcome
