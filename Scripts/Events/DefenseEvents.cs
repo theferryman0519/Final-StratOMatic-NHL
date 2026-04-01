@@ -18,7 +18,8 @@ public class DefenseEvents : MonoBehaviour {
     
 #endregion
 #region -------------------- Public Variables --------------------
-    
+    public Skater IntimidatingSkater;
+    public Skater DefendingSkater;
 #endregion
 #region -------------------- Private Variables --------------------
     
@@ -35,9 +36,8 @@ public class DefenseEvents : MonoBehaviour {
 
         EventRun newEventRun = new EventRun
         {
-            InfoText = "",
-            ActionText = "",
-            PossPos = "",
+            InfoText = $"",
+            ActionText = $"",
         };
 
         EventsController.Inst.CurrentEventRun = newEventRun;
@@ -45,17 +45,50 @@ public class DefenseEvents : MonoBehaviour {
         yield return null;
     }
 
-    public IEnumerator IntimidationResult()
+    public IEnumerator IntimidationResultSteal()
     {
-        CoreController.Inst.WriteLog(this.GetType().Name, $"Adding IntimidationResult to the queue.");
+        CoreController.Inst.WriteLog(this.GetType().Name, $"Adding IntimidationResultSteal to the queue.");
 
         // TODO
 
         EventRun newEventRun = new EventRun
         {
-            InfoText = "",
-            ActionText = "",
-            PossPos = "",
+            InfoText = $"",
+            ActionText = $"",
+        };
+
+        EventsController.Inst.CurrentEventRun = newEventRun;
+
+        yield return null;
+    }
+
+    public IEnumerator IntimidationResultStealShot()
+    {
+        CoreController.Inst.WriteLog(this.GetType().Name, $"Adding IntimidationResultStealShot to the queue.");
+
+        // TODO
+
+        EventRun newEventRun = new EventRun
+        {
+            InfoText = $"",
+            ActionText = $"",
+        };
+
+        EventsController.Inst.CurrentEventRun = newEventRun;
+
+        yield return null;
+    }
+
+    public IEnumerator IntimidationResultShot()
+    {
+        CoreController.Inst.WriteLog(this.GetType().Name, $"Adding IntimidationResultShot to the queue.");
+
+        // TODO
+
+        EventRun newEventRun = new EventRun
+        {
+            InfoText = $"",
+            ActionText = $"",
         };
 
         EventsController.Inst.CurrentEventRun = newEventRun;
@@ -71,9 +104,8 @@ public class DefenseEvents : MonoBehaviour {
 
         EventRun newEventRun = new EventRun
         {
-            InfoText = "",
-            ActionText = "",
-            PossPos = "",
+            InfoText = $"",
+            ActionText = $"",
         };
 
         EventsController.Inst.CurrentEventRun = newEventRun;
@@ -81,17 +113,101 @@ public class DefenseEvents : MonoBehaviour {
         yield return null;
     }
 
-    public IEnumerator DefendingResult()
+    public IEnumerator DefendingResultSteal()
     {
-        CoreController.Inst.WriteLog(this.GetType().Name, $"Adding DefendingResult to the queue.");
+        CoreController.Inst.WriteLog(this.GetType().Name, $"Adding DefendingResultSteal to the queue.");
 
         // TODO
 
         EventRun newEventRun = new EventRun
         {
-            InfoText = "",
-            ActionText = "",
-            PossPos = "",
+            InfoText = $"",
+            ActionText = $"",
+        };
+
+        EventsController.Inst.CurrentEventRun = newEventRun;
+
+        yield return null;
+    }
+
+    public IEnumerator DefendingResultStealShot()
+    {
+        CoreController.Inst.WriteLog(this.GetType().Name, $"Adding DefendingResultStealShot to the queue.");
+
+        // TODO
+
+        EventRun newEventRun = new EventRun
+        {
+            InfoText = $"",
+            ActionText = $"",
+        };
+
+        EventsController.Inst.CurrentEventRun = newEventRun;
+
+        yield return null;
+    }
+
+    public IEnumerator DefendingResultStealShotIntimidation()
+    {
+        CoreController.Inst.WriteLog(this.GetType().Name, $"Adding DefendingResultStealShotIntimidation to the queue.");
+
+        // TODO
+
+        EventRun newEventRun = new EventRun
+        {
+            InfoText = $"",
+            ActionText = $"",
+        };
+
+        EventsController.Inst.CurrentEventRun = newEventRun;
+
+        yield return null;
+    }
+
+    public IEnumerator DefendingResultShot()
+    {
+        CoreController.Inst.WriteLog(this.GetType().Name, $"Adding DefendingResultShot to the queue.");
+
+        // TODO
+
+        EventRun newEventRun = new EventRun
+        {
+            InfoText = $"",
+            ActionText = $"",
+        };
+
+        EventsController.Inst.CurrentEventRun = newEventRun;
+
+        yield return null;
+    }
+
+    public IEnumerator DefendingResultShotIntimidation()
+    {
+        CoreController.Inst.WriteLog(this.GetType().Name, $"Adding DefendingResultShotIntimidation to the queue.");
+
+        // TODO
+
+        EventRun newEventRun = new EventRun
+        {
+            InfoText = $"",
+            ActionText = $"",
+        };
+
+        EventsController.Inst.CurrentEventRun = newEventRun;
+
+        yield return null;
+    }
+
+    public IEnumerator DefendingResultPenalty()
+    {
+        CoreController.Inst.WriteLog(this.GetType().Name, $"Adding DefendingResultPenalty to the queue.");
+
+        // TODO
+
+        EventRun newEventRun = new EventRun
+        {
+            InfoText = $"",
+            ActionText = $"",
         };
 
         EventsController.Inst.CurrentEventRun = newEventRun;
@@ -100,7 +216,19 @@ public class DefenseEvents : MonoBehaviour {
     }
 #endregion
 #region -------------------- Public Methods --------------------
-    
+    public void DetermineIntimidationOutcome()
+    {
+        CoreController.Inst.WriteLog(this.GetType().Name, $"Determining the intimidation outcome.");
+
+        // TODO
+    }
+
+    public void DetermineDefendingOutcome()
+    {
+        CoreController.Inst.WriteLog(this.GetType().Name, $"Determining the defending outcome.");
+
+        // TODO
+    }
 #endregion
 #region -------------------- Private Methods --------------------
     
