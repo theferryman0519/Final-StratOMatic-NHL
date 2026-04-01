@@ -108,10 +108,17 @@ public class GameplayEvents : MonoBehaviour {
             case 0: RunEvent(OffenseEvents.ActionCard); break;
             case 1: RunEvent(OffenseEvents.OutsideOptions); break;
             case 2: RunEvent(OffenseEvents.ShotStart); break;
-            case 3: RunEvent(OffenseEvents.ShotResult); break;
-            case 4: RunEvent(OffenseEvents.ReboundCheck); break;
-            case 5: RunEvent(OffenseEvents.PassingStart); break;
-            case 6: RunEvent(OffenseEvents.PassingResult); break;
+            case 3: RunEvent(OffenseEvents.ShotResultLose); break;
+            case 4: RunEvent(OffenseEvents.ShotResultSave); break;
+            case 5: RunEvent(OffenseEvents.ShotResultRebound); break;
+            case 6: RunEvent(OffenseEvents.ShotResultGoalieRating); break;
+            case 7: RunEvent(OffenseEvents.ShotResultGoal); break;
+            case 8: RunEvent(OffenseEvents.ReboundCheck); break;
+            case 9: RunEvent(OffenseEvents.PassingStart); break;
+            case 10: RunEvent(OffenseEvents.PassingResultLose); break;
+            case 11: RunEvent(OffenseEvents.PassingResultLoseShot); break;
+            case 12: RunEvent(OffenseEvents.PassingResultShot); break;
+            case 13: RunEvent(OffenseEvents.PassingResultOptions); break;
             default: break;
         }
     }
