@@ -64,7 +64,8 @@ public class FaceoffEvents : MonoBehaviour {
 
         EventsController.Inst.CurrentEventRun = newEventRun;
 
-        GameplayController.Inst.GameData.PossPos.Clear();
+        GameplayController.Inst.StatsSet.ClearPossPos();
+        GameplayController.Inst.StatsSet.SetPossTeam("None");
 
         yield return null;
     }
@@ -144,18 +145,17 @@ public class FaceoffEvents : MonoBehaviour {
         CoreController.Inst.WriteLog(this.GetType().Name, $"Getting the skater possession.");
 
         GameTeam team = isHome ? GameplayController.Inst.GameData.HomeTeam : GameplayController.Inst.GameData.AwayTeam;
-        GameTeam losingTeam = isHome ? GameplayController.Inst.GameData.AwayTeam : GameplayController.Inst.GameData.HomeTeam;
 
         int currentLine = team.CurrentLine;
         int currentPair = team.CurrentPair;
 
         string currentSkater = (pos.Contains("D")) ? $"{pos}{currentPair.ToString()}" : $"{pos}{currentLine.ToString()}";
 
-        GameplayController.Inst.GameData.PossPos.Add($"C{currentLine.ToString()}");
-        GameplayController.Inst.GameData.PossPos.Add(currentSkater);
-        GameplayController.Inst.GameData.PossTeam = isHome ? "Home" : "Away";
-        team.SkaterLineup[$"C{currentLine.ToString()}"].Game.FaceoffsWon += 1;
-        losingTeam.SkaterLineup[$"C{currentLine.ToString()}"].Game.FaceoffsLost += 1;
+        GameplayController.Inst.StatsSet.AddPossPos($"C{currentLine.ToString()}");
+        GameplayController.Inst.StatsSet.AddPossPos(currentSkater);
+        GameplayController.Inst.StatsSet.SetPossTeam(isHome ? "Home" : "Away");
+        GameplayController.Inst.StatsSet.AddFaceoffWon(isHome, 1);
+        GameplayController.Inst.StatsSet.AddFaceoffLost(!isHome, 1);
 
         return team.SkaterLineup[currentSkater];
     }
