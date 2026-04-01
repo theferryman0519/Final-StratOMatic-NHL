@@ -177,7 +177,7 @@ public class GameplayController : Singleton<GameplayController> {
         if (GameData.PossTeam == "None") { return null; }
 
         GameTeam possTeam = (GameData.PossTeam == "Home") ? GameData.HomeTeam : GameData.AwayTeam;
-        string possPos = GameData.PossPos[GameData.PossPos.Count];
+        string possPos = GameData.PossPos[GameData.PossPos.Count - 1];
         return possTeam.SkaterLineup[possPos];
     }
 #endregion
