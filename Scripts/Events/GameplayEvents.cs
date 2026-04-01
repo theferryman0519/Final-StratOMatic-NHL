@@ -111,7 +111,8 @@ public class GameplayEvents : MonoBehaviour {
             case 10: RunEvent(OffenseEvents.PassingResultLose); break;
             case 11: RunEvent(OffenseEvents.PassingResultLoseShot); break;
             case 12: RunEvent(OffenseEvents.PassingResultShot); break;
-            case 13: RunEvent(OffenseEvents.PassingResultOptions); break;
+            case 13: RunEvent(OffenseEvents.PassingResultShotIntimidation); break;
+            case 14: RunEvent(OffenseEvents.PassingResultOptions); break;
             default: break;
         }
     }
