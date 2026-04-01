@@ -45,6 +45,7 @@ public class FaceoffEvents : MonoBehaviour {
         };
 
         EventsController.Inst.CurrentEventRun = newEventRun;
+        EventsController.Inst.ContinueAction = EventsController.Inst.RunFaceoffEvent(1);
 
         yield return null;
     }
@@ -63,6 +64,7 @@ public class FaceoffEvents : MonoBehaviour {
         };
 
         EventsController.Inst.CurrentEventRun = newEventRun;
+        EventsController.Inst.ContinueAction = EventsController.Inst.RunFaceoffEvent(2);
 
         GameplayController.Inst.StatsSet.ClearPossPos();
         GameplayController.Inst.StatsSet.SetPossTeam("None");
@@ -85,10 +87,11 @@ public class FaceoffEvents : MonoBehaviour {
         EventRun newEventRun = new EventRun
         {
             InfoText = $"After winning a faceoff, the puck is moved to a member of the winning center's team. They now control play to start this play segment.",
-            ActionText = $"",
+            ActionText = $"After winning the faceoff, {skaterPoss.Info.FirstName} {skaterPoss.Info.LastName} starts with the puck.",
         };
 
         EventsController.Inst.CurrentEventRun = newEventRun;
+        EventsController.Inst.ContinueAction = EventsController.Inst.RunOffenseEvent(0);
 
         yield return null;
     }
@@ -101,7 +104,7 @@ public class FaceoffEvents : MonoBehaviour {
     {
         CoreController.Inst.WriteLog(this.GetType().Name, $"Getting the team faceoff center.");
 
-        GameTeam team = (isHome) ? GameplayController.Inst.GameData.HomeTeam : GameplayController.Inst.GameData.AwayTeam;
+        GameTeam team = isHome ? GameplayController.Inst.GameData.HomeTeam : GameplayController.Inst.GameData.AwayTeam;
 
         int currentLine = team.CurrentLine;
         string currentCenter = $"C{currentLine.ToString()}";
@@ -149,7 +152,7 @@ public class FaceoffEvents : MonoBehaviour {
         int currentLine = team.CurrentLine;
         int currentPair = team.CurrentPair;
 
-        string currentSkater = (pos.Contains("D")) ? $"{pos}{currentPair.ToString()}" : $"{pos}{currentLine.ToString()}";
+        string currentSkater = pos.Contains("D") ? $"{pos}{currentPair.ToString()}" : $"{pos}{currentLine.ToString()}";
 
         GameplayController.Inst.StatsSet.AddPossPos($"C{currentLine.ToString()}");
         GameplayController.Inst.StatsSet.AddPossPos(currentSkater);
