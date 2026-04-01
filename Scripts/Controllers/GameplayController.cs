@@ -16,11 +16,15 @@ namespace SoM.Controllers {
 public class GameplayController : Singleton<GameplayController> {
 
 #region -------------------- Serialized Variables --------------------
-    
+    [Header("Stats Elements")]
+    [SerializeField] private GameplayStatsSet _statsSet;
 #endregion
 #region -------------------- Public Variables --------------------
     public GameDatabase SavedGame;
+
     public Game GameData;
+
+    public GameplayStatsSet StatsSet => _statsSet;
 #endregion
 #region -------------------- Private Variables --------------------
     
@@ -35,6 +39,8 @@ public class GameplayController : Singleton<GameplayController> {
     public void InitializeController()
     {
         CoreController.Inst.WriteLog(this.GetType().Name, $"Initializing the controller.");
+
+        CoreController.Inst.LoadingStepCompleted();
     }
 
     public void CreateExhibitionGame()
