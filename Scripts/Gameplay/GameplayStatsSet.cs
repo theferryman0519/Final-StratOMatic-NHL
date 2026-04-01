@@ -49,7 +49,7 @@ public class GameplayStatsSet : MonoBehaviour {
         int currentLine = team.CurrentLine;
         string center = $"C{currentLine}";
 
-        team.SkaterLineup[center].Game.FaceoffsWon += 1;
+        team.SkaterLineup[center].Game.FaceoffsWon += delta;
     }
 
     public void AddFaceoffLost(bool isHome, int delta)
@@ -60,7 +60,17 @@ public class GameplayStatsSet : MonoBehaviour {
         int currentLine = team.CurrentLine;
         string center = $"C{currentLine}";
 
-        team.SkaterLineup[center].Game.FaceoffsLost += 1;
+        team.SkaterLineup[center].Game.FaceoffsLost += delta;
+    }
+
+    public void AddBlockedShot(bool isHome, int delta)
+    {
+        CoreController.Inst.WriteLog(this.GetType().Name, $"Adding to blocked shot.");
+
+        GameTeam team = isHome ? GameplayController.Inst.GameData.HomeTeam : GameplayController.Inst.GameData.AwayTeam;
+        string possPos = GameplayController.Inst.GameData.PossPos[GameplayController.Inst.GameData.PossPos.Count - 1];
+
+        team.SkaterLineup[possPos].Game.BlockedShots += delta;
     }
 #endregion
 #region -------------------- Goalie Stats Methods --------------------
