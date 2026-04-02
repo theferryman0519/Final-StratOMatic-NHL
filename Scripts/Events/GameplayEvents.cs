@@ -148,11 +148,13 @@ public class GameplayEvents : MonoBehaviour {
         switch (index)
         {
             case 0: RunEvent(PenaltyEvents.PenaltyCheck); break;
-            case 1: RunEvent(PenaltyEvents.PenaltyShotsList); break;
-            case 2: RunEvent(PenaltyEvents.PenaltyShotsStart); break;
-            case 3: RunEvent(PenaltyEvents.PenaltyShotsAttemptStart); break;
-            case 4: RunEvent(PenaltyEvents.PenaltyShotsAttemptResult); break;
-            case 5: RunEvent(PenaltyEvents.PenaltyShotsResult); break;
+            case 1: RunEvent(PenaltyEvents.PenaltyCheckClear); break;
+            case 2: RunEvent(PenaltyEvents.PenaltyShotsList); break;
+            case 3: RunEvent(PenaltyEvents.PenaltyShotsStart); break;
+            case 4: RunEvent(PenaltyEvents.PenaltyShotsAttemptStart); break;
+            case 5: RunEvent(PenaltyEvents.PenaltyShotsAttemptResultNext); break;
+            case 6: RunEvent(PenaltyEvents.PenaltyShotsAttemptResultGoal); break;
+            case 7: RunEvent(PenaltyEvents.PenaltyShotsResult); break;
             default: break;
         }
     }
