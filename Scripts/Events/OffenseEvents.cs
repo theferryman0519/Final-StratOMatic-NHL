@@ -10,6 +10,7 @@ using UnityEngine.SceneManagement;
 
 // Game Dependencies
 using SoM.Controllers;
+using SoM.Models;
 
 namespace SoM.Events {
 public class OffenseEvents : MonoBehaviour {
