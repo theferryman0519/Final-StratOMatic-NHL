@@ -181,6 +181,28 @@ public class GameplayController : Singleton<GameplayController> {
         return possTeam.SkaterLineup[possPos];
     }
 
+    public Skater GetDefendingSkater()
+    {
+        if (GameData.PossTeam == "None") { return null; }
+
+        CoreController.Inst.WriteLog(this.GetType().Name, $"Getting the current possession skater.");
+
+        GameTeam defendingTeam = (GameData.PossTeam == "Home") ? GameData.AwayTeam : GameData.HomeTeam;
+        int defendingLine = defendingTeam.CurrentLine;
+        int defendingPair = defendingTeam.CurrentPair;
+
+        string possPos = GameData.PossPos[GameData.PossPos.Count - 1];
+        string defendPos = string.Empty;
+
+        if (possPos.Contains("C")) { defendPos = $"C{defendingLine}"; }
+        else if (possPos.Contains("LW")) { defendPos = $"RW{defendingLine}"; }
+        else if (possPos.Contains("RW")) { defendPos = $"LW{defendingLine}"; }
+        else if (possPos.Contains("LD")) { defendPos = $"RW{defendingPair}"; }
+        else if (possPos.Contains("RD")) { defendPos = $"LW{defendingPair}"; }
+
+        return defendingTeam.SkaterLineup[defendPos];
+    }
+
     public Goalie GetOpposingGoalie()
     {
         if (GameData.PossTeam == "None") { return null; }
