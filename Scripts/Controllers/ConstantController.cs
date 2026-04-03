@@ -56,6 +56,8 @@ public class ConstantController : Singleton<ConstantController> {
     public Dictionary<string, Sprite> IconSprites = new();
     public Dictionary<string, Sprite> LogoSprites = new();
 
+    public List<string> PenaltyTypes = new();
+
     // Enums
     public enum LeagueType
     {
@@ -168,6 +170,7 @@ public class ConstantController : Singleton<ConstantController> {
         LoadBannerSprites();
         LoadIconSprites();
         LoadLogoSprites();
+        SetPenaltyTypes();
 
 		CoreController.Inst.LoadingStepCompleted();
     }
@@ -214,5 +217,34 @@ public class ConstantController : Singleton<ConstantController> {
 			LogoSprites.Add(sprite.name, sprite);
 		}
 	}
+
+    private void SetPenaltyTypes()
+    {
+        CoreController.Inst.WriteLog(this.GetType().Name, $"Setting the penalty types.");
+
+        PenaltyTypes.Clear();
+
+        PenaltyTypes.Add("boarding");
+        PenaltyTypes.Add("butt-ending");
+        PenaltyTypes.Add("charging");
+        PenaltyTypes.Add("checking from behind");
+        PenaltyTypes.Add("cross-checking");
+        PenaltyTypes.Add("delay of game");
+        PenaltyTypes.Add("elbowing");
+        PenaltyTypes.Add("embellishment");
+        PenaltyTypes.Add("fighting");
+        PenaltyTypes.Add("goaltender interference");
+        PenaltyTypes.Add("high-sticking");
+        PenaltyTypes.Add("holding");
+        PenaltyTypes.Add("hooking");
+        PenaltyTypes.Add("interference");
+        PenaltyTypes.Add("kneeing");
+        PenaltyTypes.Add("roughing");
+        PenaltyTypes.Add("slashing");
+        PenaltyTypes.Add("spearing");
+        PenaltyTypes.Add("too many men");
+        PenaltyTypes.Add("tripping");
+        PenaltyTypes.Add("unsportsmanlike conduct");
+    }
 #endregion
 }}
