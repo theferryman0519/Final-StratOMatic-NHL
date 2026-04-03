@@ -186,8 +186,10 @@ public class GameplayEvents : MonoBehaviour {
             case 0: RunEvent(PullGoalieEvents.PullGoalieShotsList); break;
             case 1: RunEvent(PullGoalieEvents.PullGoalieShotsStart); break;
             case 2: RunEvent(PullGoalieEvents.PullGoalieShotsAttemptStart); break;
-            case 3: RunEvent(PullGoalieEvents.PullGoalieShotsAttemptResult); break;
-            case 4: RunEvent(PullGoalieEvents.PullGoalieShotsResult); break;
+            case 3: RunEvent(PullGoalieEvents.PullGoalieShotsAttemptResultNext); break;
+            case 4: RunEvent(PullGoalieEvents.PullGoalieShotsAttemptResultGoal); break;
+            case 5: RunEvent(PullGoalieEvents.PullGoalieShotsAttemptResultEmptyGoal); break;
+            case 6: RunEvent(PullGoalieEvents.PullGoalieShotsResult); break;
             default: break;
         }
     }
