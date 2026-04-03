@@ -307,17 +307,21 @@ public class PenaltyEvents : MonoBehaviour {
         // TODO
         // Determine if current shot was shorthanded
         // If so:
-            // Set continue action to determine next penalty shot
+            // Set after goal action to determine next penalty shot
+            // Set continue action to goal
         // If not:
             // Determine if penalty is minor, double-minor, or major
             // If penalty is minor:
                 // Remove all shots from powerplay shots list except first indexed
-                // Set continue action to determine next penalty shot
+                // Set after goal action to determine next penalty shot
+                // Set continue action to goal
             // If penalty is double-minor:
                 // Remove last 3 indexed shots from powerplay shots list (or amount to keep first indexed if less than 3 remain)
-                // Set continue action to determine next penalty shot
+                // Set after goal action to determine next penalty shot
+                // Set continue action to goal
             // If penalty is major:
-                // Set continue action to determine next penalty shot
+                // Set after goal action to determine next penalty shot
+                // Set continue action to goal
     }
 #endregion
 #region -------------------- Private Methods --------------------
