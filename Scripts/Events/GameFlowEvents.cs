@@ -47,6 +47,7 @@ public class GameFlowEvents : MonoBehaviour {
         };
 
         EventsController.Inst.CurrentEventRun = newEventRun;
+        EventsController.Inst.ContinueAction = EventsController.Inst.RunGameFlowEvent(1);
 
         IsOvertimeGame = false;
         InjuredSkater = null;
@@ -74,6 +75,7 @@ public class GameFlowEvents : MonoBehaviour {
         };
 
         EventsController.Inst.CurrentEventRun = newEventRun;
+        EventsController.Inst.ContinueAction = EventsController.Inst.RunFaceoffEvent(0);
 
         yield return null;
     }
@@ -89,6 +91,7 @@ public class GameFlowEvents : MonoBehaviour {
         };
 
         EventsController.Inst.CurrentEventRun = newEventRun;
+        EventsController.Inst.ContinueAction = EventsController.Inst.RunFaceoffEvent(0);
 
         yield return null;
     }
@@ -116,6 +119,7 @@ public class GameFlowEvents : MonoBehaviour {
         };
 
         EventsController.Inst.CurrentEventRun = newEventRun;
+        EventsController.Inst.ContinueAction = DetermineNextPeriod;
 
         yield return null;
     }
@@ -133,6 +137,7 @@ public class GameFlowEvents : MonoBehaviour {
         };
 
         EventsController.Inst.CurrentEventRun = newEventRun;
+        EventsController.Inst.ContinueAction = EventsController.Inst.RunGameFlowEvent(1);
 
         IsOvertimeGame = true;
 
@@ -158,10 +163,11 @@ public class GameFlowEvents : MonoBehaviour {
         EventRun newEventRun = new EventRun
         {
             InfoText = $"The game has completed.",
-            ActionText = $"The final horn sounds for the game. {winner} with a final score of {homeTeamGoals.ToString()} to {awayTeamGoals.ToString()}.",
+            ActionText = $"{winner} with a final score of {homeTeamGoals.ToString()} to {awayTeamGoals.ToString()}.",
         };
 
         EventsController.Inst.CurrentEventRun = newEventRun;
+        EventsController.Inst.ContinueAction = EventsController.Inst.RunGameFlowEvent(6);
 
         yield return null;
     }
@@ -170,8 +176,6 @@ public class GameFlowEvents : MonoBehaviour {
     {
         CoreController.Inst.WriteLog(this.GetType().Name, $"Adding CompleteGame to the queue.");
 
-        // TODO: Add stats as needed
-
         EventRun newEventRun = new EventRun
         {
             InfoText = string.Empty,
@@ -179,12 +183,40 @@ public class GameFlowEvents : MonoBehaviour {
         };
 
         EventsController.Inst.CurrentEventRun = newEventRun;
+        EventsController.Inst.ContinueAction = DetermineFinalStats;
 
         yield return null;
     }
 #endregion
 #region -------------------- Public Methods --------------------
-    
+    public void DetermineNextPeriod()
+    {
+        CoreController.Inst.WriteLog(this.GetType().Name, $"Determining the next period.");
+
+        // TODO
+        // Determine current period number
+        // If 1st or 2nd period:
+            // Reset action card count to zero
+            // Increase current period number
+            // Set continue action to start of period
+        // If 3rd period or later
+            // Determine score of game
+            // If tied:
+                // Reset action card count to zero
+                // Increase current period number
+                // Set continue action to start of overtime
+            // If not tied:
+                // Set continue action to end of game
+    }
+
+    public void DetermineFinalStats()
+    {
+        CoreController.Inst.WriteLog(this.GetType().Name, $"Determining the final stats of the game.");
+
+        // TODO
+        // Add all final stats necessary
+        // Move to gameplay results screen
+    }
 #endregion
 #region -------------------- Private Methods --------------------
     
