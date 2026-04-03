@@ -167,7 +167,7 @@ public class PenaltyEvents : MonoBehaviour {
         EventRun newEventRun = new EventRun
         {
             InfoText = $"After the shooting player takes a shot, if a goal is scored, the powerplay either continues if the goal was shorthanded or it ends.",
-            ActionText = $"With that shot by {ShootingSkater.Info.LastName}, the puck appears to get behind the goalie for a {shotType}.",
+            ActionText = $"With that shot by {ShootingSkater.Info.LastName}, the puck appears to get behind the goalie for a {shotType}!",
         };
 
         EventsController.Inst.CurrentEventRun = newEventRun;
@@ -283,10 +283,16 @@ public class PenaltyEvents : MonoBehaviour {
                 // Determine random 2d6 result
                 // Determine goalie rating action based on dice sum
                 // If goal:
+                    // Add goal for shooter
+                    // Add powerplay or shorthanded goal for shooter
+                    // Add goal against for opposing goalie
                     // Set continue action to penalty shots attempt result goal
                 // If not a goal:
                     // Set continue action to penalty shots attempt result next
             // If goal:
+                // Add goal for shooter
+                // Add powerplay or shorthanded goal for shooter
+                // Add goal against for opposing goalie
                 // Set continue action to penalty shots attempt result goal
         // If action is not:
             // Add shot for shooter
