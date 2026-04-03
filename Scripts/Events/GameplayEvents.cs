@@ -168,9 +168,13 @@ public class GameplayEvents : MonoBehaviour {
         switch (index)
         {
             case 0: RunEvent(GoalEvents.GoalieRatingStart); break;
-            case 1: RunEvent(GoalEvents.GoalieRatingResult); break;
-            case 2: RunEvent(GoalEvents.GoalCheck); break;
-            case 3: RunEvent(GoalEvents.Goal); break;
+            case 1: RunEvent(GoalEvents.GoalieRatingResultSave); break;
+            case 2: RunEvent(GoalEvents.GoalieRatingResultBreakaway); break;
+            case 3: RunEvent(GoalEvents.GoalieRatingResultPenalty); break;
+            case 4: RunEvent(GoalEvents.GoalieRatingResultGoal); break;
+            case 5: RunEvent(GoalEvents.GoalCheck); break;
+            case 6: RunEvent(GoalEvents.NoGoal); break;
+            case 7: RunEvent(GoalEvents.Goal); break;
             default: break;
         }
     }
