@@ -84,6 +84,15 @@ public class ConstantController : Singleton<ConstantController> {
         RebBreak,
     };
 
+    public enum GoalType
+    {
+        EvenStrength,
+        Powerplay,
+        Shorthanded,
+        EmptyNet,
+        GameWinner,
+    };
+
     public enum PanelType
     {
         // Main
