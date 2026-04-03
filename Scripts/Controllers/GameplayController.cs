@@ -2,6 +2,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -179,6 +180,27 @@ public class GameplayController : Singleton<GameplayController> {
         GameTeam possTeam = (GameData.PossTeam == "Home") ? GameData.HomeTeam : GameData.AwayTeam;
         string possPos = GameData.PossPos[GameData.PossPos.Count - 1];
         return possTeam.SkaterLineup[possPos];
+    }
+
+    public string GetSkaterPos(Skater skater, string teamString)
+    {
+        if (skater == null) { return null; }
+
+        CoreController.Inst.WriteLog(this.GetType().Name, $"Getting the skater's position.");
+
+        Team team = teamString == "Home" ? GameData.HomeTeam : GameData.AwayTeam;
+        index = -1;
+
+        for (int i = 0; i < team.SkaterLineup.Count; i++)
+        {
+            if (team.SkaterLineup[i].Id == skater.Id)
+            {
+                index = i;
+            }
+        }
+
+        if (index < 0) { return string.Empty; }
+        else { return team.SkaterLineup.ElementAt(index).Key; }
     }
 
     public Skater GetDefendingSkater()
