@@ -27,6 +27,7 @@ public class PenaltyEvents : MonoBehaviour {
     public int PenaltyTime;
 
     public bool IsShorthandedShot;
+    public bool IsMajorPenalty;
 
     public ConstantController.ShotType ShotType;
 
@@ -47,6 +48,7 @@ public class PenaltyEvents : MonoBehaviour {
         PenaltyCall = string.Empty;
         PenaltyTime = 0;
         IsShorthandedShot = false;
+        IsMajorPenalty = false;
         ShotType = ConstantController.ShotType.Outside;
         PenaltyShots.Clear();
         ShorthandedShots.Clear();
@@ -135,7 +137,7 @@ public class PenaltyEvents : MonoBehaviour {
     {
         CoreController.Inst.WriteLog(this.GetType().Name, $"Adding PenaltyShotsAttemptResultNext to the queue.");
 
-        string actionText = (ShorthandedShots.Count + PenaltyShots.Count > 0) ? 
+        string actionText = (PenaltyShots.Count > 1) ? 
             "The shot was saved by the goalie as there is still time left on this powerplay." : 
             "And with no time left on the powerplay, the goalie covers up for the whistle.";
 
@@ -146,8 +148,6 @@ public class PenaltyEvents : MonoBehaviour {
         };
 
         EventsController.Inst.CurrentEventRun = newEventRun;
-
-        IsShorthandedShot = false;
 
         yield return null;
     }
@@ -211,6 +211,11 @@ public class PenaltyEvents : MonoBehaviour {
         CoreController.Inst.WriteLog(this.GetType().Name, $"Determining the penalty.");
 
         // TODO
+        // Determine the penalty rating for penalty skater
+        // Determine random penalty type (ConstantController.Inst.PenaltyTypes)
+        // Determine penalty minutes based on penalty rating
+        // Set penalty call
+        // Set penalty time
     }
 
     public void GeneratePenaltyShots()
@@ -218,13 +223,89 @@ public class PenaltyEvents : MonoBehaviour {
         CoreController.Inst.WriteLog(this.GetType().Name, $"Generating the penalty shot list.");
 
         // TODO
+        // Determine penalty time
+        // Determine total offense ratings of 4 on powerplay unit
+        // Determine total defense ratings of 5 on shorthanded unit
+        // Determine number of penalty shots based on ratings:
+            // Total shorthanded shot attempts is number of 5 ratings
+            // Total powerplay shot attempts:
+                // Determine random int between 0 and 4 (inclusive)
+                // If minor penalty: equal to number of 4 ratings minus random int (must have at least one shot)
+                // If double-minor penalty: equal to number of 4 ratings
+                // If major penalty: equal to number of 4 ratings plus random int
+        // For each count of shot attempts, randomize shot type and position
+        // Add string of shot to either shorthanded shots list or powerplay shots list
     }
 
-    public void DetermineNextPenaltyShotAttempt()
+    public void DetermineNextPenaltyShot()
     {
-        CoreController.Inst.WriteLog(this.GetType().Name, $"Determining the next penalty shot attempt.");
+        CoreController.Inst.WriteLog(this.GetType().Name, $"Determining the next penalty shot.");
 
         // TODO
+        // Determine if current shot was shorthanded
+        // If so:
+            // Remove first indexed shot from shorthanded shots list
+            // Clear possession position tracker
+        // If not:
+            // Remove first indexed shot from powerplay shots list
+        // Determine count of shots in shorthanded shots list
+        // If count is greater than zero:
+            // Set shorthanded shot boolean to true
+        // If count is zero:
+            // Set shorthanded shot boolean to false
+        // Determine count of shots in powerplay shots list
+        // If count is greater than zero:
+            // Set continue action to penalty shots attempt start
+        // If count is zero:
+            // Set continue action to penalty shots result
+    }
+
+    public void DeterminePenaltyShotOutcome()
+    {
+        CoreController.Inst.WriteLog(this.GetType().Name, $"Determining the penalty shot outcome.");
+
+        // TODO
+        // Add to possession position tracker
+        // Determine the shot type
+        // Determine the action card of the shooter
+        // Determine random 2d6 result
+        // Determine shot action based on dice sum and shot type
+        // If action is a goalie rating or a goal:
+            // Add shot for shooter
+            // Add shot against for opposing goalie
+            // If goalie rating:
+                // Determine random 2d6 result
+                // Determine goalie rating action based on dice sum
+                // If goal:
+                    // Set continue action to penalty shots attempt result goal
+                // If not a goal:
+                    // Set continue action to penalty shots attempt result next
+            // If goal:
+                // Set continue action to penalty shots attempt result goal
+        // If action is not:
+            // Add shot for shooter
+            // Add shot against for opposing goalie
+            // Set continue action to penalty shots attempt result next
+    }
+
+    public void DetermineNextPenaltyShotAfterGoal()
+    {
+        CoreController.Inst.WriteLog(this.GetType().Name, $"Determining the next penalty shot after a goal.");
+
+        // TODO
+        // Determine if current shot was shorthanded
+        // If so:
+            // Set continue action to determine next penalty shot
+        // If not:
+            // Determine if penalty is minor, double-minor, or major
+            // If penalty is minor:
+                // Remove all shots from powerplay shots list except first indexed
+                // Set continue action to determine next penalty shot
+            // If penalty is double-minor:
+                // Remove last 3 indexed shots from powerplay shots list (or amount to keep first indexed if less than 3 remain)
+                // Set continue action to determine next penalty shot
+            // If penalty is major:
+                // Set continue action to determine next penalty shot
     }
 #endregion
 #region -------------------- Private Methods --------------------
