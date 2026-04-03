@@ -183,7 +183,7 @@ public class PenaltyEvents : MonoBehaviour {
 
         EventRun newEventRun = new EventRun
         {
-            InfoText = $"If no goals are scored throughout the duration of the powerplay, the penalized player comes out of the box and the game continues with a faceoff.",
+            InfoText = $"After the duration of the penalty, the penalized player comes out of the box and the game continues with a faceoff.",
             ActionText = $"That concludes the powerplay. Both teams are now at even strength as we get ready for a faceoff.",
         };
 
