@@ -193,29 +193,45 @@ public class GameFlowEvents : MonoBehaviour {
     {
         CoreController.Inst.WriteLog(this.GetType().Name, $"Determining the next period.");
 
-        // TODO
-        // Determine current period number
-        // If 1st or 2nd period:
-            // Reset action card count to zero
-            // Increase current period number
-            // Set continue action to start of period
-        // If 3rd period or later
-            // Determine score of game
-            // If tied:
-                // Reset action card count to zero
-                // Increase current period number
-                // Set continue action to start of overtime
-            // If not tied:
-                // Set continue action to end of game
+        int periodNumber = GameplayController.Inst.GameData.Period;
+
+        if (periodNumber < 3)
+        {
+            periodNumber += 1;
+
+            GameplayController.Inst.GameData.CardsDrawn = 0;
+            GameplayController.Inst.GameData.Period = periodNumber;
+
+            EventsController.Inst.RunGameFlowEvent(1);
+        }
+
+        else
+        {
+            int homeScore = GameplayController.Inst.GameData.HomeTeam.Stats.Goals;
+            int awayScore = GameplayController.Inst.GameData.AwayTeam.Stats.Goals;
+
+            if (homeScore == awayScore)
+            {
+                periodNumber += 1;
+
+                GameplayController.Inst.GameData.CardsDrawn = 0;
+                GameplayController.Inst.GameData.Period = periodNumber;
+
+                EventsController.Inst.RunGameFlowEvent(4);
+            }
+
+            else
+            {
+                EventsController.Inst.RunGameFlowEvent(5);
+            }
+        }
     }
 
     public void DetermineFinalStats()
     {
         CoreController.Inst.WriteLog(this.GetType().Name, $"Determining the final stats of the game.");
 
-        // TODO
-        // Add all final stats necessary
-        // Move to gameplay results screen
+        EventsController.Inst.MainUi.EndGame();
     }
 #endregion
 #region -------------------- Private Methods --------------------
