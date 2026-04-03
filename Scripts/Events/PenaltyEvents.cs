@@ -60,6 +60,7 @@ public class PenaltyEvents : MonoBehaviour {
         };
 
         EventsController.Inst.CurrentEventRun = newEventRun;
+        EventsController.Inst.ContinueAction = DeterminePenaltyOutcome;
 
         yield return null;
     }
@@ -75,6 +76,7 @@ public class PenaltyEvents : MonoBehaviour {
         };
 
         EventsController.Inst.CurrentEventRun = newEventRun;
+        EventsController.Inst.ContinueAction = EventsController.Inst.RunFaceoffEvent(0);
 
         yield return null;
     }
@@ -90,6 +92,7 @@ public class PenaltyEvents : MonoBehaviour {
         };
 
         EventsController.Inst.CurrentEventRun = newEventRun;
+        EventsController.Inst.ContinueAction = GeneratePenaltyShots;
 
         yield return null;
     }
@@ -107,6 +110,7 @@ public class PenaltyEvents : MonoBehaviour {
         };
 
         EventsController.Inst.CurrentEventRun = newEventRun;
+        EventsController.Inst.ContinueAction = EventsController.Inst.RunPenaltyEvent(4);
 
         yield return null;
     }
@@ -129,6 +133,7 @@ public class PenaltyEvents : MonoBehaviour {
         };
 
         EventsController.Inst.CurrentEventRun = newEventRun;
+        EventsController.Inst.ContinueAction = DeterminePenaltyShotOutcome;
 
         yield return null;
     }
@@ -148,6 +153,7 @@ public class PenaltyEvents : MonoBehaviour {
         };
 
         EventsController.Inst.CurrentEventRun = newEventRun;
+        EventsController.Inst.ContinueAction = DetermineNextPenaltyShot;
 
         yield return null;
     }
@@ -165,8 +171,7 @@ public class PenaltyEvents : MonoBehaviour {
         };
 
         EventsController.Inst.CurrentEventRun = newEventRun;
-
-        IsShorthandedShot = false;
+        EventsController.Inst.ContinueAction = DetermineNextPenaltyShotAfterGoal;
 
         yield return null;
     }
@@ -183,6 +188,7 @@ public class PenaltyEvents : MonoBehaviour {
         };
 
         EventsController.Inst.CurrentEventRun = newEventRun;
+        EventsController.Inst.ContinueAction = EventsController.Inst.RunFaceoffEvent(0);
 
         yield return null;
     }
