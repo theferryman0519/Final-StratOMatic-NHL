@@ -235,33 +235,53 @@ public class DefenseEvents : MonoBehaviour {
     public void DetermineIntimidationOutcome()
     {
         CoreController.Inst.WriteLog(this.GetType().Name, $"Determining the intimidation outcome.");
+        
+        int randomNumber = Random.Range(1,16);
+        string intimidationRating = DefendingSkater.Card.Intimidation;
+        int intimidationNumber = 0;
 
-        // TODO
-        // Determine intimidation rating for intimidating skater
-        // Determine random int between 1 and 15 (inclusive)
-        // If int is within intimidation range:
-            // Add giveaway for current player
-            // Reset position possession tracker
-            // Set new team possession
-            // Set new player possession
-            // Add new player to position possession tracker
-            // Add hit for new player
-            // Add takeaway for new player
-            // Set continue action to intimidation result steal
-        // If int is outside intimidation range:
-            // Set offense events shot type to Inside shot
-            // Set continue action to intimidation result shot
+        if (intimidationRating == "0") { intimidationNumber = 0; }
+        else if (intimidationRating == "1") { intimidationNumber = 1; }
+        else
+        {
+            string splitString = intimidationRating.Split('-')[1];
+            intimidationNumber = Int32.Parse(splitString);
+        }
+
+        bool isSuccess = intimidationNumber >= randomNumber;
+
+        if (isSuccess)
+        {
+            Skater possSkater = GameplayController.Inst.GetPossSkater();
+            Team possTeam = GameplayController.Inst.GameData.PossTeam == "Home" ? GameplayController.Inst.GameData.HomeTeam : GameplayController.Inst.GameData.AwayTeam;
+
+            string newPossTeamString = GameplayController.Inst.GameData.PossTeam == "Home" ? "Away" : "Home";
+            string newPossPos = GameplayController.Inst.GetSkaterPos(DefendingSkater, newPossTeamString);
+
+            GameplayController.Inst.StatsSet.AddGiveaway(possSkater, 1);
+            GameplayController.Inst.StatsSet.ClearPossPos();
+            GameplayController.Inst.StatsSet.SetPossTeam(newPossTeamString);
+            GameplayController.Inst.StatsSet.AddPossPos(newPossPos);
+            GameplayController.Inst.StatsSet.AddHit(DefendingSkater, 1);
+            GameplayController.Inst.StatsSet.AddTakeaway(DefendingSkater, 1);
+
+            EventsController.Inst.RunDefenseEvent(1);
+        }
+
+        else
+        {
+            Skater possSkater = GameplayController.Inst.GetPossSkater();
+
+            EventsController.Inst.GameplayEvents.OffenseEvents.SelectedShotType = ConstantController.ShotType.Inside;
+            EventsController.Inst.GameplayEvents.OffenseEvents.ShootingSkater = possSkater;
+            EventsController.Inst.RunDefenseEvent(2);
+        }
     }
 
     public void DetermineDefendingOutcome()
     {
         CoreController.Inst.WriteLog(this.GetType().Name, $"Determining the defending outcome.");
 
-        // TODO
-        // Determine current skater stamina
-        // Determine random letter from 1 to 14 (inclusive)
-        // Get action from skater card
-        // Set action shift based on stamina
         // If steal:
             // Add giveaway for current player
             // Reset position possession tracker
@@ -300,9 +320,91 @@ public class DefenseEvents : MonoBehaviour {
             // Set continue action to defending result shot intimidation
         // If penalty:
             // Set continue action to defending result penalty
+        
+
+
+        int randomNumber = Random.Range(1,15);
+        string defendingAction = DefendingSkater.Card.DefendingActions[randomNumber - 1];
+        int defendingStamina = DefendingSkater.Game.Stamina;
+        
+        int staminaShift = 0;
+        int finalOption = 0;
+
+        if (defendingStamina >= 85) { staminaShift = 0; }
+        else if (defendingStamina >= 60) { staminaShift = 1; }
+        else if (defendingStamina >= 45) { staminaShift = 2; }
+        else if (defendingStamina >= 30) { staminaShift = 3; }
+        else if (defendingStamina >= 15) { staminaShift = 4; }
+        else { staminaShift = 5; }
+
+        switch (defendingAction)
+        {
+            case "PENALTY": finalOption = 10; break;
+            case "TA-IN": finalOption = 5; break;
+            case "TA-OUT": finalOption = 4; break;
+            case "TA": finalOption = 3; break;
+            case "OUT": finalOption = 2; break;
+            case "IN":
+            default: finalOption = 1; break;
+        }
+
+        if (finalOption < 10) { finalOption -= staminaShift; }
+        if (finalOption < 1) { finalOption = 1; }
+
+        string newPos = GetRandomPos();
+
+        int homeLine = GameplayController.Inst.GameData.HomeTeam.CurrentLine;
+        int homePair = GameplayController.Inst.GameData.HomeTeam.CurrentPair;
+        int awayLine = GameplayController.Inst.GameData.AwayTeam.CurrentLine;
+        int awayPair = GameplayController.Inst.GameData.AwayTeam.CurrentPair;
+
+        if (finalOption == 1) // IN
+        {
+            //
+        }
+
+        else if (finalOption == 1) // OUT
+        {
+            //
+        }
+
+        else if (finalOption == 1) // TA
+        {
+            //
+        }
+
+        else if (finalOption == 1) // TA-OUT
+        {
+            //
+        }
+
+        else if (finalOption == 1) // TA-IN
+        {
+            //
+        }
+
+        else // PENALTY
+        {
+            //
+        }
     }
 #endregion
 #region -------------------- Private Methods --------------------
-    
+    private string GetRandomPos()
+    {
+        CoreController.Inst.WriteLog(this.GetType().Name, $"Getting a random position.");
+
+        int index = Random.Range(0,5);
+
+        switch (index)
+        {
+            case 0: return "C";
+            case 1: return "LW";
+            case 2: return "RW";
+            case 3: return "LD";
+            case 4:
+            default: return "RD";
+        }
+    }
 #endregion
 }}
