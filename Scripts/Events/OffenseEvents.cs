@@ -109,7 +109,7 @@ public class OffenseEvents : MonoBehaviour {
         };
 
         EventsController.Inst.CurrentEventRun = newEventRun;
-        EventsController.Inst.ContinueAction = EventsController.Inst.RunOffenseEvent(0);
+        EventsController.Inst.ContinueAction = () => { EventsController.Inst.RunOffenseEvent(0); };
 
         ShootingSkater = null;
 
@@ -129,7 +129,7 @@ public class OffenseEvents : MonoBehaviour {
         };
 
         EventsController.Inst.CurrentEventRun = newEventRun;
-        EventsController.Inst.ContinueAction = EventsController.Inst.RunOffenseEvent(0);
+        EventsController.Inst.ContinueAction = () => { EventsController.Inst.RunOffenseEvent(0); };
 
         ShootingSkater = null;
 
@@ -149,7 +149,7 @@ public class OffenseEvents : MonoBehaviour {
         };
 
         EventsController.Inst.CurrentEventRun = newEventRun;
-        EventsController.Inst.ContinueAction = EventsController.Inst.RunOffenseEvent(8);
+        EventsController.Inst.ContinueAction = () => { EventsController.Inst.RunOffenseEvent(8); };
 
         ShootingSkater = null;
 
@@ -169,7 +169,7 @@ public class OffenseEvents : MonoBehaviour {
         };
 
         EventsController.Inst.CurrentEventRun = newEventRun;
-        EventsController.Inst.ContinueAction = EventsController.Inst.RunGoalEvent(0);
+        EventsController.Inst.ContinueAction = () => { EventsController.Inst.RunGoalEvent(0); };
 
         yield return null;
     }
@@ -187,7 +187,7 @@ public class OffenseEvents : MonoBehaviour {
         };
 
         EventsController.Inst.CurrentEventRun = newEventRun;
-        EventsController.Inst.ContinueAction = EventsController.Inst.RunGoalEvent(2);
+        EventsController.Inst.ContinueAction = () => { EventsController.Inst.RunGoalEvent(2); };
 
         yield return null;
     }
@@ -245,7 +245,7 @@ public class OffenseEvents : MonoBehaviour {
         };
 
         EventsController.Inst.CurrentEventRun = newEventRun;
-        EventsController.Inst.ContinueAction = EventsController.Inst.RunOffenseEvent(0);
+        EventsController.Inst.ContinueAction = () => { EventsController.Inst.RunOffenseEvent(0); };
 
         PassingSkater = null;
 
@@ -265,7 +265,7 @@ public class OffenseEvents : MonoBehaviour {
         };
 
         EventsController.Inst.CurrentEventRun = newEventRun;
-        EventsController.Inst.ContinueAction = EventsController.Inst.RunOffenseEvent(2);
+        EventsController.Inst.ContinueAction = () => { EventsController.Inst.RunOffenseEvent(2); };
 
         PassingSkater = null;
 
@@ -285,7 +285,7 @@ public class OffenseEvents : MonoBehaviour {
         };
 
         EventsController.Inst.CurrentEventRun = newEventRun;
-        EventsController.Inst.ContinueAction = EventsController.Inst.RunOffenseEvent(2);
+        EventsController.Inst.ContinueAction = () => { EventsController.Inst.RunOffenseEvent(2); };
 
         PassingSkater = null;
 
@@ -305,7 +305,7 @@ public class OffenseEvents : MonoBehaviour {
         };
 
         EventsController.Inst.CurrentEventRun = newEventRun;
-        EventsController.Inst.ContinueAction = EventsController.Inst.RunDefenseEvent(0);
+        EventsController.Inst.ContinueAction = () => { EventsController.Inst.RunDefenseEvent(0); };
 
         PassingSkater = null;
 
@@ -325,7 +325,7 @@ public class OffenseEvents : MonoBehaviour {
         };
 
         EventsController.Inst.CurrentEventRun = newEventRun;
-        EventsController.Inst.ContinueAction = EventsController.Inst.RunOffenseEvent(1);
+        EventsController.Inst.ContinueAction = () => { EventsController.Inst.RunOffenseEvent(1); };
 
         PassingSkater = null;
 

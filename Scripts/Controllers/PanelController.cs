@@ -10,6 +10,8 @@ using UnityEngine.SceneManagement;
 
 // Game Dependencies
 using SoM.Core;
+using SoM.Models;
+using SoM.Ui;
 
 namespace SoM.Controllers {
 public class PanelController : Singleton<PanelController> {
@@ -42,7 +44,7 @@ public class PanelController : Singleton<PanelController> {
     {
         CoreController.Inst.WriteLog(this.GetType().Name, $"Showing the bottom panel.");
 
-        PanelData newPanel = GetBottomPanel(panelType, actionA, actionB);
+        BottomPanel newPanel = GetBottomPanel(panelType, actionA, actionB);
 
         if (!IsBottomVisible && (newPanel != null))
         {

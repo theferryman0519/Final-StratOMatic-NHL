@@ -11,6 +11,7 @@ using UnityEngine.SceneManagement;
 // Game Dependencies
 using SoM.Controllers;
 using SoM.Models;
+using Random = UnityEngine.Random;
 
 namespace SoM.Events {
 public class DefenseEvents : MonoBehaviour {
@@ -61,7 +62,7 @@ public class DefenseEvents : MonoBehaviour {
         };
 
         EventsController.Inst.CurrentEventRun = newEventRun;
-        EventsController.Inst.ContinueAction = EventsController.Inst.RunOffenseEvent(0);
+        EventsController.Inst.ContinueAction = () => { EventsController.Inst.RunOffenseEvent(0); };
 
         DefendingSkater = null;
 
@@ -82,7 +83,7 @@ public class DefenseEvents : MonoBehaviour {
         };
 
         EventsController.Inst.CurrentEventRun = newEventRun;
-        EventsController.Inst.ContinueAction = EventsController.Inst.RunOffenseEvent(2);
+        EventsController.Inst.ContinueAction = () => { EventsController.Inst.RunOffenseEvent(2); };
 
         DefendingSkater = null;
 
@@ -121,7 +122,7 @@ public class DefenseEvents : MonoBehaviour {
         };
 
         EventsController.Inst.CurrentEventRun = newEventRun;
-        EventsController.Inst.ContinueAction = EventsController.Inst.RunOffenseEvent(0);
+        EventsController.Inst.ContinueAction = () => { EventsController.Inst.RunOffenseEvent(0); };
 
         DefendingSkater = null;
 
@@ -141,7 +142,7 @@ public class DefenseEvents : MonoBehaviour {
         };
 
         EventsController.Inst.CurrentEventRun = newEventRun;
-        EventsController.Inst.ContinueAction = EventsController.Inst.RunOffenseEvent(2);
+        EventsController.Inst.ContinueAction = () => { EventsController.Inst.RunOffenseEvent(2); };
 
         DefendingSkater = null;
 
@@ -162,7 +163,7 @@ public class DefenseEvents : MonoBehaviour {
         };
 
         EventsController.Inst.CurrentEventRun = newEventRun;
-        EventsController.Inst.ContinueAction = EventsController.Inst.RunDefenseEvent(0);
+        EventsController.Inst.ContinueAction = () => { EventsController.Inst.RunDefenseEvent(0); };
 
         DefendingSkater = null;
 
@@ -183,7 +184,7 @@ public class DefenseEvents : MonoBehaviour {
         };
 
         EventsController.Inst.CurrentEventRun = newEventRun;
-        EventsController.Inst.ContinueAction = EventsController.Inst.RunOffenseEvent(2);
+        EventsController.Inst.ContinueAction = () => { EventsController.Inst.RunOffenseEvent(2); };
 
         DefendingSkater = null;
 
@@ -204,7 +205,7 @@ public class DefenseEvents : MonoBehaviour {
         };
 
         EventsController.Inst.CurrentEventRun = newEventRun;
-        EventsController.Inst.ContinueAction = EventsController.Inst.RunDefenseEvent(0);
+        EventsController.Inst.ContinueAction = () => { EventsController.Inst.RunDefenseEvent(0); };
 
         DefendingSkater = null;
 
@@ -224,7 +225,7 @@ public class DefenseEvents : MonoBehaviour {
         };
 
         EventsController.Inst.CurrentEventRun = newEventRun;
-        EventsController.Inst.ContinueAction = EventsController.Inst.RunPenaltyEvent(0);
+        EventsController.Inst.ContinueAction = () => { EventsController.Inst.RunPenaltyEvent(0); };
 
         DefendingSkater = null;
 
@@ -253,7 +254,7 @@ public class DefenseEvents : MonoBehaviour {
         if (isSuccess)
         {
             Skater possSkater = GameplayController.Inst.GetPossSkater();
-            Team possTeam = GameplayController.Inst.GameData.PossTeam == "Home" ? GameplayController.Inst.GameData.HomeTeam : GameplayController.Inst.GameData.AwayTeam;
+            GameTeam possTeam = GameplayController.Inst.GameData.PossTeam == "Home" ? GameplayController.Inst.GameData.HomeTeam : GameplayController.Inst.GameData.AwayTeam;
 
             string newPossTeamString = GameplayController.Inst.GameData.PossTeam == "Home" ? "Away" : "Home";
             string newPossPos = GameplayController.Inst.GetSkaterPos(DefendingSkater, newPossTeamString);

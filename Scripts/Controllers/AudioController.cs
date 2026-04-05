@@ -10,6 +10,7 @@ using UnityEngine.SceneManagement;
 
 // Game Dependencies
 using SoM.Core;
+using SoM.Models;
 using SoM.Teams;
 
 namespace SoM.Controllers {
@@ -53,7 +54,7 @@ public class AudioController : Singleton<AudioController> {
 
     public void SetVolumes(float newMusicVolume, float newEffectsVolume)
     {
-        Core_Controller.Inst.WriteLog(this.GetType().Name, $"Updating the volumes.");
+        CoreController.Inst.WriteLog(this.GetType().Name, $"Updating the volumes.");
 		
         _musicSource.volume = newMusicVolume;
         _goalSource.volume = newEffectsVolume;
@@ -83,7 +84,7 @@ public class AudioController : Singleton<AudioController> {
         }
     }
 
-    public void PlayGoalHorn(TeamData team)
+    public void PlayGoalHorn(Team team)
     {
         if (effectsVolume > 0f)
         {
@@ -144,13 +145,13 @@ public class AudioController : Singleton<AudioController> {
         SetVolumes(musicVolume, effectsVolume);
     }
     
-    private void GetGoalHorn(TeamData team)
+    private AudioClip GetGoalHorn(Team team)
     {
         AudioClip newClip = _goalClips[0];
 
         foreach (AudioClip clip in _goalClips)
         {
-            if (clip.name == team.Code)
+            if (clip.name == team.Info.Code)
             {
                 newClip = clip;
             }

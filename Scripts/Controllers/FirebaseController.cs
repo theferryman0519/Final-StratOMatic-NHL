@@ -6,6 +6,9 @@ using Proyecto26;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
+using System.Text.RegularExpressions;
+using System.Threading.Tasks;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -431,7 +434,7 @@ public class FirebaseController : Singleton<FirebaseController> {
 		await RestGet(newRest);
 	}
 
-	public async Task DeleteUser(Action continueAction = null)
+	public async Task DeleteUser(string id, Action continueAction = null)
 	{
 		CoreController.Inst.WriteLog(this.GetType().Name, $"Deleting a user from Firebase.");
 
@@ -536,7 +539,7 @@ public class FirebaseController : Singleton<FirebaseController> {
 		await RestGet(newRest);
 	}
 
-	public async Task DeleteCurrentGame(Action continueAction = null)
+	public async Task DeleteCurrentGame(string id, Action continueAction = null)
 	{
 		CoreController.Inst.WriteLog(this.GetType().Name, $"Deleting a current game from Firebase.");
 
@@ -621,7 +624,7 @@ public class FirebaseController : Singleton<FirebaseController> {
 		await RestGet(newRest);
 	}
 
-	public async Task DeleteSeason(Action continueAction = null)
+	public async Task DeleteSeason(string id, Action continueAction = null)
 	{
 		CoreController.Inst.WriteLog(this.GetType().Name, $"Deleting a season from Firebase.");
 
@@ -706,7 +709,7 @@ public class FirebaseController : Singleton<FirebaseController> {
 		await RestGet(newRest);
 	}
 
-	public async Task DeletePlayoffs(Action continueAction = null)
+	public async Task DeletePlayoffs(string id, Action continueAction = null)
 	{
 		CoreController.Inst.WriteLog(this.GetType().Name, $"Deleting a playoffs from Firebase.");
 

@@ -59,7 +59,7 @@ public class TeamsController : Singleton<TeamsController> {
     {
         CoreController.Inst.WriteLog(this.GetType().Name, $"Setting all teams.");
 
-        await FirebaseController.Inst.GetAllTeams(allTeamsData =>
+        await FirebaseController.Inst.GetAllTeams(async allTeamsData =>
         {
             foreach (TeamDatabase teamData in allTeamsData)
             {

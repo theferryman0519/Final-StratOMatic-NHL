@@ -61,7 +61,7 @@ public class GoalEvents : MonoBehaviour {
         };
 
         EventsController.Inst.CurrentEventRun = newEventRun;
-        EventsController.Inst.ContinueAction = EventsController.Inst.RunFaceoffEvent(0);
+        EventsController.Inst.ContinueAction = () => { EventsController.Inst.RunFaceoffEvent(0); };
 
         yield return null;
     }
@@ -77,7 +77,7 @@ public class GoalEvents : MonoBehaviour {
         };
 
         EventsController.Inst.CurrentEventRun = newEventRun;
-        EventsController.Inst.ContinueAction = EventsController.Inst.RunOffenseEvent(2);
+        EventsController.Inst.ContinueAction = () => { EventsController.Inst.RunOffenseEvent(2); };
 
         yield return null;
     }
@@ -93,7 +93,7 @@ public class GoalEvents : MonoBehaviour {
         };
 
         EventsController.Inst.CurrentEventRun = newEventRun;
-        EventsController.Inst.ContinueAction = EventsController.Inst.RunPenaltyEvent(0);
+        EventsController.Inst.ContinueAction = () => { EventsController.Inst.RunPenaltyEvent(0); };
 
         yield return null;
     }
@@ -109,7 +109,7 @@ public class GoalEvents : MonoBehaviour {
         };
 
         EventsController.Inst.CurrentEventRun = newEventRun;
-        EventsController.Inst.ContinueAction = EventsController.Inst.RunGoalEvent(7);
+        EventsController.Inst.ContinueAction = () => { EventsController.Inst.RunGoalEvent(7); };
 
         yield return null;
     }
@@ -141,7 +141,7 @@ public class GoalEvents : MonoBehaviour {
         };
 
         EventsController.Inst.CurrentEventRun = newEventRun;
-        EventsController.Inst.ContinueAction = EventsController.Inst.RunFaceoffEvent(0);
+        EventsController.Inst.ContinueAction = () => { EventsController.Inst.RunFaceoffEvent(0); };
 
         yield return null;
     }
@@ -237,7 +237,7 @@ public class GoalEvents : MonoBehaviour {
             // Add pluses to all on ice for scoring team
             // Add minuses to all on ice for defending team
         
-        string goalAnnoucement = string.Empty;
+        string goalAnnouncement = string.Empty;
 
         // TODO
         // Determine game type for specific goal announcement

@@ -58,7 +58,7 @@ public class UiSettingsUpdateTeam : UiSceneBase {
 
         // TODO
 
-		GoToScene(CoreController.Inst.Scene_Settings02);
+		GoToNewScene(CoreController.Inst.Scene_Settings02);
     }
     
     private void SetContainer()
@@ -67,7 +67,7 @@ public class UiSettingsUpdateTeam : UiSceneBase {
 
         ClearContainer();
 
-        foreach (Team team in TeamsController.Inst.AllTeams)
+        foreach (Team team in TeamsController.Inst.AllNhlTeams)
         {
             GameObject icon = Instantiate(_teamPrefab, _container);
 
@@ -80,7 +80,7 @@ public class UiSettingsUpdateTeam : UiSceneBase {
                 icon.SetIcon(team, true);
 
                 _selectionText.text = $"You have selected the {team.Info.CityName} {team.Info.NickName} of the {team.Info.League}";
-                _signUpButton.gameObject.SetActive(true);
+                _saveButton.gameObject.SetActive(true);
             });
         }
     }
@@ -98,7 +98,7 @@ public class UiSettingsUpdateTeam : UiSceneBase {
 
         favTeam = null;
 
-        _signUpButton.gameObject.SetActive(false);
+        _saveButton.gameObject.SetActive(false);
     }
 #endregion
 }}

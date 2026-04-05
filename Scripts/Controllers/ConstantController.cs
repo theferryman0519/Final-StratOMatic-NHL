@@ -25,6 +25,9 @@ public class ConstantController : Singleton<ConstantController> {
 	public const string Game_Title = "Strat-O-Matic Hockey";
 	public const string Game_Studio = "Ferryman Studios";
 	public const string Game_Email = "ferrymanstudios@gmail.com";
+	
+	// URL Links
+	public const string URL_Firebase = "";
 
     // Player Prefs
 	public const string Pref_MusicVolume = "SoM_MusicVolume";

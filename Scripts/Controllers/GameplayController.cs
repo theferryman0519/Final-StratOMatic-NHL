@@ -11,6 +11,7 @@ using UnityEngine.SceneManagement;
 
 // Game Dependencies
 using SoM.Core;
+using SoM.Gameplay;
 using SoM.Models;
 
 namespace SoM.Controllers {
@@ -188,12 +189,12 @@ public class GameplayController : Singleton<GameplayController> {
 
         CoreController.Inst.WriteLog(this.GetType().Name, $"Getting the skater's position.");
 
-        Team team = teamString == "Home" ? GameData.HomeTeam : GameData.AwayTeam;
-        index = -1;
+        GameTeam team = (teamString == "Home") ? GameData.HomeTeam : GameData.AwayTeam;
+        int index = -1;
 
         for (int i = 0; i < team.SkaterLineup.Count; i++)
         {
-            if (team.SkaterLineup[i].Id == skater.Id)
+            if (team.SkaterLineup.ElementAt(i).Value.Id == skater.Id)
             {
                 index = i;
             }

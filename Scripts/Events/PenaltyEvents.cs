@@ -76,7 +76,7 @@ public class PenaltyEvents : MonoBehaviour {
         };
 
         EventsController.Inst.CurrentEventRun = newEventRun;
-        EventsController.Inst.ContinueAction = EventsController.Inst.RunFaceoffEvent(0);
+        EventsController.Inst.ContinueAction = () => { EventsController.Inst.RunFaceoffEvent(0); };
 
         yield return null;
     }
@@ -101,7 +101,7 @@ public class PenaltyEvents : MonoBehaviour {
     {
         CoreController.Inst.WriteLog(this.GetType().Name, $"Adding PenaltyShotsStart to the queue.");
 
-        Team ppTeam = GameplayController.Inst.GameData.PowerplayTeam == "Home" ? GameplayController.Inst.GameData.HomeTeam : GameplayController.Inst.GameData.AwayTeam;
+        GameTeam ppTeam = GameplayController.Inst.GameData.PowerplayTeam == "Home" ? GameplayController.Inst.GameData.HomeTeam : GameplayController.Inst.GameData.AwayTeam;
 
         EventRun newEventRun = new EventRun
         {
@@ -110,7 +110,7 @@ public class PenaltyEvents : MonoBehaviour {
         };
 
         EventsController.Inst.CurrentEventRun = newEventRun;
-        EventsController.Inst.ContinueAction = EventsController.Inst.RunPenaltyEvent(4);
+        EventsController.Inst.ContinueAction = () => { EventsController.Inst.RunPenaltyEvent(4); };
 
         yield return null;
     }
@@ -188,7 +188,7 @@ public class PenaltyEvents : MonoBehaviour {
         };
 
         EventsController.Inst.CurrentEventRun = newEventRun;
-        EventsController.Inst.ContinueAction = EventsController.Inst.RunFaceoffEvent(0);
+        EventsController.Inst.ContinueAction = () => { EventsController.Inst.RunFaceoffEvent(0); };
 
         yield return null;
     }

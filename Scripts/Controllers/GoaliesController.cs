@@ -10,6 +10,7 @@ using UnityEngine.SceneManagement;
 
 // Game Dependencies
 using SoM.Core;
+using SoM.Models;
 using SoM.Goalies;
 
 namespace SoM.Controllers {
@@ -20,10 +21,10 @@ public class GoaliesController : Singleton<GoaliesController> {
     [SerializeField] private GoalieCreation _goalieCreation;
 #endregion
 #region -------------------- Public Variables --------------------
-    public Dictionary<string, List<string>> NhlGoalies = new();
-    public Dictionary<string, List<string>> PwhlGoalies = new();
-    public Dictionary<string, List<string>> NhlFranchiseGoalies = new();
-    public Dictionary<string, List<string>> PwhlFranchiseGoalies = new();
+    public Dictionary<string, List<Goalie>> NhlGoalies = new();
+    public Dictionary<string, List<Goalie>> PwhlGoalies = new();
+    public Dictionary<string, List<Goalie>> NhlFranchiseGoalies = new();
+    public Dictionary<string, List<Goalie>> PwhlFranchiseGoalies = new();
 #endregion
 #region -------------------- Private Variables --------------------
     
@@ -52,11 +53,11 @@ public class GoaliesController : Singleton<GoaliesController> {
     {
         CoreController.Inst.WriteLog(this.GetType().Name, $"Setting all goalies.");
 
-        await FirebaseController.Inst.GetAllGoalies(allGoaliesData =>
+        await FirebaseController.Inst.GetAllGoalies(async allGoaliesData =>
         {
             foreach (GoalieDatabase goalieData in allGoaliesData)
             {
-                Goalie goalie = await _GoalieCreation.CreateGoalie(goalieData);
+                Goalie goalie = await _goalieCreation.CreateGoalie(goalieData);
 
                 switch (goalie.Info.League)
                 {

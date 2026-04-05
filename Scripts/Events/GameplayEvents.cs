@@ -39,7 +39,8 @@ public class GameplayEvents : MonoBehaviour {
 
         yield return StartCoroutine(runEvent);
 
-        if (EventsController.Inst.MainUi != null) { EventsController.Inst.MainUi.UpdateVisual(); }
+        // TODO
+        // if (EventsController.Inst.MainUi != null) { EventsController.Inst.MainUi.UpdateVisual(); }
 
         yield return new WaitForSeconds(0.15f);
 
@@ -78,12 +79,12 @@ public class GameplayEvents : MonoBehaviour {
         if (FaceoffEvents == null) { InitializeEvents(); }
 
         CoreController.Inst.WriteLog(this.GetType().Name, $"Running a FaceoffEvent.");
-
+        
         switch (index)
         {
-            case 0: RunEvent(FaceoffEvents.PuckDrop); break;
-            case 1: RunEvent(FaceoffEvents.FaceoffStart); break;
-            case 2: RunEvent(FaceoffEvents.FaceoffResult); break;
+            case 0: RunEvent(FaceoffEvents.PuckDrop()); break;
+            case 1: RunEvent(FaceoffEvents.FaceoffStart()); break;
+            case 2: RunEvent(FaceoffEvents.FaceoffResult()); break;
             default: break;
         }
     }
@@ -98,21 +99,21 @@ public class GameplayEvents : MonoBehaviour {
 
         switch (index)
         {
-            case 0: RunEvent(OffenseEvents.ActionCard); break;
-            case 1: RunEvent(OffenseEvents.OutsideOptions); break;
-            case 2: RunEvent(OffenseEvents.ShotStart); break;
-            case 3: RunEvent(OffenseEvents.ShotResultLose); break;
-            case 4: RunEvent(OffenseEvents.ShotResultSave); break;
-            case 5: RunEvent(OffenseEvents.ShotResultRebound); break;
-            case 6: RunEvent(OffenseEvents.ShotResultGoalieRating); break;
-            case 7: RunEvent(OffenseEvents.ShotResultGoal); break;
-            case 8: RunEvent(OffenseEvents.ReboundCheck); break;
-            case 9: RunEvent(OffenseEvents.PassingStart); break;
-            case 10: RunEvent(OffenseEvents.PassingResultLose); break;
-            case 11: RunEvent(OffenseEvents.PassingResultLoseShot); break;
-            case 12: RunEvent(OffenseEvents.PassingResultShot); break;
-            case 13: RunEvent(OffenseEvents.PassingResultShotIntimidation); break;
-            case 14: RunEvent(OffenseEvents.PassingResultOptions); break;
+            case 0: RunEvent(OffenseEvents.ActionCard()); break;
+            case 1: RunEvent(OffenseEvents.OutsideOptions()); break;
+            case 2: RunEvent(OffenseEvents.ShotStart()); break;
+            case 3: RunEvent(OffenseEvents.ShotResultLose()); break;
+            case 4: RunEvent(OffenseEvents.ShotResultSave()); break;
+            case 5: RunEvent(OffenseEvents.ShotResultRebound()); break;
+            case 6: RunEvent(OffenseEvents.ShotResultGoalieRating()); break;
+            case 7: RunEvent(OffenseEvents.ShotResultGoal()); break;
+            case 8: RunEvent(OffenseEvents.ReboundCheck()); break;
+            case 9: RunEvent(OffenseEvents.PassingStart()); break;
+            case 10: RunEvent(OffenseEvents.PassingResultLose()); break;
+            case 11: RunEvent(OffenseEvents.PassingResultLoseShot()); break;
+            case 12: RunEvent(OffenseEvents.PassingResultShot()); break;
+            case 13: RunEvent(OffenseEvents.PassingResultShotIntimidation()); break;
+            case 14: RunEvent(OffenseEvents.PassingResultOptions()); break;
             default: break;
         }
     }
@@ -125,16 +126,16 @@ public class GameplayEvents : MonoBehaviour {
 
         switch (index)
         {
-            case 0: RunEvent(DefenseEvents.IntimidationStart); break;
-            case 1: RunEvent(DefenseEvents.IntimidationResultSteal); break;
-            case 2: RunEvent(DefenseEvents.IntimidationResultShot); break;
-            case 3: RunEvent(DefenseEvents.DefendingStart); break;
-            case 4: RunEvent(DefenseEvents.DefendingResultSteal); break;
-            case 5: RunEvent(DefenseEvents.DefendingResultStealShot); break;
-            case 6: RunEvent(DefenseEvents.DefendingResultStealShotIntimidation); break;
-            case 7: RunEvent(DefenseEvents.DefendingResultShot); break;
-            case 8: RunEvent(DefenseEvents.DefendingResultShotIntimidation); break;
-            case 9: RunEvent(DefenseEvents.DefendingResultPenalty); break;
+            case 0: RunEvent(DefenseEvents.IntimidationStart()); break;
+            case 1: RunEvent(DefenseEvents.IntimidationResultSteal()); break;
+            case 2: RunEvent(DefenseEvents.IntimidationResultShot()); break;
+            case 3: RunEvent(DefenseEvents.DefendingStart()); break;
+            case 4: RunEvent(DefenseEvents.DefendingResultSteal()); break;
+            case 5: RunEvent(DefenseEvents.DefendingResultStealShot()); break;
+            case 6: RunEvent(DefenseEvents.DefendingResultStealShotIntimidation()); break;
+            case 7: RunEvent(DefenseEvents.DefendingResultShot()); break;
+            case 8: RunEvent(DefenseEvents.DefendingResultShotIntimidation()); break;
+            case 9: RunEvent(DefenseEvents.DefendingResultPenalty()); break;
             default: break;
         }
     }
@@ -147,14 +148,14 @@ public class GameplayEvents : MonoBehaviour {
 
         switch (index)
         {
-            case 0: RunEvent(PenaltyEvents.PenaltyCheck); break;
-            case 1: RunEvent(PenaltyEvents.PenaltyCheckClear); break;
-            case 2: RunEvent(PenaltyEvents.PenaltyShotsList); break;
-            case 3: RunEvent(PenaltyEvents.PenaltyShotsStart); break;
-            case 4: RunEvent(PenaltyEvents.PenaltyShotsAttemptStart); break;
-            case 5: RunEvent(PenaltyEvents.PenaltyShotsAttemptResultNext); break;
-            case 6: RunEvent(PenaltyEvents.PenaltyShotsAttemptResultGoal); break;
-            case 7: RunEvent(PenaltyEvents.PenaltyShotsResult); break;
+            case 0: RunEvent(PenaltyEvents.PenaltyCheck()); break;
+            case 1: RunEvent(PenaltyEvents.PenaltyCheckClear()); break;
+            case 2: RunEvent(PenaltyEvents.PenaltyShotsList()); break;
+            case 3: RunEvent(PenaltyEvents.PenaltyShotsStart()); break;
+            case 4: RunEvent(PenaltyEvents.PenaltyShotsAttemptStart()); break;
+            case 5: RunEvent(PenaltyEvents.PenaltyShotsAttemptResultNext()); break;
+            case 6: RunEvent(PenaltyEvents.PenaltyShotsAttemptResultGoal()); break;
+            case 7: RunEvent(PenaltyEvents.PenaltyShotsResult()); break;
             default: break;
         }
     }
@@ -167,14 +168,14 @@ public class GameplayEvents : MonoBehaviour {
 
         switch (index)
         {
-            case 0: RunEvent(GoalEvents.GoalieRatingStart); break;
-            case 1: RunEvent(GoalEvents.GoalieRatingResultSave); break;
-            case 2: RunEvent(GoalEvents.GoalieRatingResultBreakaway); break;
-            case 3: RunEvent(GoalEvents.GoalieRatingResultPenalty); break;
-            case 4: RunEvent(GoalEvents.GoalieRatingResultGoal); break;
-            case 5: RunEvent(GoalEvents.GoalCheck); break;
-            case 6: RunEvent(GoalEvents.NoGoal); break;
-            case 7: RunEvent(GoalEvents.Goal); break;
+            case 0: RunEvent(GoalEvents.GoalieRatingStart()); break;
+            case 1: RunEvent(GoalEvents.GoalieRatingResultSave()); break;
+            case 2: RunEvent(GoalEvents.GoalieRatingResultBreakaway()); break;
+            case 3: RunEvent(GoalEvents.GoalieRatingResultPenalty()); break;
+            case 4: RunEvent(GoalEvents.GoalieRatingResultGoal()); break;
+            case 5: RunEvent(GoalEvents.GoalCheck()); break;
+            case 6: RunEvent(GoalEvents.NoGoal()); break;
+            case 7: RunEvent(GoalEvents.Goal()); break;
             default: break;
         }
     }
@@ -187,13 +188,13 @@ public class GameplayEvents : MonoBehaviour {
 
         switch (index)
         {
-            case 0: RunEvent(PullGoalieEvents.PullGoalieShotsList); break;
-            case 1: RunEvent(PullGoalieEvents.PullGoalieShotsStart); break;
-            case 2: RunEvent(PullGoalieEvents.PullGoalieShotsAttemptStart); break;
-            case 3: RunEvent(PullGoalieEvents.PullGoalieShotsAttemptResultNext); break;
-            case 4: RunEvent(PullGoalieEvents.PullGoalieShotsAttemptResultGoal); break;
-            case 5: RunEvent(PullGoalieEvents.PullGoalieShotsAttemptResultEmptyGoal); break;
-            case 6: RunEvent(PullGoalieEvents.PullGoalieShotsResult); break;
+            case 0: RunEvent(PullGoalieEvents.PullGoalieShotsList()); break;
+            case 1: RunEvent(PullGoalieEvents.PullGoalieShotsStart()); break;
+            case 2: RunEvent(PullGoalieEvents.PullGoalieShotsAttemptStart()); break;
+            case 3: RunEvent(PullGoalieEvents.PullGoalieShotsAttemptResultNext()); break;
+            case 4: RunEvent(PullGoalieEvents.PullGoalieShotsAttemptResultGoal()); break;
+            case 5: RunEvent(PullGoalieEvents.PullGoalieShotsAttemptResultEmptyGoal()); break;
+            case 6: RunEvent(PullGoalieEvents.PullGoalieShotsResult()); break;
             default: break;
         }
     }
@@ -206,13 +207,13 @@ public class GameplayEvents : MonoBehaviour {
 
         switch (index)
         {
-            case 0: RunEvent(GameFlowEvents.StartOfGame); break;
-            case 1: RunEvent(GameFlowEvents.StartOfPeriod); break;
-            case 2: RunEvent(GameFlowEvents.Injury); break;
-            case 3: RunEvent(GameFlowEvents.EndOfPeriod); break;
-            case 4: RunEvent(GameFlowEvents.OvertimeStart); break;
-            case 5: RunEvent(GameFlowEvents.EndOfGame); break;
-            case 6: RunEvent(GameFlowEvents.CompleteGame); break;
+            case 0: RunEvent(GameFlowEvents.StartOfGame()); break;
+            case 1: RunEvent(GameFlowEvents.StartOfPeriod()); break;
+            case 2: RunEvent(GameFlowEvents.Injury()); break;
+            case 3: RunEvent(GameFlowEvents.EndOfPeriod()); break;
+            case 4: RunEvent(GameFlowEvents.OvertimeStart()); break;
+            case 5: RunEvent(GameFlowEvents.EndOfGame()); break;
+            case 6: RunEvent(GameFlowEvents.CompleteGame()); break;
             default: break;
         }
     }
@@ -220,7 +221,7 @@ public class GameplayEvents : MonoBehaviour {
 #region -------------------- Private Methods --------------------
     private void RunEvent(IEnumerator runEvent)
     {
-        if (runEvent = null) { return; }
+        if (runEvent == null) { return; }
 
         CoreController.Inst.WriteLog(this.GetType().Name, $"Running gameplay event.");
 

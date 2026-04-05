@@ -10,6 +10,8 @@ using UnityEngine.SceneManagement;
 
 // Game Dependencies
 using SoM.Core;
+using SoM.Models;
+using SoM.Ui;
 
 namespace SoM.Controllers {
 public class UiController : Singleton<UiController> {
@@ -55,7 +57,7 @@ public class UiController : Singleton<UiController> {
         CoreController.Inst.LoadingStepCompleted();
     }
 
-    public void ShowBottomPanel(UiBottomPanelBase panelBase)
+    public void ShowBottomPanel(BottomPanel panelBase)
     {
         CoreController.Inst.WriteLog(this.GetType().Name, $"Showing the bottom panel.");
         

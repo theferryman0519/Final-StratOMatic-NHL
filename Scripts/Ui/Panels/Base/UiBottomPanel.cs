@@ -30,7 +30,9 @@ public class UiBottomPanel : MonoBehaviour {
 	[SerializeField] private RectTransform _mainPanel;
 #endregion
 #region -------------------- Public Variables --------------------
+    public CanvasGroup CanvasGroup => _mainElement;
     
+    public RectTransform MainPanel => _mainPanel;
 #endregion
 #region -------------------- Private Variables --------------------
     
@@ -49,7 +51,7 @@ public class UiBottomPanel : MonoBehaviour {
 		_titleText.text = panelData.Title;
 		_bodyText.text = panelData.Body;
 
-        _closeButton.SetListener(ClosePanel);
+        _closeButton.SetListener(() => { ClosePanel(); });
         _buttonA.SetListener(() => { panelData.ActionA?.Invoke(); });
         _buttonB.SetListener(() => { panelData.ActionB?.Invoke(); });
 
@@ -66,7 +68,7 @@ public class UiBottomPanel : MonoBehaviour {
         AnimationController.Inst.FadeInPanel(_mainElement, _mainPanel, () =>
         {
             _mainElement.alpha = 1f;
-            PanelController.Inst.IsVisible = true;
+            PanelController.Inst.IsBottomVisible = true;
         });
 	}
 
@@ -75,7 +77,7 @@ public class UiBottomPanel : MonoBehaviour {
 		AnimationController.Inst.FadeOutPanel(_mainElement, _mainPanel, () =>
 		{
 			_mainElement.alpha = 0f;
-            PanelController.Inst.IsVisible = false;
+            PanelController.Inst.IsBottomVisible = false;
 			this.gameObject.SetActive(false);
 
 			continueAction?.Invoke();

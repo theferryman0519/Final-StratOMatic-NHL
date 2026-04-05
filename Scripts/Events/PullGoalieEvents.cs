@@ -45,7 +45,7 @@ public class PullGoalieEvents : MonoBehaviour {
         PullGoalieShots.Clear();
         EmptyNetShots.Clear();
 
-        Team exTeam = GameplayController.Inst.GameData.PossTeam == "Home" ? GameplayController.Inst.GameData.HomeTeam : GameplayController.Inst.GameData.AwayTeam;
+        GameTeam exTeam = GameplayController.Inst.GameData.PossTeam == "Home" ? GameplayController.Inst.GameData.HomeTeam : GameplayController.Inst.GameData.AwayTeam;
 
         EventRun newEventRun = new EventRun
         {
@@ -63,7 +63,7 @@ public class PullGoalieEvents : MonoBehaviour {
     {
         CoreController.Inst.WriteLog(this.GetType().Name, $"Adding PullGoalieShotsStart to the queue.");
 
-        Team exTeam = GameplayController.Inst.GameData.PossTeam == "Home" ? GameplayController.Inst.GameData.HomeTeam : GameplayController.Inst.GameData.AwayTeam;
+        GameTeam exTeam = GameplayController.Inst.GameData.PossTeam == "Home" ? GameplayController.Inst.GameData.HomeTeam : GameplayController.Inst.GameData.AwayTeam;
 
         EventRun newEventRun = new EventRun
         {
@@ -72,7 +72,7 @@ public class PullGoalieEvents : MonoBehaviour {
         };
 
         EventsController.Inst.CurrentEventRun = newEventRun;
-        EventsController.Inst.ContinueAction = EventsController.Inst.RunPullGoalieEvent(2);
+        EventsController.Inst.ContinueAction = () => { EventsController.Inst.RunPullGoalieEvent(2); };
 
         yield return null;
     }
@@ -140,7 +140,7 @@ public class PullGoalieEvents : MonoBehaviour {
         };
 
         EventsController.Inst.CurrentEventRun = newEventRun;
-        EventsController.Inst.ContinueAction = EventsController.Inst.RunGoalEvent(7);
+        EventsController.Inst.ContinueAction = () => { EventsController.Inst.RunGoalEvent(7); };
 
         yield return null;
     }
@@ -156,7 +156,7 @@ public class PullGoalieEvents : MonoBehaviour {
         };
 
         EventsController.Inst.CurrentEventRun = newEventRun;
-        EventsController.Inst.ContinueAction = EventsController.Inst.RunGoalEvent(7);
+        EventsController.Inst.ContinueAction = () => { EventsController.Inst.RunGoalEvent(7); };
 
         yield return null;
     }
@@ -172,7 +172,7 @@ public class PullGoalieEvents : MonoBehaviour {
         };
 
         EventsController.Inst.CurrentEventRun = newEventRun;
-        EventsController.Inst.ContinueAction = EventsController.Inst.RunFaceoffEvent(0);
+        EventsController.Inst.ContinueAction = () => { EventsController.Inst.RunFaceoffEvent(0); };
 
         yield return null;
     }

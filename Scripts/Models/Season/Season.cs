@@ -20,7 +20,7 @@ public class Season {
 
     public int Version { get; set; }
 
-    public Team Team { get; set; }
+    public GameTeam Team { get; set; }
 
     public List<GameNight> GameNights { get; set; } = new();
 #endregion

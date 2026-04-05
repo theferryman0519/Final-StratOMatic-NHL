@@ -11,6 +11,7 @@ using UnityEngine.SceneManagement;
 // Game Dependencies
 using SoM.Controllers;
 using SoM.Models;
+using Random = UnityEngine.Random;
 
 namespace SoM.Events {
 public class FaceoffEvents : MonoBehaviour {
@@ -45,7 +46,7 @@ public class FaceoffEvents : MonoBehaviour {
         };
 
         EventsController.Inst.CurrentEventRun = newEventRun;
-        EventsController.Inst.ContinueAction = EventsController.Inst.RunFaceoffEvent(1);
+        EventsController.Inst.ContinueAction = () => { EventsController.Inst.RunFaceoffEvent(1); };
 
         yield return null;
     }
@@ -64,7 +65,7 @@ public class FaceoffEvents : MonoBehaviour {
         };
 
         EventsController.Inst.CurrentEventRun = newEventRun;
-        EventsController.Inst.ContinueAction = EventsController.Inst.RunFaceoffEvent(2);
+        EventsController.Inst.ContinueAction = () => { EventsController.Inst.RunFaceoffEvent(2); };
 
         GameplayController.Inst.StatsSet.ClearPossPos();
         GameplayController.Inst.StatsSet.SetPossTeam("None");
@@ -91,7 +92,7 @@ public class FaceoffEvents : MonoBehaviour {
         };
 
         EventsController.Inst.CurrentEventRun = newEventRun;
-        EventsController.Inst.ContinueAction = EventsController.Inst.RunOffenseEvent(0);
+        EventsController.Inst.ContinueAction = () => { EventsController.Inst.RunOffenseEvent(0); };
 
         yield return null;
     }
@@ -157,8 +158,8 @@ public class FaceoffEvents : MonoBehaviour {
         GameplayController.Inst.StatsSet.AddPossPos($"C{currentLine.ToString()}");
         GameplayController.Inst.StatsSet.AddPossPos(currentSkater);
         GameplayController.Inst.StatsSet.SetPossTeam(isHome ? "Home" : "Away");
-        GameplayController.Inst.StatsSet.AddFaceoffWon(isHome, 1);
-        GameplayController.Inst.StatsSet.AddFaceoffLost(!isHome, 1);
+        GameplayController.Inst.StatsSet.AddFaceoffWon(team.SkaterLineup[currentSkater], 1);
+        GameplayController.Inst.StatsSet.AddFaceoffLost(team.SkaterLineup[currentSkater], 1);
 
         return team.SkaterLineup[currentSkater];
     }

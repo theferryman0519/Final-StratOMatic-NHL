@@ -10,7 +10,9 @@ using UnityEngine.SceneManagement;
 
 // Game Dependencies
 using SoM.Core;
+using SoM.Events;
 using SoM.Models;
+using SoM.Ui;
 
 namespace SoM.Controllers {
 public class EventsController : Singleton<EventsController> {

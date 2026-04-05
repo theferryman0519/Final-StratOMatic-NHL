@@ -47,7 +47,7 @@ public class GameFlowEvents : MonoBehaviour {
         };
 
         EventsController.Inst.CurrentEventRun = newEventRun;
-        EventsController.Inst.ContinueAction = EventsController.Inst.RunGameFlowEvent(1);
+        EventsController.Inst.ContinueAction = () => { EventsController.Inst.RunGameFlowEvent(1); };
 
         IsOvertimeGame = false;
         InjuredSkater = null;
@@ -75,7 +75,7 @@ public class GameFlowEvents : MonoBehaviour {
         };
 
         EventsController.Inst.CurrentEventRun = newEventRun;
-        EventsController.Inst.ContinueAction = EventsController.Inst.RunFaceoffEvent(0);
+        EventsController.Inst.ContinueAction = () => { EventsController.Inst.RunFaceoffEvent(0); };
 
         yield return null;
     }
@@ -91,7 +91,7 @@ public class GameFlowEvents : MonoBehaviour {
         };
 
         EventsController.Inst.CurrentEventRun = newEventRun;
-        EventsController.Inst.ContinueAction = EventsController.Inst.RunFaceoffEvent(0);
+        EventsController.Inst.ContinueAction = () => { EventsController.Inst.RunFaceoffEvent(0); };
 
         yield return null;
     }
@@ -137,7 +137,7 @@ public class GameFlowEvents : MonoBehaviour {
         };
 
         EventsController.Inst.CurrentEventRun = newEventRun;
-        EventsController.Inst.ContinueAction = EventsController.Inst.RunGameFlowEvent(1);
+        EventsController.Inst.ContinueAction = () => { EventsController.Inst.RunGameFlowEvent(1); };
 
         IsOvertimeGame = true;
 
@@ -167,7 +167,7 @@ public class GameFlowEvents : MonoBehaviour {
         };
 
         EventsController.Inst.CurrentEventRun = newEventRun;
-        EventsController.Inst.ContinueAction = EventsController.Inst.RunGameFlowEvent(6);
+        EventsController.Inst.ContinueAction = () => { EventsController.Inst.RunGameFlowEvent(6); };
 
         yield return null;
     }
@@ -231,7 +231,8 @@ public class GameFlowEvents : MonoBehaviour {
     {
         CoreController.Inst.WriteLog(this.GetType().Name, $"Determining the final stats of the game.");
 
-        EventsController.Inst.MainUi.EndGame();
+        // TODO
+        // EventsController.Inst.MainUi.EndGame();
     }
 #endregion
 #region -------------------- Private Methods --------------------

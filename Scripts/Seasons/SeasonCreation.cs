@@ -2,6 +2,8 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading;
+using System.Threading.Tasks;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -40,7 +42,7 @@ public class SeasonCreation : MonoBehaviour {
 #region -------------------- Public Methods --------------------
     public async Task<Season> CreateSeason(SeasonDatabase seasonDatabase)
     {
-        await createSkaterLock.WaitAsync();
+        await createSeasonLock.WaitAsync();
         try
         {
             CoreController.Inst.WriteLog(this.GetType().Name, $"Creating the season.");
@@ -57,7 +59,7 @@ public class SeasonCreation : MonoBehaviour {
             newSeason.Team = await GetUserTeam(seasonDatabase.Team, seasonDatabase.League);
             newSeason.GameNights = new();
 
-            userTeam = newSeason.Team.Info.Code;
+            userTeam = newSeason.Team.Team.Code;
             userLeague = newSeason.League;
 
             version = seasonDatabase.Version;
@@ -70,12 +72,12 @@ public class SeasonCreation : MonoBehaviour {
         }
         finally
         {
-            createSkaterLock.Release();
+            createSeasonLock.Release();
         }
     }
 #endregion
 #region -------------------- Private Methods --------------------
-    private async Task<Team> GetUserTeam(string team, string league)
+    private async Task<GameTeam> GetUserTeam(string team, string league)
     {
         CoreController.Inst.WriteLog(this.GetType().Name, $"Getting the user team for the season.");
 
@@ -85,7 +87,8 @@ public class SeasonCreation : MonoBehaviour {
         }
 
         // TODO
-        return TeamsController.Inst.GetTeamByCode(team, league);
+        // return TeamsController.Inst.GetTeamByCode(team, league);
+        return null;
     }
 
     private async Task<List<GameNight>> SetGameNights()

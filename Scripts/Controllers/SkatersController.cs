@@ -10,6 +10,7 @@ using UnityEngine.SceneManagement;
 
 // Game Dependencies
 using SoM.Core;
+using SoM.Models;
 using SoM.Skaters;
 
 namespace SoM.Controllers {
@@ -20,10 +21,10 @@ public class SkatersController : Singleton<SkatersController> {
     [SerializeField] private SkaterCreation _skaterCreation;
 #endregion
 #region -------------------- Public Variables --------------------
-    public Dictionary<string, List<string>> NhlSkaters = new();
-    public Dictionary<string, List<string>> PwhlSkaters = new();
-    public Dictionary<string, List<string>> NhlFranchiseSkaters = new();
-    public Dictionary<string, List<string>> PwhlFranchiseSkaters = new();
+    public Dictionary<string, List<Skater>> NhlSkaters = new();
+    public Dictionary<string, List<Skater>> PwhlSkaters = new();
+    public Dictionary<string, List<Skater>> NhlFranchiseSkaters = new();
+    public Dictionary<string, List<Skater>> PwhlFranchiseSkaters = new();
 #endregion
 #region -------------------- Private Variables --------------------
     
@@ -52,7 +53,7 @@ public class SkatersController : Singleton<SkatersController> {
     {
         CoreController.Inst.WriteLog(this.GetType().Name, $"Setting all skaters.");
 
-        await FirebaseController.Inst.GetAllSkaters(allSkatersData =>
+        await FirebaseController.Inst.GetAllSkaters(async allSkatersData =>
         {
             foreach (SkaterDatabase skaterData in allSkatersData)
             {

@@ -12,7 +12,7 @@ using UnityEngine.SceneManagement;
 using SoM.Controllers;
 
 namespace SoM.Ui {
-public class SoM_Button : MonoBehavior {
+public class SoM_Button : MonoBehaviour {
 
 #region -------------------- Serialized Variables --------------------
     [Header("Button Elements")]
@@ -40,7 +40,7 @@ public class SoM_Button : MonoBehavior {
     public void SetListener(Action buttonAction)
     {
         _button.onClick.RemoveAllListeners();
-        _button.onClickAddListener(() =>
+        _button.onClick.AddListener(() =>
         {
             AnimationController.Inst.ShrinkButton(_button, buttonAction);
         });
