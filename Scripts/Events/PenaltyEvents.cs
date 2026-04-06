@@ -22,6 +22,8 @@ public class PenaltyEvents : MonoBehaviour {
     public Skater PenaltySkater;
     public Skater ShootingSkater;
 
+    public Goalie PenaltyGoalie;
+
     public string PenaltyCall;
 
     public int PenaltyTime;
@@ -53,10 +55,12 @@ public class PenaltyEvents : MonoBehaviour {
         PenaltyShots.Clear();
         ShorthandedShots.Clear();
 
+        string penaltyPlayer = PenaltyGoalie == null ? PenaltySkater.Info.LastName : PenaltyGoalie.Info.LastName;
+
         EventRun newEventRun = new EventRun
         {
             InfoText = $"When a player selects a penalty action, their Penalty rating determines if they are getting a penalty or not.",
-            ActionText = $"The referees have their arm up as {PenaltySkater.Info.LastName} might get charged with a penalty.",
+            ActionText = $"The referees have their arm up as {penaltyPlayer} might get charged with a penalty.",
         };
 
         EventsController.Inst.CurrentEventRun = newEventRun;
@@ -69,10 +73,12 @@ public class PenaltyEvents : MonoBehaviour {
     {
         CoreController.Inst.WriteLog(this.GetType().Name, $"Adding PenaltyCheckClear to the queue.");
 
+        string penaltyPlayer = PenaltyGoalie == null ? PenaltySkater.Info.LastName : PenaltyGoalie.Info.LastName;
+
         EventRun newEventRun = new EventRun
         {
             InfoText = $"After checking for a penalty, there might be a chance where the penalty does not get called.",
-            ActionText = $"After debate, it looks like {PenaltySkater.Info.LastName} was not given a penalty. The centers are getting ready for a faceoff.",
+            ActionText = $"After debate, it looks like {penaltyPlayer} was not given a penalty. The centers are getting ready for a faceoff.",
         };
 
         EventsController.Inst.CurrentEventRun = newEventRun;
@@ -85,10 +91,13 @@ public class PenaltyEvents : MonoBehaviour {
     {
         CoreController.Inst.WriteLog(this.GetType().Name, $"Adding PenaltyShotsList to the queue.");
 
+        string penaltyPlayerFirst = PenaltyGoalie == null ? PenaltySkater.Info.FirstName : PenaltyGoalie.Info.FirstName;
+        string penaltyPlayerLast = PenaltyGoalie == null ? PenaltySkater.Info.LastName : PenaltyGoalie.Info.LastName;
+
         EventRun newEventRun = new EventRun
         {
             InfoText = $"After checking for a penalty, there might be a chance where a penalty is called and a powerplay starts.",
-            ActionText = $"The call on the ice is, indeed, a penalty. {PenaltySkater.Info.FirstName} {PenaltySkater.Info.LastName} is getting {PenaltyTime} minutes for {PenaltyCall}.",
+            ActionText = $"The call on the ice is, indeed, a penalty. {penaltyPlayerFirst} {penaltyPlayerLast} is getting {PenaltyTime} minutes for {PenaltyCall}.",
         };
 
         EventsController.Inst.CurrentEventRun = newEventRun;
