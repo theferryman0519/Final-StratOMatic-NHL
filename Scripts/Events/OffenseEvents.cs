@@ -7,6 +7,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Audio;
 using UnityEngine.SceneManagement;
+using Random = UnityEngine.Random;
 
 // Game Dependencies
 using SoM.Controllers;
@@ -278,10 +279,24 @@ public class OffenseEvents : MonoBehaviour {
 
         Skater possSkater = GameplayController.Inst.GetPossSkater();
 
+        bool isSameSkater = false;
+
+        if (GameplayController.Inst.GameData.PossPos.Count > 1)
+        {
+            int passCount = GameplayController.Inst.GameData.PossPos.Count;
+
+            if (GameplayController.Inst.GameData.PossPos[passCount -1] == GameplayController.Inst.GameData.PossPos[passCount - 2])
+            {
+                isSameSkater = true;
+            }
+        }
+
+        string passedSkater = isSameSkater ? "themself" : possSkater.Info.LastName;
+
         EventRun newEventRun = new EventRun
         {
             InfoText = $"After attempting a pass, the pass might be successful and a shot attempt taken by a teammate.",
-            ActionText = $"{PassingSkater.Info.LastName} passes the puck to {possSkater.Info.LastName}, who appears to be attempting a shot on net.",
+            ActionText = $"{PassingSkater.Info.LastName} passes the puck to {passedSkater}, who appears to be attempting a shot on net.",
         };
 
         EventsController.Inst.CurrentEventRun = newEventRun;
@@ -298,10 +313,24 @@ public class OffenseEvents : MonoBehaviour {
 
         Skater possSkater = GameplayController.Inst.GetPossSkater();
 
+        bool isSameSkater = false;
+
+        if (GameplayController.Inst.GameData.PossPos.Count > 1)
+        {
+            int passCount = GameplayController.Inst.GameData.PossPos.Count;
+
+            if (GameplayController.Inst.GameData.PossPos[passCount -1] == GameplayController.Inst.GameData.PossPos[passCount - 2])
+            {
+                isSameSkater = true;
+            }
+        }
+
+        string passedSkater = isSameSkater ? "themself" : possSkater.Info.LastName;
+
         EventRun newEventRun = new EventRun
         {
             InfoText = $"After attempting a pass, the pass might be successful and a teammate has a chance at an Inside Shot after an opponent attempts to intimidate.",
-            ActionText = $"The pass by {PassingSkater.Info.LastName} successfully goes to {possSkater.Info.LastName}, who looks to attempt an Inside Shot.",
+            ActionText = $"The pass by {PassingSkater.Info.LastName} successfully goes to {passedSkater}, who looks to attempt an Inside Shot.",
         };
 
         EventsController.Inst.CurrentEventRun = newEventRun;
@@ -318,10 +347,24 @@ public class OffenseEvents : MonoBehaviour {
 
         Skater possSkater = GameplayController.Inst.GetPossSkater();
 
+        bool isSameSkater = false;
+
+        if (GameplayController.Inst.GameData.PossPos.Count > 1)
+        {
+            int passCount = GameplayController.Inst.GameData.PossPos.Count;
+
+            if (GameplayController.Inst.GameData.PossPos[passCount -1] == GameplayController.Inst.GameData.PossPos[passCount - 2])
+            {
+                isSameSkater = true;
+            }
+        }
+
+        string passedSkater = isSameSkater ? $"After grabbing their own pass" : $"After a pass from {PassingSkater.Info.LastName}";
+
         EventRun newEventRun = new EventRun
         {
             InfoText = $"After attempting a pass, the pass might be successful and a teammate has options on the offense.",
-            ActionText = $"After grabbing a pass from {PassingSkater.Info.LastName}, {possSkater.Info.FirstName} {possSkater.Info.LastName} has the puck and is looking to generate some offense.",
+            ActionText = $"{passedSkater}, {possSkater.Info.FirstName} {possSkater.Info.LastName} has the puck and is looking to generate some offense.",
         };
 
         EventsController.Inst.CurrentEventRun = newEventRun;
@@ -337,120 +380,567 @@ public class OffenseEvents : MonoBehaviour {
     {
         CoreController.Inst.WriteLog(this.GetType().Name, $"Picking an Action Card.");
 
-        // TODO
-        // Determine different action outcomes
-        // Determine current team strategy
-        // Set action outcome based on team strategy
-        // Add to total cards drawn
-        // Update game time
-        // Check for injury of possession player
-        // Reduce current line stamina for both teams
-        // Reduce current pair stamina for both teams
-        // Set continue action to outcome
+        SetCardsDrawn(() =>
+        {
+            CheckForInjuries(() =>
+            {
+                UpdateLinesPairs(() =>
+                {
+                    DrawActionCard();
+                });
+            });
+        });
     }
 
     public void DetermineShotOutcome()
     {
         CoreController.Inst.WriteLog(this.GetType().Name, $"Determining the shot outcome.");
+        
+        int skaterFatigue = ShootingSkater.Game.Stamina;
+        int randomNumber = Random.Range(0,11);
+        int staminaShift = 0;
+        int finalAction = 4;
 
-        // TODO
-        // Determine current skater stamina
-        // Determine shot type
-        // Determine random 2d6 roll
-        // Get action from skater card
-        // Set action shift based on stamina
-        // If lose puck:
-            // Reset position possession tracker
-            // Set new team possession
-            // Set new player possession
-            // Add new player to position possession tracker
-            // Add blocked shot for new player
-            // Set continue action to shot result lose
-        // If save shot:
-            // Add shot for shooter
-            // Add shot against for opposing goalie
-            // Reset position possession tracker
-            // Set new team possession
-            // Set new player possession
-            // Add new player to position possession tracker
-            // Set continue action to shot result shot
-        // If rebound shot:
-            // Add shot for shooter
-            // Add shot against for opposing goalie
-            // Set continue action to shot result rebound
-        // If goalie rating:
-            // Add shot for shooter
-            // Add shot against for opposing goalie
-            // Set continue action to shot result goalie rating
-        // If goal:
-            // Add shot for shooter
-            // Add shot against for opposing goalie
-            // Set continue action to shot result goal
+        List<string> shotActions = new();
+
+        if (SelectedShotType == ConstantController.ShotType.Outside) { shotActions = ShootingSkater.Card.OutsideShotActions; }
+        else if (SelectedShotType == ConstantController.ShotType.Outside) { shotActions = ShootingSkater.Card.InsideShotActions; }
+        else { shotActions = ShootingSkater.Card.ReboundShotActions; }
+
+        string shotAction = shotActions[randomNumber];
+
+        if (skaterFatigue >= 85) { staminaShift = 0; }
+        else if (skaterFatigue >= 60) { staminaShift = 1; }
+        else if (skaterFatigue >= 45) { staminaShift = 2; }
+        else if (skaterFatigue >= 30) { staminaShift = 3; }
+        else if (skaterFatigue >= 15) { staminaShift = 4; }
+        else { skaterFatigue = 5; }
+
+        switch (shotAction)
+        {
+            case "REBOUND": finalAction = 10; break;
+            case "LOSE": finalAction = 1; break;
+            case "SHOT": finalAction = 2; break;
+            case "GOALIE RATING": finalAction = 3; break;
+            case "GOAL":
+            default: finalAction = 4; break;
+        }
+
+        if (finalAction < 10) { finalAction -= staminaShift; }
+        if (finalAction < 1) { finalAction = 1; }
+
+        if (finalAction == 1) // LOSE
+        {
+            string newPossTeamString = GameplayController.Inst.GameData.PossTeam == "Home" ? "Away" : "Home";
+
+            GameTeam newPossTeam = newPossTeamString == "Home" ? GameplayController.Inst.GameData.HomeTeam : GameplayController.Inst.GameData.AwayTeam;
+
+            int newPossLine = newPossTeam.CurrentLine;
+            int newPossPair = newPossTeam.CurrentPair;
+
+            string newPos = GetRandomPos();
+            string newPossPos = newPos.Contains("D") ? $"{newPos}{newPossPair}" : $"{newPos}{newPossLine}";
+
+            GameplayController.Inst.StatsSet.ClearPossPos();
+            GameplayController.Inst.StatsSet.SetPossTeam(newPossTeamString);
+            GameplayController.Inst.StatsSet.AddPossPos(newPossPos);
+
+            Skater possSkater = GameplayController.Inst.GetPossSkater();
+
+            GameplayController.Inst.StatsSet.AddBlockedShot(possSkater, 1);
+
+            EventsController.Inst.RunOffenseEvent(3);
+        }
+
+        else if (finalAction == 2) // SHOT
+        {
+            GameplayController.Inst.StatsSet.AddShot(ShootingSkater, 1);
+
+            string newPossTeamString = GameplayController.Inst.GameData.PossTeam == "Home" ? "Away" : "Home";
+
+            GameTeam newPossTeam = newPossTeamString == "Home" ? GameplayController.Inst.GameData.HomeTeam : GameplayController.Inst.GameData.AwayTeam;
+
+            int newPossLine = newPossTeam.CurrentLine;
+            int newPossPair = newPossTeam.CurrentPair;
+
+            string newPos = GetRandomPos();
+            string newPossPos = newPos.Contains("D") ? $"{newPos}{newPossPair}" : $"{newPos}{newPossLine}";
+
+            GameplayController.Inst.StatsSet.ClearPossPos();
+            GameplayController.Inst.StatsSet.SetPossTeam(newPossTeamString);
+            GameplayController.Inst.StatsSet.AddPossPos(newPossPos);
+
+            EventsController.Inst.RunOffenseEvent(4);
+        }
+
+        else if (finalAction == 3) // GOALIE RATING
+        {
+            GameplayController.Inst.StatsSet.AddShot(ShootingSkater, 1);
+
+            EventsController.Inst.RunOffenseEvent(6);
+        }
+
+        else if (finalAction == 4) // GOAL
+        {
+            GameplayController.Inst.StatsSet.AddShot(ShootingSkater, 1);
+
+            if (shotAction == "GOAL") { GameplayController.Inst.GameplayEvents.GoalEvents.GoalThreshold = 20; }
+            else if (shotAction == "GOAL 1") { GameplayController.Inst.GameplayEvents.GoalEvents.GoalThreshold = 1; }
+            else
+            {
+                string[] actionSplit = shotAction.Split("-");
+                int actionThreshold = Int32.Parse(actionSplit[1]);
+
+                GameplayController.Inst.GameplayEvents.GoalEvents.GoalThreshold = actionThreshold;
+            }
+
+            EventsController.Inst.RunOffenseEvent(7);
+        }
+
+        else // REBOUND
+        {
+            GameplayController.Inst.StatsSet.AddShot(ShootingSkater, 1);
+
+            EventsController.Inst.RunOffenseEvent(5);
+        }
     }
 
     public void DetermineReboundOutcome()
     {
         CoreController.Inst.WriteLog(this.GetType().Name, $"Determining the rebound outcome.");
+        
+        string randomPos = GetRandomPos();
+        string randomTeamString = Random.Range(0,2) == 0 ? "Home" : "Away";
 
-        // TODO
-        // Determine random position: both teams
-        // Determine new skater possession
-        // If same team as shooter:
-            // Set new player possession
-            // Add new player to position possession tracker
-            // Set selected shot type as RebBreak
-            // Set continue action to shot start
-        // If opposing team as shooter:
-            // Reset position possession tracker
-            // Set new team possession
-            // Set new player possession
-            // Add new player to position possession tracker
-            // Set continue action to action card
+        GameTeam randomTeam = randomTeamString == "Home" ? GameplayController.Inst.GameData.HomeTeam : GameplayController.Inst.GameData.AwayTeam;
+
+        if (randomTeamString == GameplayController.Inst.GameData.PossTeam)
+        {
+            int teamLine = randomTeam.CurrentLine;
+            int teamPair = randomTeam.CurrentPair;
+
+            string teamPos = randomPos.Contains("D") ? $"{randomPos}{teamPair}" : $"{randomPos}{teamLine}";
+
+            GameplayController.Inst.StatsSet.AddPossPos(teamPos);
+
+            ShootingSkater = GameplayController.Inst.GetPossSkater();
+
+            EventsController.Inst.GameplayEvents.OffenseEvents.SelectedShotType = ConstantController.ShotType.RebBreak;
+            EventsController.Inst.RunOffenseEvent(2);
+        }
+
+        else
+        {
+            int teamLine = randomTeam.CurrentLine;
+            int teamPair = randomTeam.CurrentPair;
+
+            string teamPos = randomPos.Contains("D") ? $"{randomPos}{teamPair}" : $"{randomPos}{teamLine}";
+
+            GameplayController.Inst.StatsSet.ClearPossPos();
+            GameplayController.Inst.StatsSet.SetPossTeam(randomTeamString);
+            GameplayController.Inst.StatsSet.AddPossPos(teamPos);
+
+            ShootingSkater = null;
+
+            EventsController.Inst.RunOffenseEvent(0);
+        }
     }
 
     public void DeterminePassingOutcome()
     {
         CoreController.Inst.WriteLog(this.GetType().Name, $"Determining the pass outcome.");
+        
+        int skaterFatigue = PassingSkater.Game.Stamina;
+        int randomNumber = Random.Range(0,11);
+        int staminaShift = 0;
+        int finalAction = 1;
 
-        // TODO
-        // Determine current skater stamina
-        // Determine random letter from A to L (inclusive)
-        // Get action from skater card
-        // Set action shift based on stamina
-        // If lose:
-            // Add giveaway to player
-            // Reset position possession tracker
-            // Set new team possession
-            // Set new player possession
-            // Add new player to position possession tracker
-            // Add takeaway to new player
-            // Set continue action to pass result lose
-        // If lose shot:
-            // Add giveaway to player
-            // Reset position possession tracker
-            // Set new team possession
-            // Set new player possession
-            // Add new player to position possession tracker
-            // Add takeaway to new player
-            // Set continue action to pass result lose shot
-        // If shot:
-            // Set new player possession
-            // Add new player to position possession tracker
-            // Set selected shot type based on card action
-            // Set continue action to pass result shot
-        // If shot intimidation:
-            // Set new player possession
-            // Add new player to position possession tracker
-            // Set selected shot type to Inside
-            // Set continue action to pass result shot intimidation
-        // If shot options:
-            // Set new player possession
-            // Add new player to position possession tracker
-            // Set selected shot type to Outside
-            // Set continue action to pass result shot options
+        string passAction = PassingSkater.Card.PassingActions[randomNumber];
+
+        if (skaterFatigue >= 85) { staminaShift = 0; }
+        else if (skaterFatigue >= 60) { staminaShift = 1; }
+        else if (skaterFatigue >= 45) { staminaShift = 2; }
+        else if (skaterFatigue >= 30) { staminaShift = 3; }
+        else if (skaterFatigue >= 15) { staminaShift = 4; }
+        else { skaterFatigue = 5; }
+
+        switch (passAction)
+        {
+            case "IN": finalAction = 5; break;
+            case "OUT": finalAction = 4; break;
+            case "LOSE": finalAction = 3; break;
+            case "LOSE OUT": finalAction = 2; break;
+            case "LOSE IN":
+            default: finalAction = 1; break;
+        }
+
+        finalAction -= staminaShift;
+
+        if (finalAction < 1) { finalAction = 1; }
+
+        if (finalAction == 1) // LOSE IN
+        {
+            string newPossTeamString = GameplayController.Inst.GameData.PossTeam == "Home" ? "Away" : "Home";
+
+            GameTeam newPossTeam = newPossTeamString == "Home" ? GameplayController.Inst.GameData.HomeTeam : GameplayController.Inst.GameData.AwayTeam;
+
+            int newPossLine = newPossTeam.CurrentLine;
+            int newPossPair = newPossTeam.CurrentPair;
+
+            string newPos = GetRandomPos();
+            string newPossPos = newPos.Contains("D") ? $"{newPos}{newPossPair}" : $"{newPos}{newPossLine}";
+
+            GameplayController.Inst.StatsSet.ClearPossPos();
+            GameplayController.Inst.StatsSet.SetPossTeam(newPossTeamString);
+            GameplayController.Inst.StatsSet.AddPossPos(newPossPos);
+
+            ShootingSkater = GameplayController.Inst.GetPossSkater();
+
+            EventsController.Inst.GameplayEvents.OffenseEvents.SelectedShotType = ConstantController.ShotType.Inside;
+            EventsController.Inst.RunOffenseEvent(11);
+        }
+
+        else if (finalAction == 1) // LOSE OUT
+        {
+            string newPossTeamString = GameplayController.Inst.GameData.PossTeam == "Home" ? "Away" : "Home";
+
+            GameTeam newPossTeam = newPossTeamString == "Home" ? GameplayController.Inst.GameData.HomeTeam : GameplayController.Inst.GameData.AwayTeam;
+
+            int newPossLine = newPossTeam.CurrentLine;
+            int newPossPair = newPossTeam.CurrentPair;
+
+            string newPos = GetRandomPos();
+            string newPossPos = newPos.Contains("D") ? $"{newPos}{newPossPair}" : $"{newPos}{newPossLine}";
+
+            GameplayController.Inst.StatsSet.ClearPossPos();
+            GameplayController.Inst.StatsSet.SetPossTeam(newPossTeamString);
+            GameplayController.Inst.StatsSet.AddPossPos(newPossPos);
+
+            ShootingSkater = GameplayController.Inst.GetPossSkater();
+
+            EventsController.Inst.GameplayEvents.OffenseEvents.SelectedShotType = ConstantController.ShotType.Outside;
+            EventsController.Inst.RunOffenseEvent(11);
+        }
+
+        else if (finalAction == 1) // LOSE
+        {
+            string newPossTeamString = GameplayController.Inst.GameData.PossTeam == "Home" ? "Away" : "Home";
+
+            GameTeam newPossTeam = newPossTeamString == "Home" ? GameplayController.Inst.GameData.HomeTeam : GameplayController.Inst.GameData.AwayTeam;
+
+            int newPossLine = newPossTeam.CurrentLine;
+            int newPossPair = newPossTeam.CurrentPair;
+
+            string newPos = GetRandomPos();
+            string newPossPos = newPos.Contains("D") ? $"{newPos}{newPossPair}" : $"{newPos}{newPossLine}";
+
+            GameplayController.Inst.StatsSet.ClearPossPos();
+            GameplayController.Inst.StatsSet.SetPossTeam(newPossTeamString);
+            GameplayController.Inst.StatsSet.AddPossPos(newPossPos);
+
+            EventsController.Inst.RunOffenseEvent(10);
+        }
+
+        else if (finalAction == 1) // OUT
+        {
+            GameTeam newPossTeam = GameplayController.Inst.GameData.PossTeam == "Home" ? GameplayController.Inst.GameData.HomeTeam : GameplayController.Inst.GameData.AwayTeam;
+
+            int newPossLine = newPossTeam.CurrentLine;
+            int newPossPair = newPossTeam.CurrentPair;
+
+            string newPos = GetRandomPos();
+            string newPossPos = newPos.Contains("D") ? $"{newPos}{newPossPair}" : $"{newPos}{newPossLine}";
+
+            GameplayController.Inst.StatsSet.AddPossPos(newPossPos);
+
+            ShootingSkater = GameplayController.Inst.GetPossSkater();
+
+            EventsController.Inst.RunOffenseEvent(14);
+        }
+
+        else if (finalAction == 1) // IN
+        {
+            GameTeam newPossTeam = GameplayController.Inst.GameData.PossTeam == "Home" ? GameplayController.Inst.GameData.HomeTeam : GameplayController.Inst.GameData.AwayTeam;
+
+            int newPossLine = newPossTeam.CurrentLine;
+            int newPossPair = newPossTeam.CurrentPair;
+
+            string newPos = GetRandomPos();
+            string newPossPos = newPos.Contains("D") ? $"{newPos}{newPossPair}" : $"{newPos}{newPossLine}";
+
+            GameplayController.Inst.StatsSet.AddPossPos(newPossPos);
+
+            ShootingSkater = GameplayController.Inst.GetPossSkater();
+
+            EventsController.Inst.RunOffenseEvent(13);
+        }
     }
 #endregion
 #region -------------------- Private Methods --------------------
-    
+    private void SetCardsDrawn(Action continueAction = null)
+    {
+        CoreController.Inst.WriteLog(this.GetType().Name, $"Setting the cards drawn count.");
+
+        GameplayController.Inst.GameData.CardsDrawn += 1;
+
+        if (GameplayController.Inst.GameData.CardsDrawn > 30)
+        {
+            EventsController.Inst.RunGameFlowEvent(3);
+            return;
+        }
+
+        continueAction?.Invoke();
+    }
+
+    private void CheckForInjuries(Action continueAction = null)
+    {
+        CoreController.Inst.WriteLog(this.GetType().Name, $"Checking for potential injuries.");
+
+        Skater possSkater = GameplayController.Inst.GetPossSkater();
+        int skaterFatigue = possSkater.Game.Stamina;
+        int randomInjury = Random.Range(0,100);
+        int injuryThreshold = 0;
+
+        if (skaterFatigue >= 85) { injuryThreshold = 0; }
+        else if (skaterFatigue >= 60) { injuryThreshold = 1; }
+        else if (skaterFatigue >= 45) { injuryThreshold = 2; }
+        else if (skaterFatigue >= 30) { injuryThreshold = 3; }
+        else if (skaterFatigue >= 15) { injuryThreshold = 4; }
+        else { injuryThreshold = 5; }
+
+        if (injuryThreshold > randomInjury)
+        {
+            EventsController.Inst.GameplayEvents.GameFlowEvents.InjuredSkater = possSkater;
+            EventsController.Inst.RunGameFlowEvent(2);
+            return;
+        }
+
+        continueAction?.Invoke();
+    }
+
+    private void UpdateLinesPairs(Action continueAction = null)
+    {
+        CoreController.Inst.WriteLog(this.GetType().Name, $"Updating the lines and pairs.");
+
+        bool isPossTeamHome = GameplayController.Inst.GameData.PossTeam == "Home";
+
+        GameplayController.Inst.StatsSet.AddTeamStamina(isPossTeamHome);
+        GameplayController.Inst.StatsSet.AddTeamStamina(!isPossTeamHome);
+
+        GameplayController.Inst.GameData.HomeTeam.CurrentLine = GameplayController.Inst.GameData.HomeTeam.NextLine;
+        GameplayController.Inst.GameData.HomeTeam.CurrentPair = GameplayController.Inst.GameData.HomeTeam.NextPair;
+        GameplayController.Inst.GameData.AwayTeam.CurrentLine = GameplayController.Inst.GameData.AwayTeam.NextLine;
+        GameplayController.Inst.GameData.AwayTeam.CurrentPair = GameplayController.Inst.GameData.AwayTeam.NextPair;
+
+        GameTeam possTeam = isPossTeamHome ? GameplayController.Inst.GameData.HomeTeam : GameplayController.Inst.GameData.AwayTeam;
+
+        int newPossLine = possTeam.CurrentLine;
+        int newPossPair = possTeam.CurrentPair;
+
+        string poss = GameplayController.Inst.GameData.PossPos[GameplayController.Inst.GameData.PossPos.Count - 1];
+        string possPos = poss.Substring(0, poss.Length - 1);
+        string newPossPos = possPos.Contains("D") ? $"{possPos}{newPossPair}" : $"{possPos}{newPossLine}";
+
+        GameplayController.Inst.StatsSet.AddPossPos(newPossPos);
+
+        continueAction?.Invoke();
+    }
+
+    private void DrawActionCard()
+    {
+        CoreController.Inst.WriteLog(this.GetType().Name, $"Drawing a new action card.");
+
+        List<string> actionOptions = new() { "LOSE BREAK", "LOSE IN", "LOSE OUT", "LOSE", "DEF", "PASS", "OUT", "IN", "BREAK" };
+
+        GameTeam possTeam = GameplayController.Inst.GameData.PossTeam == "Home" ? GameplayController.Inst.GameData.HomeTeam : GameplayController.Inst.GameData.AwayTeam;
+        Skater possSkater = GameplayController.Inst.GetPossSkater();
+
+        int skaterFatigue = possSkater.Game.Stamina;
+        int randomNumber = Random.Range(0,9);
+        int teamStrategy = possTeam.CurrentStrategy;
+        int strategyShift = Random.Range(-teamStrategy, teamStrategy + 1);
+        int staminaShift = 0;
+        int finalAction = 0;
+
+        if (skaterFatigue >= 85) { staminaShift = 0; }
+        else if (skaterFatigue >= 60) { staminaShift = 1; }
+        else if (skaterFatigue >= 45) { staminaShift = 2; }
+        else if (skaterFatigue >= 30) { staminaShift = 3; }
+        else if (skaterFatigue >= 15) { staminaShift = 4; }
+        else { skaterFatigue = 5; }
+
+        finalAction = randomNumber - staminaShift + strategyShift;
+
+        if (finalAction > 8) { finalAction = 8; }
+        else if (finalAction < 0) { finalAction = 0; }
+
+        string finalActionString = actionOptions[finalAction];
+
+        if (finalActionString == "LOSE BREAK")
+        {
+            string newPossTeamString = GameplayController.Inst.GameData.PossTeam == "Home" ? "Away" : "Home";
+
+            GameTeam newPossTeam = newPossTeamString == "Home" ? GameplayController.Inst.GameData.HomeTeam : GameplayController.Inst.GameData.AwayTeam;
+
+            int newPossLine = newPossTeam.CurrentLine;
+            int newPossPair = newPossTeam.CurrentPair;
+
+            string newPos = GetRandomPos();
+            string newPossPos = newPos.Contains("D") ? $"{newPos}{newPossPair}" : $"{newPos}{newPossLine}";
+
+            GameplayController.Inst.StatsSet.ClearPossPos();
+            GameplayController.Inst.StatsSet.SetPossTeam(newPossTeamString);
+            GameplayController.Inst.StatsSet.AddPossPos(newPossPos);
+
+            EventsController.Inst.GameplayEvents.OffenseEvents.ShootingSkater = newPossTeam.SkaterLineup[newPossPos];
+            EventsController.Inst.RunOffenseEvent(2, ConstantController.ShotType.RebBreak);
+        }
+
+        else if (finalActionString == "LOSE IN")
+        {
+            string newPossTeamString = GameplayController.Inst.GameData.PossTeam == "Home" ? "Away" : "Home";
+
+            GameTeam newPossTeam = newPossTeamString == "Home" ? GameplayController.Inst.GameData.HomeTeam : GameplayController.Inst.GameData.AwayTeam;
+
+            int newPossLine = newPossTeam.CurrentLine;
+            int newPossPair = newPossTeam.CurrentPair;
+
+            string newPos = GetRandomPos();
+            string newPossPos = newPos.Contains("D") ? $"{newPos}{newPossPair}" : $"{newPos}{newPossLine}";
+
+            GameplayController.Inst.StatsSet.ClearPossPos();
+            GameplayController.Inst.StatsSet.SetPossTeam(newPossTeamString);
+            GameplayController.Inst.StatsSet.AddPossPos(newPossPos);
+
+            EventsController.Inst.GameplayEvents.OffenseEvents.SelectedShotType = ConstantController.ShotType.Inside;
+            EventsController.Inst.GameplayEvents.OffenseEvents.ShootingSkater = newPossTeam.SkaterLineup[newPossPos];
+            EventsController.Inst.RunDefenseEvent(0);
+        }
+
+        else if (finalActionString == "LOSE OUT")
+        {
+            string newPossTeamString = GameplayController.Inst.GameData.PossTeam == "Home" ? "Away" : "Home";
+
+            GameTeam newPossTeam = newPossTeamString == "Home" ? GameplayController.Inst.GameData.HomeTeam : GameplayController.Inst.GameData.AwayTeam;
+
+            int newPossLine = newPossTeam.CurrentLine;
+            int newPossPair = newPossTeam.CurrentPair;
+
+            string newPos = GetRandomPos();
+            string newPossPos = newPos.Contains("D") ? $"{newPos}{newPossPair}" : $"{newPos}{newPossLine}";
+
+            GameplayController.Inst.StatsSet.ClearPossPos();
+            GameplayController.Inst.StatsSet.SetPossTeam(newPossTeamString);
+            GameplayController.Inst.StatsSet.AddPossPos(newPossPos);
+
+            EventsController.Inst.GameplayEvents.OffenseEvents.ShootingSkater = newPossTeam.SkaterLineup[newPossPos];
+            EventsController.Inst.RunOffenseEvent(1, ConstantController.ShotType.Outside);
+        }
+
+        else if (finalActionString == "LOSE")
+        {
+            string newPossTeamString = GameplayController.Inst.GameData.PossTeam == "Home" ? "Away" : "Home";
+
+            GameTeam newPossTeam = newPossTeamString == "Home" ? GameplayController.Inst.GameData.HomeTeam : GameplayController.Inst.GameData.AwayTeam;
+
+            int newPossLine = newPossTeam.CurrentLine;
+            int newPossPair = newPossTeam.CurrentPair;
+
+            string newPos = GetRandomPos();
+            string newPossPos = newPos.Contains("D") ? $"{newPos}{newPossPair}" : $"{newPos}{newPossLine}";
+
+            GameplayController.Inst.StatsSet.ClearPossPos();
+            GameplayController.Inst.StatsSet.SetPossTeam(newPossTeamString);
+            GameplayController.Inst.StatsSet.AddPossPos(newPossPos);
+
+            EventsController.Inst.RunOffenseEvent(0);
+        }
+
+        else if (finalActionString == "DEF")
+        {
+            int possLine = possTeam.CurrentLine;
+            int possPair = possTeam.CurrentPair;
+
+            string pos = GetRandomPos();
+            string possPos = pos.Contains("D") ? $"{pos}{possPair}" : $"{pos}{possLine}";
+
+            GameplayController.Inst.StatsSet.AddPossPos(possPos);
+            
+            EventsController.Inst.RunDefenseEvent(3);
+        }
+
+        else if (finalActionString == "PASS")
+        {
+            int possLine = possTeam.CurrentLine;
+            int possPair = possTeam.CurrentPair;
+
+            string pos = GetRandomPos();
+            string possPos = pos.Contains("D") ? $"{pos}{possPair}" : $"{pos}{possLine}";
+
+            GameplayController.Inst.StatsSet.AddPossPos(possPos);
+
+            EventsController.Inst.RunOffenseEvent(9);
+        }
+
+        else if (finalActionString == "OUT")
+        {
+            int possLine = possTeam.CurrentLine;
+            int possPair = possTeam.CurrentPair;
+
+            string pos = GetRandomPos();
+            string possPos = pos.Contains("D") ? $"{pos}{possPair}" : $"{pos}{possLine}";
+
+            GameplayController.Inst.StatsSet.AddPossPos(possPos);
+
+            EventsController.Inst.GameplayEvents.OffenseEvents.ShootingSkater = possTeam.SkaterLineup[possPos];
+            EventsController.Inst.RunOffenseEvent(1, ConstantController.ShotType.Outside);
+        }
+
+        else if (finalActionString == "IN")
+        {
+            int possLine = possTeam.CurrentLine;
+            int possPair = possTeam.CurrentPair;
+
+            string pos = GetRandomPos();
+            string possPos = pos.Contains("D") ? $"{pos}{possPair}" : $"{pos}{possLine}";
+
+            GameplayController.Inst.StatsSet.AddPossPos(possPos);
+
+            EventsController.Inst.GameplayEvents.OffenseEvents.SelectedShotType = ConstantController.ShotType.Inside;
+            EventsController.Inst.GameplayEvents.OffenseEvents.ShootingSkater = possTeam.SkaterLineup[possPos];
+            EventsController.Inst.RunDefenseEvent(0);
+        }
+
+        else
+        {
+            int possLine = possTeam.CurrentLine;
+            int possPair = possTeam.CurrentPair;
+
+            string pos = GetRandomPos();
+            string possPos = pos.Contains("D") ? $"{pos}{possPair}" : $"{pos}{possLine}";
+
+            GameplayController.Inst.StatsSet.AddPossPos(possPos);
+
+            EventsController.Inst.GameplayEvents.OffenseEvents.ShootingSkater = possTeam.SkaterLineup[possPos];
+            EventsController.Inst.RunOffenseEvent(2, ConstantController.ShotType.RebBreak);
+        }
+    }
+
+    private string GetRandomPos()
+    {
+        CoreController.Inst.WriteLog(this.GetType().Name, $"Getting a random position.");
+
+        int index = Random.Range(0,5);
+
+        switch (index)
+        {
+            case 0: return "C";
+            case 1: return "LW";
+            case 2: return "RW";
+            case 3: return "LD";
+            case 4:
+            default: return "RD";
+        }
+    }
 #endregion
 }}
