@@ -7,11 +7,11 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Audio;
 using UnityEngine.SceneManagement;
+using Random = UnityEngine.Random;
 
 // Game Dependencies
 using SoM.Controllers;
 using SoM.Models;
-using Random = UnityEngine.Random;
 
 namespace SoM.Events {
 public class DefenseEvents : MonoBehaviour {
@@ -21,6 +21,7 @@ public class DefenseEvents : MonoBehaviour {
 #endregion
 #region -------------------- Public Variables --------------------
     public Skater DefendingSkater;
+    public Skater PriorSkater;
 #endregion
 #region -------------------- Private Variables --------------------
     
@@ -52,19 +53,17 @@ public class DefenseEvents : MonoBehaviour {
     {
         CoreController.Inst.WriteLog(this.GetType().Name, $"Adding IntimidationResultSteal to the queue.");
 
-        Skater possSkater = GameplayController.Inst.GetPossSkater();
-        DefendingSkater = GameplayController.Inst.GetDefendingSkater();
-
         EventRun newEventRun = new EventRun
         {
             InfoText = $"After attempting to intimidate, the defending player might be able to steal the puck away",
-            ActionText = $"{DefendingSkater.Info.LastName} hits {possSkater.Info.LastName} with an open-ice check, successfully stealing the puck.",
+            ActionText = $"{DefendingSkater.Info.LastName} hits {PriorSkater.Info.LastName} with an open-ice check, successfully stealing the puck.",
         };
 
         EventsController.Inst.CurrentEventRun = newEventRun;
         EventsController.Inst.ContinueAction = () => { EventsController.Inst.RunOffenseEvent(0); };
 
         DefendingSkater = null;
+        PriorSkater = null;
 
         yield return null;
     }
@@ -73,19 +72,17 @@ public class DefenseEvents : MonoBehaviour {
     {
         CoreController.Inst.WriteLog(this.GetType().Name, $"Adding IntimidationResultShot to the queue.");
 
-        Skater possSkater = GameplayController.Inst.GetPossSkater();
-        DefendingSkater = GameplayController.Inst.GetDefendingSkater();
-
         EventRun newEventRun = new EventRun
         {
             InfoText = $"After attempting to intimidate, the shooter could skate around the defender to attempt the Inside Shot.",
-            ActionText = $"{possSkater.Info.LastName} dekes around the check attempt by {DefendingSkater.Info.LastName}, driving in close and looks to shoot.",
+            ActionText = $"{PriorSkater.Info.LastName} dekes around the check attempt by {DefendingSkater.Info.LastName}, driving in close and looks to shoot.",
         };
 
         EventsController.Inst.CurrentEventRun = newEventRun;
         EventsController.Inst.ContinueAction = () => { EventsController.Inst.RunOffenseEvent(2); };
 
         DefendingSkater = null;
+        PriorSkater = null;
 
         yield return null;
     }
@@ -112,19 +109,17 @@ public class DefenseEvents : MonoBehaviour {
     {
         CoreController.Inst.WriteLog(this.GetType().Name, $"Adding DefendingResultSteal to the queue.");
 
-        Skater possSkater = GameplayController.Inst.GetPossSkater();
-        DefendingSkater = GameplayController.Inst.GetDefendingSkater();
-
         EventRun newEventRun = new EventRun
         {
             InfoText = $"After attempting to defend, the defending player might successfully take the puck away from the opponent.",
-            ActionText = $"A stick lift by {DefendingSkater.Info.LastName} allows them to steal the puck away from {possSkater.Info.LastName}.",
+            ActionText = $"A stick lift by {DefendingSkater.Info.LastName} allows them to steal the puck away from {PriorSkater.Info.LastName}.",
         };
 
         EventsController.Inst.CurrentEventRun = newEventRun;
         EventsController.Inst.ContinueAction = () => { EventsController.Inst.RunOffenseEvent(0); };
 
         DefendingSkater = null;
+        PriorSkater = null;
 
         yield return null;
     }
@@ -132,8 +127,6 @@ public class DefenseEvents : MonoBehaviour {
     public IEnumerator DefendingResultStealShot()
     {
         CoreController.Inst.WriteLog(this.GetType().Name, $"Adding DefendingResultStealShot to the queue.");
-
-        DefendingSkater = GameplayController.Inst.GetDefendingSkater();
 
         EventRun newEventRun = new EventRun
         {
@@ -145,27 +138,7 @@ public class DefenseEvents : MonoBehaviour {
         EventsController.Inst.ContinueAction = () => { EventsController.Inst.RunOffenseEvent(2); };
 
         DefendingSkater = null;
-
-        yield return null;
-    }
-
-    public IEnumerator DefendingResultStealShotIntimidation()
-    {
-        CoreController.Inst.WriteLog(this.GetType().Name, $"Adding DefendingResultStealShotIntimidation to the queue.");
-
-        Skater possSkater = GameplayController.Inst.GetPossSkater();
-        DefendingSkater = GameplayController.Inst.GetDefendingSkater();
-
-        EventRun newEventRun = new EventRun
-        {
-            InfoText = $"After attempting to defend, the defending player might successfull take the puck away and attempt an Inside Shot, which might allow the opponent to attempt to intimidate.",
-            ActionText = $"After a miscue by {possSkater.Info.LastName}, {DefendingSkater.Info.FirstName} {DefendingSkater.Info.LastName} skates away with the puck, looking to drive the defense.",
-        };
-
-        EventsController.Inst.CurrentEventRun = newEventRun;
-        EventsController.Inst.ContinueAction = () => { EventsController.Inst.RunDefenseEvent(0); };
-
-        DefendingSkater = null;
+        PriorSkater = null;
 
         yield return null;
     }
@@ -174,40 +147,17 @@ public class DefenseEvents : MonoBehaviour {
     {
         CoreController.Inst.WriteLog(this.GetType().Name, $"Adding DefendingResultShot to the queue.");
 
-        Skater possSkater = GameplayController.Inst.GetPossSkater();
-        DefendingSkater = GameplayController.Inst.GetDefendingSkater();
-
         EventRun newEventRun = new EventRun
         {
             InfoText = $"After attempting to defend, the play might be unsuccessful and allow the offense to attempt a shot.",
-            ActionText = $"{possSkater.Info.LastName} dekes around the missed stick lift by {DefendingSkater.Info.LastName} and is now looking to shoot.",
+            ActionText = $"{PriorSkater.Info.LastName} dekes around the missed stick lift by {DefendingSkater.Info.LastName} and is now looking to shoot.",
         };
 
         EventsController.Inst.CurrentEventRun = newEventRun;
         EventsController.Inst.ContinueAction = () => { EventsController.Inst.RunOffenseEvent(2); };
 
         DefendingSkater = null;
-
-        yield return null;
-    }
-
-    public IEnumerator DefendingResultShotIntimidation()
-    {
-        CoreController.Inst.WriteLog(this.GetType().Name, $"Adding DefendingResultShotIntimidation to the queue.");
-
-        Skater possSkater = GameplayController.Inst.GetPossSkater();
-        DefendingSkater = GameplayController.Inst.GetDefendingSkater();
-
-        EventRun newEventRun = new EventRun
-        {
-            InfoText = $"After attempting to defend, the play might be unsuccessful and allow the offense to attempt an Inside Shot, which might allow the opponent to attempt to Intimidate.",
-            ActionText = $"The poke attempt by {DefendingSkater.Info.LastName} misses as {possSkater.Info.LastName} drives in for a close shot on net.",
-        };
-
-        EventsController.Inst.CurrentEventRun = newEventRun;
-        EventsController.Inst.ContinueAction = () => { EventsController.Inst.RunDefenseEvent(0); };
-
-        DefendingSkater = null;
+        PriorSkater = null;
 
         yield return null;
     }
@@ -215,8 +165,6 @@ public class DefenseEvents : MonoBehaviour {
     public IEnumerator DefendingResultPenalty()
     {
         CoreController.Inst.WriteLog(this.GetType().Name, $"Adding DefendingResultPenalty to the queue.");
-
-        DefendingSkater = GameplayController.Inst.GetDefendingSkater();
 
         EventRun newEventRun = new EventRun
         {
@@ -228,6 +176,7 @@ public class DefenseEvents : MonoBehaviour {
         EventsController.Inst.ContinueAction = () => { EventsController.Inst.RunPenaltyEvent(0); };
 
         DefendingSkater = null;
+        PriorSkater = null;
 
         yield return null;
     }
@@ -253,13 +202,13 @@ public class DefenseEvents : MonoBehaviour {
 
         if (isSuccess)
         {
-            Skater possSkater = GameplayController.Inst.GetPossSkater();
+            PriorSkater = GameplayController.Inst.GetPossSkater();
             GameTeam possTeam = GameplayController.Inst.GameData.PossTeam == "Home" ? GameplayController.Inst.GameData.HomeTeam : GameplayController.Inst.GameData.AwayTeam;
 
             string newPossTeamString = GameplayController.Inst.GameData.PossTeam == "Home" ? "Away" : "Home";
             string newPossPos = GameplayController.Inst.GetSkaterPos(DefendingSkater, newPossTeamString);
 
-            GameplayController.Inst.StatsSet.AddGiveaway(possSkater, 1);
+            GameplayController.Inst.StatsSet.AddGiveaway(PriorSkater, 1);
             GameplayController.Inst.StatsSet.ClearPossPos();
             GameplayController.Inst.StatsSet.SetPossTeam(newPossTeamString);
             GameplayController.Inst.StatsSet.AddPossPos(newPossPos);
@@ -271,10 +220,10 @@ public class DefenseEvents : MonoBehaviour {
 
         else
         {
-            Skater possSkater = GameplayController.Inst.GetPossSkater();
+            PriorSkater = GameplayController.Inst.GetPossSkater();
 
             EventsController.Inst.GameplayEvents.OffenseEvents.SelectedShotType = ConstantController.ShotType.Inside;
-            EventsController.Inst.GameplayEvents.OffenseEvents.ShootingSkater = possSkater;
+            EventsController.Inst.GameplayEvents.OffenseEvents.ShootingSkater = PriorSkater;
             EventsController.Inst.RunDefenseEvent(2);
         }
     }
@@ -282,48 +231,7 @@ public class DefenseEvents : MonoBehaviour {
     public void DetermineDefendingOutcome()
     {
         CoreController.Inst.WriteLog(this.GetType().Name, $"Determining the defending outcome.");
-
-        // If steal:
-            // Add giveaway for current player
-            // Reset position possession tracker
-            // Set new team possession
-            // Set new player possession
-            // Add new player to position possession tracker
-            // Add takeaway for new player
-            // Set continue action to defending result steal
-        // If steal then shoot:
-            // Add giveaway for current player
-            // Reset position possession tracker
-            // Set new team possession
-            // Set new player possession
-            // Add new player to position possession tracker
-            // Add takeaway for new player
-            // Set continue action to defending result steal shot
-        // If steal then shoot with intimidation:
-            // Add giveaway for current player
-            // Reset position possession tracker
-            // Set new team possession
-            // Set new player possession
-            // Add new player to position possession tracker
-            // Add takeaway for new player
-            // Set continue action to defending result steal shot intimidation
-        // If shot:
-            // Check if new player differs from current one
-            // If so:
-                // Set new player possession
-                // Add new player to position possession tracker
-            // Set continue action to defending result shot
-        // If shot with intimidation:
-            // Check if new player differs from current one
-            // If so:
-                // Set new player possession
-                // Add new player to position possession tracker
-            // Set continue action to defending result shot intimidation
-        // If penalty:
-            // Set continue action to defending result penalty
         
-
-
         int randomNumber = Random.Range(1,15);
         string defendingAction = DefendingSkater.Card.DefendingActions[randomNumber - 1];
         int defendingStamina = DefendingSkater.Game.Stamina;
@@ -359,34 +267,124 @@ public class DefenseEvents : MonoBehaviour {
         int awayLine = GameplayController.Inst.GameData.AwayTeam.CurrentLine;
         int awayPair = GameplayController.Inst.GameData.AwayTeam.CurrentPair;
 
+        PriorSkater = GameplayController.Inst.GetPossSkater();
+        bool isPossHome = GameplayController.Inst.GameData.PossTeam == "Home";
+
         if (finalOption == 1) // IN
         {
-            //
+            bool isSameSkater = IsSameSkater(PriorSkater, isPossHome, newPos);
+
+            if (!isSameSkater)
+            {
+                string newPossPos = string.Empty;
+
+                if (isPossHome)
+                {
+                    newPossPos = newPos.Contains("D") ? $"{newPos}{homePair}" : $"{newPos}{homeLine}";
+                }
+
+                else
+                {
+                    newPossPos = newPos.Contains("D") ? $"{newPos}{awayPair}" : $"{newPos}{awayLine}";
+                }
+
+                GameplayController.Inst.StatsSet.AddPossPos(newPossPos);
+            }
+
+            Skater newPossSkater = GameplayController.Inst.GetPossSkater();
+
+            EventsController.Inst.GameplayEvents.OffenseEvents.SelectedShotType = ConstantController.ShotType.Inside;
+            EventsController.Inst.GameplayEvents.OffenseEvents.ShootingSkater = newPossSkater;
+            EventsController.Inst.RunDefenseEvent(6);
         }
 
         else if (finalOption == 1) // OUT
         {
-            //
+            bool isSameSkater = IsSameSkater(PriorSkater, isPossHome, newPos);
+
+            if (!isSameSkater)
+            {
+                string newPossPos = string.Empty;
+
+                if (isPossHome)
+                {
+                    newPossPos = newPos.Contains("D") ? $"{newPos}{homePair}" : $"{newPos}{homeLine}";
+                }
+
+                else
+                {
+                    newPossPos = newPos.Contains("D") ? $"{newPos}{awayPair}" : $"{newPos}{awayLine}";
+                }
+
+                GameplayController.Inst.StatsSet.AddPossPos(newPossPos);
+            }
+
+            Skater newPossSkater = GameplayController.Inst.GetPossSkater();
+
+            EventsController.Inst.GameplayEvents.OffenseEvents.SelectedShotType = ConstantController.ShotType.Outside;
+            EventsController.Inst.GameplayEvents.OffenseEvents.ShootingSkater = newPossSkater;
+            EventsController.Inst.RunDefenseEvent(6);
         }
 
         else if (finalOption == 1) // TA
         {
-            //
+            string newPossTeamString = isPossHome ? "Away" : "Home";
+            string newPossPos = GameplayController.Inst.GetSkaterPos(DefendingSkater, newPossTeamString);
+
+            GameplayController.Inst.StatsSet.AddGiveaway(PriorSkater, 1);
+            GameplayController.Inst.StatsSet.ClearPossPos();
+            GameplayController.Inst.StatsSet.SetPossTeam(newPossTeamString);
+            GameplayController.Inst.StatsSet.AddPossPos(newPossPos);
+            GameplayController.Inst.StatsSet.AddTakeaway(DefendingSkater, 1);
+
+            EventsController.Inst.RunDefenseEvent(4);
         }
 
         else if (finalOption == 1) // TA-OUT
         {
-            //
+            string newPossTeamString = isPossHome ? "Away" : "Home";
+            string newPossPos = GameplayController.Inst.GetSkaterPos(DefendingSkater, newPossTeamString);
+
+            GameplayController.Inst.StatsSet.AddGiveaway(PriorSkater, 1);
+            GameplayController.Inst.StatsSet.ClearPossPos();
+            GameplayController.Inst.StatsSet.SetPossTeam(newPossTeamString);
+            GameplayController.Inst.StatsSet.AddPossPos(newPossPos);
+            GameplayController.Inst.StatsSet.AddTakeaway(DefendingSkater, 1);
+
+            EventsController.Inst.GameplayEvents.OffenseEvents.SelectedShotType = ConstantController.ShotType.Outside;
+            EventsController.Inst.GameplayEvents.OffenseEvents.ShootingSkater = DefendingSkater;
+            EventsController.Inst.RunDefenseEvent(5);
         }
 
         else if (finalOption == 1) // TA-IN
         {
-            //
+            string newPossTeamString = isPossHome ? "Away" : "Home";
+            string newPossPos = GameplayController.Inst.GetSkaterPos(DefendingSkater, newPossTeamString);
+
+            GameplayController.Inst.StatsSet.AddGiveaway(PriorSkater, 1);
+            GameplayController.Inst.StatsSet.ClearPossPos();
+            GameplayController.Inst.StatsSet.SetPossTeam(newPossTeamString);
+            GameplayController.Inst.StatsSet.AddPossPos(newPossPos);
+            GameplayController.Inst.StatsSet.AddTakeaway(DefendingSkater, 1);
+
+            EventsController.Inst.GameplayEvents.OffenseEvents.SelectedShotType = ConstantController.ShotType.Outside;
+            EventsController.Inst.GameplayEvents.OffenseEvents.ShootingSkater = DefendingSkater;
+            EventsController.Inst.RunDefenseEvent(5);
         }
 
         else // PENALTY
         {
-            //
+            string newPossTeamString = isPossHome ? "Away" : "Home";
+            string newPossPos = GameplayController.Inst.GetSkaterPos(DefendingSkater, newPossTeamString);
+
+            GameplayController.Inst.StatsSet.AddGiveaway(PriorSkater, 1);
+            GameplayController.Inst.StatsSet.ClearPossPos();
+            GameplayController.Inst.StatsSet.SetPossTeam(newPossTeamString);
+            GameplayController.Inst.StatsSet.AddPossPos(newPossPos);
+            GameplayController.Inst.StatsSet.AddTakeaway(DefendingSkater, 1);
+
+            EventsController.Inst.GameplayEvents.PenaltyEvents.PenaltySkater = DefendingSkater;
+            EventsController.Inst.RunDefenseEvent(7);
         }
     }
 #endregion
@@ -406,6 +404,25 @@ public class DefenseEvents : MonoBehaviour {
             case 4:
             default: return "RD";
         }
+    }
+
+    private bool IsSameSkater(Skater skater, bool isHome, string newPos)
+    {
+        CoreController.Inst.WriteLog(this.GetType().Name, $"Checking if same skater as new possession position.");
+
+        GameTeam possTeam = isHome ? GameplayController.Inst.GameData.HomeTeam : GameplayController.Inst.GameData.AwayTeam;
+        string possPos = string.Empty;
+
+        foreach (KeyValuePair<string, Skater> teamSkater in possTeam.SkaterLineup)
+        {
+            if (skater.Id == teamSkater.Value.Id)
+            {
+                string skaterPos = teamSkater.Key;
+                possPos = skaterPos.Substring(0, skaterPos.Length - 1);
+            }
+        }
+
+        return possPos == newPos;
     }
 #endregion
 }}
