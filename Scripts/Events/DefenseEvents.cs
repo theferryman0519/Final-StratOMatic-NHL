@@ -298,7 +298,7 @@ public class DefenseEvents : MonoBehaviour {
             EventsController.Inst.RunDefenseEvent(6);
         }
 
-        else if (finalOption == 1) // OUT
+        else if (finalOption == 2) // OUT
         {
             bool isSameSkater = IsSameSkater(PriorSkater, isPossHome, newPos);
 
@@ -326,7 +326,7 @@ public class DefenseEvents : MonoBehaviour {
             EventsController.Inst.RunDefenseEvent(6);
         }
 
-        else if (finalOption == 1) // TA
+        else if (finalOption == 3) // TA
         {
             string newPossTeamString = isPossHome ? "Away" : "Home";
             string newPossPos = GameplayController.Inst.GetSkaterPos(DefendingSkater, newPossTeamString);
@@ -340,7 +340,7 @@ public class DefenseEvents : MonoBehaviour {
             EventsController.Inst.RunDefenseEvent(4);
         }
 
-        else if (finalOption == 1) // TA-OUT
+        else if (finalOption == 4) // TA-OUT
         {
             string newPossTeamString = isPossHome ? "Away" : "Home";
             string newPossPos = GameplayController.Inst.GetSkaterPos(DefendingSkater, newPossTeamString);
@@ -356,7 +356,7 @@ public class DefenseEvents : MonoBehaviour {
             EventsController.Inst.RunDefenseEvent(5);
         }
 
-        else if (finalOption == 1) // TA-IN
+        else if (finalOption == 5) // TA-IN
         {
             string newPossTeamString = isPossHome ? "Away" : "Home";
             string newPossPos = GameplayController.Inst.GetSkaterPos(DefendingSkater, newPossTeamString);
