@@ -10,11 +10,11 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Audio;
 using UnityEngine.SceneManagement;
+using Random = UnityEngine.Random;
 
 // Game Dependencies
 using SoM.Controllers;
 using SoM.Models;
-using Random = UnityEngine.Random;
 
 namespace SoM.Skaters {
 public class SkaterCreation : MonoBehaviour {
@@ -778,7 +778,7 @@ public class SkaterCreation : MonoBehaviour {
 
     private async Task<List<string>> GetShotListActions(int goalCount, int goalieRatingCount, int loseCount)
     {
-        Dictionary<int, string> result = Enumerable.Range(2, 11).ToDictionary(x => x, _ => "SHOT");
+        Dictionary<int, string> result = Enumerable.Range(2, 12).ToDictionary(x => x, _ => "SHOT");
 
         result[8] = "REBOUND";
 
@@ -791,7 +791,11 @@ public class SkaterCreation : MonoBehaviour {
 
         foreach (int sum in TakeClosestAvailable(goalCount, goalCenter, available))
         {
-            result[sum] = "GOAL";
+            int goalStringNum = Random.Range(1,21);
+
+            if (goalStringNum == 1) { result[sum] = $"GOAL 1"; }
+            else if (goalStringNum == 20) { result[sum] = $"GOAL"; }
+            else { result[sum] = $"GOAL 1-{goalStringNum}"; }
         }
 
         foreach (int sum in TakeClosestAvailable(goalieRatingCount, goalieCenter, available))
