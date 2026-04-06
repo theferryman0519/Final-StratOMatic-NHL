@@ -94,6 +94,18 @@ public class GameplayStatsSet : MonoBehaviour {
             }
         }
     }
+
+    public void ResetFullTeamStamina(bool isHomeTeam)
+    {
+        CoreController.Inst.WriteLog(this.GetType().Name, $"Resetting the full team stamina.");
+
+        GameTeam gameTeam = isHomeTeam ? GameplayController.Inst.GameData.HomeTeam : GameplayController.Inst.GameData.AwayTeam;
+
+        foreach (KeyValuePair<string, Skater> skater in gameTeam.SkaterLineup)
+        {
+            ResetStamina(skater);
+        }
+    }
 #endregion
 #region -------------------- Skater Stats Methods --------------------
     public void AddGoal(Skater skater, ConstantController.GoalType goalType, int delta)
