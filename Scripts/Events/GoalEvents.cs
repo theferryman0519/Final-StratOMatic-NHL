@@ -41,7 +41,7 @@ public class GoalEvents : MonoBehaviour {
 
         GameTeam defTeam = GameplayController.Inst.GameData.PossTeam == "Home" ? GameplayController.Inst.GameData.AwayTeam : GameplayController.Inst.GameData.HomeTeam;
         DefendingGoalie = defTeam.GoalieLineup["G"];
-        ShootingSkater = EventsController.Inst.OffenseEvents.ShootingSkater;
+        ShootingSkater = EventsController.Inst.GameplayEvents.OffenseEvents.ShootingSkater;
 
         EventRun newEventRun = new EventRun
         {
@@ -123,7 +123,7 @@ public class GoalEvents : MonoBehaviour {
     {
         CoreController.Inst.WriteLog(this.GetType().Name, $"Adding GoalCheck to the queue.");
 
-        ShootingSkater = EventsController.Inst.OffenseEvents.ShootingSkater;
+        ShootingSkater = EventsController.Inst.GameplayEvents.OffenseEvents.ShootingSkater;
 
         EventRun newEventRun = new EventRun
         {
@@ -157,7 +157,7 @@ public class GoalEvents : MonoBehaviour {
     {
         CoreController.Inst.WriteLog(this.GetType().Name, $"Adding Goal to the queue.");
 
-        ShootingSkater = EventsController.Inst.OffenseEvents.ShootingSkater;
+        ShootingSkater = EventsController.Inst.GameplayEvents.OffenseEvents.ShootingSkater;
 
         string announcement = DetermineGoalAnnouncement();
 
