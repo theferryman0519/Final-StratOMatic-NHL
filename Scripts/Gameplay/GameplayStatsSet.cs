@@ -38,7 +38,21 @@ public class GameplayStatsSet : MonoBehaviour {
     }
 #endregion
 #region -------------------- Team Stats Methods --------------------
-    
+    public void AddTeamPlusMinus(bool isHomeTeam, int delta)
+    {
+        CoreController.Inst.WriteLog(this.GetType().Name, $"Adding to full team plus/minus.");
+
+        GameTeam gameTeam = isHomeTeam ? GameplayController.Inst.GameData.HomeTeam : GameplayController.Inst.GameData.AwayTeam;
+
+        int lineNum = gameTeam.CurrentLine;
+        int pairNum = gameTeam.CurrentPair;
+
+        AddPlusMinus(gameTeam.SkaterLineup[$"C{lineNum}"], delta);
+        AddPlusMinus(gameTeam.SkaterLineup[$"LW{lineNum}"], delta);
+        AddPlusMinus(gameTeam.SkaterLineup[$"RW{lineNum}"], delta);
+        AddPlusMinus(gameTeam.SkaterLineup[$"LD{lineNum}"], delta);
+        AddPlusMinus(gameTeam.SkaterLineup[$"RD{lineNum}"], delta);
+    }
 #endregion
 #region -------------------- Skater Stats Methods --------------------
     public void AddGoal(Skater skater, ConstantController.GoalType goalType, int delta)
