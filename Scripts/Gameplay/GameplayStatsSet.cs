@@ -167,6 +167,16 @@ public class GameplayStatsSet : MonoBehaviour {
     }
 #endregion
 #region -------------------- Goalie Stats Methods --------------------
-    
+    public void AddGoalieAssist(Goalie goalie, int delta)
+    {
+        CoreController.Inst.WriteLog(this.GetType().Name, $"Adding to assists.");
+        goalie.Game.Assists += delta;
+    }
+
+    public void AddGoaliePenaltyMinute(Goalie goalie, int delta)
+    {
+        CoreController.Inst.WriteLog(this.GetType().Name, $"Adding to penalty minutes.");
+        goalie.Game.PenaltyMinutes += delta;
+    }
 #endregion
 }}
