@@ -7,11 +7,11 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Audio;
 using UnityEngine.SceneManagement;
+using Random = UnityEngine.Random;
 
 // Game Dependencies
 using SoM.Controllers;
 using SoM.Models;
-using Random = UnityEngine.Random;
 
 namespace SoM.Events {
 public class FaceoffEvents : MonoBehaviour {
