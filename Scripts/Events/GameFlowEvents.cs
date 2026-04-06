@@ -91,7 +91,7 @@ public class GameFlowEvents : MonoBehaviour {
         };
 
         EventsController.Inst.CurrentEventRun = newEventRun;
-        EventsController.Inst.ContinueAction = () => { EventsController.Inst.RunFaceoffEvent(0); };
+        EventsController.Inst.ContinueAction = SetInjury;
 
         yield return null;
     }
@@ -225,6 +225,60 @@ public class GameFlowEvents : MonoBehaviour {
                 EventsController.Inst.RunGameFlowEvent(5);
             }
         }
+    }
+
+    public void SetInjury(bool isHome)
+    {
+        CoreController.Inst.WriteLog(this.GetType().Name, $"Setting the injured player.");
+
+        GameTeam possTeam = GameplayController.Inst.GameData.PossTeam == "Home" ? GameplayController.Inst.GameData.HomeTeam : GameplayController.Inst.GameData.AwayTeam;
+        int lineNum = possTeam.CurrentLine;
+        int pairNum = possTeam.CurrentPair;
+
+        string skaterPos = string.Empty;
+
+        foreach (KeyValuePair<string, Skater> teamSkater in possTeam.SkaterLinup)
+        {
+            if (InjuredSkater.Id == teamSkater.Value.Id)
+            {
+                teamSkaterPos = teamSkater.Key;
+                skaterPos = teamSkaterPos.Substring(0, teamSkaterPos.Length - 1);
+            }
+        }
+
+        if (!string.IsNullOrEmpty(skaterPos))
+        {
+            if (skaterPos.Contains("D"))
+            {
+                if (pairNum == 3)
+                {
+                    possTeam.SkaterLineup[$"{skaterPos}3"] = possTeam.SkaterLineup[$"{skaterPos}1"];
+                }
+
+                else
+                {
+                    possTeam.SkaterLineup[$"{skaterPos}{pairNum}"] = possTeam.SkaterLineup[$"{skaterPos}{pairNum + 1}"];
+                }
+            }
+
+            else
+            {
+                if (lineNum == 4)
+                {
+                    possTeam.SkaterLineup[$"{skaterPos}4"] = possTeam.SkaterLineup[$"{skaterPos}1"];
+                }
+
+                else
+                {
+                    possTeam.SkaterLineup[$"{skaterPos}{lineNum}"] = possTeam.SkaterLineup[$"{skaterPos}{lineNum + 1}"];
+                }
+            }
+        }
+
+        GameplayController.Inst.StatsSet.ClearPossPos();
+        GameplayController.Inst.StatsSet.SetPossTeam("None");
+
+        EventsController.Inst.RunFaceoffEvent(0);
     }
 
     public void DetermineFinalStats()
