@@ -50,8 +50,49 @@ public class GameplayStatsSet : MonoBehaviour {
         AddPlusMinus(gameTeam.SkaterLineup[$"C{lineNum}"], delta);
         AddPlusMinus(gameTeam.SkaterLineup[$"LW{lineNum}"], delta);
         AddPlusMinus(gameTeam.SkaterLineup[$"RW{lineNum}"], delta);
-        AddPlusMinus(gameTeam.SkaterLineup[$"LD{lineNum}"], delta);
-        AddPlusMinus(gameTeam.SkaterLineup[$"RD{lineNum}"], delta);
+        AddPlusMinus(gameTeam.SkaterLineup[$"LD{pairNum}"], delta);
+        AddPlusMinus(gameTeam.SkaterLineup[$"RD{pairNum}"], delta);
+    }
+
+    public void AddTeamStamina(bool isHomeTeam)
+    {
+        CoreController.Inst.WriteLog(this.GetType().Name, $"Adding to full team shift stamina.");
+
+        GameTeam gameTeam = isHomeTeam ? GameplayController.Inst.GameData.HomeTeam : GameplayController.Inst.GameData.AwayTeam;
+
+        int lineNum = gameTeam.CurrentLine;
+        int pairNum = gameTeam.CurrentPair;
+
+        AddShiftSegment(gameTeam.SkaterLineup[$"C{lineNum}"]);
+        AddShiftSegment(gameTeam.SkaterLineup[$"LW{lineNum}"]);
+        AddShiftSegment(gameTeam.SkaterLineup[$"RW{lineNum}"]);
+        AddShiftSegment(gameTeam.SkaterLineup[$"LD{pairNum}"]);
+        AddShiftSegment(gameTeam.SkaterLineup[$"RD{pairNum}"]);
+
+        LowerStamina(gameTeam.SkaterLineup[$"C{lineNum}"]);
+        LowerStamina(gameTeam.SkaterLineup[$"LW{lineNum}"]);
+        LowerStamina(gameTeam.SkaterLineup[$"RW{lineNum}"]);
+        LowerStamina(gameTeam.SkaterLineup[$"LD{pairNum}"]);
+        LowerStamina(gameTeam.SkaterLineup[$"RD{pairNum}"]);
+
+        for (int l = 1; l < 5; l++)
+        {
+            if (l != lineNum)
+            {
+                ResetStamina(gameTeam.SkaterLineup[$"C{l}"]);
+                ResetStamina(gameTeam.SkaterLineup[$"LW{l}"]);
+                ResetStamina(gameTeam.SkaterLineup[$"RW{l}"]);
+            }
+        }
+
+        for (int p = 1; p < 4; p++)
+        {
+            if (p != pairNum)
+            {
+                ResetStamina(gameTeam.SkaterLineup[$"LD{p}"]);
+                ResetStamina(gameTeam.SkaterLineup[$"RD{p}"]);
+            }
+        }
     }
 #endregion
 #region -------------------- Skater Stats Methods --------------------
