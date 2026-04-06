@@ -132,10 +132,8 @@ public class GameplayEvents : MonoBehaviour {
             case 3: RunEvent(DefenseEvents.DefendingStart()); break;
             case 4: RunEvent(DefenseEvents.DefendingResultSteal()); break;
             case 5: RunEvent(DefenseEvents.DefendingResultStealShot()); break;
-            case 6: RunEvent(DefenseEvents.DefendingResultStealShotIntimidation()); break;
-            case 7: RunEvent(DefenseEvents.DefendingResultShot()); break;
-            case 8: RunEvent(DefenseEvents.DefendingResultShotIntimidation()); break;
-            case 9: RunEvent(DefenseEvents.DefendingResultPenalty()); break;
+            case 6: RunEvent(DefenseEvents.DefendingResultShot()); break;
+            case 7: RunEvent(DefenseEvents.DefendingResultPenalty()); break;
             default: break;
         }
     }
