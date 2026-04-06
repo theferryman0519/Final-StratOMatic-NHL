@@ -7,6 +7,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Audio;
 using UnityEngine.SceneManagement;
+using Random = UnityEngine.Random;
 
 // Game Dependencies
 using SoM.Controllers;
@@ -83,6 +84,9 @@ public class PenaltyEvents : MonoBehaviour {
 
         EventsController.Inst.CurrentEventRun = newEventRun;
         EventsController.Inst.ContinueAction = () => { EventsController.Inst.RunFaceoffEvent(0); };
+
+        PenaltySkater = null;
+        PenaltyGoalie = null;
 
         yield return null;
     }
@@ -199,6 +203,9 @@ public class PenaltyEvents : MonoBehaviour {
         EventsController.Inst.CurrentEventRun = newEventRun;
         EventsController.Inst.ContinueAction = () => { EventsController.Inst.RunFaceoffEvent(0); };
 
+        PenaltySkater = null;
+        PenaltyGoalie = null;
+
         yield return null;
     }
 #endregion
@@ -206,50 +213,160 @@ public class PenaltyEvents : MonoBehaviour {
     public void DeterminePenaltyOutcome()
     {
         CoreController.Inst.WriteLog(this.GetType().Name, $"Determining the penalty outcome.");
+        
+        string rating = string.Empty;
 
-        // TODO
-        // Determine penalty rating for penalty skater
-        // Determine random int between 1 and 5 (inclusive) (D = 1, AA = 5)
-        // If penalty rating is equal to or greater than int:
-            // Reset position possession tracker
-            // Determine the penalty (type and time) based on penalty rating
-            // Add penalty minutes to penalty skater
-            // Add powerplay count to opposing team
-            // Set continue action to penalty shots list
-        // If penalty rating is less than int:
-            // Reset position possession tracker
-            // Set continue action to penalty check clear
+        if (PenaltyGoalie != null) { rating = PenaltyGoalie.Card.Penalty; }
+        else { rating = PenaltySkater.Card.Penalty; }
+        
+        int randomNum = Random.Range(1,21);
+        int thresholdNum = 0;
+
+        switch (rating)
+        {
+            case "AA": thresholdNum = 5; break;
+            case "A": thresholdNum = 8; break;
+            case "B": thresholdNum = 11; break;
+            case "C": thresholdNum = 14; break;
+            case "D":
+            default: thresholdNum = 17; break;
+        }
+
+        bool isPenalty = thresholdNum <= randomNum;
+
+        if (isPenalty)
+        {
+            string powerplayTeam = GameplayController.Inst.GameData.PossTeam == "Home" ? "Away" : "Home";
+
+            GameplayController.Inst.StatsSet.ClearPossPos();
+            GameplayController.Inst.StatsSet.SetPossTeam(powerplayTeam);
+            GameplayController.Inst.GameData.PowerplayTeam = powerplayTeam;
+
+            GameplayController.Inst.GameData.HomeTeam.CurrentLine = 1;
+            GameplayController.Inst.GameData.HomeTeam.CurrentPair = 1;
+            GameplayController.Inst.GameData.AwayTeam.CurrentLine = 1;
+            GameplayController.Inst.GameData.AwayTeam.CurrentPair = 1;
+
+            GameplayController.Inst.StatsSet.ResetFullTeamStamina(true);
+            GameplayController.Inst.StatsSet.ResetFullTeamStamina(false);
+
+            DeterminePenalty();
+
+            if (PenaltyGoalie != null) { GameplayController.Inst.StatsSet.AddGoaliePenaltyMinute(PenaltyGoalie, PenaltyTime); }
+            else { GameplayController.Inst.StatsSet.AddPenaltyMinute(PenaltySkater, PenaltyTime); }
+
+            GameTeam ppTeam = powerplayTeam == "Home" ? GameplayController.Inst.GameData.HomeTeam : GameplayController.Inst.GameData.AwayTeam;
+
+            ppTeam.Powerplays += 1;
+
+            EventsController.Inst.RunPenaltyEvent(2);
+        }
+
+        else
+        {
+            GameplayController.Inst.StatsSet.ClearPossPos();
+            GameplayController.Inst.StatsSet.SetPossTeam("None");
+
+            EventsController.Inst.RunPenaltyEvent(1);
+        }
     }
 
     public void DeterminePenalty()
     {
         CoreController.Inst.WriteLog(this.GetType().Name, $"Determining the penalty.");
 
-        // TODO
-        // Determine the penalty rating for penalty skater
-        // Determine random penalty type (ConstantController.Inst.PenaltyTypes)
-        // Determine penalty minutes based on penalty rating
-        // Set penalty call
-        // Set penalty time
+        int randomCall = Random.Range(0, ConstantController.Inst.PenaltyTypes.Count);
+
+        PenaltyCall = ConstantController.Inst.PenaltyTypes[randomCall];
+
+        string rating = string.Empty;
+
+        if (PenaltyGoalie != null) { rating = PenaltyGoalie.Card.Penalty; }
+        else { rating = PenaltySkater.Card.Penalty; }
+
+        int randomNum = Random.Range(1,101);
+        int thresholdNumA = 0;
+        int thresholdNumB = 0;
+
+        switch (rating)
+        {
+            case "AA": thresholdNumA = 40; thresholdNumB = 65; break;
+            case "A": thresholdNumA = 45; thresholdNumB = 70; break;
+            case "B": thresholdNumA = 50; thresholdNumB = 75; break;
+            case "C": thresholdNumA = 55; thresholdNumB = 80; break;
+            case "D":
+            default: thresholdNumA = 60; thresholdNumB = 85; break;
+        }
+
+        if (randomNum >= thresholdNumB) { PenaltyTime = 5; }
+        else if (randomNum >= thresholdNumA) { PenaltyTime = 4; }
+        else { PenaltyTime = 2; }
     }
 
     public void GeneratePenaltyShots()
     {
         CoreController.Inst.WriteLog(this.GetType().Name, $"Generating the penalty shot list.");
 
+        PenaltyShots.Clear();
+        ShorthandedShots.Clear();
+
+        string powerplayTeam = GameplayController.Inst.GameData.PowerplayTeam == "Home" ? "Home" : "Away";
+
+        GameTeam ppTeam = powerplayTeam == "Home" ? GameplayController.Inst.GameData.HomeTeam : GameplayController.Inst.GameData.AwayTeam;
+        GameTeam pkTeam = powerplayTeam == "Home" ? GameplayController.Inst.GameData.AwayTeam : GameplayController.Inst.GameData.HomeTeam;
+
+        int ppOffense = 0;
+        int pkDefense = 0;
+
+        if (ppTeam.SkaterLineup["C1"].Card.Offense == 4) { ppOffense += 1; }
+        if (ppTeam.SkaterLineup["LW1"].Card.Offense == 4) { ppOffense += 1; }
+        if (ppTeam.SkaterLineup["RW1"].Card.Offense == 4) { ppOffense += 1; }
+        if (ppTeam.SkaterLineup["LD1"].Card.Offense == 4) { ppOffense += 1; }
+        if (ppTeam.SkaterLineup["RD1"].Card.Offense == 4) { ppOffense += 1; }
+
+        if (pkTeam.SkaterLineup["LW1"].Card.Defense == 4) { pkDefense += 1; }
+        if (pkTeam.SkaterLineup["RW1"].Card.Defense == 4) { pkDefense += 1; }
+        if (pkTeam.SkaterLineup["LD1"].Card.Defense == 4) { pkDefense += 1; }
+        if (pkTeam.SkaterLineup["RD1"].Card.Defense == 4) { pkDefense += 1; }
+
+        for (int pk = 0; pk < pkDefense; pk++)
+        {
+            ShorthandedShots.Add(GetRandomShot());
+        }
+
+        int ppTimeShift = Random.Range(0,5);
+        int ppShift = ppOffense;
+
+        if (PenaltyTime == 2) { ppShift - ppTimeShift; }
+        else if (PenaltyTime == 5) { ppShift + ppTimeShift; }
+
+        if (ppShift < 1) { ppShift = 1; }
+
+        for (int pp = 0; pp < ppShift; pp++)
+        {
+            PenaltyShots.Add(GetRandomShot());
+        }
+
         // TODO
-        // Determine penalty time
-        // Determine total offense ratings of 4 on powerplay unit
-        // Determine total defense ratings of 5 on shorthanded unit
-        // Determine number of penalty shots based on ratings:
-            // Total shorthanded shot attempts is number of 5 ratings
-            // Total powerplay shot attempts:
-                // Determine random int between 0 and 4 (inclusive)
-                // If minor penalty: equal to number of 4 ratings minus random int (must have at least one shot)
-                // If double-minor penalty: equal to number of 4 ratings
-                // If major penalty: equal to number of 4 ratings plus random int
-        // For each count of shot attempts, randomize shot type and position
-        // Add string of shot to either shorthanded shots list or powerplay shots list
+        // Check if ShorthandedShots has a count
+        // If so:
+            // Get first index and set shot type
+            // Set random pos
+            // Get skater from pos
+            // Add to PossPos list
+            // Set offense events shot type
+            // Set offense events shooter
+            // Set this shooter
+        // If not:
+            // Get first index and set shot type
+            // Set random pos
+            // Get skater from pos
+            // Add to PossPos list
+            // Set offense events shot type
+            // Set offense events shooter
+            // Set this shooter
+
+        EventsController.Inst.RunPenaltyEvent(3);
     }
 
     public void DetermineNextPenaltyShot()
@@ -334,6 +451,39 @@ public class PenaltyEvents : MonoBehaviour {
     }
 #endregion
 #region -------------------- Private Methods --------------------
-    
+    private string GetRandomPos()
+    {
+        CoreController.Inst.WriteLog(this.GetType().Name, $"Getting a random position.");
+
+        int index = Random.Range(0,5);
+
+        switch (index)
+        {
+            case 0: return "C";
+            case 1: return "LW";
+            case 2: return "RW";
+            case 3: return "LD";
+            case 4:
+            default: return "RD";
+        }
+    }
+
+    private string GetRandomShot()
+    {
+        CoreController.Inst.WriteLog(this.GetType().Name, $"Getting a random shot.");
+
+        int index = Random.Range(0,6);
+
+        switch (index)
+        {
+            case 0:
+            case 1:
+            case 2: return "OUT";
+            case 3:
+            case 5: return "IN";
+            case 6:
+            default: return "REB";
+        }
+    }
 #endregion
 }}
