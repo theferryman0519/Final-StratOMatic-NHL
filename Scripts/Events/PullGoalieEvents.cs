@@ -7,6 +7,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Audio;
 using UnityEngine.SceneManagement;
+using Random = UnityEngine.Random;
 
 // Game Dependencies
 using SoM.Controllers;
@@ -248,6 +249,21 @@ public class PullGoalieEvents : MonoBehaviour {
     }
 #endregion
 #region -------------------- Private Methods --------------------
-    
+    private string GetRandomPos()
+    {
+        CoreController.Inst.WriteLog(this.GetType().Name, $"Getting a random position.");
+
+        int index = Random.Range(0,5);
+
+        switch (index)
+        {
+            case 0: return "C";
+            case 1: return "LW";
+            case 2: return "RW";
+            case 3: return "LD";
+            case 4:
+            default: return "RD";
+        }
+    }
 #endregion
 }}
