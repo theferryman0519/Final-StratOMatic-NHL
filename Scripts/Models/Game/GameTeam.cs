@@ -20,6 +20,9 @@ public class GameTeam {
     public int CurrentLine { get; set; }
     public int CurrentPair { get; set; }
     public int CurrentStrategy { get; set; }
+    public int NextLine { get; set; }
+    public int NextPair { get; set; }
+    public int NextStrategy { get; set; }
 
     public bool IsGoaliePulled { get; set; }
 
