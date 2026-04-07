@@ -64,6 +64,8 @@ public class UsersController : Singleton<UsersController> {
             SeasonStatsString = string.Empty,
         };
 
+        PlayerPrefs.SetString(Pref_ExhibitionOptions, "true/true/true/Veteran");
+
         SetUser(newUserData, continueAction);
     }
 
