@@ -16,7 +16,7 @@ namespace SoM.Models {
 public class SkaterSeason {
     
 #region -------------------- Public Variables --------------------
-    public string Id { get; set; }
+    public string UserId { get; set; }
 
     public int GamesPlayed { get; set; }
     public int Goals { get; set; }
