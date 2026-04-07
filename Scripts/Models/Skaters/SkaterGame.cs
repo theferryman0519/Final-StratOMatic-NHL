@@ -16,8 +16,6 @@ namespace SoM.Models {
 public class SkaterGame {
     
 #region -------------------- Public Variables --------------------
-    public string Id { get; set; }
-
     public int Goals { get; set; }
     public int Assists { get; set; }
     public int Points { get; set; }
