@@ -68,7 +68,21 @@ public class UiExhibitionLines : UiSceneBase {
     {
         CoreController.Inst.WriteLog(this.GetType().Name, $"Setting the full line-up from default selection.");
 
-		// TODO
+		string teamCode = GameplayController.Inst.GameData.HomeTeam.Team.Code;
+		string teamLeagueString = GameplayController.Inst.GameData.HomeTeam.Team.League;
+
+		ConstantController.LeagueType teamLeague = ConstantController.LeagueType.None;
+
+		if (teamLeagueString == "NHL") { teamLeague = ConstantController.LeagueType.NHL; }
+		else if (teamLeagueString == "NHLFranchise") { teamLeague = ConstantController.LeagueType.NHLFranchise; }
+		else if (teamLeagueString == "PWHL") { teamLeague = ConstantController.LeagueType.PWHL; }
+		else if (teamLeagueString == "PWHLFranchise") { teamLeague = ConstantController.LeagueType.PWHLFranchise; }
+
+		Dictionary<string, Skater> defaultSkaters = TeamsController.Inst.GetDefaultLineup(teamCode, teamLeague);
+
+		Goalie defaultGoalie = TeamsController.Inst.GetDefaultStartingGoalie(teamCode, teamLeague);
+
+		// TODO: Set _editLinePositions
     }
 
 	private void GoToReady()
