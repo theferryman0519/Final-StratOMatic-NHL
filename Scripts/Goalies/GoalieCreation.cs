@@ -74,6 +74,7 @@ public class GoalieCreation : MonoBehaviour {
             newGoalie.Playoff = await CreatePlayoff(goalieDatabase.PlayoffStrings);
             newGoalie.Stats = await CreateStats(goalieDatabase.StatsStrings);
             newGoalie.Card = await CreateCard();
+            newGoalie.WinPercentage = winPercentage;
 
             CoreController.Inst.WriteLog(this.GetType().Name, $"Goalie data for {newGoalie.Info.FirstName} {newGoalie.Info.LastName} has been created.");
             return newGoalie;
