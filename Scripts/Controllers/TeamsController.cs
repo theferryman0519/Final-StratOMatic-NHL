@@ -52,6 +52,8 @@ public class TeamsController : Singleton<TeamsController> {
 
     public Team GetTeamFromCode(string code, ConstantController.LeagueType league)
     {
+        CoreController.Inst.WriteLog(this.GetType().Name, $"Getting the team from the team code.");
+
         List<Team> leagueList = new();
 
         switch (league)
@@ -78,6 +80,95 @@ public class TeamsController : Singleton<TeamsController> {
         }
 
         return foundTeam;
+    }
+
+    public Dictionary<string, Skater> GetDefaultLineup(string code, ConstantController.LeagueType league)
+    {
+        CoreController.Inst.WriteLog(this.GetType().Name, $"Getting the default lineup for a team.");
+
+        Dictionary<string, Skater> defaultLineup = new();
+
+        Team team = GetTeamFromCode(code, league);
+
+        if (team == null) { return defaultLineup; }
+
+        List<Skater> teamSkaters = new();
+        List<Skater> teamForwards = new();
+        List<Skater> teamDefense = new();
+
+        List<string> forwardPositions = new() { "C1", "LW1", "RW1", "C2", "LW2", "RW2", "C3", "LW3", "RW3", "C4", "LW4", "RW4" };
+        List<string> defensePositions = new() { "LD1", "RD1", "LD2", "RD2", "LD3", "RD3" };
+
+        switch (league)
+        {
+            case ConstantController.LeagueType.NHL:
+                teamSkaters = SkatersController.Inst.NhlSkaters[team.Info.Code];
+                break;
+            case ConstantController.LeagueType.NHLFranchise:
+                teamSkaters = SkatersController.Inst.NhlFranchiseSkaters[team.Info.Code];
+                break;
+            case ConstantController.LeagueType.PWHL:
+                teamSkaters = SkatersController.Inst.PwhlSkaters[team.Info.Code];
+                break;
+            case ConstantController.LeagueType.PWHLFranchise:
+                teamSkaters = SkatersController.Inst.PwhlFranchiseSkaters[team.Info.Code];
+                break;
+        }
+
+        teamSkaters = teamSkaters.OrderBy(_ => Random.Shared.Next()).ToList();
+
+        teamForwards = teamSkaters.Where(s => s.Info.Postition == "F")
+            .OrderByDescending(s => s.Card.Offense + s.Card.Defense + s.Card.Breakaway)
+            .ToList();
+        
+        teamDefense = teamSkaters.Where(s => s.Info.Position == "D")
+            .OrderByDescending(s => s.Card.Offense + s.Card.Defense)
+            .ToList();
+        
+        foreach (string pos in forwardPositions)
+        {
+            defaultLineup.Add(pos, teamForwards[0]);
+            teamForwards.RemoveAt(0);
+        }
+
+        foreach (string pos in defensePositions)
+        {
+            defaultLineup.Add(pos, teamDefense[0]);
+            teamDefense.RemoveAt(0);
+        }
+
+        return defaultLineup;
+    }
+
+    public Goalie GetDefaultStartingGoalie(string code, ConstantController.LeagueType league)
+    {
+        CoreController.Inst.WriteLog(this.GetType().Name, $"Getting the default starting goalie for a team.");
+
+        Team team = GetTeamFromCode(code, league);
+
+        if (team == null) { return null; }
+
+        List<Goalie> teamGoalies = new();
+
+        switch (league)
+        {
+            case ConstantController.LeagueType.NHL:
+                teamGoalies = GoaliesController.Inst.NhlGoalies[team.Info.Code];
+                break;
+            case ConstantController.LeagueType.NHLFranchise:
+                teamGoalies = GoaliesController.Inst.NhlFranchiseGoalies[team.Info.Code];
+                break;
+            case ConstantController.LeagueType.PWHL:
+                teamGoalies = GoaliesController.Inst.PwhlGoalies[team.Info.Code];
+                break;
+            case ConstantController.LeagueType.PWHLFranchise:
+                teamGoalies = GoaliesController.Inst.PwhlFranchiseGoalies[team.Info.Code];
+                break;
+        }
+
+        teamGoalies = teamGoalies.OrderByDescending(g => g.WinPercentage).ToList();
+
+        return teamGoalies[0];
     }
 #endregion
 #region -------------------- Private Methods --------------------
