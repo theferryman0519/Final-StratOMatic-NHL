@@ -101,10 +101,10 @@ public class UsersController : Singleton<UsersController> {
         UserInfo userInfo = new UserInfo
         {
             Id = id,
-            Name = string.IsNullOrEmpty(info) ? string.Empty : info.Split('/')[1].Trim(),
-            Email = string.IsNullOrEmpty(info) ? string.Empty : info.Split('/')[2].Trim(),
-            Password = string.IsNullOrEmpty(info) ? string.Empty : info.Split('/')[3].Trim(),
-            Team = string.IsNullOrEmpty(info) ? string.Empty : info.Split('/')[4].Trim(),
+            Name = string.IsNullOrEmpty(info) ? "name" : info.Split('/')[1].Trim(),
+            Email = string.IsNullOrEmpty(info) ? "email" : info.Split('/')[2].Trim(),
+            Password = string.IsNullOrEmpty(info) ? "password" : info.Split('/')[3].Trim(),
+            Team = string.IsNullOrEmpty(info) ? "team" : info.Split('/')[4].Trim(),
         };
 
         return userInfo;
@@ -141,8 +141,8 @@ public class UsersController : Singleton<UsersController> {
         UserSeasonStats userSeasonStats = new UserSeasonStats
         {
             Id = id,
-            League = string.IsNullOrEmpty(seasonStats) ? string.Empty : seasonStats.Split('/')[1].Trim(),
-            Team = string.IsNullOrEmpty(seasonStats) ? string.Empty : seasonStats.Split('/')[2].Trim(),
+            League = string.IsNullOrEmpty(seasonStats) ? "league" : seasonStats.Split('/')[1].Trim(),
+            Team = string.IsNullOrEmpty(seasonStats) ? "team" : seasonStats.Split('/')[2].Trim(),
             IsInSeason = string.IsNullOrEmpty(seasonStats) ? false : (seasonStats.Split('/')[3].Trim() == "true"),
             CurrentWins = string.IsNullOrEmpty(seasonStats) ? 0 : Int32.Parse(seasonStats.Split('/')[4].Trim()),
             CurrentLosses = string.IsNullOrEmpty(seasonStats) ? 0 : Int32.Parse(seasonStats.Split('/')[5].Trim()),
