@@ -57,6 +57,8 @@ public class UiSeasonTeam : UiSceneBase {
 
 		_leagueDropdown.SetListener(ChangeLeagueOption);
 
+        // TODO: Create new season
+
         SetContainer();
 
         base.InitializeUi();
