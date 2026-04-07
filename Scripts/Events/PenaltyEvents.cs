@@ -394,6 +394,12 @@ public class PenaltyEvents : MonoBehaviour {
     public void DetermineNextPenaltyShot()
     {
         CoreController.Inst.WriteLog(this.GetType().Name, $"Determining the next penalty shot.");
+
+        string powerplayTeam = GameplayController.Inst.GameData.PowerplayTeam == "Home" ? "Home" : "Away";
+        string penaltyKillTeam = GameplayController.Inst.GameData.PowerplayTeam == "Home" ? "Away" : "Home";
+
+        GameTeam ppTeam = powerplayTeam == "Home" ? GameplayController.Inst.GameData.HomeTeam : GameplayController.Inst.GameData.AwayTeam;
+        GameTeam pkTeam = powerplayTeam == "Home" ? GameplayController.Inst.GameData.AwayTeam : GameplayController.Inst.GameData.HomeTeam;
         
         if (IsShorthandedShot)
         {
