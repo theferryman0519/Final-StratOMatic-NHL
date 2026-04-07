@@ -46,6 +46,11 @@ public class SoM_Input : MonoBehavior {
     {
         return _inputField.text;
     }
+
+    public string SetInput(string input)
+    {
+        _inputField.text = input;
+    }
 #endregion
 #region -------------------- Private Methods --------------------
     
