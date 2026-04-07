@@ -57,6 +57,8 @@ public class UiExhibitionTeam : UiSceneBase {
 
 		_leagueDropdown.SetListener(ChangeLeagueOption);
 
+        GameplayController.Inst.CreateExhibitionGame();
+
         SetContainer();
 
         base.InitializeUi();
@@ -67,7 +69,7 @@ public class UiExhibitionTeam : UiSceneBase {
     {
         CoreController.Inst.WriteLog(this.GetType().Name, $"Going to exhibition game options screen.");
 
-        // TODO: Set exhibition game team
+        GameplayController.Inst.SetGameTeam(selectedTeam, true);
 
 		GoToScene(CoreController.Inst.Scene_Exhibition01);
     }
