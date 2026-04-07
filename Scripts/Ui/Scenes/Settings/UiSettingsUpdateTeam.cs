@@ -70,7 +70,7 @@ public class UiSettingsUpdateTeam : UiSceneBase {
 
         ClearContainer();
 
-        foreach (Team team in TeamsController.Inst.AllNhlTeams)
+        foreach (Team team in TeamsController.Inst.AllTeams)
         {
             GameObject icon = Instantiate(_teamPrefab, _container);
 
@@ -82,7 +82,9 @@ public class UiSettingsUpdateTeam : UiSceneBase {
                 favTeam = team;
                 icon.SetIcon(team, true);
 
-                _selectionText.text = $"You have selected the {team.Info.CityName} {team.Info.NickName} of the {team.Info.League}";
+                string league = team.Info.League.Contains("Nhl") ? "NHL" : "PWHL";
+
+                _selectionText.text = $"You have selected the {team.Info.CityName} {team.Info.NickName} of the {league}";
                 _saveButton.gameObject.SetActive(true);
             });
         }
