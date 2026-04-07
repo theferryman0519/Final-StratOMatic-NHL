@@ -33,6 +33,8 @@ public class SaveController : Singleton<SaveController> {
     public void InitializeController()
     {
         CoreController.Inst.WriteLog(this.GetType().Name, $"Initializing the controller.");
+
+        // TODO
     }
 #endregion
 #region -------------------- Private Methods --------------------
