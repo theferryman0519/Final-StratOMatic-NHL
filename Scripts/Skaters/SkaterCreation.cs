@@ -117,7 +117,6 @@ public class SkaterCreation : MonoBehaviour {
 
         SkaterInfo newInfo = new SkaterInfo
         {
-            Id = skaterId,
             FirstName = infoArray[0],
             LastName = infoArray[1],
             Position = infoArray[2],
@@ -136,7 +135,6 @@ public class SkaterCreation : MonoBehaviour {
 
         SkaterGame newGame = new SkaterGame
         {
-            Id = skaterId,
             Goals = 0,
             Assists = 0,
             Points = 0,
@@ -180,7 +178,7 @@ public class SkaterCreation : MonoBehaviour {
         
         SkaterSeason newSeason = new SkaterSeason
         {
-            Id = skaterId,
+            UserId = UsersController.Inst.UserData.Id,
             GamesPlayed = 0,
             Goals = 0,
             Assists = 0,
@@ -244,7 +242,7 @@ public class SkaterCreation : MonoBehaviour {
         
         SkaterPlayoff newPlayoff = new SkaterPlayoff
         {
-            Id = skaterId,
+            UserId = UsersController.Inst.UserData.Id,
             GamesPlayed = 0,
             Goals = 0,
             Assists = 0,
