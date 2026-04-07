@@ -21,6 +21,7 @@ public class TeamsController : Singleton<TeamsController> {
     [SerializeField] private TeamCreation _teamCreation;
 #endregion
 #region -------------------- Public Variables --------------------
+    public List<Team> AllTeams = new();
     public List<Team> AllNhlTeams = new();
     public List<Team> AllPwhlTeams = new();
     public List<Team> AllNhlFranchiseTeams = new();
@@ -40,6 +41,7 @@ public class TeamsController : Singleton<TeamsController> {
     {
         CoreController.Inst.WriteLog(this.GetType().Name, $"Initializing the controller.");
 
+        AllTeams.Clear();
         AllNhlTeams.Clear();
         AllPwhlTeams.Clear();
         AllNhlFranchiseTeams.Clear();
@@ -83,6 +85,8 @@ public class TeamsController : Singleton<TeamsController> {
     {
         CoreController.Inst.WriteLog(this.GetType().Name, $"Setting all teams.");
 
+        List<Team> allTeams = new();
+
         await FirebaseController.Inst.GetAllTeams(async allTeamsData =>
         {
             foreach (TeamDatabase teamData in allTeamsData)
@@ -91,12 +95,24 @@ public class TeamsController : Singleton<TeamsController> {
 
                 switch (team.Info.League)
                 {
-                    case "NHL": AllNhlTeams.Add(team); break;
-                    case "PWHL": AllPwhlTeams.Add(team); break;
-                    case "NHL-Franchise": AllNhlFranchiseTeams.Add(team); break;
-                    case "PWHL-Franchise": AllPwhlFranchiseTeams.Add(team); break;
+                    case "NHL":
+                        AllNhlTeams.Add(team);
+                        break;
+                    case "PWHL":
+                        AllPwhlTeams.Add(team);
+                        allTeams.Add(team);
+                        break;
+                    case "NHL-Franchise":
+                        AllNhlFranchiseTeams.Add(team);
+                        allTeams.Add(team);
+                        break;
+                    case "PWHL-Franchise":
+                        AllPwhlFranchiseTeams.Add(team);
+                        break;
                 }
             }
+
+            AllTeams = allTeams.OrderBy(t => t.Info.Code).ToList();
 
             CoreController.Inst.LoadingStepCompleted();
         });
