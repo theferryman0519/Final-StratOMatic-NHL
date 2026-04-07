@@ -114,6 +114,11 @@ public class TeamsController : Singleton<TeamsController> {
 
             AllTeams = allTeams.OrderBy(t => t.Info.Code).ToList();
 
+            SkatersController.Inst.InitializeController();
+			GoaliesController.Inst.InitializeController();
+			SeasonsController.Inst.InitializeController();
+			PlayoffsController.Inst.InitializeController();
+
             CoreController.Inst.LoadingStepCompleted();
         });
     }
