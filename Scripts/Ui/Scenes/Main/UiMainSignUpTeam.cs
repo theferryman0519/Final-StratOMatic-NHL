@@ -56,7 +56,15 @@ public class UiMainSignUpTeam : UiSceneBase {
     {
         CoreController.Inst.WriteLog(this.GetType().Name, $"Signing up the account.");
 
-        // TODO
+        UsersController.Inst.UserData.Info.Name = UsersController.Inst.TempName;
+        UsersController.Inst.UserData.Info.Email = UsersController.Inst.TempEmail;
+        UsersController.Inst.UserData.Info.Password = UsersController.Inst.TempPassword;
+        UsersController.Inst.UserData.Info.Team = favTeam.Info.Code;
+
+        UsersController.Inst.SaveUserData(() =>
+        {
+            GoToNewScene(CoreController.Inst.Scene_Main01);
+        });
     }
     
     private void SetContainer()
