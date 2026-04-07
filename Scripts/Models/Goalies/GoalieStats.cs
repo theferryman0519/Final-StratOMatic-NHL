@@ -15,9 +15,7 @@ namespace SoM.Models {
 [System.Serializable]
 public class GoalieStats {
     
-#region -------------------- Public Variables --------------------
-    public string Id { get; set; }
-    
+#region -------------------- Public Variables --------------------    
     public int Year { get; set; }
     public int GamesPlayed { get; set; }
     public int Wins { get; set; }
