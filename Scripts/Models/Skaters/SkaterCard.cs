@@ -16,7 +16,6 @@ namespace SoM.Models {
 public class SkaterCard {
     
 #region -------------------- Public Variables --------------------
-    public string Id { get; set; }
     public string Penalty { get; set; }
     public string Intimidation { get; set; }
     public string Passing { get; set; }
