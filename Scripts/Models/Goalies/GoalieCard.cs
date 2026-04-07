@@ -16,7 +16,6 @@ namespace SoM.Models {
 public class GoalieCard {
     
 #region -------------------- Public Variables --------------------
-    public string Id { get; set; }
     public string Penalty { get; set; }
     public string Fatigue { get; set; }
 
