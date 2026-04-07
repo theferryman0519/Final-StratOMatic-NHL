@@ -140,6 +140,8 @@ public class PullGoalieEvents : MonoBehaviour {
             ActionText = $"The gamble with pulling the goalie pays off as the puck is put into the back of the net by {ShootingSkater.Info.LastName}!",
         };
 
+        EventsController.Inst.GameplayEvents.GoalEvents.ShootingSkater = ShootingSkater;
+        EventsController.Inst.GameplayEvents.GoalEvents.GoalType = ConstantController.GoalType.EvenStrength;
         EventsController.Inst.CurrentEventRun = newEventRun;
         EventsController.Inst.ContinueAction = () => { EventsController.Inst.RunGoalEvent(7); };
 
@@ -156,6 +158,8 @@ public class PullGoalieEvents : MonoBehaviour {
             ActionText = $"The puck sails down the ice and into the yawning net with that shot by {ShootingSkater.Info.LastName}!",
         };
 
+        EventsController.Inst.GameplayEvents.GoalEvents.ShootingSkater = ShootingSkater;
+        EventsController.Inst.GameplayEvents.GoalEvents.GoalType = ConstantController.GoalType.EmptyNet;
         EventsController.Inst.CurrentEventRun = newEventRun;
         EventsController.Inst.ContinueAction = () => { EventsController.Inst.RunGoalEvent(7); };
 
@@ -183,69 +187,201 @@ public class PullGoalieEvents : MonoBehaviour {
     {
         CoreController.Inst.WriteLog(this.GetType().Name, $"Generating the pull goalie shot list.");
 
-        // TODO
-        // Determine total offense ratings of 4 on extra attacker unit
-        // Determine total defense ratings of 5 on defending unit
-        // Determine number of pull goalie shots based on ratings:
-            // Total empty net shot attempts is number of 5 ratings
-            // Total pull goalie shot attempts is number of 4 ratings
-        // For each count of shot attempts, randomize shot type and position
-        // Add string of shot to either empty net shots list or pull goalie shots list
+        PullGoalieShots.Clear();
+        EmptyNetShots.Clear();
+
+        string extraAttackerTeam = GameplayController.Inst.GameData.PossTeam == "Home" ? "Home" : "Away";
+        string emptyNetTeam = GameplayController.Inst.GameData.PossTeam == "Home" ? "Away" : "Home";
+
+        GameTeam eaTeam = extraAttackerTeam == "Home" ? GameplayController.Inst.GameData.HomeTeam : GameplayController.Inst.GameData.AwayTeam;
+        GameTeam enTeam = extraAttackerTeam == "Home" ? GameplayController.Inst.GameData.AwayTeam : GameplayController.Inst.GameData.HomeTeam;
+
+        int eaOffense = 0;
+        int enDefense = 0;
+
+        if (eaTeam.SkaterLineup["C1"].Card.Offense == 4) { eaOffense += 1; }
+        if (eaTeam.SkaterLineup["LW1"].Card.Offense == 4) { eaOffense += 1; }
+        if (eaTeam.SkaterLineup["RW1"].Card.Offense == 4) { eaOffense += 1; }
+        if (eaTeam.SkaterLineup["LD1"].Card.Offense == 4) { eaOffense += 1; }
+        if (eaTeam.SkaterLineup["RD1"].Card.Offense == 4) { eaOffense += 1; }
+
+        ExtraSkater = eaTeam.SkaterLineup["C2"].Id == eaTeam.SkaterLineup["C1"].Id ? eaTeam.SkaterLineup["C3"] : eaTeam.SkaterLineup["C2"];
+
+        if (ExtraSkater.Card.Offense == 4) { eaOffense += 1; }
+
+        if (enTeam.SkaterLineup["C1"].Card.Defense == 4) { enDefense += 1; }
+        if (enTeam.SkaterLineup["LW1"].Card.Defense == 4) { enDefense += 1; }
+        if (enTeam.SkaterLineup["RW1"].Card.Defense == 4) { enDefense += 1; }
+        if (enTeam.SkaterLineup["LD1"].Card.Defense == 4) { enDefense += 1; }
+        if (enTeam.SkaterLineup["RD1"].Card.Defense == 4) { enDefense += 1; }
+
+        for (int en = 0; en < enDefense; en++)
+        {
+            EmptyNetShots.Add(GetRandomShot());
+        }
+
+        for (int ea = 0; ea < eaOffense; ea++)
+        {
+            PullGoalieShots.Add(GetRandomShot());
+        }
+
+        if (EmptyNetShots.Count > 0)
+        {
+            string firstShot = EmptyNetShots[0];
+            string firstPos = GetRandomPos();
+
+            if (firstShot == "OUT") { ShotType = ConstantController.ShotType.Outside; }
+            else if (firstShot == "IN") { ShotType = ConstantController.ShotType.Inside; }
+            else { ShotType = ConstantController.ShotType.RebBreak; }
+
+            ShootingSkater = enTeam.SkaterLineup[$"{firstPos}1"];
+
+            GameplayController.Inst.StatsSet.SetPossTeam(emptyNetTeam);
+            GameplayController.Inst.StatsSet.AddPossPos($"{firstPos}1");
+
+            IsEmptyNetShot = true;
+        }
+
+        else
+        {
+            string firstShot = PullGoalieShots[0];
+            string firstPos = GetRandomPos();
+            int firstLine = 1;
+
+            if (firstPos == "C")
+            {
+                firstLine = Random.Range(0,2) == 0 ? 1 : 2;
+            }
+
+            if (firstShot == "OUT") { ShotType = ConstantController.ShotType.Outside; }
+            else if (firstShot == "IN") { ShotType = ConstantController.ShotType.Inside; }
+            else { ShotType = ConstantController.ShotType.RebBreak; }
+
+            ShootingSkater = eaTeam.SkaterLineup[$"{firstPos}{firstLine}"];
+
+            GameplayController.Inst.StatsSet.SetPossTeam(extraAttackerTeam);
+            GameplayController.Inst.StatsSet.AddPossPos($"{firstPos}{firstLine}");
+
+            IsEmptyNetShot = false;
+        }
+
+        EventsController.Inst.GameplayEvents.OffenseEvents.SelectedShotType = ShotType;
+        EventsController.Inst.GameplayEvents.OffenseEvents.ShootingSkater = ShootingSkater;
+        EventsController.Inst.RunPullGoalieEvent(1);
     }
 
     public void DetermineNextPullGoalieShot()
     {
         CoreController.Inst.WriteLog(this.GetType().Name, $"Determining the next pull goalie shot.");
+        
+        string extraAttackerTeam = GameplayController.Inst.GameData.PossTeam == "Home" ? "Home" : "Away";
+        string emptyNetTeam = GameplayController.Inst.GameData.PossTeam == "Home" ? "Away" : "Home";
 
-        // TODO
-        // Determine if current shot was empty net
-        // If so:
-            // Remove first indexed shot from empty net shots list
-            // Clear possession position tracker
-        // If not:
-            // Remove first indexed shot from pull goalie shots list
-        // Determine count of shots in empty net shots list
-        // If count is greater than zero:
-            // Set empty net shot boolean to true
-        // If count is zero:
-            // Set empty net shot boolean to false
-        // Determine count of shots in pull goalie shots list
-        // If count is greater than zero:
-            // Set continue action to pull goalie shots attempt start
-        // If count is zero:
-            // Set continue action to pull goalie shots result
+        GameTeam eaTeam = extraAttackerTeam == "Home" ? GameplayController.Inst.GameData.HomeTeam : GameplayController.Inst.GameData.AwayTeam;
+        GameTeam enTeam = extraAttackerTeam == "Home" ? GameplayController.Inst.GameData.AwayTeam : GameplayController.Inst.GameData.HomeTeam;
+        
+        if (IsEmptyNetShot)
+        {
+            EmptyNetShots.RemoveAt(0);
+
+            GameplayController.Inst.StatsSet.ClearPossPos();
+            GameplayController.Inst.StatsSet.SetPossTeam("None");
+        }
+
+        else
+        {
+            PullGoalieShots.RemoveAt(0);
+        }
+
+        if (EmptyNetShots.Count > 0) { IsEmptyNetShot = true; }
+        else { IsEmptyNetShot = false; }
+
+        if (EmptyNetShots.Count > 0)
+        {
+            string firstShot = EmptyNetShots[0];
+            string firstPos = GetRandomPos();
+
+            if (firstShot == "OUT") { ShotType = ConstantController.ShotType.Outside; }
+            else if (firstShot == "IN") { ShotType = ConstantController.ShotType.Inside; }
+            else { ShotType = ConstantController.ShotType.RebBreak; }
+
+            ShootingSkater = enTeam.SkaterLineup[$"{firstPos}1"];
+
+            GameplayController.Inst.StatsSet.SetPossTeam(emptyNetTeam);
+            GameplayController.Inst.StatsSet.AddPossPos($"{firstPos}1");
+
+            IsEmptyNetShot = true;
+
+            EventsController.Inst.GameplayEvents.OffenseEvents.SelectedShotType = ShotType;
+            EventsController.Inst.GameplayEvents.OffenseEvents.ShootingSkater = ShootingSkater;
+            EventsController.Inst.RunPullGoalieEvent(2);
+        }
+
+        else
+        {
+            IsEmptyNetShot = false;
+
+            if (PullGoalieShots.Count > 0)
+            {
+                string firstShot = PullGoalieShots[0];
+                string firstPos = GetRandomPos();
+                int firstLine = 1;
+
+                if (firstPos == "C")
+                {
+                    firstLine = Random.Range(0,2) == 0 ? 1 : 2;
+                }
+
+                if (firstShot == "OUT") { ShotType = ConstantController.ShotType.Outside; }
+                else if (firstShot == "IN") { ShotType = ConstantController.ShotType.Inside; }
+                else { ShotType = ConstantController.ShotType.RebBreak; }
+
+                ShootingSkater = eaTeam.SkaterLineup[$"{firstPos}{firstLine}"];
+
+                GameplayController.Inst.StatsSet.SetPossTeam(extraAttackerTeam);
+                GameplayController.Inst.StatsSet.AddPossPos($"{firstPos}{firstLine}");
+
+                EventsController.Inst.GameplayEvents.OffenseEvents.SelectedShotType = ShotType;
+                EventsController.Inst.GameplayEvents.OffenseEvents.ShootingSkater = ShootingSkater;
+                EventsController.Inst.RunPullGoalieEvent(2);
+            }
+
+            else
+            {
+                GameplayController.Inst.StatsSet.ClearPossPos();
+                GameplayController.Inst.StatsSet.SetPossTeam("None");
+
+                EventsController.Inst.RunPullGoalieEvent(6);
+            }
+        }
     }
 
     public void DeterminePullGoalieShotOutcome()
     {
         CoreController.Inst.WriteLog(this.GetType().Name, $"Determining the pull goalie shot outcome.");
+        
+        int randomNumber = Random.Range(0,11);
 
-        // TODO
-        // Add to possession position tracker
-        // Determine the shot type
-        // Determine the action card of the shooter
-        // Determine random 2d6 result
-        // Determine shot action based on dice sum and shot type
-        // If action is a goalie rating or a goal:
-            // Add shot for shooter
-            // Add shot against for opposing goalie
-            // If goalie rating:
-                // Determine random 2d6 result
-                // Determine goalie rating action based on dice sum
-                // If goal:
-                    // Add goal for shooter
-                    // If pull goalie goal, add goal against for opposing goalie
-                    // Set continue action to pull goalie shots attempt result goal
-                // If not a goal:
-                    // Set continue action to pull goalie shots attempt result next
-            // If goal:
-                // Add goal for shooter
-                // If pull goalie goal, add goal against for opposing goalie
-                // Set continue action to pull goalie shots attempt result goal
-        // If action is not:
-            // Add shot for shooter
-            // Add shot against for opposing goalie
-            // Set continue action to pull goalie shots attempt result next
+        List<string> shotActions = new();
+
+        if (ShotType == ConstantController.ShotType.Outside) { shotActions = ShootingSkater.Card.OutsideShotActions; }
+        else if (ShotType == ConstantController.ShotType.Outside) { shotActions = ShootingSkater.Card.InsideShotActions; }
+        else { ShotType = ShootingSkater.Card.ReboundShotActions; }
+
+        string shotAction = shotActions[randomNumber];
+
+        GameplayController.Inst.StatsSet.AddShot(ShootingSkater, 1);
+
+        if (shotAction == "GOAL" || shotAction == "GOALIE RATING")
+        {
+            if (IsEmptyNetShot) { EventsController.Inst.RunPullGoalieEvent(5); }
+            else { EventsController.Inst.RunPullGoalieEvent(4); }
+        }
+
+        else
+        {
+            EventsController.Inst.RunPullGoalieEvent(3);
+        }
     }
 #endregion
 #region -------------------- Private Methods --------------------
@@ -263,6 +399,24 @@ public class PullGoalieEvents : MonoBehaviour {
             case 3: return "LD";
             case 4:
             default: return "RD";
+        }
+    }
+
+    private string GetRandomShot()
+    {
+        CoreController.Inst.WriteLog(this.GetType().Name, $"Getting a random shot.");
+
+        int index = Random.Range(0,6);
+
+        switch (index)
+        {
+            case 0:
+            case 1:
+            case 2: return "OUT";
+            case 3:
+            case 5: return "IN";
+            case 6:
+            default: return "REB";
         }
     }
 #endregion
