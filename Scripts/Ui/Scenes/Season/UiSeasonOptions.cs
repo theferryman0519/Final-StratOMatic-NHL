@@ -25,7 +25,6 @@ public class UiSeasonOptions : UiSceneBase {
 	[SerializeField] private SoM_Dropdown _goalieFatigueDropdown;
 	[SerializeField] private SoM_Dropdown _injuriesDropdown;
 	[SerializeField] private SoM_Dropdown _difficultyDropdown;
-	[SerializeField] private SoM_Dropdown _rosterManagementDropdown;
 #endregion
 #region -------------------- Public Variables --------------------
     
@@ -52,7 +51,6 @@ public class UiSeasonOptions : UiSceneBase {
 		_goalieFatigueDropdown.SetListener(ChangeGoalieFatigueOption);
 		_injuriesDropdown.SetListener(ChangeInjuriesOption);
 		_difficultyDropdown.SetListener(ChangeDifficultyOption);
-		_rosterManagementDropdown.SetListener(ChangeRosterManagementOption);
 
         base.InitializeUi();
 	}
@@ -137,22 +135,6 @@ public class UiSeasonOptions : UiSceneBase {
 			case 1:
 			default:
 				// TODO: Set as Veteran
-				break;
-		}
-    }
-	
-	private void ChangeRosterManagementOption(int option)
-    {
-        CoreController.Inst.WriteLog(this.GetType().Name, $"Changing the roster management option.");
-
-		switch (option)
-		{
-			case 1:
-				// TODO: Set as static from start
-				break;
-			case 0:
-			default:
-				// TODO: Set as match current
 				break;
 		}
     }
