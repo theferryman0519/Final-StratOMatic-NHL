@@ -95,7 +95,6 @@ public class GoalieCreation : MonoBehaviour {
 
         GoalieInfo newInfo = new GoalieInfo
         {
-            Id = goalieId,
             FirstName = infoArray[0],
             LastName = infoArray[1],
             Team = infoArray[2],
@@ -111,7 +110,6 @@ public class GoalieCreation : MonoBehaviour {
 
         GoalieGame newGame = new GoalieGame
         {
-            Id = goalieId,
             GoalsAgainst = 0,
             ShotsAgainst = 0,
             Assists = 0,
@@ -139,7 +137,7 @@ public class GoalieCreation : MonoBehaviour {
         
         GoalieSeason newSeason = new GoalieSeason
         {
-            Id = goalieId,
+            UserId = UsersController.Inst.UserData.Id,
             GamesPlayed = 0,
             Wins = 0,
             Losses = 0,
@@ -185,7 +183,7 @@ public class GoalieCreation : MonoBehaviour {
         
         GoaliePlayoff newPlayoff = new GoaliePlayoff
         {
-            Id = goalieId,
+            UserId = UsersController.Inst.UserData.Id,
             GamesPlayed = 0,
             Wins = 0,
             Losses = 0,
@@ -267,7 +265,6 @@ public class GoalieCreation : MonoBehaviour {
 
         GoalieStats newStats = new GoalieStats
         {
-            Id = goalieId,
             Year = Int32.Parse(statsArray[0]),
             GamesPlayed = Int32.Parse(statsArray[1]),
             Wins = Int32.Parse(statsArray[2]),
@@ -288,7 +285,6 @@ public class GoalieCreation : MonoBehaviour {
 
         GoalieCard newCard = new GoalieCard
         {
-            Id = goalieId,
             Penalty = await SetPenalty(),
             Fatigue = await SetFatigue(),
             GoalieRatingActions = await SetGoalieRatingActions(),
