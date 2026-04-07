@@ -16,7 +16,7 @@ namespace SoM.Models {
 public class GoalieSeason {
     
 #region -------------------- Public Variables --------------------
-    public string Id { get; set; }
+    public string UserId { get; set; }
     
     public int GamesPlayed { get; set; }
     public int Wins { get; set; }
