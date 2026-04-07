@@ -56,9 +56,12 @@ public class UiSettingsUpdateTeam : UiSceneBase {
     {
         CoreController.Inst.WriteLog(this.GetType().Name, $"Attempting to save changes to the user favorite team.");
 
-        // TODO
+        UsersController.Inst.UserData.Info.Team = favTeam.Info.Code;
 
-		GoToNewScene(CoreController.Inst.Scene_Settings02);
+        UsersController.Inst.SaveUserData(() =>
+        {
+            GoToNewScene(CoreController.Inst.Scene_Settings02);
+        });
     }
     
     private void SetContainer()
