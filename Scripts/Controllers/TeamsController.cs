@@ -48,10 +48,34 @@ public class TeamsController : Singleton<TeamsController> {
         SetAllTeams();
     }
 
-    public Team GetTeamFromCode(string code)
+    public Team GetTeamFromCode(string code, ConstantController.LeagueType league)
     {
-        // TODO
-        return null;
+        List<Team> leagueList = new();
+
+        switch (league)
+        {
+            case ConstantController.LeagueType.NHL: leagueList = AllNhlTeams; break;
+            case ConstantController.LeagueType.NHLFranchise: leagueList = AllNhlFranchiseTeams; break;
+            case ConstantController.LeagueType.PWHL: leagueList = AllPwhlTeams; break;
+            case ConstantController.LeagueType.PWHLFranchise: leagueList = AllPwhlFranchiseTeams; break;
+        }
+
+        if (leagueList.Count < 1)
+        {
+            return null;
+        }
+
+        Team foundTeam = null;
+
+        foreach (Team team in leagueList)
+        {
+            if (team.Info.Code == code)
+            {
+                foundTeam = team;
+            }
+        }
+
+        return foundTeam;
     }
 #endregion
 #region -------------------- Private Methods --------------------
