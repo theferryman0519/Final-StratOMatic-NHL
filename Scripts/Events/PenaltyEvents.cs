@@ -298,19 +298,22 @@ public class PenaltyEvents : MonoBehaviour {
             default: thresholdNumA = 60; thresholdNumB = 85; break;
         }
 
-        if (randomNum >= thresholdNumB) { PenaltyTime = 5; }
-        else if (randomNum >= thresholdNumA) { PenaltyTime = 4; }
-        else { PenaltyTime = 2; }
+        if (randomNum >= thresholdNumB) { PenaltyTime = 5; IsMajorPenalty = true; }
+        else if (randomNum >= thresholdNumA) { PenaltyTime = 4; IsMajorPenalty = false; }
+        else { PenaltyTime = 2; IsMajorPenalty = false; }
     }
 
     public void GeneratePenaltyShots()
     {
         CoreController.Inst.WriteLog(this.GetType().Name, $"Generating the penalty shot list.");
 
+        EventsController.Inst.GameplayEvents.GoalEvents.PowerplayGoalAction = null;
+
         PenaltyShots.Clear();
         ShorthandedShots.Clear();
 
         string powerplayTeam = GameplayController.Inst.GameData.PowerplayTeam == "Home" ? "Home" : "Away";
+        string penaltyKillTeam = GameplayController.Inst.GameData.PowerplayTeam == "Home" ? "Away" : "Home";
 
         GameTeam ppTeam = powerplayTeam == "Home" ? GameplayController.Inst.GameData.HomeTeam : GameplayController.Inst.GameData.AwayTeam;
         GameTeam pkTeam = powerplayTeam == "Home" ? GameplayController.Inst.GameData.AwayTeam : GameplayController.Inst.GameData.HomeTeam;
@@ -347,107 +350,189 @@ public class PenaltyEvents : MonoBehaviour {
             PenaltyShots.Add(GetRandomShot());
         }
 
-        // TODO
-        // Check if ShorthandedShots has a count
-        // If so:
-            // Get first index and set shot type
-            // Set random pos
-            // Get skater from pos
-            // Add to PossPos list
-            // Set offense events shot type
-            // Set offense events shooter
-            // Set this shooter
-        // If not:
-            // Get first index and set shot type
-            // Set random pos
-            // Get skater from pos
-            // Add to PossPos list
-            // Set offense events shot type
-            // Set offense events shooter
-            // Set this shooter
+        if (ShorthandedShots.Count > 0)
+        {
+            string firstShot = ShorthandedShots[0];
+            string firstPos = GetRandomPos();
 
+            if (firstPos == "C") { firstPos = "LW"; }
+
+            if (firstShot == "OUT") { ShotType = ConstantController.ShotType.Outside; }
+            else if (firstShot == "IN") { ShotType = ConstantController.ShotType.Inside; }
+            else { ShotType = ConstantController.ShotType.RebBreak; }
+
+            ShootingSkater = pkTeam.SkaterLineup[$"{firstPos}1"];
+
+            GameplayController.Inst.StatsSet.SetPossTeam(penaltyKillTeam);
+            GameplayController.Inst.StatsSet.AddPossPos($"{firstPos}1");
+
+            IsShorthandedShot = true;
+        }
+
+        else
+        {
+            string firstShot = PenaltyShots[0];
+            string firstPos = GetRandomPos();
+
+            if (firstShot == "OUT") { ShotType = ConstantController.ShotType.Outside; }
+            else if (firstShot == "IN") { ShotType = ConstantController.ShotType.Inside; }
+            else { ShotType = ConstantController.ShotType.RebBreak; }
+
+            ShootingSkater = ppTeam.SkaterLineup[$"{firstPos}1"];
+
+            GameplayController.Inst.StatsSet.SetPossTeam(powerplayTeam);
+            GameplayController.Inst.StatsSet.AddPossPos($"{firstPos}1");
+
+            IsShorthandedShot = false;
+        }
+        
+        EventsController.Inst.GameplayEvents.OffenseEvents.SelectedShotType = ShotType;
+        EventsController.Inst.GameplayEvents.OffenseEvents.ShootingSkater = ShootingSkater;
         EventsController.Inst.RunPenaltyEvent(3);
     }
 
     public void DetermineNextPenaltyShot()
     {
         CoreController.Inst.WriteLog(this.GetType().Name, $"Determining the next penalty shot.");
+        
+        if (IsShorthandedShot)
+        {
+            ShorthandedShots.RemoveAt(0);
 
-        // TODO
-        // Determine if current shot was shorthanded
-        // If so:
-            // Remove first indexed shot from shorthanded shots list
-            // Clear possession position tracker
-        // If not:
-            // Remove first indexed shot from powerplay shots list
-        // Determine count of shots in shorthanded shots list
-        // If count is greater than zero:
-            // Set shorthanded shot boolean to true
-        // If count is zero:
-            // Set shorthanded shot boolean to false
-        // Determine count of shots in powerplay shots list
-        // If count is greater than zero:
-            // Set continue action to penalty shots attempt start
-        // If count is zero:
-            // Set continue action to penalty shots result
+            GameplayController.Inst.StatsSet.ClearPossPos();
+            GameplayController.Inst.StatsSet.SetPossTeam("None");
+        }
+
+        else
+        {
+            PenaltyShots.RemoveAt(0);
+        }
+
+        if (ShorthandedShots.Count > 0) { IsShorthandedShot = true; }
+        else { IsShorthandedShot = false; }
+
+        if (ShorthandedShots.Count > 0)
+        {
+            string firstShot = ShorthandedShots[0];
+            string firstPos = GetRandomPos();
+
+            if (firstPos == "C") { firstPos = "LW"; }
+
+            if (firstShot == "OUT") { ShotType = ConstantController.ShotType.Outside; }
+            else if (firstShot == "IN") { ShotType = ConstantController.ShotType.Inside; }
+            else { ShotType = ConstantController.ShotType.RebBreak; }
+
+            ShootingSkater = pkTeam.SkaterLineup[$"{firstPos}1"];
+
+            GameplayController.Inst.StatsSet.SetPossTeam(penaltyKillTeam);
+            GameplayController.Inst.StatsSet.AddPossPos($"{firstPos}1");
+
+            IsShorthandedShot = true;
+
+            EventsController.Inst.GameplayEvents.OffenseEvents.SelectedShotType = ShotType;
+            EventsController.Inst.GameplayEvents.OffenseEvents.ShootingSkater = ShootingSkater;
+            EventsController.Inst.RunPenaltyEvent(4);
+        }
+
+        else
+        {
+            IsShorthandedShot = false;
+
+            if (PenaltyShots.Count > 0)
+            {
+                string firstShot = PenaltyShots[0];
+                string firstPos = GetRandomPos();
+
+                if (firstShot == "OUT") { ShotType = ConstantController.ShotType.Outside; }
+                else if (firstShot == "IN") { ShotType = ConstantController.ShotType.Inside; }
+                else { ShotType = ConstantController.ShotType.RebBreak; }
+
+                ShootingSkater = ppTeam.SkaterLineup[$"{firstPos}1"];
+
+                GameplayController.Inst.StatsSet.SetPossTeam(powerplayTeam);
+                GameplayController.Inst.StatsSet.AddPossPos($"{firstPos}1");
+
+                EventsController.Inst.GameplayEvents.OffenseEvents.SelectedShotType = ShotType;
+                EventsController.Inst.GameplayEvents.OffenseEvents.ShootingSkater = ShootingSkater;
+                EventsController.Inst.RunPenaltyEvent(4);
+            }
+
+            else
+            {
+                GameplayController.Inst.StatsSet.ClearPossPos();
+                GameplayController.Inst.StatsSet.SetPossTeam("None");
+
+                EventsController.Inst.RunPenaltyEvent(7);
+            }
+        }
     }
 
     public void DeterminePenaltyShotOutcome()
     {
         CoreController.Inst.WriteLog(this.GetType().Name, $"Determining the penalty shot outcome.");
+        
+        int randomNumber = Random.Range(0,11);
 
-        // TODO
-        // Add to possession position tracker
-        // Determine the shot type
-        // Determine the action card of the shooter
-        // Determine random 2d6 result
-        // Determine shot action based on dice sum and shot type
-        // If action is a goalie rating or a goal:
-            // Add shot for shooter
-            // Add shot against for opposing goalie
-            // If goalie rating:
-                // Determine random 2d6 result
-                // Determine goalie rating action based on dice sum
-                // If goal:
-                    // Add goal for shooter
-                    // Add powerplay or shorthanded goal for shooter
-                    // Add goal against for opposing goalie
-                    // Set continue action to penalty shots attempt result goal
-                // If not a goal:
-                    // Set continue action to penalty shots attempt result next
-            // If goal:
-                // Add goal for shooter
-                // Add powerplay or shorthanded goal for shooter
-                // Add goal against for opposing goalie
-                // Set continue action to penalty shots attempt result goal
-        // If action is not:
-            // Add shot for shooter
-            // Add shot against for opposing goalie
-            // Set continue action to penalty shots attempt result next
+        List<string> shotActions = new();
+
+        if (ShotType == ConstantController.ShotType.Outside) { shotActions = ShootingSkater.Card.OutsideShotActions; }
+        else if (ShotType == ConstantController.ShotType.Outside) { shotActions = ShootingSkater.Card.InsideShotActions; }
+        else { ShotType = ShootingSkater.Card.ReboundShotActions; }
+
+        string shotAction = shotActions[randomNumber];
+
+        GameplayController.Inst.StatsSet.AddShot(ShootingSkater, 1);
+
+        if (shotAction == "GOAL" || shotAction == "GOALIE RATING")
+        {
+            EventsController.Inst.RunPenaltyEvent(6);
+        }
+
+        else
+        {
+            EventsController.Inst.GameplayEvents.GoalEvents.PowerplayGoalAction = null;
+            EventsController.Inst.RunPenaltyEvent(5);
+        }
     }
 
     public void DetermineNextPenaltyShotAfterGoal()
     {
         CoreController.Inst.WriteLog(this.GetType().Name, $"Determining the next penalty shot after a goal.");
+        
+        EventsController.Inst.GameplayEvents.GoalEvents.PowerplayGoalAction = () =>
+        {
+            DetermineNextPenaltyShot();
+        };
+        
+        if (IsShorthandedShot)
+        {
+            EventsController.Inst.GameplayEvents.GoalEvents.ShootingSkater = ShootingSkater;
+            EventsController.Inst.GameplayEvents.GoalEvents.GoalType = ConstantController.GoalType.Shorthanded;
+            EventsController.Inst.RunGoalEvent(7);
+        }
 
-        // TODO
-        // Determine if current shot was shorthanded
-        // If so:
-            // Set after goal action to determine next penalty shot
-            // Set continue action to goal
-        // If not:
-            // Determine if penalty is minor, double-minor, or major
-            // If penalty is minor:
-                // Remove all shots from powerplay shots list except first indexed
-                // Set after goal action to determine next penalty shot
-                // Set continue action to goal
-            // If penalty is double-minor:
-                // Remove last 3 indexed shots from powerplay shots list (or amount to keep first indexed if less than 3 remain)
-                // Set after goal action to determine next penalty shot
-                // Set continue action to goal
-            // If penalty is major:
-                // Set after goal action to determine next penalty shot
-                // Set continue action to goal
+        else
+        {
+            if (PenaltyTime == 2)
+            {
+                PenaltyShots.Clear();
+            }
+
+            else if (PenaltyTime == 4)
+            {
+                for (int i = 0; i < 3; i++)
+                {
+                    if (PenaltyShots.Count > 0)
+                    {
+                        PenaltyShots.RemoveAt(0);
+                    }
+                }
+            }
+
+            EventsController.Inst.GameplayEvents.GoalEvents.ShootingSkater = ShootingSkater;
+            EventsController.Inst.GameplayEvents.GoalEvents.GoalType = ConstantController.GoalType.Powerplay;
+            EventsController.Inst.RunGoalEvent(7);
+        }
     }
 #endregion
 #region -------------------- Private Methods --------------------
