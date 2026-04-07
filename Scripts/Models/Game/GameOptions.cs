@@ -17,6 +17,7 @@ public class GameOptions {
 #region -------------------- Public Variables --------------------
     public bool LineChangesOn { get; set; }
     public bool FatigueOn { get; set; }
+    public bool GoalieFatigueOn { get; set; }
     public bool InjuriesOn { get; set; }
 
     public int AiDifficulty { get; set; }
