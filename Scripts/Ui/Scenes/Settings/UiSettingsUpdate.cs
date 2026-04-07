@@ -87,6 +87,10 @@ public class UiSettingsUpdate : UiSceneBase {
             _ => OnInputEnded(_nameInput.Input)
         );
 
+		_emailInput.SetInput(UsersController.Inst.UserData.Info.Email);
+		_passwordInput.SetInput(UsersController.Inst.UserData.Info.Password);
+		_nameInput.SetInput(UsersController.Inst.UserData.Info.Name);
+
         base.InitializeUi();
 	}
 #endregion
@@ -95,9 +99,14 @@ public class UiSettingsUpdate : UiSceneBase {
     {
         CoreController.Inst.WriteLog(this.GetType().Name, $"Attempting to save changes to the user profile.");
 
-		// TODO
+		UsersController.Inst.UserData.Info.Name = _nameInput.GetInput();
+        UsersController.Inst.UserData.Info.Email = _emailInput.GetInput();
+        UsersController.Inst.UserData.Info.Password = _passwordInput.GetInput();
 
-		GoToNewScene(CoreController.Inst.Scene_Settings02);
+        UsersController.Inst.SaveUserData(() =>
+        {
+            GoToNewScene(CoreController.Inst.Scene_Settings02);
+        });
     }
 
 	private void GoToUpdateTeam()
