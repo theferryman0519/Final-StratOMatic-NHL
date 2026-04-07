@@ -104,6 +104,10 @@ public class UiMainSignUp : UiSceneBase {
             FailAction = PanelController.Inst.ShowBottomPanel(ConstantController.PanelType.SignUpInvalidCredentials),
         };
 
+		UsersController.Inst.TempName = _nameInput.GetInput();
+		UsersController.Inst.TempEmail = email;
+		UsersController.Inst.TempPassword = password;
+
         StartCoroutine(FirebaseController.Inst.CreatingUserInFirebase(signUpData));
     }
 
