@@ -27,6 +27,8 @@ public class GoalEvents : MonoBehaviour {
     public ConstantController.GoalType GoalType;
 
     public int GoalThreshold;
+
+    public Action PowerplayGoalAction;
 #endregion
 #region -------------------- Private Variables --------------------
     
@@ -272,7 +274,15 @@ public class GoalEvents : MonoBehaviour {
 
         else
         {
-            EventsController.Inst.RunFaceoffEvent(0);
+            if (PowerplayGoalAction != null)
+            {
+                PowerplayGoalAction?.Invoke();
+            }
+
+            else
+            {
+                EventsController.Inst.RunFaceoffEvent(0);
+            }
         }
     }
 
