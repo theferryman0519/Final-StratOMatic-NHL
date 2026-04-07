@@ -26,6 +26,8 @@ public class GameplayController : Singleton<GameplayController> {
 
     public Game GameData;
 
+    public GameOptions GameOptions;
+
     public GameplayStatsSet StatsSet => _statsSet;
 #endregion
 #region -------------------- Private Variables --------------------
