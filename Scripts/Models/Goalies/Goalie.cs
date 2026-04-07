@@ -17,6 +17,8 @@ public class Goalie {
 #region -------------------- Public Variables --------------------
     public string Id { get; set; }
 
+    public float WinPercentage { get; set; }
+
     public GoalieInfo Info { get; set; }
     public GoalieCard Card { get; set; }
     public GoalieGame Game { get; set; }
