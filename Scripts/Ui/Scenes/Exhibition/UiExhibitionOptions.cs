@@ -31,7 +31,7 @@ public class UiExhibitionOptions : UiSceneBase {
     
 #endregion
 #region -------------------- Private Variables --------------------
-    
+    private string aiDifficulty = string.Empty;
 #endregion
 #region -------------------- Initial Functions --------------------
     void Start()
@@ -64,7 +64,11 @@ public class UiExhibitionOptions : UiSceneBase {
     {
         CoreController.Inst.WriteLog(this.GetType().Name, $"Setting the options as default for exhibition games.");
 
-		// TODO
+		string lineChangesSelection = GameplayController.Inst.GameOptions.LineChangesOn.ToString();
+		string fatigueSelection = GameplayController.Inst.GameOptions.FatigueOn.ToString();
+		string injuriesSelection = GameplayController.Inst.GameOptions.InjuriesOn.ToString();
+
+		PlayerPrefs.SetString(Pref_ExhibitionOptions, $"{lineChangesSelection}/{fatigueSelection}/{injuriesSelection}/{aiDifficulty}");
     }
 
 	private void GoToEditLines()
@@ -85,7 +89,34 @@ public class UiExhibitionOptions : UiSceneBase {
 	{
 		CoreController.Inst.WriteLog(this.GetType().Name, $"Setting the dropdown options from defaults for exhibition games.");
 
-		// TODO
+		string optionsDefault = string.Empty;
+
+		if (PlayerPrefs.HasKey(ConstantController.Pref_ExhibitionOptions))
+		{
+			optionsDefault = PlayerPrefs.GetString(ConstantController.Pref_ExhibitionOptions);
+		}
+
+		else
+		{
+			optionsDefault = "true/true/true/Veteran";
+
+			PlayerPrefs.SetString(ConstantController.Pref_ExhibitionOptions, optionsDefault);
+		}
+
+		string[] optionsArray = optionsDefault.Split("/");
+
+		if (optionsArray[0] == "true") { ChangeLineChangesOption(0); }
+		else { ChangeLineChangesOption(1); }
+
+		if (optionsArray[1] == "true") { ChangeFatigueOption(0); }
+		else { ChangeFatigueOption(1); }
+
+		if (optionsArray[2] == "true") { ChangeInjuriesOption(0); }
+		else { ChangeInjuriesOption(1); }
+
+		if (optionsArray[3] == "Rookie") { ChangeDifficultyOption(0); }
+		else if (optionsArray[3] == "Hall of Famer") { ChangeDifficultyOption(2); }
+		else { ChangeDifficultyOption(1); }
 	}
 
 	private void ChangeLineChangesOption(int option)
@@ -95,11 +126,11 @@ public class UiExhibitionOptions : UiSceneBase {
 		switch (option)
 		{
 			case 1:
-				// TODO: Set as off
+				GameplayController.Inst.GameOptions.LineChangesOn = false;
 				break;
 			case 0:
 			default:
-				// TODO: Set as on
+				GameplayController.Inst.GameOptions.LineChangesOn = true;
 				break;
 		}
     }
@@ -111,11 +142,11 @@ public class UiExhibitionOptions : UiSceneBase {
 		switch (option)
 		{
 			case 1:
-				// TODO: Set as off
+				GameplayController.Inst.GameOptions.FatigueOn = false;
 				break;
 			case 0:
 			default:
-				// TODO: Set as on
+				GameplayController.Inst.GameOptions.FatigueOn = true;
 				break;
 		}
     }
@@ -127,11 +158,11 @@ public class UiExhibitionOptions : UiSceneBase {
 		switch (option)
 		{
 			case 1:
-				// TODO: Set as off
+				GameplayController.Inst.GameOptions.InjuriesOn = false;
 				break;
 			case 0:
 			default:
-				// TODO: Set as on
+				GameplayController.Inst.GameOptions.InjuriesOn = true;
 				break;
 		}
     }
@@ -143,14 +174,17 @@ public class UiExhibitionOptions : UiSceneBase {
 		switch (option)
 		{
 			case 0:
-				// TODO: Set as Rookie
+				GameplayController.Inst.GameOptions.AiDifficulty = 0;
+				aiDifficulty = "Rookie";
 				break;
 			case 2:
-				// TODO: Set as Hall of Famer
+				GameplayController.Inst.GameOptions.AiDifficulty = 2;
+				aiDifficulty = "Hall of Famer";
 				break;
 			case 1:
 			default:
-				// TODO: Set as Veteran
+				GameplayController.Inst.GameOptions.AiDifficulty = 1;
+				aiDifficulty = "Veteran";
 				break;
 		}
     }
