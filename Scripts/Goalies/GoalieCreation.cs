@@ -129,7 +129,6 @@ public class GoalieCreation : MonoBehaviour {
         foreach (string seasonString in seasonStrings)
         {
             string[] seasonArray = seasonString.Split('/');
-            if (seasonArray.Length < 9) { return null; }
 
             if (seasonArray[0] == UsersController.Inst.UserData.Id)
             {
@@ -176,7 +175,6 @@ public class GoalieCreation : MonoBehaviour {
         foreach (string playoffString in playoffStrings)
         {
             string[] playoffArray = playoffString.Split('/');
-            if (playoffArray.Length < 9) { return null; }
 
             if (playoffArray[0] == UsersController.Inst.UserData.Id)
             {
