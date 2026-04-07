@@ -20,6 +20,10 @@ public class UsersController : Singleton<UsersController> {
 #endregion
 #region -------------------- Public Variables --------------------
     public User UserData;
+
+    public string TempName = string.Empty;
+    public string TempEmail = string.Empty;
+    public string TempPassword = string.Empty;
 #endregion
 #region -------------------- Private Variables --------------------
     
