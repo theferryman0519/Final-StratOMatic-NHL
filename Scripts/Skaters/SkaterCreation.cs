@@ -165,6 +165,18 @@ public class SkaterCreation : MonoBehaviour {
     private async Task<SkaterSeason> CreateSeason(List<string> seasonStrings)
     {
         CoreController.Inst.WriteLog(this.GetType().Name, $"Creating the skater season.");
+
+        string userSeasonString = string.Empty;
+
+        foreach (string seasonString in seasonStrings)
+        {
+            string[] seasonArray = seasonString.Split('/');
+
+            if (seasonArray[0] == UsersController.Inst.UserData.Id)
+            {
+                userSeasonString = seasonString;
+            }
+        }
         
         SkaterSeason newSeason = new SkaterSeason
         {
@@ -188,28 +200,27 @@ public class SkaterCreation : MonoBehaviour {
             FaceoffsLost = 0,
         };
 
-        foreach (string seasonString in seasonStrings)
+        if (!string.IsNullOrEmpty(userSeasonString))
         {
-            string[] seasonArray = seasonString.Split('/');
-            if (seasonArray.Length < 17) { return null; }
+            string[] userSeasonArray = userSeasonString.Split('/');
 
-            newSeason.GamesPlayed += Int32.Parse(seasonArray[0]);
-            newSeason.Goals += Int32.Parse(seasonArray[1]);
-            newSeason.Assists += Int32.Parse(seasonArray[2]);
-            newSeason.Points += Int32.Parse(seasonArray[3]);
-            newSeason.PlusMinus += Int32.Parse(seasonArray[4]);
-            newSeason.PenaltyMinutes += Int32.Parse(seasonArray[5]);
-            newSeason.PowerplayGoals += Int32.Parse(seasonArray[6]);
-            newSeason.PowerplayAssists += Int32.Parse(seasonArray[7]);
-            newSeason.PowerplayPoints += Int32.Parse(seasonArray[8]);
-            newSeason.ShorthandedGoals += Int32.Parse(seasonArray[9]);
-            newSeason.ShorthandedAssists += Int32.Parse(seasonArray[10]);
-            newSeason.ShorthandedPoints += Int32.Parse(seasonArray[11]);
-            newSeason.Shots += Int32.Parse(seasonArray[12]);
-            newSeason.Giveaways += Int32.Parse(seasonArray[13]);
-            newSeason.Takeaways += Int32.Parse(seasonArray[14]);
-            newSeason.FaceoffsWon += Int32.Parse(seasonArray[15]);
-            newSeason.FaceoffsLost += Int32.Parse(seasonArray[16]);
+            newSeason.GamesPlayed = Int32.Parse(userSeasonArray[1]);
+            newSeason.Goals = Int32.Parse(userSeasonArray[2]);
+            newSeason.Assists = Int32.Parse(userSeasonArray[3]);
+            newSeason.Points = Int32.Parse(userSeasonArray[4]);
+            newSeason.PlusMinus = Int32.Parse(userSeasonArray[5]);
+            newSeason.PenaltyMinutes = Int32.Parse(userSeasonArray[6]);
+            newSeason.PowerplayGoals = Int32.Parse(userSeasonArray[7]);
+            newSeason.PowerplayAssists = Int32.Parse(userSeasonArray[8]);
+            newSeason.PowerplayPoints = Int32.Parse(userSeasonArray[9]);
+            newSeason.ShorthandedGoals = Int32.Parse(userSeasonArray[10]);
+            newSeason.ShorthandedAssists = Int32.Parse(userSeasonArray[11]);
+            newSeason.ShorthandedPoints = Int32.Parse(userSeasonArray[12]);
+            newSeason.Shots = Int32.Parse(userSeasonArray[13]);
+            newSeason.Giveaways = Int32.Parse(userSeasonArray[14]);
+            newSeason.Takeaways = Int32.Parse(userSeasonArray[15]);
+            newSeason.FaceoffsWon = Int32.Parse(userSeasonArray[16]);
+            newSeason.FaceoffsLost = Int32.Parse(userSeasonArray[17]);
         }
 
         return newSeason;
@@ -218,6 +229,18 @@ public class SkaterCreation : MonoBehaviour {
     private async Task<SkaterPlayoff> CreatePlayoff(List<string> playoffStrings)
     {
         CoreController.Inst.WriteLog(this.GetType().Name, $"Creating the skater playoff.");
+
+        string userPlayoffString = string.Empty;
+
+        foreach (string playoffString in playoffStrings)
+        {
+            string[] playoffArray = playoffString.Split('/');
+
+            if (playoffArray[0] == UsersController.Inst.UserData.Id)
+            {
+                userPlayoffString = playoffString;
+            }
+        }
         
         SkaterPlayoff newPlayoff = new SkaterPlayoff
         {
@@ -241,28 +264,27 @@ public class SkaterCreation : MonoBehaviour {
             FaceoffsLost = 0,
         };
 
-        foreach (string playoffString in playoffStrings)
+        if (!string.IsNullOrEmpty(userPlayoffString))
         {
-            string[] playoffArray = playoffString.Split('/');
-            if (playoffArray.Length < 17) { return null; }
+            string[] userPlayoffArray = userPlayoffString.Split('/');
 
-            newPlayoff.GamesPlayed = Int32.Parse(playoffArray[0]);
-            newPlayoff.Goals = Int32.Parse(playoffArray[1]);
-            newPlayoff.Assists = Int32.Parse(playoffArray[2]);
-            newPlayoff.Points = Int32.Parse(playoffArray[3]);
-            newPlayoff.PlusMinus = Int32.Parse(playoffArray[4]);
-            newPlayoff.PenaltyMinutes = Int32.Parse(playoffArray[5]);
-            newPlayoff.PowerplayGoals = Int32.Parse(playoffArray[6]);
-            newPlayoff.PowerplayAssists = Int32.Parse(playoffArray[7]);
-            newPlayoff.PowerplayPoints = Int32.Parse(playoffArray[8]);
-            newPlayoff.ShorthandedGoals = Int32.Parse(playoffArray[9]);
-            newPlayoff.ShorthandedAssists = Int32.Parse(playoffArray[10]);
-            newPlayoff.ShorthandedPoints = Int32.Parse(playoffArray[11]);
-            newPlayoff.Shots = Int32.Parse(playoffArray[12]);
-            newPlayoff.Giveaways = Int32.Parse(playoffArray[13]);
-            newPlayoff.Takeaways = Int32.Parse(playoffArray[14]);
-            newPlayoff.FaceoffsWon = Int32.Parse(playoffArray[15]);
-            newPlayoff.FaceoffsLost = Int32.Parse(playoffArray[16]);
+            newPlayoff.GamesPlayed = Int32.Parse(playoffArray[1]);
+            newPlayoff.Goals = Int32.Parse(playoffArray[2]);
+            newPlayoff.Assists = Int32.Parse(playoffArray[3]);
+            newPlayoff.Points = Int32.Parse(playoffArray[4]);
+            newPlayoff.PlusMinus = Int32.Parse(playoffArray[5]);
+            newPlayoff.PenaltyMinutes = Int32.Parse(playoffArray[6]);
+            newPlayoff.PowerplayGoals = Int32.Parse(playoffArray[7]);
+            newPlayoff.PowerplayAssists = Int32.Parse(playoffArray[8]);
+            newPlayoff.PowerplayPoints = Int32.Parse(playoffArray[9]);
+            newPlayoff.ShorthandedGoals = Int32.Parse(playoffArray[10]);
+            newPlayoff.ShorthandedAssists = Int32.Parse(playoffArray[11]);
+            newPlayoff.ShorthandedPoints = Int32.Parse(playoffArray[12]);
+            newPlayoff.Shots = Int32.Parse(playoffArray[13]);
+            newPlayoff.Giveaways = Int32.Parse(playoffArray[14]);
+            newPlayoff.Takeaways = Int32.Parse(playoffArray[15]);
+            newPlayoff.FaceoffsWon = Int32.Parse(playoffArray[16]);
+            newPlayoff.FaceoffsLost = Int32.Parse(playoffArray[17]);
         }
 
         return newPlayoff;
