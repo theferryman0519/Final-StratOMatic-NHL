@@ -68,7 +68,7 @@ public class UiExhibitionOptions : UiSceneBase {
 		string fatigueSelection = GameplayController.Inst.GameOptions.FatigueOn.ToString();
 		string injuriesSelection = GameplayController.Inst.GameOptions.InjuriesOn.ToString();
 
-		PlayerPrefs.SetString(Pref_ExhibitionOptions, $"{lineChangesSelection}/{fatigueSelection}/{injuriesSelection}/{aiDifficulty}");
+		PlayerPrefs.SetString(Pref_ExhibitionOptions, $"{lineChangesSelection}/{fatigueSelection}/true/{injuriesSelection}/{aiDifficulty}");
     }
 
 	private void GoToEditLines()
@@ -98,7 +98,7 @@ public class UiExhibitionOptions : UiSceneBase {
 
 		else
 		{
-			optionsDefault = "true/true/true/Veteran";
+			optionsDefault = "true/true/true/true/Veteran";
 
 			PlayerPrefs.SetString(ConstantController.Pref_ExhibitionOptions, optionsDefault);
 		}
@@ -111,11 +111,13 @@ public class UiExhibitionOptions : UiSceneBase {
 		if (optionsArray[1] == "true") { ChangeFatigueOption(0); }
 		else { ChangeFatigueOption(1); }
 
-		if (optionsArray[2] == "true") { ChangeInjuriesOption(0); }
+		// optionsArray[2] is for season only
+
+		if (optionsArray[3] == "true") { ChangeInjuriesOption(0); }
 		else { ChangeInjuriesOption(1); }
 
-		if (optionsArray[3] == "Rookie") { ChangeDifficultyOption(0); }
-		else if (optionsArray[3] == "Hall of Famer") { ChangeDifficultyOption(2); }
+		if (optionsArray[4] == "Rookie") { ChangeDifficultyOption(0); }
+		else if (optionsArray[4] == "Hall of Famer") { ChangeDifficultyOption(2); }
 		else { ChangeDifficultyOption(1); }
 	}
 
