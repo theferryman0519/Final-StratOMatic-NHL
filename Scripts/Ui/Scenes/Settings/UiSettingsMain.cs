@@ -89,7 +89,24 @@ public class UiSettingsMain : UiSceneBase {
 	{
 		CoreController.Inst.WriteLog(this.GetType().Name, $"Resetting the user statistics.");
 
-		// TODO
+		UsersController.Inst.UserData.Stats.NhlWins = 0;
+		UsersController.Inst.UserData.Stats.NhlLosses = 0;
+		UsersController.Inst.UserData.Stats.NhlTies = 0;
+		UsersController.Inst.UserData.Stats.NhlOTLs = 0;
+		UsersController.Inst.UserData.Stats.PwhlWins = 0;
+		UsersController.Inst.UserData.Stats.PwhlLosses = 0;
+		UsersController.Inst.UserData.Stats.PwhlTies = 0;
+		UsersController.Inst.UserData.Stats.PwhlOTLs = 0;
+		UsersController.Inst.UserData.Stats.NhlFranchiseWins = 0;
+		UsersController.Inst.UserData.Stats.NhlFranchiseLosses = 0;
+		UsersController.Inst.UserData.Stats.NhlFranchiseTies = 0;
+		UsersController.Inst.UserData.Stats.NhlFranchiseOTLs = 0;
+		UsersController.Inst.UserData.Stats.PwhlFranchiseWins = 0;
+		UsersController.Inst.UserData.Stats.PwhlFranchiseLosses = 0;
+		UsersController.Inst.UserData.Stats.PwhlFranchiseTies = 0;
+		UsersController.Inst.UserData.Stats.PwhlFranchiseOTLs = 0;
+
+		UsersController.Inst.SaveUserData();
 	}
 
 	private void ShowDeletePanel()
@@ -99,11 +116,42 @@ public class UiSettingsMain : UiSceneBase {
 		PanelController.Inst.ShowBottomPanel(ConstantController.PanelType.SettingsDeleteAccount, DeleteAccount);
     }
 
-	private void DeleteAccount()
+	private async void DeleteAccount()
 	{
 		CoreController.Inst.WriteLog(this.GetType().Name, $"Deleting the user account.");
 
-		// TODO
+		string userId = UsersController.Inst.UserData.Id;
+
+		PlayoffDatabase userPlayoffs = null;
+		SeasonDatabase userSeason = null;
+
+		await FirebaseController.Inst.GetPlayoffs(userId, playoffs =>
+		{
+			userPlayoffs = playoffs;
+
+			await FirebaseController.Inst.GetSeason(userId, season =>
+			{
+				userSeason = season;
+			});
+		});
+
+		if (userPlayoffs != null)
+		{
+			await FirebaseController.Inst.DeletePlayoffs(userId);
+		}
+
+		if (userSeason != null)
+		{
+			await FirebaseController.Inst.DeleteSeason(userId);
+		}
+
+		await FirebaseController.Inst.DeleteUser(userId, () =>
+		{
+			PlayerPrefs.DeleteAll();
+	    	PlayerPrefs.Save();
+
+			Application.Quit();
+		});
 	}
 
 	private void GoToHome()
