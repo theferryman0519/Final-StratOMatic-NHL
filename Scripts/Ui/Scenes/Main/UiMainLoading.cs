@@ -84,10 +84,6 @@ public class UiMainLoading : UiSceneBase {
 			MultiplayerController.Inst.InitializeController();
 			SaveController.Inst.InitializeController();
 			TeamsController.Inst.InitializeController();
-			SkatersController.Inst.InitializeController();
-			GoaliesController.Inst.InitializeController();
-			SeasonsController.Inst.InitializeController();
-			PlayoffsController.Inst.InitializeController();
 		});
 	}
 
