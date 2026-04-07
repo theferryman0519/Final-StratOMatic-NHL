@@ -148,10 +148,6 @@ public class UiMainLoading : UiSceneBase {
 
 		if (savedGame == null)
 		{
-			// TODO: Check if new user
-			// TODO: If so, go to tutorial
-			// TODO: If not, go to home
-
 			GoToNewScene(CoreController.Inst.Scene_Home00);
 		}
 
