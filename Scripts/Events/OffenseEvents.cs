@@ -696,23 +696,26 @@ public class OffenseEvents : MonoBehaviour {
     {
         CoreController.Inst.WriteLog(this.GetType().Name, $"Checking for potential injuries.");
 
-        Skater possSkater = GameplayController.Inst.GetPossSkater();
-        int skaterFatigue = possSkater.Game.Stamina;
-        int randomInjury = Random.Range(0,100);
-        int injuryThreshold = 0;
-
-        if (skaterFatigue >= 85) { injuryThreshold = 0; }
-        else if (skaterFatigue >= 60) { injuryThreshold = 1; }
-        else if (skaterFatigue >= 45) { injuryThreshold = 2; }
-        else if (skaterFatigue >= 30) { injuryThreshold = 3; }
-        else if (skaterFatigue >= 15) { injuryThreshold = 4; }
-        else { injuryThreshold = 5; }
-
-        if (injuryThreshold > randomInjury)
+        if (GameplayController.Inst.GameOptions.InjuriesOn)
         {
-            EventsController.Inst.GameplayEvents.GameFlowEvents.InjuredSkater = possSkater;
-            EventsController.Inst.RunGameFlowEvent(2);
-            return;
+            Skater possSkater = GameplayController.Inst.GetPossSkater();
+            int skaterFatigue = possSkater.Game.Stamina;
+            int randomInjury = Random.Range(0,100);
+            int injuryThreshold = 0;
+
+            if (skaterFatigue >= 85) { injuryThreshold = 0; }
+            else if (skaterFatigue >= 60) { injuryThreshold = 1; }
+            else if (skaterFatigue >= 45) { injuryThreshold = 2; }
+            else if (skaterFatigue >= 30) { injuryThreshold = 3; }
+            else if (skaterFatigue >= 15) { injuryThreshold = 4; }
+            else { injuryThreshold = 5; }
+
+            if (injuryThreshold > randomInjury)
+            {
+                EventsController.Inst.GameplayEvents.GameFlowEvents.InjuredSkater = possSkater;
+                EventsController.Inst.RunGameFlowEvent(2);
+                return;
+            }
         }
 
         continueAction?.Invoke();
@@ -722,26 +725,29 @@ public class OffenseEvents : MonoBehaviour {
     {
         CoreController.Inst.WriteLog(this.GetType().Name, $"Updating the lines and pairs.");
 
-        bool isPossTeamHome = GameplayController.Inst.GameData.PossTeam == "Home";
+        if (GameplayController.Inst.GameOptions.LineChangesOn)
+        {
+            bool isPossTeamHome = GameplayController.Inst.GameData.PossTeam == "Home";
 
-        GameplayController.Inst.StatsSet.AddTeamStamina(isPossTeamHome);
-        GameplayController.Inst.StatsSet.AddTeamStamina(!isPossTeamHome);
+            GameplayController.Inst.StatsSet.AddTeamStamina(isPossTeamHome);
+            GameplayController.Inst.StatsSet.AddTeamStamina(!isPossTeamHome);
 
-        GameplayController.Inst.GameData.HomeTeam.CurrentLine = GameplayController.Inst.GameData.HomeTeam.NextLine;
-        GameplayController.Inst.GameData.HomeTeam.CurrentPair = GameplayController.Inst.GameData.HomeTeam.NextPair;
-        GameplayController.Inst.GameData.AwayTeam.CurrentLine = GameplayController.Inst.GameData.AwayTeam.NextLine;
-        GameplayController.Inst.GameData.AwayTeam.CurrentPair = GameplayController.Inst.GameData.AwayTeam.NextPair;
+            GameplayController.Inst.GameData.HomeTeam.CurrentLine = GameplayController.Inst.GameData.HomeTeam.NextLine;
+            GameplayController.Inst.GameData.HomeTeam.CurrentPair = GameplayController.Inst.GameData.HomeTeam.NextPair;
+            GameplayController.Inst.GameData.AwayTeam.CurrentLine = GameplayController.Inst.GameData.AwayTeam.NextLine;
+            GameplayController.Inst.GameData.AwayTeam.CurrentPair = GameplayController.Inst.GameData.AwayTeam.NextPair;
 
-        GameTeam possTeam = isPossTeamHome ? GameplayController.Inst.GameData.HomeTeam : GameplayController.Inst.GameData.AwayTeam;
+            GameTeam possTeam = isPossTeamHome ? GameplayController.Inst.GameData.HomeTeam : GameplayController.Inst.GameData.AwayTeam;
 
-        int newPossLine = possTeam.CurrentLine;
-        int newPossPair = possTeam.CurrentPair;
+            int newPossLine = possTeam.CurrentLine;
+            int newPossPair = possTeam.CurrentPair;
 
-        string poss = GameplayController.Inst.GameData.PossPos[GameplayController.Inst.GameData.PossPos.Count - 1];
-        string possPos = poss.Substring(0, poss.Length - 1);
-        string newPossPos = possPos.Contains("D") ? $"{possPos}{newPossPair}" : $"{possPos}{newPossLine}";
+            string poss = GameplayController.Inst.GameData.PossPos[GameplayController.Inst.GameData.PossPos.Count - 1];
+            string possPos = poss.Substring(0, poss.Length - 1);
+            string newPossPos = possPos.Contains("D") ? $"{possPos}{newPossPair}" : $"{possPos}{newPossLine}";
 
-        GameplayController.Inst.StatsSet.AddPossPos(newPossPos);
+            GameplayController.Inst.StatsSet.AddPossPos(newPossPos);
+        }
 
         continueAction?.Invoke();
     }
