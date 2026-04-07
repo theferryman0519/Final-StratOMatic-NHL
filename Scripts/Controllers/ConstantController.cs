@@ -34,6 +34,7 @@ public class ConstantController : Singleton<ConstantController> {
     public const string Pref_EffectsVolume = "SoM_EffectsVolume";
     public const string Pref_Email = "SoM_Email";
 	public const string Pref_Password = "SoM_Password";
+    public const string Pref_ExhibitionOptions = "SoM_ExhibitionOptions";
 
     // Resources Load
 	public const string ResourceBanners = "Banners/";
