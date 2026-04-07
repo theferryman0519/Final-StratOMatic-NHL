@@ -69,11 +69,14 @@ public class GameplayStatsSet : MonoBehaviour {
         AddShiftSegment(gameTeam.SkaterLineup[$"LD{pairNum}"]);
         AddShiftSegment(gameTeam.SkaterLineup[$"RD{pairNum}"]);
 
-        LowerStamina(gameTeam.SkaterLineup[$"C{lineNum}"]);
-        LowerStamina(gameTeam.SkaterLineup[$"LW{lineNum}"]);
-        LowerStamina(gameTeam.SkaterLineup[$"RW{lineNum}"]);
-        LowerStamina(gameTeam.SkaterLineup[$"LD{pairNum}"]);
-        LowerStamina(gameTeam.SkaterLineup[$"RD{pairNum}"]);
+        if (GameplayController.Inst.GameOptions.FatigueOn)
+        {
+            LowerStamina(gameTeam.SkaterLineup[$"C{lineNum}"]);
+            LowerStamina(gameTeam.SkaterLineup[$"LW{lineNum}"]);
+            LowerStamina(gameTeam.SkaterLineup[$"RW{lineNum}"]);
+            LowerStamina(gameTeam.SkaterLineup[$"LD{pairNum}"]);
+            LowerStamina(gameTeam.SkaterLineup[$"RD{pairNum}"]);
+        }
 
         for (int l = 1; l < 5; l++)
         {
@@ -210,20 +213,23 @@ public class GameplayStatsSet : MonoBehaviour {
     {
         CoreController.Inst.WriteLog(this.GetType().Name, $"Lowering stamina.");
 
-        string fatigueRating = skater.Card.Fatigue;
-
-        switch (fatigueRating)
+        if (GameplayController.Inst.GameOptions.FatigueOn)
         {
-            case "AA": skater.Game.Stamina -= 25; break;
-            case "A": skater.Game.Stamina -= 20; break;
-            case "B": skater.Game.Stamina -= 15; break;
-            case "C": skater.Game.Stamina -= 10; break;
-            case "D": skater.Game.Stamina -= 5; break;
-        }
+            string fatigueRating = skater.Card.Fatigue;
 
-        if (skater.Game.Stamina < 0)
-        {
-            skater.Game.Stamina = 0;
+            switch (fatigueRating)
+            {
+                case "AA": skater.Game.Stamina -= 25; break;
+                case "A": skater.Game.Stamina -= 20; break;
+                case "B": skater.Game.Stamina -= 15; break;
+                case "C": skater.Game.Stamina -= 10; break;
+                case "D": skater.Game.Stamina -= 5; break;
+            }
+
+            if (skater.Game.Stamina < 0)
+            {
+                skater.Game.Stamina = 0;
+            }
         }
     }
 
