@@ -139,8 +139,8 @@ public class AudioController : Singleton<AudioController> {
         float constMusic = ConstantController.Audio_Volume_Music;
         float constEffects = ConstantController.Audio_Volume_Effects;
 	    
-        musicVolume = (PlayerPrefs.HasKey(ConstantController.Pref_MusicVolume)) ? PlayerPrefs.GetFloat(ConstantController.Pref_MusicVolume) : constMusic;
-        effectsVolume = (PlayerPrefs.HasKey(ConstantController.Pref_EffectsVolume)) ? PlayerPrefs.GetFloat(ConstantController.Pref_EffectsVolume) : constEffects;
+        musicVolume = PlayerPrefs.HasKey(ConstantController.Pref_MusicVolume) ? PlayerPrefs.GetFloat(ConstantController.Pref_MusicVolume) : constMusic;
+        effectsVolume = PlayerPrefs.HasKey(ConstantController.Pref_EffectsVolume) ? PlayerPrefs.GetFloat(ConstantController.Pref_EffectsVolume) : constEffects;
 
         SetVolumes(musicVolume, effectsVolume);
     }
