@@ -114,6 +114,7 @@ public class GoalieCreation : MonoBehaviour {
             ShotsAgainst = 0,
             Assists = 0,
             PenaltyMinutes = 0,
+            Stamina = 100,
         };
 
         return newGame;
