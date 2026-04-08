@@ -20,7 +20,6 @@ public class GoalieGame {
     public int ShotsAgainst { get; set; }
     public int Assists { get; set; }
     public int PenaltyMinutes { get; set; }
-    public int Stamina { get; set; }
 #endregion
 #region -------------------- Private Variables --------------------
     
