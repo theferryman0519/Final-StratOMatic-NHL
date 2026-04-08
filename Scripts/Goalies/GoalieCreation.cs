@@ -114,7 +114,6 @@ public class GoalieCreation : MonoBehaviour {
             ShotsAgainst = 0,
             Assists = 0,
             PenaltyMinutes = 0,
-            Stamina = 100,
         };
 
         return newGame;
@@ -147,6 +146,7 @@ public class GoalieCreation : MonoBehaviour {
             ShotsAgainst = 0,
             Assists = 0,
             PenaltyMinutes = 0,
+            Stamina = 100,
         };
 
         if (!string.IsNullOrEmpty(userSeasonString))
@@ -161,6 +161,7 @@ public class GoalieCreation : MonoBehaviour {
             newSeason.ShotsAgainst = Int32.Parse(userSeasonArray[6]);
             newSeason.Assists = Int32.Parse(userSeasonArray[7]);
             newSeason.PenaltyMinutes = Int32.Parse(userSeasonArray[8]);
+            newSeason.Stamina = Int32.Parse(userSeasonArray[9]);
         }
 
         return newSeason;
@@ -193,6 +194,7 @@ public class GoalieCreation : MonoBehaviour {
             ShotsAgainst = 0,
             Assists = 0,
             PenaltyMinutes = 0,
+            Stamina = 100,
         };
 
         if (!string.IsNullOrEmpty(userPlayoffString))
@@ -207,6 +209,7 @@ public class GoalieCreation : MonoBehaviour {
             newSeason.ShotsAgainst = Int32.Parse(userPlayoffArray[6]);
             newSeason.Assists = Int32.Parse(userPlayoffArray[7]);
             newSeason.PenaltyMinutes = Int32.Parse(userPlayoffArray[8]);
+            newSeason.Stamina = Int32.Parse(userPlayoffArray[9]);
         }
 
         return newPlayoff;
