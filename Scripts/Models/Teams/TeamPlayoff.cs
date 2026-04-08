@@ -15,7 +15,9 @@ namespace SoM.Models {
 [System.Serializable]
 public class TeamPlayoff {
     
-#region -------------------- Public Variables --------------------    
+#region -------------------- Public Variables --------------------  
+    public string UserId { get; set; }
+    
     public int GamesPlayed { get; set; }
     public int Wins { get; set; }
     public int Losses { get; set; }
