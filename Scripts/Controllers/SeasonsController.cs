@@ -7,6 +7,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Audio;
 using UnityEngine.SceneManagement;
+using Random = UnityEngine.Random;
 
 // Game Dependencies
 using SoM.Core;
@@ -42,19 +43,24 @@ public class SeasonsController : Singleton<SeasonsController> {
         LoadSeasonData();
     }
 
-    public void CreateNewSeason(Action continueAction = null)
+    public async void CreateNewSeason(string team, string league, Action continueAction = null)
     {
         CoreController.Inst.WriteLog(this.GetType().Name, $"Creating a new season.");
 
         SeasonData = null;
 
-        SeasonData = new Season
+        SeasonDatabase newSeasonDatabase = new SeasonDatabase
         {
             Id = Guid.NewGuid().ToString(),
-            League = string.Empty,
-            Version = -1,
-            GameNights = new(),
+            League = league,
+            Team = team,
+            Version = Random.Range(1,4),
+            GameNight = SeasonGameNight,
+            SkaterLineup = new(),
+            GoalieLineup = new(),
         };
+
+        SeasonData = await _seasonCreation.CreateSeason(newSeasonDatabase);
 
         continueAction?.Invoke();
     }
@@ -63,7 +69,7 @@ public class SeasonsController : Singleton<SeasonsController> {
     {
         CoreController.Inst.WriteLog(this.GetType().Name, $"Loading the current season.");
 
-        // TODO: Load GameNights from teams
+        // TODO
 
         continueAction?.Invoke();
     }
