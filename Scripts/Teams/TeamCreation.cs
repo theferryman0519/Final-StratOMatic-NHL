@@ -51,8 +51,8 @@ public class TeamCreation : MonoBehaviour {
 
             newTeam.Info = await CreateInfo(teamDatabase.InfoString);
             newTeam.Game = await CreateGame();
-            newTeam.Season = await CreateSeason(teamDatabase.SeasonString);
-            newTeam.Playoff = await CreatePlayoff(teamDatabase.PlayoffString);
+            newTeam.Season = await CreateSeason(teamDatabase.SeasonStrings);
+            newTeam.Playoff = await CreatePlayoff(teamDatabase.PlayoffStrings);
 
             CoreController.Inst.WriteLog(this.GetType().Name, $"Team data for {newTeam.Info.CityName} {newTeam.Info.NickName} has been created.");
             return newTeam;
@@ -73,7 +73,6 @@ public class TeamCreation : MonoBehaviour {
 
         TeamInfo newInfo = new TeamInfo
         {
-            Id = teamId,
             Code = infoArray[0],
             CityName = infoArray[1],
             NickName = infoArray[2],
@@ -89,7 +88,6 @@ public class TeamCreation : MonoBehaviour {
 
         TeamGame newGame = new TeamGame
         {
-            Id = teamId,
             Goals = 0,
             Shots = 0,
             PowerplayGoals = 0,
@@ -106,64 +104,125 @@ public class TeamCreation : MonoBehaviour {
         return newGame;
     }
 
-    private async Task<TeamSeason> CreateSeason(string seasonString)
+    private async Task<TeamSeason> CreateSeason(List<string> seasonStrings)
     {
         CoreController.Inst.WriteLog(this.GetType().Name, $"Creating the team season.");
 
-        string[] seasonArray = seasonString.Split('/');
-        if (seasonArray.Length < 17) { return null; }
+        string userSeasonString = string.Empty;
+
+        foreach (string seasonString in seasonStrings)
+        {
+            string[] seasonArray = seasonString.Split('/');
+
+            if (seasonArray[0] == UsersController.Inst.UserData.Id)
+            {
+                userSeasonString = seasonString;
+            }
+        }
 
         TeamSeason newSeason = new TeamSeason
         {
-            Id = teamId,
-            GamesPlayed = Int32.Parse(seasonArray[0]),
-            Wins = Int32.Parse(seasonArray[1]),
-            Losses = Int32.Parse(seasonArray[2]),
-            Ties = Int32.Parse(seasonArray[3]),
-            OTLs = Int32.Parse(seasonArray[4]),
-            Points = Int32.Parse(seasonArray[5]),
-            Goals = Int32.Parse(seasonArray[6]),
-            Shots = Int32.Parse(seasonArray[7]),
-            PowerplayGoals = Int32.Parse(seasonArray[8]),
-            Powerplays = Int32.Parse(seasonArray[9]),
-            ShorthandedGoals = Int32.Parse(seasonArray[10]),
-            FaceoffsWon = Int32.Parse(seasonArray[11]),
-            FaceoffsLost = Int32.Parse(seasonArray[12]),
-            Hits = Int32.Parse(seasonArray[13]),
-            BlockedShots = Int32.Parse(seasonArray[14]),
-            Giveaways = Int32.Parse(seasonArray[15]),
-            Takeaways = Int32.Parse(seasonArray[16]),
+            UserId = UsersController.Inst.UserData.Id,
+            GamesPlayed = 0,
+            Wins = 0,
+            Losses = 0,
+            Ties = 0,
+            OTLs = 0,
+            Points = 0,
+            Goals = 0,
+            Shots = 0,
+            PowerplayGoals = 0,
+            Powerplays = 0,
+            ShorthandedGoals = 0,
+            FaceoffsWon = 0,
+            FaceoffsLost = 0,
+            Hits = 0,
+            BlockedShots = 0,
+            Giveaways = 0,
+            Takeaways = 0,
         };
+
+        if (!string.IsNullOrEmpty(userSeasonString))
+        {
+            string[] userSeasonArray = userSeasonString.Split('/');
+
+            newSeason.GamesPlayed = Int32.Parse(userSeasonArray[1]);
+            newSeason.Wins = Int32.Parse(userSeasonArray[2]);
+            newSeason.Losses = Int32.Parse(userSeasonArray[3]);
+            newSeason.Ties = Int32.Parse(userSeasonArray[4]);
+            newSeason.OTLs = Int32.Parse(userSeasonArray[5]);
+            newSeason.Points = Int32.Parse(userSeasonArray[6]);
+            newSeason.Goals = Int32.Parse(userSeasonArray[7]);
+            newSeason.Shots = Int32.Parse(userSeasonArray[8]);
+            newSeason.PowerplayGoals = Int32.Parse(userSeasonArray[9]);
+            newSeason.Powerplays = Int32.Parse(userSeasonArray[10]);
+            newSeason.ShorthandedGoals = Int32.Parse(userSeasonArray[11]);
+            newSeason.FaceoffsWon = Int32.Parse(userSeasonArray[12]);
+            newSeason.FaceoffsLost = Int32.Parse(userSeasonArray[13]);
+            newSeason.Hits = Int32.Parse(userSeasonArray[14]);
+            newSeason.BlockedShots = Int32.Parse(userSeasonArray[15]);
+            newSeason.Giveaways = Int32.Parse(userSeasonArray[16]);
+            newSeason.Takeaways = Int32.Parse(userSeasonArray[17]);
+        }
 
         return newSeason;
     }
 
-    private async Task<TeamPlayoff> CreatePlayoff(string playoffString)
+    private async Task<TeamPlayoff> CreatePlayoff(List<string> playoffStrings)
     {
         CoreController.Inst.WriteLog(this.GetType().Name, $"Creating the team playoff.");
 
-        string[] playoffArray = playoffString.Split('/');
-        if (playoffArray.Length < 14) { return null; }
+        string userPlayoffString = string.Empty;
+
+        foreach (string playoffString in playoffStrings)
+        {
+            string[] playoffArray = playoffString.Split('/');
+
+            if (playoffArray[0] == UsersController.Inst.UserData.Id)
+            {
+                userPlayoffString = playoffString;
+            }
+        }
 
         TeamPlayoff newPlayoff = new TeamPlayoff
         {
-            Id = teamId,            
-            GamesPlayed = Int32.Parse(playoffArray[0]),
-            Wins = Int32.Parse(playoffArray[1]),
-            Losses = Int32.Parse(playoffArray[2]),
-            Goals = Int32.Parse(playoffArray[3]),
-            Shots = Int32.Parse(playoffArray[4]),
-            PowerplayGoals = Int32.Parse(playoffArray[5]),
-            Powerplays = Int32.Parse(playoffArray[6]),
-            ShorthandedGoals = Int32.Parse(playoffArray[7]),
-            FaceoffsWon = Int32.Parse(playoffArray[8]),
-            FaceoffsLost = Int32.Parse(playoffArray[9]),
-            Hits = Int32.Parse(playoffArray[10]),
-            BlockedShots = Int32.Parse(playoffArray[11]),
-            Giveaways = Int32.Parse(playoffArray[12]),
-            Takeaways = Int32.Parse(playoffArray[13]),
+            UserId = UsersController.Inst.UserData.Id,
+            GamesPlayed = 0,
+            Wins = 0,
+            Losses = 0,
+            Goals = 0,
+            Shots = 0,
+            PowerplayGoals = 0,
+            Powerplays = 0,
+            ShorthandedGoals = 0,
+            FaceoffsWon = 0,
+            FaceoffsLost = 0,
+            Hits = 0,
+            BlockedShots = 0,
+            Giveaways = 0,
+            Takeaways = 0,
         };
 
+        if (!string.IsNullOrEmpty(userPlayoffString))
+        {
+            string[] userPlayoffArray = userPlayoffString.Split('/');
+
+            newPlayoff.GamesPlayed = Int32.Parse(userPlayoffArray[1]);
+            newPlayoff.Wins = Int32.Parse(userPlayoffArray[2]);
+            newPlayoff.Losses = Int32.Parse(userPlayoffArray[3]);
+            newPlayoff.Goals = Int32.Parse(userPlayoffArray[4]);
+            newPlayoff.Shots = Int32.Parse(userPlayoffArray[5]);
+            newPlayoff.PowerplayGoals = Int32.Parse(userPlayoffArray[6]);
+            newPlayoff.Powerplays = Int32.Parse(userPlayoffArray[7]);
+            newPlayoff.ShorthandedGoals = Int32.Parse(userPlayoffArray[8]);
+            newPlayoff.FaceoffsWon = Int32.Parse(userPlayoffArray[9]);
+            newPlayoff.FaceoffsLost = Int32.Parse(userPlayoffArray[10]);
+            newPlayoff.Hits = Int32.Parse(userPlayoffArray[11]);
+            newPlayoff.BlockedShots = Int32.Parse(userPlayoffArray[12]);
+            newPlayoff.Giveaways = Int32.Parse(userPlayoffArray[13]);
+            newPlayoff.Takeaways = Int32.Parse(userPlayoffArray[14]);
+        }
+        
         return newPlayoff;
     }
 #endregion
