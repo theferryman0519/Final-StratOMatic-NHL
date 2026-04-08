@@ -15,9 +15,7 @@ namespace SoM.Models {
 [System.Serializable]
 public class TeamGame {
     
-#region -------------------- Public Variables --------------------
-    public string Id { get; set; }
-    
+#region -------------------- Public Variables --------------------    
     public int Goals { get; set; }
     public int Shots { get; set; }
     public int PowerplayGoals { get; set; }
