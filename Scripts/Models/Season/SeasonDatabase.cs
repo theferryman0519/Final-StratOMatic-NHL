@@ -22,6 +22,9 @@ public class SeasonDatabase {
 
     public int Version { get; set; }
     public int GameNight { get; set; }
+
+    public List<string> SkaterLineup { get; set; }
+    public List<string> GoalieLineup { get; set; }
 #endregion
 #region -------------------- Private Variables --------------------
     
