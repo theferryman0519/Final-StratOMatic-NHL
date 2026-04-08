@@ -179,11 +179,45 @@ public class GoalEvents : MonoBehaviour {
     public void DetermineGoalieRatingOutcome()
     {
         CoreController.Inst.WriteLog(this.GetType().Name, $"Determining the goalie rating outcome.");
+
+        List<string> actionOptions = new() { "GOAL", "PENALTY", "SAVE", "BREAKAWAY" };
         
+        int stamina = 100;
+
+        if (GameplayController.Inst.GameData.Type == "Season" && GameplayController.Inst.GameOptions.GoalieFatigueOn)
+        {
+            stamina = DefendingGoalie.Season.Stamina;
+        }
+        else if (GameplayController.Inst.GameData.Type == "Playoff" && GameplayController.Inst.GameOptions.GoalieFatigueOn)
+        {
+            stamina = DefendingGoalie.Playoff.Stamina;
+        }
+
         int randomNumber = Random.Range(2,13);
         string ratingAction = DefendingGoalie.Card.GoalieRatingActions[randomNumber - 1];
+        int staminaShift = 0;
+        int finalOption = 0;
 
-        if (ratingAction == "SAVE")
+        if (stamina >= 80) { staminaShift = 0; }
+        else if (stamina >= 50) { staminaShift = 1; }
+        else { stamina = 2; }
+
+        switch (ratingAction)
+        {
+            case "GOAL": finalOption = 0; break;
+            case "PENALTY": finalOption = 1; break;
+            case "SAVE": finalOption = 2; break;
+            case "BREAKAWAY":
+            default: finalOption = 3; break;
+        }
+
+        finalOption -= staminaShift;
+
+        if (finalOption < 0) { finalOption = 0; }
+
+        string finalAction = actionOptions[finalOption];
+
+        if (finalAction == "SAVE")
         {
             GameplayController.Inst.StatsSet.ClearPossPos();
             GameplayController.Inst.StatsSet.SetPossTeam("None");
@@ -191,7 +225,7 @@ public class GoalEvents : MonoBehaviour {
             EventsController.Inst.RunGoalEvent(1);
         }
 
-        else if (ratingAction == "BREAKAWAY")
+        else if (finalAction == "BREAKAWAY")
         {
             string newPos = GetRandomPos();
 
@@ -215,7 +249,7 @@ public class GoalEvents : MonoBehaviour {
             EventsController.Inst.RunGoalEvent(2);
         }
 
-        else if (ratingAction == "PENALTY")
+        else if (finalAction == "PENALTY")
         {
             GameTeam defTeam = GameplayController.Inst.GameData.PossTeam == "Home" ? GameplayController.Inst.GameData.AwayTeam : GameplayController.Inst.GameData.HomeTeam;
             Skater inBoxSkater = defTeam.SkaterLineup["LW4"];
