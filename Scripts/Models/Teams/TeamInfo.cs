@@ -16,7 +16,6 @@ namespace SoM.Models {
 public class TeamInfo {
     
 #region -------------------- Public Variables --------------------
-    public string Id { get; set; }
     public string Code { get; set; }
     public string CityName { get; set; }
     public string NickName { get; set; }
