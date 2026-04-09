@@ -13,22 +13,28 @@ using SoM.Controllers;
 using SoM.Models;
 
 namespace SoM.Ui {
-public class UiGameplayMain : UiSceneBase {
+public class UiGameplayMain : MonoBehaviour {
 
 #region -------------------- Serialized Variables --------------------
+    [Header("Section Block Elements")]
+    [SerializeField] private UiGameplayMainScoreboard _scoreboard;
+    [SerializeField] private UiGameplayMainActions _actions;
+    [SerializeField] private UiGameplayMainRink _rink;
+    [SerializeField] private UiGameplayMainButtons _buttons;
+    [SerializeField] private UiGameplayMainCurrent _current;
+
     [Header("Button Elements")]
-	[SerializeField] private SoM_Button _startButton;
-	[SerializeField] private SoM_Button _returnButton;
+    [SerializeField] private Button _menuButton;
 
-    [Header("Text Elements")]
-    [SerializeField] private TMP_Text _homeTeamText;
-    [SerializeField] private TMP_Text _homeLinesText;
-    [SerializeField] private TMP_Text _awayTeamText;
-    [SerializeField] private TMP_Text _awayLinesText;
-
-    [Header("Icon Elements")]
-    [SerializeField] private Image _homeIcon;
-    [SerializeField] private Image _awayIcon;
+    [Header("Panel Elements")]
+    [SerializeField] private GameplayPanel _menuPanel;
+    [SerializeField] private GameplayPanel _logsPanel;
+    [SerializeField] private GameplayPanel _forwardsPanel;
+    [SerializeField] private GameplayPanel _defensePanel;
+    [SerializeField] private GameplayPanel _strategiesPanel;
+    [SerializeField] private GameplayPanel _skaterStatsPanel;
+    [SerializeField] private GameplayPanel _goalieStatsPanel;
+    [SerializeField] private GameplayPanel _gameStatsPanel;
 #endregion
 #region -------------------- Public Variables --------------------
     
@@ -39,43 +45,109 @@ public class UiGameplayMain : UiSceneBase {
 #region -------------------- Initial Functions --------------------
     void Start()
     {
-        InitializeUi();
+        _menuButton.onClick.RemoveAllListeners();
+        _menuButton.onClick.AddListener(() =>
+        {
+            AnimationController.Inst.ShrinkButton(_menuButton, ShowMenuPanel);
+        });
     }
 #endregion
 #region -------------------- Coroutines --------------------
     
 #endregion
 #region -------------------- Public Methods --------------------
-    protected override void InitializeUi()
-	{
-		_startButton.SetListener(GoToLoading);
-		_returnButton.SetListener(GoToEditLines);
-
-        SetGameData();
-
-        base.InitializeUi();
-	}
-#endregion
-#region -------------------- Private Methods --------------------
-    private void GoToLoading()
+    public void UpdateScoreboard()
     {
-        CoreController.Inst.WriteLog(this.GetType().Name, $"Going to exhibition game loading screen.");
+        CoreController.Inst.WriteLog(this.GetType().Name, $"Updating the gameplay scoreboard block.");
 
-        GoToNewScene(CoreController.Inst.Scene_Exhibition04);
+        _scoreboard.UpdateScoreboard(this);
     }
 
-    private void GoToEditLines()
+    public void UpdateActions()
     {
-        CoreController.Inst.WriteLog(this.GetType().Name, $"Going to exhibition edit lines screen.");
-
-        GoToNewScene(CoreController.Inst.Scene_Exhibition02);
-    }
-
-    private void SetGameData()
-    {
-        CoreController.Inst.WriteLog(this.GetType().Name, $"Setting the game data.");
+        CoreController.Inst.WriteLog(this.GetType().Name, $"Updating the gameplay actions block.");
 
         // TODO
     }
+
+    public void UpdateRink()
+    {
+        CoreController.Inst.WriteLog(this.GetType().Name, $"Updating the gameplay rink block.");
+
+        // TODO
+    }
+
+    public void UpdateButtons()
+    {
+        CoreController.Inst.WriteLog(this.GetType().Name, $"Updating the gameplay buttons block.");
+
+        // TODO
+    }
+
+    public void UpdateCurrent()
+    {
+        CoreController.Inst.WriteLog(this.GetType().Name, $"Updating the gameplay current block.");
+
+        // TODO
+    }
+
+    public void ShowMenuPanel()
+    {
+        CoreController.Inst.WriteLog(this.GetType().Name, $"Showing the gameplay menu panel.");
+
+        // TODO
+    }
+
+    public void ShowLogsPanel()
+    {
+        CoreController.Inst.WriteLog(this.GetType().Name, $"Showing the gameplay logs panel.");
+
+        // TODO
+    }
+
+    public void ShowForwardsPanel()
+    {
+        CoreController.Inst.WriteLog(this.GetType().Name, $"Showing the gameplay change forwards panel.");
+
+        // TODO
+    }
+
+    public void ShowDefensePanel()
+    {
+        CoreController.Inst.WriteLog(this.GetType().Name, $"Showing the gameplay change defense panel.");
+
+        // TODO
+    }
+
+    public void ShowStrategiesPanel()
+    {
+        CoreController.Inst.WriteLog(this.GetType().Name, $"Showing the gameplay change strategies panel.");
+
+        // TODO
+    }
+
+    public void ShowSkaterStatsPanel()
+    {
+        CoreController.Inst.WriteLog(this.GetType().Name, $"Showing the gameplay skater stats panel.");
+
+        // TODO
+    }
+
+    public void ShowGoalieStatsPanel()
+    {
+        CoreController.Inst.WriteLog(this.GetType().Name, $"Showing the gameplay goalie stats panel.");
+
+        // TODO
+    }
+
+    public void ShowGameStatsPanel()
+    {
+        CoreController.Inst.WriteLog(this.GetType().Name, $"Showing the gameplay game stats panel.");
+
+        // TODO
+    }
+#endregion
+#region -------------------- Private Methods --------------------
+    
 #endregion
 }}
