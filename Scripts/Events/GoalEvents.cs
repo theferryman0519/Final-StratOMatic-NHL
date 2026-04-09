@@ -49,6 +49,7 @@ public class GoalEvents : MonoBehaviour {
         {
             InfoText = $"One of the actions for a player card might be Goalie Rating. These are sets of actions each goalie has to further determine a play.",
             ActionText = $"{DefendingGoalie.Info.LastName} looks to be having trouble with the shot by {ShootingSkater.Info.LastName}.",
+            ButtonText = "Check Goalie Rating",
         };
 
         EventsController.Inst.CurrentEventRun = newEventRun;
@@ -65,6 +66,7 @@ public class GoalEvents : MonoBehaviour {
         {
             InfoText = $"After checking for the Goalie Rating, one of the outcomes might be a save, leading to a faceoff.",
             ActionText = $"It looks as if {DefendingGoalie.Info.LastName} was able to find the puck and cover it for a whistle.",
+            ButtonText = "Continue",
         };
 
         EventsController.Inst.CurrentEventRun = newEventRun;
@@ -81,6 +83,7 @@ public class GoalEvents : MonoBehaviour {
         {
             InfoText = $"After checking for the Goalie Rating, one of the outcomes might be a breakaway for a teammate.",
             ActionText = $"{DefendingGoalie.Info.LastName} quickly finds the puck and fires it down the ice for a teammate on a breakaway.",
+            ButtonText = "Continue",
         };
 
         EventsController.Inst.CurrentEventRun = newEventRun;
@@ -97,6 +100,7 @@ public class GoalEvents : MonoBehaviour {
         {
             InfoText = $"After checking for the Goalie Rating, one of the outcomes might be a penalty taken by the goalie.",
             ActionText = $"After chaos in the crease, it looks like the referees might call a penalty on {DefendingGoalie.Info.LastName}.",
+            ButtonText = "Continue",
         };
 
         EventsController.Inst.CurrentEventRun = newEventRun;
@@ -113,6 +117,7 @@ public class GoalEvents : MonoBehaviour {
         {
             InfoText = $"After checking for the Goalie Rating, one of the outcomes might be a goal given up.",
             ActionText = $"The referee is signaling the puck is in the back of the net for a goal after the pileup in front of the goalie.",
+            ButtonText = "Continue",
         };
 
         EventsController.Inst.CurrentEventRun = newEventRun;
@@ -131,6 +136,7 @@ public class GoalEvents : MonoBehaviour {
         {
             InfoText = $"Some goal actions for skaters have a goal threshold. The higher the number, the more likely a goal will occur.",
             ActionText = $"We are going to step aside while the refs take a look at the video replay to see if the puck crossed the goal line.",
+            ButtonText = "Check for Goal",
         };
 
         EventsController.Inst.CurrentEventRun = newEventRun;
@@ -147,6 +153,7 @@ public class GoalEvents : MonoBehaviour {
         {
             InfoText = $"After checking for a goal, one of the outcomes is a no goal, which will lead to a faceoff.",
             ActionText = $"After video review, the puck does not seem to fully cross the line. Both sides are getting ready for a faceoff.",
+            ButtonText = "Continue",
         };
 
         EventsController.Inst.CurrentEventRun = newEventRun;
@@ -167,6 +174,7 @@ public class GoalEvents : MonoBehaviour {
         {
             InfoText = $"When scoring a goal, the possession tracker also keeps track of assists. All who earned points on the goal will be mentioned.",
             ActionText = $"{announcement}",
+            ButtonText = "Continue",
         };
 
         EventsController.Inst.CurrentEventRun = newEventRun;
