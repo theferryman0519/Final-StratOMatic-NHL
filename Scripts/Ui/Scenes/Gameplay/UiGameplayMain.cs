@@ -108,7 +108,7 @@ public class UiGameplayMain : MonoBehaviour {
     {
         CoreController.Inst.WriteLog(this.GetType().Name, $"Showing the gameplay menu panel.");
 
-        // TODO
+        _menuPanel.InitializeMenuPanel(this);
     }
 
     public void ShowLogsPanel()
