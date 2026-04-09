@@ -37,7 +37,7 @@ public class UiGameplayMain : MonoBehaviour {
     [SerializeField] private GameplayGameStatsPanel _gameStatsPanel;
 #endregion
 #region -------------------- Public Variables --------------------
-    
+    public bool IsOutsideOptions = false;
 #endregion
 #region -------------------- Private Variables --------------------
     
