@@ -16,6 +16,7 @@ public class EventRun {
 #region -------------------- Public Variables --------------------
     public string InfoText { get; set; }
     public string ActionText { get; set; }
+    public string ButtonText { get; set; }
 #endregion
 #region -------------------- Private Variables --------------------
     
