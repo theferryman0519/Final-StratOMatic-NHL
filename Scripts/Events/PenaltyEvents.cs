@@ -264,6 +264,7 @@ public class PenaltyEvents : MonoBehaviour {
 
         else
         {
+            GameplayController.Inst.GameData.PowerplayTeam = "None";
             GameplayController.Inst.StatsSet.ClearPossPos();
             GameplayController.Inst.StatsSet.SetPossTeam("None");
 
@@ -311,6 +312,8 @@ public class PenaltyEvents : MonoBehaviour {
 
         PenaltyShots.Clear();
         ShorthandedShots.Clear();
+
+        GameplayController.Inst.GameData.CardsDrawn -= 3;
 
         string powerplayTeam = GameplayController.Inst.GameData.PowerplayTeam == "Home" ? "Home" : "Away";
         string penaltyKillTeam = GameplayController.Inst.GameData.PowerplayTeam == "Home" ? "Away" : "Home";
