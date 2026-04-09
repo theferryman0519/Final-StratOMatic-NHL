@@ -18,6 +18,9 @@ public class GameplayMenuPanel : MonoBehaviour {
 #region -------------------- Serialized Variables --------------------
     [Header("Button Elements")]
 	[SerializeField] private SoM_Button _closeButton;
+	[SerializeField] private SoM_Button _resumeButton;
+	[SerializeField] private SoM_Button _logsButton;
+	[SerializeField] private SoM_Button _quitButton;
 
     [Header("Main Elements")]
 	[SerializeField] private CanvasGroup _mainElement;
@@ -29,7 +32,7 @@ public class GameplayMenuPanel : MonoBehaviour {
     public RectTransform MainPanel => _mainPanel;
 #endregion
 #region -------------------- Private Variables --------------------
-    
+    private UiGameplayMain mainUi;
 #endregion
 #region -------------------- Initial Functions --------------------
     
@@ -38,11 +41,20 @@ public class GameplayMenuPanel : MonoBehaviour {
     
 #endregion
 #region -------------------- Public Methods --------------------
-    public void InitializeMenuPanel()
+    public void InitializeMenuPanel(UiGameplayMain ui)
 	{
+		if (ui == null) { return; }
+
+		CoreController.Inst.WriteLog(this.GetType().Name, $"Initializing the menu panel.");
+
+		mainUi = ui;
+
         _mainElement.alpha = 0f;
 
         _closeButton.SetListener(() => { ClosePanel(); });
+		_resumeButton.SetListener(() => { ClosePanel(); });
+		_logsButton.SetListener(ShowLogsPanel);
+		_quitButton.SetListener(QuitGame);
 
         AnimationController.Inst.FadeInPanel(_mainElement, _mainPanel, () =>
         {
@@ -52,6 +64,8 @@ public class GameplayMenuPanel : MonoBehaviour {
 
     public void ClosePanel(Action continueAction = null)
 	{
+		CoreController.Inst.WriteLog(this.GetType().Name, $"Closing the menu panel.");
+
 		AnimationController.Inst.FadeOutPanel(_mainElement, _mainPanel, () =>
 		{
 			_mainElement.alpha = 0f;
@@ -59,6 +73,25 @@ public class GameplayMenuPanel : MonoBehaviour {
 
 			continueAction?.Invoke();
 		});
+	}
+
+	public void ShowLogsPanel()
+	{
+		CoreController.Inst.WriteLog(this.GetType().Name, $"Showing the logs panel.");
+		
+		ClosePanel(() =>
+		{
+			mainUi.ShowLogsPanel();
+		});
+	}
+
+	public void QuitGame()
+	{
+		CoreController.Inst.WriteLog(this.GetType().Name, $"Quitting the game.");
+		
+		// TODO
+		// Save the game data
+		// Go back to the home screen
 	}
 #endregion
 #region -------------------- Private Methods --------------------
