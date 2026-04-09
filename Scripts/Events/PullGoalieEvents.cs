@@ -52,6 +52,7 @@ public class PullGoalieEvents : MonoBehaviour {
         {
             InfoText = $"When a team pulls their goalie, they will get an extra attacker to help attempt to generate some offense and score.",
             ActionText = $"It looks like the coach for the {exTeam.Team.NickName} is calling over the goalie, trying to get an extra attacker on the ice.",
+            ButtonText = "Continue",
         };
 
         EventsController.Inst.CurrentEventRun = newEventRun;
@@ -70,6 +71,7 @@ public class PullGoalieEvents : MonoBehaviour {
         {
             InfoText = $"At the start after a team pulls their goalie, a shot list is generated based on the team's overall Offense ratings.",
             ActionText = $"With the goalie pulled, the {exTeam.Team.CityName} {exTeam.Team.NickName} look to add some offense to their game.",
+            ButtonText = "Continue",
         };
 
         EventsController.Inst.CurrentEventRun = newEventRun;
@@ -99,6 +101,7 @@ public class PullGoalieEvents : MonoBehaviour {
         {
             InfoText = $"While the goalie is pulled, each shot attempt taken by a player will be either an Outside, Inside, or Rebound shot.",
             ActionText = $"{action}",
+            ButtonText = "Attempt Shot",
         };
 
         EventsController.Inst.CurrentEventRun = newEventRun;
@@ -122,6 +125,7 @@ public class PullGoalieEvents : MonoBehaviour {
         {
             InfoText = $"After the shooting player takes a shot, if a goal is not scored, the extra attacker stays on the ice.",
             ActionText = $"{action}",
+            ButtonText = "Continue",
         };
 
         EventsController.Inst.CurrentEventRun = newEventRun;
@@ -138,6 +142,7 @@ public class PullGoalieEvents : MonoBehaviour {
         {
             InfoText = $"After the shooting player takes a shot, if a goal is scored, the goalie comes back onto the ice.",
             ActionText = $"The gamble with pulling the goalie pays off as the puck is put into the back of the net by {ShootingSkater.Info.LastName}!",
+            ButtonText = "Continue",
         };
 
         EventsController.Inst.GameplayEvents.GoalEvents.ShootingSkater = ShootingSkater;
@@ -156,6 +161,7 @@ public class PullGoalieEvents : MonoBehaviour {
         {
             InfoText = $"After the shooting player takes a shot, if a goal is scored into the empty net, the goalie comes back onto the ice.",
             ActionText = $"The puck sails down the ice and into the yawning net with that shot by {ShootingSkater.Info.LastName}!",
+            ButtonText = "Continue",
         };
 
         EventsController.Inst.GameplayEvents.GoalEvents.ShootingSkater = ShootingSkater;
@@ -174,6 +180,7 @@ public class PullGoalieEvents : MonoBehaviour {
         {
             InfoText = $"After the duration of the goalie being pulled, the goalie comes back onto the ice and the game continues with a faceoff.",
             ActionText = $"The puck is stopped for a whistle and it looks as if the goalie is coming back onto the ice as we get ready for the faceoff at 5-on-5.",
+            ButtonText = "Continue",
         };
 
         EventsController.Inst.CurrentEventRun = newEventRun;
