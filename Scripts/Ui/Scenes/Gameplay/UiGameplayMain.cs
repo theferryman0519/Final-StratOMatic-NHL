@@ -80,7 +80,7 @@ public class UiGameplayMain : MonoBehaviour {
     {
         CoreController.Inst.WriteLog(this.GetType().Name, $"Updating the gameplay actions block.");
 
-        // TODO
+        _actions.UpdateActions(this);
     }
 
     public void UpdateRink()
@@ -94,7 +94,7 @@ public class UiGameplayMain : MonoBehaviour {
     {
         CoreController.Inst.WriteLog(this.GetType().Name, $"Updating the gameplay buttons block.");
 
-        // TODO
+        _buttons.UpdateButtons(this);
     }
 
     public void UpdateCurrent()
