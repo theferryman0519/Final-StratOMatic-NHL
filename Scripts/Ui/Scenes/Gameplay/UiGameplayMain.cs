@@ -139,14 +139,14 @@ public class UiGameplayMain : MonoBehaviour {
         // TODO
     }
 
-    public void ShowSkaterStatsPanel()
+    public void ShowSkaterStatsPanel(Skater skater)
     {
         CoreController.Inst.WriteLog(this.GetType().Name, $"Showing the gameplay skater stats panel.");
 
         // TODO
     }
 
-    public void ShowGoalieStatsPanel()
+    public void ShowGoalieStatsPanel(Goalie goalie)
     {
         CoreController.Inst.WriteLog(this.GetType().Name, $"Showing the gameplay goalie stats panel.");
 
