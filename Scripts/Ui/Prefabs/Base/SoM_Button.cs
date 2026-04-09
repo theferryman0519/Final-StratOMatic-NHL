@@ -60,6 +60,11 @@ public class SoM_Button : MonoBehaviour {
     {
         _image.sprite = option == 0 ? _positive : _negative;
     }
+
+    public void SetInteractivity(bool isActive)
+    {
+        _button.interactable = isActive;
+    }
 #endregion
 #region -------------------- Private Methods --------------------
     
