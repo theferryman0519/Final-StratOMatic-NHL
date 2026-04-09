@@ -190,6 +190,8 @@ public class PullGoalieEvents : MonoBehaviour {
         PullGoalieShots.Clear();
         EmptyNetShots.Clear();
 
+        GameplayController.Inst.GameData.CardsDrawn -= 3;
+
         string extraAttackerTeam = GameplayController.Inst.GameData.PossTeam == "Home" ? "Home" : "Away";
         string emptyNetTeam = GameplayController.Inst.GameData.PossTeam == "Home" ? "Away" : "Home";
 
