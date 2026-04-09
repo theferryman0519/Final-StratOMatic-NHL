@@ -50,12 +50,25 @@ public class UiGameplayMain : MonoBehaviour {
         {
             AnimationController.Inst.ShrinkButton(_menuButton, ShowMenuPanel);
         });
+
+        EventsController.Inst.MainUi = this;
     }
 #endregion
 #region -------------------- Coroutines --------------------
     
 #endregion
 #region -------------------- Public Methods --------------------
+    public void UpdateVisuals()
+    {
+        CoreController.Inst.WriteLog(this.GetType().Name, $"Updating the gameplay visuals.");
+
+        UpdateScoreboard();
+        UpdateActions();
+        UpdateRink();
+        UpdateButtons();
+        UpdateCurrent();
+    }
+    
     public void UpdateScoreboard()
     {
         CoreController.Inst.WriteLog(this.GetType().Name, $"Updating the gameplay scoreboard block.");
