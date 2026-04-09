@@ -43,6 +43,7 @@ public class FaceoffEvents : MonoBehaviour {
         {
             InfoText = $"Each time a new segment of play occurs, that segment in initiated by a faceoff. The puck is dropped between two centers to start possession.",
             ActionText = $"The puck is about to drop between {homeSkater} and {awaySkater}.",
+            ButtonText = "Drop Puck",
         };
 
         EventsController.Inst.CurrentEventRun = newEventRun;
@@ -62,6 +63,7 @@ public class FaceoffEvents : MonoBehaviour {
         {
             InfoText = $"Both centers line up for the faceoff. Each player has a Faceoff rating between 0 and 3. The higher the rating, the more often that center will win the faceoff.",
             ActionText = $"Let's see who wins this faceoff as {homeSkaterMain.Info.LastName} has a Faceoff rating of +{homeSkaterMain.Card.Faceoff} while {awaySkaterMain.Info.LastName} has a Faceoff rating of +{awaySkaterMain.Card.Faceoff}.",
+            ButtonText = "Continue",
         };
 
         EventsController.Inst.CurrentEventRun = newEventRun;
@@ -89,6 +91,7 @@ public class FaceoffEvents : MonoBehaviour {
         {
             InfoText = $"After winning a faceoff, the puck is moved to a member of the winning center's team. They now control play to start this play segment.",
             ActionText = $"After winning the faceoff, {skaterPoss.Info.FirstName} {skaterPoss.Info.LastName} starts with the puck.",
+            ButtonText = "Continue",
         };
 
         EventsController.Inst.CurrentEventRun = newEventRun;
