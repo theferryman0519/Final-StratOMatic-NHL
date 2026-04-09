@@ -27,14 +27,14 @@ public class UiGameplayMain : MonoBehaviour {
     [SerializeField] private Button _menuButton;
 
     [Header("Panel Elements")]
-    [SerializeField] private GameplayPanel _menuPanel;
-    [SerializeField] private GameplayPanel _logsPanel;
-    [SerializeField] private GameplayPanel _forwardsPanel;
-    [SerializeField] private GameplayPanel _defensePanel;
-    [SerializeField] private GameplayPanel _strategiesPanel;
-    [SerializeField] private GameplayPanel _skaterStatsPanel;
-    [SerializeField] private GameplayPanel _goalieStatsPanel;
-    [SerializeField] private GameplayPanel _gameStatsPanel;
+    [SerializeField] private GameplayMenuPanel _menuPanel;
+    [SerializeField] private GameplayLogsPanel _logsPanel;
+    [SerializeField] private GameplayForwardsPanel _forwardsPanel;
+    [SerializeField] private GameplayDefensePanel _defensePanel;
+    [SerializeField] private GameplayStrategiesPanel _strategiesPanel;
+    [SerializeField] private GameplaySkaterStatsPanel _skaterStatsPanel;
+    [SerializeField] private GameplayGoalieStatsPanel _goalieStatsPanel;
+    [SerializeField] private GameplayGameStatsPanel _gameStatsPanel;
 #endregion
 #region -------------------- Public Variables --------------------
     
