@@ -44,6 +44,7 @@ public class GameFlowEvents : MonoBehaviour {
         {
             InfoText = $"This Strat-O-Matic game is about to begin as the two teams are getting ready for the opening faceoff.",
             ActionText = $"Welcome, ladies and gentlemen, to a sprited game between the {awayTeamName} and the {homeTeamName}.",
+            ButtonText = "Start Game",
         };
 
         EventsController.Inst.CurrentEventRun = newEventRun;
@@ -72,6 +73,7 @@ public class GameFlowEvents : MonoBehaviour {
         {
             InfoText = $"Both teams are getting ready for the faceoff that starts the period.",
             ActionText = $"Both teams are getting ready to drop the puck on the {period}. We're ready to get underway!",
+            ButtonText = "Start Period",
         };
 
         EventsController.Inst.CurrentEventRun = newEventRun;
@@ -88,6 +90,7 @@ public class GameFlowEvents : MonoBehaviour {
         {
             InfoText = $"There is an injury on the ice. When an injury occurs, that player is no longer available for the remainder of the game. Another skater will take their place.",
             ActionText = $"Oh no! It looks like {InjuredSkater.Info.LastName} was injured on that play. Their night looks to be over.",
+            ButtonText = "Continue",
         };
 
         EventsController.Inst.CurrentEventRun = newEventRun;
@@ -116,6 +119,7 @@ public class GameFlowEvents : MonoBehaviour {
         {
             InfoText = $"The period has finished because 30 Action Cards have been drawn. Both teams will reset for the next period, unless this was the final period of the game.",
             ActionText = $"That horn sounds the end of the period. After {period}, the score stands as the {homeTeamName} {homeTeamGoals}, the {awayTeamName} {awayTeamGoals}.",
+            ButtonText = "End Period",
         };
 
         EventsController.Inst.CurrentEventRun = newEventRun;
@@ -134,6 +138,7 @@ public class GameFlowEvents : MonoBehaviour {
         {
             InfoText = $"If after three periods of play the score is still tied, both teams will go into overtime. If still tied, the game ends in a tie unless this is a playoff game.",
             ActionText = $"We're about to start extra time as both teams are currently tied at {teamGoals}. The next goal will be the winner!",
+            ButtonText = "Start Overtime",
         };
 
         EventsController.Inst.CurrentEventRun = newEventRun;
@@ -164,6 +169,7 @@ public class GameFlowEvents : MonoBehaviour {
         {
             InfoText = $"The game has completed.",
             ActionText = $"{winner} with a final score of {homeTeamGoals.ToString()} to {awayTeamGoals.ToString()}.",
+            ButtonText = "End Game",
         };
 
         EventsController.Inst.CurrentEventRun = newEventRun;
@@ -180,6 +186,7 @@ public class GameFlowEvents : MonoBehaviour {
         {
             InfoText = string.Empty,
             ActionText = string.Empty,
+            ButtonText = string.Empty,
         };
 
         EventsController.Inst.CurrentEventRun = newEventRun;
