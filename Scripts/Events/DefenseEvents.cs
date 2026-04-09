@@ -41,6 +41,7 @@ public class DefenseEvents : MonoBehaviour {
         {
             InfoText = $"If a skater has an Inside Shot, there might be an opportunity for the defending player to intimidate to steal the puck.",
             ActionText = $"As {possSkater.Info.LastName} is attempting a shot from in close, {DefendingSkater.Info.FirstName} {DefendingSkater.Info.LastName} is attempting to check and intimidate.",
+            ButtonText = "Attempt Check",
         };
 
         EventsController.Inst.CurrentEventRun = newEventRun;
@@ -57,6 +58,7 @@ public class DefenseEvents : MonoBehaviour {
         {
             InfoText = $"After attempting to intimidate, the defending player might be able to steal the puck away",
             ActionText = $"{DefendingSkater.Info.LastName} hits {PriorSkater.Info.LastName} with an open-ice check, successfully stealing the puck.",
+            ButtonText = "Continue",
         };
 
         EventsController.Inst.CurrentEventRun = newEventRun;
@@ -76,6 +78,7 @@ public class DefenseEvents : MonoBehaviour {
         {
             InfoText = $"After attempting to intimidate, the shooter could skate around the defender to attempt the Inside Shot.",
             ActionText = $"{PriorSkater.Info.LastName} dekes around the check attempt by {DefendingSkater.Info.LastName}, driving in close and looks to shoot.",
+            ButtonText = "Continue",
         };
 
         EventsController.Inst.CurrentEventRun = newEventRun;
@@ -97,6 +100,7 @@ public class DefenseEvents : MonoBehaviour {
         {
             InfoText = $"One of the actions on an Action Card might be an action from a defender, which includes attempting to steal or taking a penalty.",
             ActionText = $"It looks like the skater is moving near {DefendingSkater.Info.FirstName} {DefendingSkater.Info.LastName}, who is attempting to defend.",
+            ButtonText = "Attempt Defend",
         };
 
         EventsController.Inst.CurrentEventRun = newEventRun;
@@ -113,6 +117,7 @@ public class DefenseEvents : MonoBehaviour {
         {
             InfoText = $"After attempting to defend, the defending player might successfully take the puck away from the opponent.",
             ActionText = $"A stick lift by {DefendingSkater.Info.LastName} allows them to steal the puck away from {PriorSkater.Info.LastName}.",
+            ButtonText = "Continue",
         };
 
         EventsController.Inst.CurrentEventRun = newEventRun;
@@ -132,6 +137,7 @@ public class DefenseEvents : MonoBehaviour {
         {
             InfoText = $"After attempting to defend, the defending player might successfully take the puck away and attempt a shot.",
             ActionText = $"The back check by {DefendingSkater.Info.LastName} allows them to steal the puck, skate down the ice, and is looking to shoot.",
+            ButtonText = "Continue",
         };
 
         EventsController.Inst.CurrentEventRun = newEventRun;
@@ -151,6 +157,7 @@ public class DefenseEvents : MonoBehaviour {
         {
             InfoText = $"After attempting to defend, the play might be unsuccessful and allow the offense to attempt a shot.",
             ActionText = $"{PriorSkater.Info.LastName} dekes around the missed stick lift by {DefendingSkater.Info.LastName} and is now looking to shoot.",
+            ButtonText = "Continue",
         };
 
         EventsController.Inst.CurrentEventRun = newEventRun;
@@ -170,6 +177,7 @@ public class DefenseEvents : MonoBehaviour {
         {
             InfoText = $"After attempting to defend, the defending player might cause a penalty.",
             ActionText = $"{DefendingSkater.Info.FirstName} {DefendingSkater.Info.LastName} pesters the puck carrier, but did they go too far and result in a penalty?",
+            ButtonText = "Continue",
         };
 
         EventsController.Inst.CurrentEventRun = newEventRun;
