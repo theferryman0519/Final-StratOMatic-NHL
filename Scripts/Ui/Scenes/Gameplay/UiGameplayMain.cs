@@ -101,7 +101,7 @@ public class UiGameplayMain : MonoBehaviour {
     {
         CoreController.Inst.WriteLog(this.GetType().Name, $"Updating the gameplay current block.");
 
-        // TODO
+        _current.UpdateCurrent(this);
     }
 
     public void ShowMenuPanel()
