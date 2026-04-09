@@ -382,11 +382,14 @@ public class OffenseEvents : MonoBehaviour {
 
         SetCardsDrawn(() =>
         {
-            CheckForInjuries(() =>
+            CheckForGoaliePull(() =>
             {
-                UpdateLinesPairs(() =>
+                CheckForInjuries(() =>
                 {
-                    DrawActionCard();
+                    UpdateLinesPairs(() =>
+                    {
+                        DrawActionCard();
+                    });
                 });
             });
         });
@@ -687,6 +690,24 @@ public class OffenseEvents : MonoBehaviour {
         {
             EventsController.Inst.RunGameFlowEvent(3);
             return;
+        }
+
+        continueAction?.Invoke();
+    }
+
+    private void CheckForGoaliePull(Action continueAction = null)
+    {
+        CoreController.Inst.WriteLog(this.GetType().Name, $"Checking for potential goalie pull.");
+
+        if (GameplayController.Inst.GameData.PossTeam != "None")
+        {
+            GameTeam possTeam = GameplayController.Inst.GameData.PossTeam == "Home" ? GameplayController.Inst.GameData.HomeTeam : GameplayController.Inst.GameData.AwayTeam;
+
+            if (possTeam.IsGoaliePulled)
+            {
+                EventsController.Inst.RunPullGoalieEvent(0);
+                return;
+            }
         }
 
         continueAction?.Invoke();
