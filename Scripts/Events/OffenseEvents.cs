@@ -42,6 +42,7 @@ public class OffenseEvents : MonoBehaviour {
         {
             InfoText = $"At the start of each play, players must draw an Action Card. This will put the play into motion with a specific puck action.",
             ActionText = $"{possSkater.Info.LastName} has the puck and is getting ready to draw an Action Card to get the play started.",
+            ButtonText = "Draw Action Card",
         };
 
         EventsController.Inst.CurrentEventRun = newEventRun;
@@ -59,10 +60,13 @@ public class OffenseEvents : MonoBehaviour {
 
         Skater possSkater = GameplayController.Inst.GetPossSkater();
 
+        EventsController.Inst.MainUi.IsOutsideOptions = true;
+
         EventRun newEventRun = new EventRun
         {
             InfoText = $"If a skater has an Outside Shot, they might have options to choose from instead of taking a shot. They could attempt a pass or drive the defense.",
             ActionText = $"{possSkater.Info.FirstName} {possSkater.Info.LastName} is thinking about taking a shot, passing the puck, or driving the defense.",
+            ButtonText = "Continue",
         };
 
         EventsController.Inst.CurrentEventRun = newEventRun;
@@ -87,6 +91,7 @@ public class OffenseEvents : MonoBehaviour {
         {
             InfoText = $"A skater has three different types of shots: Outside, Inside, and Rebound/Breakaway. The closer to the net, the better the shots become.",
             ActionText = $"{possSkater.Info.LastName} is looking to attempt a {shotType}.",
+            ButtonText = "Attempt Shot",
         };
 
         EventsController.Inst.CurrentEventRun = newEventRun;
@@ -107,6 +112,7 @@ public class OffenseEvents : MonoBehaviour {
         {
             InfoText = $"After taking a shot, one action that might occur is the shooter losing the puck to an opponent after blocking a shot.",
             ActionText = $"It looks like {possSkater.Info.FirstName} {possSkater.Info.LastName} blocked the shot by {ShootingSkater.Info.LastName}.",
+            ButtonText = "Continue",
         };
 
         EventsController.Inst.CurrentEventRun = newEventRun;
@@ -127,6 +133,7 @@ public class OffenseEvents : MonoBehaviour {
         {
             InfoText = $"After taking a shot, one action that might occur is the shot being saved by the goalie before being moved to another player.",
             ActionText = $"The shot by {ShootingSkater.Info.LastName} was blocked and passed to {possSkater.Info.FirstName} {possSkater.Info.LastName}.",
+            ButtonText = "Continue",
         };
 
         EventsController.Inst.CurrentEventRun = newEventRun;
@@ -147,6 +154,7 @@ public class OffenseEvents : MonoBehaviour {
         {
             InfoText = $"After taking a shot, one action that might occur is the shot being saved but causing a rebound.",
             ActionText = $"After the shot by {ShootingSkater.Info.LastName}, the puck bounces off the pads of {opposingGoalie.Info.LastName}, causing a potential rebound.",
+            ButtonText = "Continue",
         };
 
         EventsController.Inst.CurrentEventRun = newEventRun;
@@ -167,6 +175,7 @@ public class OffenseEvents : MonoBehaviour {
         {
             InfoText = $"After taking a shot, one action that might occur is the shot causing a Goalie Rating.",
             ActionText = $"{opposingGoalie.Info.LastName} looks to be in trouble from the shot by {ShootingSkater.Info.LastName}. We have a Goalie Rating.",
+            ButtonText = "Continue",
         };
 
         EventsController.Inst.CurrentEventRun = newEventRun;
@@ -185,6 +194,7 @@ public class OffenseEvents : MonoBehaviour {
         {
             InfoText = $"After taking a shot, one action that might occur is the shot goes into the back of the net for a goal.",
             ActionText = $"At first glance, the shot by {ShootingSkater.Info.LastName} appears to get behind {opposingGoalie.Info.LastName}. Let's see if it is a goal.",
+            ButtonText = "Continue",
         };
 
         EventsController.Inst.CurrentEventRun = newEventRun;
@@ -203,6 +213,7 @@ public class OffenseEvents : MonoBehaviour {
         {
             InfoText = $"When a rebound occurs, there is a battle in front of the net to fight for the puck.",
             ActionText = $"A rebound has occured in front of {opposingGoalie.Info.LastName}. Who will end up with the puck?",
+            ButtonText = "Check Rebound",
         };
 
         EventsController.Inst.CurrentEventRun = newEventRun;
@@ -223,6 +234,7 @@ public class OffenseEvents : MonoBehaviour {
         {
             InfoText = $"One action a skater might take is passing the puck to another player for a better shot at the net.",
             ActionText = $"{possSkater.Info.FirstName} {possSkater.Info.LastName} is attempting to pass the puck.",
+            ButtonText = "Attempt Pass",
         };
 
         EventsController.Inst.CurrentEventRun = newEventRun;
@@ -243,6 +255,7 @@ public class OffenseEvents : MonoBehaviour {
         {
             InfoText = $"After attempting a pass, the puck might be taken away from an opposing player.",
             ActionText = $"{PassingSkater.Info.LastName} has the puck stripped by {possSkater.Info.FirstName} {possSkater.Info.LastName}.",
+            ButtonText = "Continue",
         };
 
         EventsController.Inst.CurrentEventRun = newEventRun;
@@ -263,6 +276,7 @@ public class OffenseEvents : MonoBehaviour {
         {
             InfoText = $"After attempting a pass, the puck might be taken away from an opposing player who now has a shot attempt.",
             ActionText = $"{possSkater.Info.FirstName} {possSkater.Info.LastName} strips the puck away from {PassingSkater.Info.LastName} and looks to shoot the puck.",
+            ButtonText = "Continue",
         };
 
         EventsController.Inst.CurrentEventRun = newEventRun;
@@ -297,6 +311,7 @@ public class OffenseEvents : MonoBehaviour {
         {
             InfoText = $"After attempting a pass, the pass might be successful and a shot attempt taken by a teammate.",
             ActionText = $"{PassingSkater.Info.LastName} passes the puck to {passedSkater}, who appears to be attempting a shot on net.",
+            ButtonText = "Continue",
         };
 
         EventsController.Inst.CurrentEventRun = newEventRun;
@@ -331,6 +346,7 @@ public class OffenseEvents : MonoBehaviour {
         {
             InfoText = $"After attempting a pass, the pass might be successful and a teammate has a chance at an Inside Shot after an opponent attempts to intimidate.",
             ActionText = $"The pass by {PassingSkater.Info.LastName} successfully goes to {passedSkater}, who looks to attempt an Inside Shot.",
+            ButtonText = "Continue",
         };
 
         EventsController.Inst.CurrentEventRun = newEventRun;
@@ -365,6 +381,7 @@ public class OffenseEvents : MonoBehaviour {
         {
             InfoText = $"After attempting a pass, the pass might be successful and a teammate has options on the offense.",
             ActionText = $"{passedSkater}, {possSkater.Info.FirstName} {possSkater.Info.LastName} has the puck and is looking to generate some offense.",
+            ButtonText = "Continue",
         };
 
         EventsController.Inst.CurrentEventRun = newEventRun;
