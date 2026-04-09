@@ -19,7 +19,7 @@ public class Game {
     public string Type { get; set; } // Exhibition, Season, Playoff, Multiplayer
     public string HomeUserType { get; set; } // User, Ai
     public string AwayUserType { get; set; } // User, Ai
-    public string PowerplayTeam { get; set; } // Home, Away
+    public string PowerplayTeam { get; set; } // None, Home, Away
     public string PossTeam { get; set; } // None, Home, Away
 
     public int CardsDrawn { get; set; }
