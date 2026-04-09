@@ -39,8 +39,7 @@ public class GameplayEvents : MonoBehaviour {
 
         yield return StartCoroutine(runEvent);
 
-        // TODO
-        // if (EventsController.Inst.MainUi != null) { EventsController.Inst.MainUi.UpdateVisual(); }
+        if (EventsController.Inst.MainUi != null) { EventsController.Inst.MainUi.UpdateVisuals(); }
 
         yield return new WaitForSeconds(0.15f);
 
