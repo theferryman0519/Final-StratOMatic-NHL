@@ -56,7 +56,7 @@ public class SeasonCreation : MonoBehaviour {
                 Version = seasonDatabase.Version,
             };
 
-            newSeason.Team = await GetUserTeam(seasonDatabase.Team, seasonDatabase.League);
+            newSeason.Team = await GetUserTeam(seasonDatabase.Team, seasonDatabase.League, seasonDatabase.SkaterLineup, seasonDatabase.GoalieLineup);
             newSeason.GameNights = new();
 
             userTeam = newSeason.Team.Team.Code;
@@ -77,7 +77,7 @@ public class SeasonCreation : MonoBehaviour {
     }
 #endregion
 #region -------------------- Private Methods --------------------
-    private async Task<GameTeam> GetUserTeam(string team, string league)
+    private async Task<GameTeam> GetUserTeam(string team, string league, List<string> skaters, List<string> goalies)
     {
         CoreController.Inst.WriteLog(this.GetType().Name, $"Getting the user team for the season.");
 
@@ -110,7 +110,73 @@ public class SeasonCreation : MonoBehaviour {
             Stats = userTeam.Game,
         };
 
+        newTeam.SkaterLineup = await SetSavedSkaters(team, league, skaters);
+        newTeam.GoalieLineup = await SetSavedGoalies(team, league, goalies);
+
         return newTeam;
+    }
+
+    private async Task<Dictionary<string, Skater>> SetSavedSkaters(string team, string league, List<string> skaters)
+    {
+        CoreController.Inst.WriteLog(this.GetType().Name, $"Setting season saved skater lineup.");
+
+        Dictionary<string, Skater> lineup = new();
+        List<Skater> skatersList = new();
+        List<Skater> fullTeamSkaterList = new(league == "NHL" ? SkatersController.Inst.NhlSkaters[team] : SkatersController.Inst.PwhlSkaters[team]);
+
+        foreach (Skater teamSkater in fullTeamSkaterList)
+        {
+            if (skaters.Contains(teamSkater.Id))
+            {
+                skatersList.Add(teamSkater);
+            }
+        }
+
+        if (skatersList.Count < 18) { return lineup; }
+
+        lineup.Add("C1", skatersList[0]);
+        lineup.Add("LW1", skatersList[1]);
+        lineup.Add("RW1", skatersList[2]);
+        lineup.Add("C2", skatersList[3]);
+        lineup.Add("LW2", skatersList[4]);
+        lineup.Add("RW2", skatersList[5]);
+        lineup.Add("C3", skatersList[6]);
+        lineup.Add("LW3", skatersList[7]);
+        lineup.Add("RW3", skatersList[8]);
+        lineup.Add("C4", skatersList[9]);
+        lineup.Add("LW4", skatersList[10]);
+        lineup.Add("RW4", skatersList[11]);
+        lineup.Add("LD1", skatersList[12]);
+        lineup.Add("RD1", skatersList[13]);
+        lineup.Add("LD2", skatersList[14]);
+        lineup.Add("RD2", skatersList[15]);
+        lineup.Add("LD3", skatersList[16]);
+        lineup.Add("RD3", skatersList[17]);
+
+        return lineup;
+    }
+
+    private async Task<Dictionary<string, Goalie>> SetSavedGoalies(string team, string league, List<string> goalies)
+    {
+        CoreController.Inst.WriteLog(this.GetType().Name, $"Setting season saved goalie lineup.");
+
+        Dictionary<string, Goalie> lineup = new();
+        List<Goalie> goaliesList = new();
+        List<Goalie> fullTeamGoalieList = new(league == "NHL" ? SkatersController.Inst.NhlGoalies[team] : SkatersController.Inst.PwhlGoalies[team]);
+
+        foreach (Goalie teamGoalie in fullTeamGoalieList)
+        {
+            if (goalies.Contains(teamGoalie.Id))
+            {
+                goaliesList.Add(teamGoalie);
+            }
+        }
+
+        if (goaliesList.Count < 1) { return lineup; }
+
+        lineup.Add("G", goaliesList[0]);
+
+        return lineup;
     }
 
     private async Task<List<GameNight>> SetGameNights()
