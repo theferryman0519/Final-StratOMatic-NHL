@@ -26,6 +26,8 @@ public class EditLinePositionPrefab : MonoBehaviour {
     public SoM_Button SelectButton => _selectButton;
     public SoM_Button RemoveButton => _removeButton;
 
+    public string ThisFullPos = string.Empty;
+
     public Skater ThisSkater = null;
     public Goalie ThisGoalie = null;
 #endregion
