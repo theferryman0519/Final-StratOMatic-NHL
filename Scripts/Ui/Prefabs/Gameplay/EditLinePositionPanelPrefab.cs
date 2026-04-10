@@ -13,7 +13,7 @@ using SoM.Controllers;
 using SoM.Models;
 
 namespace SoM.Ui {
-public class EditLinePositionPrefab : MonoBehaviour {
+public class EditLinePositionPanelPrefab : MonoBehaviour {
 
 #region -------------------- Serialized Variables --------------------
     [Header("Prefab Elements")]
