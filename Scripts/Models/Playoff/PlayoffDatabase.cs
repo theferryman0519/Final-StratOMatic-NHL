@@ -22,6 +22,9 @@ public class PlayoffDatabase {
 
     public int Round { get; set; }
     public int GameNumber { get; set; }
+
+    public List<string> SkaterLineup { get; set; }
+    public List<string> GoalieLineup { get; set; }
 #endregion
 #region -------------------- Private Variables --------------------
     
