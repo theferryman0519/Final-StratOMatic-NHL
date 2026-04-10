@@ -30,7 +30,8 @@ public class EditLinePositionPrefab : MonoBehaviour {
     [SerializeField] private CanvasGroup _mainElement;
 #endregion
 #region -------------------- Public Variables --------------------
-
+    public SoM_Button ViewCardButton => _viewCardButton;
+    public SoM_Button SelectButton => _selectButton;
 #endregion
 #region -------------------- Private Variables --------------------
 
