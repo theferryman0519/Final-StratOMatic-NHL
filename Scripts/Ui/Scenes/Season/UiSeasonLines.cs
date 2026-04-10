@@ -61,7 +61,7 @@ public class UiSeasonLines : UiSceneBase {
 
 		_positionDropdown.SetListener(ChangePositionOption);
 
-		SetFromPlayerPrefs();
+		SetFromLoadedSeason();
 		ChangePositionOption(0);
 
         base.InitializeUi();
@@ -110,6 +110,28 @@ public class UiSeasonLines : UiSceneBase {
 			{
 				ShowSelectionPanel(posOption);
 			});
+		}
+
+		int goalieIndex = _editLinePositions.Count - 1;
+
+		_editLinePositions[goalieIndex].ThisFullPos = "G";
+		_editLinePositions[goalieIndex].ThisSkater = null;
+		_editLinePositions[goalieIndex].ThisGoalie = defaultGoalie;
+		_editLinePositions[goalieIndex].SetPosition("G", true, goalie = defaultGoalie);
+
+		_editLinePositions[goalieIndex].RemoveButton.SetListener(() =>
+		{
+			ClearPosition("G", _editLinePositions[goalieIndex]);
+		});
+
+		_editLinePositions[goalieIndex].SelectButton.SetListener(() =>
+		{
+			ShowSelectionPanel(2);
+		});
+
+		foreach (EditLinePositionPrefab prefab in _editLinePositions)
+		{
+			positionObjectsDict.Add(prefab.ThisFullPos, prefab);
 		}
     }
 
@@ -201,13 +223,62 @@ public class UiSeasonLines : UiSceneBase {
 		});
 	}
 
-    private void SetFromPlayerPrefs()
+    private void SetFromLoadedSeason()
     {
         CoreController.Inst.WriteLog(this.GetType().Name, $"Setting lines from PlayerPrefs.");
 
         ClearAllPositions();
 
-        // TODO
+        Dictionary<string, Skater> seasonSkaters = new(SeasonsController.Inst.SeasonData.Team.SkaterLineup);
+		Dictionary<string, Goalie> seasonGoalies = new(SeasonsController.Inst.SeasonData.Team.GoalieLineup);
+
+		for (int s = 0; s < seasonSkaters.Count; s++)
+		{
+			_editLinePositions[s].ThisFullPos = seasonSkaters.ElementAt(s).Key;
+			_editLinePositions[s].ThisSkater = seasonSkaters[s];
+			_editLinePositions[s].ThisGoalie = null;
+
+			string pos = seasonSkaters.ElementAt(s).Key.Contains("D") ? "D" : "F";
+
+			_editLinePositions[s].SetPosition(pos, true, skater = seasonSkaters[s]);
+
+			int posOption = 0;
+
+			if (seasonSkaters.ElementAt(s).Key.Contains("D")) { posOption = 1; }
+			else if (seasonSkaters.ElementAt(s).Key.Contains("G")) { posOption = 2; }
+
+			_editLinePositions[s].RemoveButton.SetListener(() =>
+			{
+				ClearPosition(seasonSkaters.ElementAt(s).Key, _editLinePositions[s]);
+			});
+
+			_editLinePositions[s].SelectButton.SetListener(() =>
+			{
+				ShowSelectionPanel(posOption);
+			});
+		}
+
+		int goalieIndex = _editLinePositions.Count - 1;
+
+		_editLinePositions[goalieIndex].ThisFullPos = "G";
+		_editLinePositions[goalieIndex].ThisSkater = null;
+		_editLinePositions[goalieIndex].ThisGoalie = seasonGoalies["G"];
+		_editLinePositions[goalieIndex].SetPosition("G", true, goalie = seasonGoalies["G"]);
+
+		_editLinePositions[goalieIndex].RemoveButton.SetListener(() =>
+		{
+			ClearPosition("G", _editLinePositions[goalieIndex]);
+		});
+
+		_editLinePositions[goalieIndex].SelectButton.SetListener(() =>
+		{
+			ShowSelectionPanel(2);
+		});
+
+		foreach (EditLinePositionPrefab prefab in _editLinePositions)
+		{
+			positionObjectsDict.Add(prefab.ThisFullPos, prefab);
+		}
     }
 #endregion
 }}
