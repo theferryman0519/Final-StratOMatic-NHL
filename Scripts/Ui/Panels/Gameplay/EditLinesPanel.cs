@@ -16,6 +16,10 @@ namespace SoM.Ui {
 public class EditLinesPanel : MonoBehaviour {
 
 #region -------------------- Serialized Variables --------------------
+    [Header("Content Elements")]
+    [SerializeField] private Transform _container;
+    [SerializeField] private EditLinePositionPanelPrefab _panelPrefab;
+
     [Header("Button Elements")]
 	[SerializeField] private SoM_Button _closeButton;
 
@@ -44,6 +48,8 @@ public class EditLinesPanel : MonoBehaviour {
 
         _closeButton.SetListener(() => { ClosePanel(); });
 
+        SetContainer(posOption);
+
         AnimationController.Inst.FadeInPanel(_mainElement, _mainPanel, () =>
         {
             _mainElement.alpha = 1f;
@@ -66,6 +72,75 @@ public class EditLinesPanel : MonoBehaviour {
     }
 #endregion
 #region -------------------- Private Methods --------------------
-    
+    private void SetContainer(int posOption)
+    {
+        foreach (Transform child in _container)
+        {
+            Destroy(child.gameObject);
+        }
+
+        // TODO: Adjust "HomeTeam" if multiplayer
+        string teamCode = GameplayController.Inst.GameData.HomeTeam.Team.Code;
+		string teamLeagueString = GameplayController.Inst.GameData.HomeTeam.Team.League;
+
+        List<Skater> teamSkaters = new();
+        List<Goalie> teamGoalies = new();
+
+        if (teamLeagueString == "NHL")
+        {
+            teamSkaters = new(SkatersController.Inst.NhlSkaters[teamCode]);
+            teamGoalies = new(GoaliesController.Inst.NhlGoalies[teamCode]);
+        }
+
+        else if (teamLeagueString == "NHLFranchise")
+        {
+            teamSkaters = new(SkatersController.Inst.NhlFranchiseSkaters[teamCode]);
+            teamGoalies = new(GoaliesController.Inst.NhlFranchiseGoalies[teamCode]);
+        }
+
+        else if (teamLeagueString == "PWHL")
+        {
+            teamSkaters = new(SkatersController.Inst.PwhlSkaters[teamCode]);
+            teamGoalies = new(GoaliesController.Inst.PwhlGoalies[teamCode]);
+        }
+
+        else if (teamLeagueString == "PWHLFranchise")
+        {
+            teamSkaters = new(SkatersController.Inst.PwhlFranchiseSkaters[teamCode]);
+            teamGoalies = new(GoaliesController.Inst.PwhlFranchiseGoalies[teamCode]);
+        }
+
+        switch (posOption)
+        {
+            case 1:
+                foreach (Skater defenseSkater in teamSkaters)
+                {
+                    if (defenseSkater.Info.Position == "D")
+                    {
+                        // TODO: Instantiate _panelPrefab
+                    }
+                }
+
+                break;
+            case 2:
+                foreach (Goalie goalie in teamGoalies)
+                {
+                    // TODO: Instantiate _panelPrefab
+                }
+
+                break;
+            case 0:
+            default:
+                foreach (Skater forwardSkater in teamSkaters)
+                {
+                    if (forwardSkater.Info.Position == "F")
+                    {
+                        // TODO: Instantiate _panelPrefab
+                    }
+                }
+
+                break;
+        }
+    }
 #endregion
 }}
