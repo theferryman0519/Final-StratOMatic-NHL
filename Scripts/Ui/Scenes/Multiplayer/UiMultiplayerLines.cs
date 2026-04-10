@@ -27,7 +27,10 @@ public class UiMultiplayerLines : UiSceneBase {
 
 	[Header("Game Object Elements")]
 	[SerializeField] private GameObject _notCompleteObject;
-	[SerializeField] private GameObject _continueObejct;
+	[SerializeField] private GameObject _continueObject;
+	[SerializeField] private GameObject _forwardsObject;
+	[SerializeField] private GameObject _defenseObject;
+	[SerializeField] private GameObject _goalieObject;
 
 	[Header("List Elements")]
 	[SerializeField] private List<EditLinePositionPrefab> _editLinePositions = new();
@@ -61,6 +64,7 @@ public class UiMultiplayerLines : UiSceneBase {
 		_positionDropdown.SetListener(ChangePositionOption);
 
 		ClearAllPositions();
+		ChangePositionOption(0);
 
         base.InitializeUi();
 	}
@@ -70,7 +74,45 @@ public class UiMultiplayerLines : UiSceneBase {
     {
         CoreController.Inst.WriteLog(this.GetType().Name, $"Setting the full line-up from default selection.");
 
-		// TODO
+		string teamCode = GameplayController.Inst.GameData.HomeTeam.Team.Code;
+		string teamLeagueString = GameplayController.Inst.GameData.HomeTeam.Team.League;
+
+		ConstantController.LeagueType teamLeague = ConstantController.LeagueType.None;
+
+		if (teamLeagueString == "NHL") { teamLeague = ConstantController.LeagueType.NHL; }
+		else if (teamLeagueString == "NHLFranchise") { teamLeague = ConstantController.LeagueType.NHLFranchise; }
+		else if (teamLeagueString == "PWHL") { teamLeague = ConstantController.LeagueType.PWHL; }
+		else if (teamLeagueString == "PWHLFranchise") { teamLeague = ConstantController.LeagueType.PWHLFranchise; }
+
+		Dictionary<string, Skater> defaultSkaters = TeamsController.Inst.GetDefaultLineup(teamCode, teamLeague);
+
+		Goalie defaultGoalie = TeamsController.Inst.GetDefaultStartingGoalie(teamCode, teamLeague);
+
+		for (int s = 0; s < defaulSkaters.Count; s++)
+		{
+			_editLinePositions[s].ThisFullPos = defaulSkaters.ElementAt(s).Key;
+			_editLinePositions[s].ThisSkater = defaulSkaters[s];
+			_editLinePositions[s].ThisGoalie = null;
+
+			string pos = defaulSkaters.ElementAt(s).Key.Contains("D") ? "D" : "F";
+
+			_editLinePositions[s].SetPosition(pos, true, skater = defaulSkaters[s]);
+
+			int posOption = 0;
+
+			if (defaulSkaters.ElementAt(s).Key.Contains("D")) { posOption = 1; }
+			else if (defaulSkaters.ElementAt(s).Key.Contains("G")) { posOption = 2; }
+
+			_editLinePositions[s].RemoveButton.SetListener(() =>
+			{
+				ClearPosition(defaulSkaters.ElementAt(s).Key, _editLinePositions[s]);
+			});
+
+			_editLinePositions[s].SelectButton.SetListener(() =>
+			{
+				ShowSelectionPanel(posOption);
+			});
+		}
     }
 
 	private void GoToReady()
@@ -89,6 +131,13 @@ public class UiMultiplayerLines : UiSceneBase {
         GoToNewScene(CoreController.Inst.Scene_Multiplayer04);
     }
 
+	private void ShowSelectionPanel(int posOption)
+    {
+        CoreController.Inst.WriteLog(this.GetType().Name, $"Showing the position selection panel.");
+
+        // TODO
+    }
+
     private void LeaveMatch()
     {
         CoreController.Inst.WriteLog(this.GetType().Name, $"Leaving the multiplayer match.");
@@ -103,14 +152,20 @@ public class UiMultiplayerLines : UiSceneBase {
 		switch (option)
 		{
 			case 1:
-				// TODO: Set as defense
+				_forwardsObject.SetActive(false);
+				_defenseObject.SetActive(true);
+				_goalieObject.SetActive(false);
 				break;
 			case 2:
-				// TODO: Set as goalies
+				_forwardsObject.SetActive(false);
+				_defenseObject.SetActive(false);
+				_goalieObject.SetActive(true);
 				break;
 			case 0:
 			default:
-				// TODO: Set as forwards
+				_forwardsObject.SetActive(true);
+				_defenseObject.SetActive(false);
+				_goalieObject.SetActive(false);
 				break;
 		}
     }
@@ -128,11 +183,30 @@ public class UiMultiplayerLines : UiSceneBase {
 			positionObjectsDict.Add(positionsList[index], _editLinePositions[index]);
 		}
 
-		foreach (EditLinePositionPrefab posPrefab in positionObjectsDict)
+		foreach (KeyValuePair<string, EditLinePositionPrefab> posPrefab in positionObjectsDict)
 		{
-			// TODO: Set each prefab to "not set" mode
-			// TODO: Set each prefab to have all buttons set listeners
+			ClearPosition(posPrefab.Key, posPrefab.Value);
 		}
+	}
+
+	private void ClearPosition(string pos, EditLinePositionPrefab prefab)
+	{
+		prefab.ThisFullPos = posPrefab.Key;
+		prefab.ThisSkater = null;
+		prefab.ThisGoalie = null;
+
+		prefab.SetPosition(string.Empty, false);
+
+		int posOption = 0;
+
+		if (pos.Contains("D")) { posOption = 1; }
+		else if (pos.Contains("G")) { posOption = 2; }
+
+		prefab.RemoveButton.RemoveListener();
+		prefab.SelectButton.SetListener(() =>
+		{
+			ShowSelectionPanel(posOption);
+		});
 	}
 #endregion
 }}
