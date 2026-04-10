@@ -38,7 +38,7 @@ public class EditLinesPanel : MonoBehaviour {
     
 #endregion
 #region -------------------- Public Methods --------------------
-    public void InitializeEditLinesPanel()
+    public void InitializeEditLinesPanel(int posOption)
 	{
         _mainElement.alpha = 0f;
 
