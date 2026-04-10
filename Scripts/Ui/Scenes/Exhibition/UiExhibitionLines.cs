@@ -31,6 +31,9 @@ public class UiExhibitionLines : UiSceneBase {
 	[SerializeField] private GameObject _defenseObject;
 	[SerializeField] private GameObject _goalieObject;
 
+	[Header("Panel Elements")]
+	[SerializeField] private EditLinesPanel _editLinesPanel;
+
 	[Header("List Elements")]
 	[SerializeField] private List<EditLinePositionPrefab> _editLinePositions = new();
 #endregion
@@ -60,6 +63,7 @@ public class UiExhibitionLines : UiSceneBase {
 		_returnButton.SetListener(GoToOptions);
 
 		_positionDropdown.SetListener(ChangePositionOption);
+		_editLinesPanel.HidePanel();
 
 		ClearAllPositions();
 		ChangePositionOption(0);
@@ -155,7 +159,8 @@ public class UiExhibitionLines : UiSceneBase {
     {
         CoreController.Inst.WriteLog(this.GetType().Name, $"Showing the position selection panel.");
 
-        // TODO
+        _editLinesPanel.gameObject.SetActive(true);
+		_editLinesPanel.InitializeEditLinesPanel(posOption);
     }
 
 	private void ChangePositionOption(int option)
