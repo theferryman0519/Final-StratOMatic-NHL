@@ -266,23 +266,23 @@ public class SkaterCreation : MonoBehaviour {
         {
             string[] userPlayoffArray = userPlayoffString.Split('/');
 
-            newPlayoff.GamesPlayed = Int32.Parse(playoffArray[1]);
-            newPlayoff.Goals = Int32.Parse(playoffArray[2]);
-            newPlayoff.Assists = Int32.Parse(playoffArray[3]);
-            newPlayoff.Points = Int32.Parse(playoffArray[4]);
-            newPlayoff.PlusMinus = Int32.Parse(playoffArray[5]);
-            newPlayoff.PenaltyMinutes = Int32.Parse(playoffArray[6]);
-            newPlayoff.PowerplayGoals = Int32.Parse(playoffArray[7]);
-            newPlayoff.PowerplayAssists = Int32.Parse(playoffArray[8]);
-            newPlayoff.PowerplayPoints = Int32.Parse(playoffArray[9]);
-            newPlayoff.ShorthandedGoals = Int32.Parse(playoffArray[10]);
-            newPlayoff.ShorthandedAssists = Int32.Parse(playoffArray[11]);
-            newPlayoff.ShorthandedPoints = Int32.Parse(playoffArray[12]);
-            newPlayoff.Shots = Int32.Parse(playoffArray[13]);
-            newPlayoff.Giveaways = Int32.Parse(playoffArray[14]);
-            newPlayoff.Takeaways = Int32.Parse(playoffArray[15]);
-            newPlayoff.FaceoffsWon = Int32.Parse(playoffArray[16]);
-            newPlayoff.FaceoffsLost = Int32.Parse(playoffArray[17]);
+            newPlayoff.GamesPlayed = Int32.Parse(userPlayoffArray[1]);
+            newPlayoff.Goals = Int32.Parse(userPlayoffArray[2]);
+            newPlayoff.Assists = Int32.Parse(userPlayoffArray[3]);
+            newPlayoff.Points = Int32.Parse(userPlayoffArray[4]);
+            newPlayoff.PlusMinus = Int32.Parse(userPlayoffArray[5]);
+            newPlayoff.PenaltyMinutes = Int32.Parse(userPlayoffArray[6]);
+            newPlayoff.PowerplayGoals = Int32.Parse(userPlayoffArray[7]);
+            newPlayoff.PowerplayAssists = Int32.Parse(userPlayoffArray[8]);
+            newPlayoff.PowerplayPoints = Int32.Parse(userPlayoffArray[9]);
+            newPlayoff.ShorthandedGoals = Int32.Parse(userPlayoffArray[10]);
+            newPlayoff.ShorthandedAssists = Int32.Parse(userPlayoffArray[11]);
+            newPlayoff.ShorthandedPoints = Int32.Parse(userPlayoffArray[12]);
+            newPlayoff.Shots = Int32.Parse(userPlayoffArray[13]);
+            newPlayoff.Giveaways = Int32.Parse(userPlayoffArray[14]);
+            newPlayoff.Takeaways = Int32.Parse(userPlayoffArray[15]);
+            newPlayoff.FaceoffsWon = Int32.Parse(userPlayoffArray[16]);
+            newPlayoff.FaceoffsLost = Int32.Parse(userPlayoffArray[17]);
         }
 
         return newPlayoff;
@@ -361,7 +361,6 @@ public class SkaterCreation : MonoBehaviour {
 
         SkaterStats newStats = new SkaterStats
         {
-            Id = skaterId,
             Year = Int32.Parse(statsArray[0]),
             GamesPlayed = Int32.Parse(statsArray[1]),
             TotalMinutes = Int32.Parse(statsArray[2]),
@@ -388,7 +387,6 @@ public class SkaterCreation : MonoBehaviour {
 
         SkaterCard newCard = new SkaterCard
         {
-            Id = skaterId,
             Penalty = await SetPenalty(),
             Intimidation = await SetIntimidation(),
             Passing = await SetPassing(),

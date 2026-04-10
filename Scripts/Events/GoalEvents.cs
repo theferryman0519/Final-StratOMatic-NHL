@@ -332,7 +332,7 @@ public class GoalEvents : MonoBehaviour {
     {
         CoreController.Inst.WriteLog(this.GetType().Name, $"Determining the goal announcement.");
         
-        GameplayController.Inst.StatsSet.AddGoal(ShootingSkater, EventsController.Inst.OffenseEvents.SelectedShotType, 1);
+        GameplayController.Inst.StatsSet.AddGoal(ShootingSkater, EventsController.Inst.GameplayEvents.GoalEvents.GoalType, 1);
 
         bool isHome = GameplayController.Inst.GameData.PossTeam == "Home";
         GameTeam possTeam = isHome ? GameplayController.Inst.GameData.HomeTeam : GameplayController.Inst.GameData.AwayTeam;
@@ -364,7 +364,7 @@ public class GoalEvents : MonoBehaviour {
             else
             {
                 assistSkaterA = possTeam.SkaterLineup[assistPosA];
-                GameplayController.Inst.StatsSet.AddAssist(assistSkaterA, EventsController.Inst.OffenseEvents.SelectedShotType, 1);
+                GameplayController.Inst.StatsSet.AddAssist(assistSkaterA, EventsController.Inst.GameplayEvents.GoalEvents.GoalType, 1);
             }
 
             if (assistPosB == "G")
@@ -376,7 +376,7 @@ public class GoalEvents : MonoBehaviour {
             else
             {
                 assistSkaterB = possTeam.SkaterLineup[assistPosB];
-                GameplayController.Inst.StatsSet.AddAssist(assistSkaterB, EventsController.Inst.OffenseEvents.SelectedShotType, 1);
+                GameplayController.Inst.StatsSet.AddAssist(assistSkaterB, EventsController.Inst.GameplayEvents.GoalEvents.GoalType, 1);
             }
         }
 
@@ -388,8 +388,8 @@ public class GoalEvents : MonoBehaviour {
             else { assistSkaterA = possTeam.SkaterLineup[assistPosA]; }
         }
 
-        if (EventsController.Inst.OffenseEvents.SelectedShotType != ConstantController.ShotType.Powerplay && 
-            EventsController.Inst.OffenseEvents.SelectedShotType != ConstantController.ShotType.Shorthanded
+        if (EventsController.Inst.GameplayEvents.GoalEvents.GoalType != ConstantController.GoalType.Powerplay && 
+            EventsController.Inst.GameplayEvents.GoalEvents.GoalType != ConstantController.GoalType.Shorthanded
         )
         {
             GameplayController.Inst.StatsSet.AddTeamPlusMinus(isHome, 1);
@@ -399,8 +399,8 @@ public class GoalEvents : MonoBehaviour {
         string goalAnnouncement = string.Empty;
         string goalTypeString = string.Empty;
 
-        if (EventsController.Inst.OffenseEvents.SelectedShotType == ConstantController.ShotType.Powerplay) { goalTypeString = "on the powerplay"; }
-        else if (EventsController.Inst.OffenseEvents.SelectedShotType == ConstantController.ShotType.Shorthanded) { goalTypeString = "while shorthanded"; }
+        if (EventsController.Inst.GameplayEvents.GoalEvents.GoalType == ConstantController.GoalType.Powerplay) { goalTypeString = "on the powerplay"; }
+        else if (EventsController.Inst.GameplayEvents.GoalEvents.GoalType == ConstantController.GoalType.Shorthanded) { goalTypeString = "while shorthanded"; }
 
         string goalCountString = "With their first goal of the night";
 
@@ -430,7 +430,7 @@ public class GoalEvents : MonoBehaviour {
         {
             if (assistGoalieA != null)
             {
-                addedAssistsString = $" The goal is assisted by {assistGoalieA.Info.FirstName} {assistsGoalieA.Info.LastName}";
+                addedAssistsString = $" The goal is assisted by {assistGoalieA.Info.FirstName} {assistGoalieA.Info.LastName}";
             }
 
             else

@@ -106,7 +106,7 @@ public class GameplayStatsSet : MonoBehaviour {
 
         foreach (KeyValuePair<string, Skater> skater in gameTeam.SkaterLineup)
         {
-            ResetStamina(skater);
+            ResetStamina(skater.Value);
         }
     }
 #endregion

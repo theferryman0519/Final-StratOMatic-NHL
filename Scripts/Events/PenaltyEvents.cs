@@ -257,7 +257,7 @@ public class PenaltyEvents : MonoBehaviour {
 
             GameTeam ppTeam = powerplayTeam == "Home" ? GameplayController.Inst.GameData.HomeTeam : GameplayController.Inst.GameData.AwayTeam;
 
-            ppTeam.Powerplays += 1;
+            ppTeam.Stats.Powerplays += 1;
 
             EventsController.Inst.RunPenaltyEvent(2);
         }
@@ -343,8 +343,8 @@ public class PenaltyEvents : MonoBehaviour {
         int ppTimeShift = Random.Range(0,5);
         int ppShift = ppOffense;
 
-        if (PenaltyTime == 2) { ppShift - ppTimeShift; }
-        else if (PenaltyTime == 5) { ppShift + ppTimeShift; }
+        if (PenaltyTime == 2) { ppShift -= ppTimeShift; }
+        else if (PenaltyTime == 5) { ppShift += ppTimeShift; }
 
         if (ppShift < 1) { ppShift = 1; }
 
@@ -486,7 +486,7 @@ public class PenaltyEvents : MonoBehaviour {
 
         if (ShotType == ConstantController.ShotType.Outside) { shotActions = ShootingSkater.Card.OutsideShotActions; }
         else if (ShotType == ConstantController.ShotType.Outside) { shotActions = ShootingSkater.Card.InsideShotActions; }
-        else { ShotType = ShootingSkater.Card.ReboundShotActions; }
+        else { shotActions = ShootingSkater.Card.ReboundShotActions; }
 
         string shotAction = shotActions[randomNumber];
 

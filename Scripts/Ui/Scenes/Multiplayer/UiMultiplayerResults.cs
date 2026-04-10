@@ -59,7 +59,7 @@ public class UiMultiplayerResults : UiSceneBase {
     {
         CoreController.Inst.WriteLog(this.GetType().Name, $"Going to home screen.");
 
-		GoToScene(CoreController.Inst.Scene_Home00);
+		GoToNewScene(CoreController.Inst.Scene_Home00);
     }
 
     private void SetGameData()

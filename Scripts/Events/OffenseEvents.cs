@@ -504,14 +504,14 @@ public class OffenseEvents : MonoBehaviour {
         {
             GameplayController.Inst.StatsSet.AddShot(ShootingSkater, 1);
 
-            if (shotAction == "GOAL") { GameplayController.Inst.GameplayEvents.GoalEvents.GoalThreshold = 20; }
-            else if (shotAction == "GOAL 1") { GameplayController.Inst.GameplayEvents.GoalEvents.GoalThreshold = 1; }
+            if (shotAction == "GOAL") { EventsController.Inst.GameplayEvents.GoalEvents.GoalThreshold = 20; }
+            else if (shotAction == "GOAL 1") { EventsController.Inst.GameplayEvents.GoalEvents.GoalThreshold = 1; }
             else
             {
                 string[] actionSplit = shotAction.Split("-");
                 int actionThreshold = Int32.Parse(actionSplit[1]);
 
-                GameplayController.Inst.GameplayEvents.GoalEvents.GoalThreshold = actionThreshold;
+                EventsController.Inst.GameplayEvents.GoalEvents.GoalThreshold = actionThreshold;
             }
 
             EventsController.Inst.RunOffenseEvent(7);

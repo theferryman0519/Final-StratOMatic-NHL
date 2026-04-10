@@ -104,7 +104,7 @@ public class UiSceneBase : MonoBehaviour {
 
 		if (SeasonsController.Inst.SeasonData != null)
 		{
-			spriteName = $"{SeasonsController.Inst.SeasonData.League}_{SeasonsController.Inst.SeasonData.Team.Info.Code}";
+			spriteName = $"{SeasonsController.Inst.SeasonData.League}_{SeasonsController.Inst.SeasonData.Team.Team.Code}";
 
 			_bannerBackground.sprite = ConstantController.Inst.BannerSprites[spriteName];
 			_bannerLogo.sprite = ConstantController.Inst.LogoSprites[spriteName];
@@ -137,8 +137,15 @@ public class UiSceneBase : MonoBehaviour {
 
 			return;
 		}
-
-		Team userTeam = TeamsController.Inst.GetTeamFromCode(UsersController.Inst.UserData.Info.Team);
+		
+		ConstantController.LeagueType leagueType = ConstantController.LeagueType.None;
+		
+		if (UsersController.Inst.UserData.Info.League == "NHL") { leagueType = ConstantController.LeagueType.NHL; }
+		else if (UsersController.Inst.UserData.Info.League == "NHLFranchise") { leagueType = ConstantController.LeagueType.NHLFranchise; }
+		else if (UsersController.Inst.UserData.Info.League == "PWHL") { leagueType = ConstantController.LeagueType.PWHL; }
+		else if (UsersController.Inst.UserData.Info.League == "PWHLFranchise") { leagueType = ConstantController.LeagueType.PWHLFranchise; }
+		
+		Team userTeam = TeamsController.Inst.GetTeamFromCode(UsersController.Inst.UserData.Info.Team, leagueType);
 		spriteName = $"{userTeam.Info.League}_{userTeam.Info.Code}";
 
 		_bannerBackground.sprite = ConstantController.Inst.BannerSprites[spriteName];

@@ -62,14 +62,14 @@ public class UiPlayoffReady : UiSceneBase {
     {
         CoreController.Inst.WriteLog(this.GetType().Name, $"Going to playoff game loading screen.");
 
-		GoToScene(CoreController.Inst.Scene_Playoff08);
+		GoToNewScene(CoreController.Inst.Scene_Playoff08);
     }
 
     private void GoToEditLines()
     {
         CoreController.Inst.WriteLog(this.GetType().Name, $"Going to playoff edit lines screen.");
 
-		GoToScene(CoreController.Inst.Scene_Playoff07);
+        GoToNewScene(CoreController.Inst.Scene_Playoff07);
     }
 
     private void SetGameData()

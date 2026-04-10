@@ -62,14 +62,14 @@ public class UiSeasonOptions : UiSceneBase {
 
 		// TODO
 
-		GoToScene(CoreController.Inst.Scene_Season02);
+		GoToNewScene(CoreController.Inst.Scene_Season02);
     }
 
 	private void GoToTeamSelect()
     {
         CoreController.Inst.WriteLog(this.GetType().Name, $"Going to season team select screen.");
 
-		GoToScene(CoreController.Inst.Scene_Season00);
+        GoToNewScene(CoreController.Inst.Scene_Season00);
     }
 
 	private void ChangePlayerFatigueOption(int option)

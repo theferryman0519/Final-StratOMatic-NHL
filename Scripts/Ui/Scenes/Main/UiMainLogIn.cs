@@ -93,7 +93,7 @@ public class UiMainLogIn : UiSceneBase {
             Email = email,
             Password = password,
             SuccessAction = () => { UiController.Inst.IsNewUser = false; GoToNewScene(CoreController.Inst.Scene_Main01); },
-            FailAction = PanelController.Inst.ShowBottomPanel(ConstantController.PanelType.LoginInvalidCredentials),
+            FailAction = () => { PanelController.Inst.ShowBottomPanel(ConstantController.PanelType.LoginInvalidCredentials); },
         };
 
         StartCoroutine(FirebaseController.Inst.SigningInUserToFirebase(loginData));
@@ -172,7 +172,7 @@ public class UiMainLogIn : UiSceneBase {
 	{
 		if (keyboardWatchRoutine != null)
 		{
-			StopCoroutine(_keyboardWatchRoutine);
+			StopCoroutine(keyboardWatchRoutine);
 			keyboardWatchRoutine = null;
 		}
 	}
@@ -185,7 +185,7 @@ public class UiMainLogIn : UiSceneBase {
 
 	private void AccountForKeyboard(int selection)
 	{
-		Core_Controller.Inst.WriteLog(this.GetType().Name, $"Accounting for the mobile keyboard.");
+		CoreController.Inst.WriteLog(this.GetType().Name, $"Accounting for the mobile keyboard.");
 
 		_emailObject.SetActive(selection == 0);
 		_passwordObject.SetActive(selection == 1);

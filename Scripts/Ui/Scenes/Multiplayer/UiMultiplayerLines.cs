@@ -36,7 +36,7 @@ public class UiMultiplayerLines : UiSceneBase {
     
 #endregion
 #region -------------------- Private Variables --------------------
-	private List<string> positionsList = new { "C1", "LW1", "RW1", "C2", "LW2", "RW2", "C3", "LW3", "RW3", "C4", "LW4", "RW4", 
+	private List<string> positionsList = new() { "C1", "LW1", "RW1", "C2", "LW2", "RW2", "C3", "LW3", "RW3", "C4", "LW4", "RW4", 
 		"LD1", "RD1", "LD2", "RD2", "LD3", "RD3", "G"};
 
 	private Dictionary<string, EditLinePositionPrefab> positionObjectsDict = new();
@@ -79,14 +79,14 @@ public class UiMultiplayerLines : UiSceneBase {
 
 		// TODO: Set team edit lines
 
-		GoToScene(CoreController.Inst.Scene_Multiplayer06);
+		GoToNewScene(CoreController.Inst.Scene_Multiplayer06);
     }
 
 	private void GoToTeamSelect()
     {
         CoreController.Inst.WriteLog(this.GetType().Name, $"Going to the multiplayer team select screen.");
 
-		GoToScene(CoreController.Inst.Scene_Multiplayer04);
+        GoToNewScene(CoreController.Inst.Scene_Multiplayer04);
     }
 
     private void LeaveMatch()

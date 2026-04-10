@@ -43,8 +43,10 @@ public class UiSeasonSimulating : UiSceneBase {
 	{
 		SetGameData();
 
-        base.InitializeUi(StartSimulating);
-	}
+        base.InitializeUi();
+
+        StartSimulating();
+    }
 #endregion
 #region -------------------- Private Methods --------------------
     private void SetGameData()

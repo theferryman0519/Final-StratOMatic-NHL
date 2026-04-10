@@ -61,7 +61,7 @@ public class UiMultiplayerReadyStart : UiSceneBase {
     {
         CoreController.Inst.WriteLog(this.GetType().Name, $"Going to multiplayer game loading screen.");
 
-		GoToScene(CoreController.Inst.Scene_Multiplayer08);
+		GoToNewScene(CoreController.Inst.Scene_Multiplayer08);
     }
 
     private void LeaveMatch()

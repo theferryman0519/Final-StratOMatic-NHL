@@ -107,7 +107,7 @@ public class UiGameplayMainCurrent : MonoBehaviour {
 
         foreach (KeyValuePair<string, Skater> onIceSkater in onIceSkaters)
         {
-            GameObject staminaObj = Instantiate(_staminaPrefab, _container);
+            GameplayStaminaPrefab staminaObj = Instantiate(_staminaPrefab, _container);
 
             staminaObj.SetVisual(onIceSkater.Key, onIceSkater.Value);
             staminaObj.SetListener(() =>

@@ -75,7 +75,7 @@ public class UiMainSignUpTeam : UiSceneBase {
 
         foreach (Team team in TeamsController.Inst.AllTeams)
         {
-            GameObject icon = Instantiate(_teamPrefab, _container);
+            FavoriteTeamPrefab icon = Instantiate(_teamPrefab, _container);
 
             icon.SetIcon(team, false);
             icon.SetListener(() =>

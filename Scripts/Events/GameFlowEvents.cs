@@ -94,7 +94,7 @@ public class GameFlowEvents : MonoBehaviour {
         };
 
         EventsController.Inst.CurrentEventRun = newEventRun;
-        EventsController.Inst.ContinueAction = SetInjury;
+        EventsController.Inst.ContinueAction = () => { SetInjury(GameplayController.Inst.GameData.PossTeam == "Home"); };
 
         yield return null;
     }
@@ -244,11 +244,11 @@ public class GameFlowEvents : MonoBehaviour {
 
         string skaterPos = string.Empty;
 
-        foreach (KeyValuePair<string, Skater> teamSkater in possTeam.SkaterLinup)
+        foreach (KeyValuePair<string, Skater> teamSkater in possTeam.SkaterLineup)
         {
             if (InjuredSkater.Id == teamSkater.Value.Id)
             {
-                teamSkaterPos = teamSkater.Key;
+                string teamSkaterPos = teamSkater.Key;
                 skaterPos = teamSkaterPos.Substring(0, teamSkaterPos.Length - 1);
             }
         }

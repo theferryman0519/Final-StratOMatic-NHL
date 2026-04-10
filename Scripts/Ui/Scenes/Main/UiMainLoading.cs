@@ -56,7 +56,9 @@ public class UiMainLoading : UiSceneBase {
         _versionText.text = $"Version: {Application.version}";
         _loadingText.text = RandomizeLoadingText();
 
-        base.InitializeUi(StartLoading);
+        base.InitializeUi();
+
+        StartLoading();
 	}
 #endregion
 #region -------------------- Private Methods --------------------
@@ -75,7 +77,7 @@ public class UiMainLoading : UiSceneBase {
 		loadingTimer = 0f;
 		isLoading = true;
 
-		await FirebaseController.Inst.GettingCurrentVersions(() =>
+		await FirebaseController.Inst.GetCurrentVersions(() =>
 		{
 			AiController.Inst.InitializeController();
 			AnimationController.Inst.InitializeController();
@@ -94,7 +96,7 @@ public class UiMainLoading : UiSceneBase {
 			loadingTimer += Time.deltaTime;
 		}
 
-		if (isLoading && loadingTimer >= ConstantController.Loading_Threshold)
+		if (isLoading && loadingTimer >= ConstantController.Loading_StartUp)
 		{
 			PanelController.Inst.ShowBottomPanel(ConstantController.PanelType.LoadingError);
 			isLoading = false;
@@ -140,7 +142,7 @@ public class UiMainLoading : UiSceneBase {
         _mainContent.Clear();
         _mainContent = _pageElements;
 
-		GameDatabase savedGame = await GetCurrentGame(UsersController.Inst.User.Id);
+		GameDatabase savedGame = await GetCurrentGame(UsersController.Inst.UserData.Id);
 
 		if (savedGame == null)
 		{
@@ -174,12 +176,12 @@ public class UiMainLoading : UiSceneBase {
 
     private void SetLoadingText()
 	{
-		textTimer += Time.deltaTime;
+		loadingTimer += Time.deltaTime;
 
-		if (textTimer >= 1.5f)
+		if (loadingTimer >= 1.5f)
 		{
 			_loadingText.text = RandomizeLoadingText();
-			textTimer = 0f;
+			loadingTimer = 0f;
 		}
 	}
 

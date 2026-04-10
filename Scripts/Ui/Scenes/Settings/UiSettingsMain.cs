@@ -125,7 +125,7 @@ public class UiSettingsMain : UiSceneBase {
 		PlayoffDatabase userPlayoffs = null;
 		SeasonDatabase userSeason = null;
 
-		await FirebaseController.Inst.GetPlayoffs(userId, playoffs =>
+		await FirebaseController.Inst.GetPlayoffs(userId, async playoffs =>
 		{
 			userPlayoffs = playoffs;
 
@@ -201,7 +201,7 @@ public class UiSettingsMain : UiSceneBase {
 	{
 		CoreController.Inst.WriteLog(this.GetType().Name, $"Setting the settings main screen texts.");
 
-		_idText.text = $"User ID: {UsersController.Inst.User.Id}";
+		_idText.text = $"User ID: {UsersController.Inst.UserData.Id}";
 		_versionText.text = $"Version: {Application.version}";
 	}
 #endregion

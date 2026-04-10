@@ -59,7 +59,7 @@ public class UiPlayoffResults : UiSceneBase {
     {
         CoreController.Inst.WriteLog(this.GetType().Name, $"Going to playoff simulate night screen.");
 
-		GoToScene(CoreController.Inst.Scene_Season11);
+		GoToNewScene(CoreController.Inst.Scene_Season11);
     }
 
     private void SetGameData()

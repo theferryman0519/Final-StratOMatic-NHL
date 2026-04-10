@@ -101,7 +101,7 @@ public class UiMainSignUp : UiSceneBase {
             Email = email,
             Password = password,
             SuccessAction = () => { UiController.Inst.IsNewUser = true; GoToNewScene(CoreController.Inst.Scene_Main01); },
-            FailAction = PanelController.Inst.ShowBottomPanel(ConstantController.PanelType.SignUpInvalidCredentials),
+            FailAction = () => { PanelController.Inst.ShowBottomPanel(ConstantController.PanelType.SignUpInvalidCredentials); },
         };
 
 		UsersController.Inst.TempName = _nameInput.GetInput();
@@ -184,7 +184,7 @@ public class UiMainSignUp : UiSceneBase {
 	{
 		if (keyboardWatchRoutine != null)
 		{
-			StopCoroutine(_keyboardWatchRoutine);
+			StopCoroutine(keyboardWatchRoutine);
 			keyboardWatchRoutine = null;
 		}
 	}
@@ -197,7 +197,7 @@ public class UiMainSignUp : UiSceneBase {
 
 	private void AccountForKeyboard(int selection)
 	{
-		Core_Controller.Inst.WriteLog(this.GetType().Name, $"Accounting for the mobile keyboard.");
+		CoreController.Inst.WriteLog(this.GetType().Name, $"Accounting for the mobile keyboard.");
 
 		_emailObject.SetActive(selection == 0);
 		_passwordObject.SetActive(selection == 1);

@@ -10,9 +10,10 @@ using UnityEngine.SceneManagement;
 
 // Game Dependencies
 using SoM.Controllers;
+using UnityEngine.Events;
 
 namespace SoM.Ui {
-public class SoM_Dropdown : MonoBehavior {
+public class SoM_Dropdown : MonoBehaviour {
 
 #region -------------------- Serialized Variables --------------------
     [Header("Input Field Elements")]
@@ -31,14 +32,14 @@ public class SoM_Dropdown : MonoBehavior {
     
 #endregion
 #region -------------------- Public Methods --------------------
-    public void SetListener(Action changeAction)
+    public void SetListener(UnityAction<int> changeAction)
     {
         _dropdown.onValueChanged.RemoveAllListeners();
 
         _dropdown.onValueChanged.AddListener(changeAction);
     }
 
-    public string GetValue()
+    public int GetValue()
     {
         return _dropdown.value;
     }

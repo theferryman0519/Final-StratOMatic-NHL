@@ -44,7 +44,7 @@ public class GameplayStaminaPrefab : MonoBehaviour {
 
         int staminaDiff = (100 - skater.Game.Stamina) / 5;
         
-        _staminaImage = _staminaSprites[staminaDiff];
+        _staminaImage.sprite = _staminaSprites[staminaDiff];
     }
 #endregion
 #region -------------------- Private Methods --------------------

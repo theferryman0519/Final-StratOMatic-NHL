@@ -68,21 +68,21 @@ public class UiExhibitionOptions : UiSceneBase {
 		string fatigueSelection = GameplayController.Inst.GameOptions.FatigueOn.ToString();
 		string injuriesSelection = GameplayController.Inst.GameOptions.InjuriesOn.ToString();
 
-		PlayerPrefs.SetString(Pref_ExhibitionOptions, $"{lineChangesSelection}/{fatigueSelection}/true/{injuriesSelection}/{aiDifficulty}");
+		PlayerPrefs.SetString(ConstantController.Pref_ExhibitionOptions, $"{lineChangesSelection}/{fatigueSelection}/true/{injuriesSelection}/{aiDifficulty}");
     }
 
 	private void GoToEditLines()
     {
         CoreController.Inst.WriteLog(this.GetType().Name, $"Going to exhibition edit lines screen.");
 
-		GoToScene(CoreController.Inst.Scene_Exhibition02);
+		GoToNewScene(CoreController.Inst.Scene_Exhibition02);
     }
 
 	private void GoToTeamSelect()
     {
         CoreController.Inst.WriteLog(this.GetType().Name, $"Going to exhibition team select screen.");
 
-		GoToScene(CoreController.Inst.Scene_Exhibition00);
+        GoToNewScene(CoreController.Inst.Scene_Exhibition00);
     }
 
 	private void SetDropdownDefaults()

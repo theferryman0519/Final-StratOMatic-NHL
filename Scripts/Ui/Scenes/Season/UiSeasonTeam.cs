@@ -38,7 +38,7 @@ public class UiSeasonTeam : UiSceneBase {
 
 	private List<Team> teamSelections = new();
 
-	private ConstantController.Inst.LeagueType selectedLeague = ConstantController.Inst.LeagueType.NHL;
+	private ConstantController.LeagueType selectedLeague = ConstantController.LeagueType.NHL;
 #endregion
 #region -------------------- Initial Functions --------------------
     void Start()
@@ -71,14 +71,14 @@ public class UiSeasonTeam : UiSceneBase {
 
         // TODO: Set season team
 
-		GoToScene(CoreController.Inst.Scene_Season01);
+		GoToNewScene(CoreController.Inst.Scene_Season01);
     }
 
 	private void GoToHome()
     {
         CoreController.Inst.WriteLog(this.GetType().Name, $"Going to home screen.");
 
-		GoToScene(CoreController.Inst.Scene_Home00);
+        GoToNewScene(CoreController.Inst.Scene_Home00);
     }
     
     private void SetContainer()
@@ -91,7 +91,7 @@ public class UiSeasonTeam : UiSceneBase {
 
         foreach (Team team in teamSelections)
         {
-            GameObject icon = Instantiate(_teamPrefab, _container);
+	        FavoriteTeamPrefab icon = Instantiate(_teamPrefab, _container);
 
             icon.SetIcon(team, false);
             icon.SetListener(() =>
@@ -132,10 +132,10 @@ public class UiSeasonTeam : UiSceneBase {
 
 		switch (selectedLeague)
 		{
-			case ConstantController.Inst.LeagueType.PWHL:
+			case ConstantController.LeagueType.PWHL:
 				teamList = TeamsController.Inst.AllPwhlTeams;
 				break;
-			case ConstantController.Inst.LeagueType.NHL:
+			case ConstantController.LeagueType.NHL:
 			default:
 				teamList = TeamsController.Inst.AllNhlTeams;
 				break;
@@ -151,11 +151,11 @@ public class UiSeasonTeam : UiSceneBase {
 		switch (option)
 		{
 			case 1:
-				selectedLeague = ConstantController.Inst.LeagueType.PWHL;
+				selectedLeague = ConstantController.LeagueType.PWHL;
 				break;
 			case 0:
 			default:
-				selectedLeague = ConstantController.Inst.LeagueType.NHL;
+				selectedLeague = ConstantController.LeagueType.NHL;
 				break;
 		}
 

@@ -82,8 +82,8 @@ public class UiGameplayMainScoreboard : MonoBehaviour {
         GameTeam homeTeam = GameplayController.Inst.GameData.HomeTeam;
         GameTeam awayTeam = GameplayController.Inst.GameData.AwayTeam;
 
-        string homeString = $"{homeTeam.Info.League}_{homeTeam.Info.Code}";
-        string awayString = $"{awayTeam.Info.League}_{awayTeam.Info.Code}";
+        string homeString = $"{homeTeam.Team.League}_{homeTeam.Team.Code}";
+        string awayString = $"{awayTeam.Team.League}_{awayTeam.Team.Code}";
 
         _homeIcon.sprite = ConstantController.Inst.IconSprites[homeString];
         _awayIcon.sprite = ConstantController.Inst.IconSprites[awayString];
@@ -227,7 +227,8 @@ public class UiGameplayMainScoreboard : MonoBehaviour {
             case 27: return "2:00";
             case 28: return "1:20";
             case 29: return "0:40";
-            case 30: return "0:05";
+            case 30:
+            default: return "0:05";
         }
     }
 #endregion

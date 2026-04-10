@@ -44,16 +44,18 @@ public class UiMainOpening : UiSceneBase {
 	{
         _versionText.text = $"Version: {Application.version}";
 
-        base.InitializeUi(() => { StartCoroutine(PauseToStart()); });
-	}
+        base.InitializeUi();
+        
+        StartCoroutine(PauseToStart());
+    }
 #endregion
 #region -------------------- Private Methods --------------------
-    private void CheckAutoLogin()
+    private async void CheckAutoLogin()
     {
         CoreController.Inst.WriteLog(this.GetType().Name, $"Checking for auto login capability.");
 
-        CoreController.Inst.Initialize();
-		ConstantController.Inst.Initialize();
+        CoreController.Inst.InitializeController();
+		ConstantController.Inst.InitializeController();
 		
 		bool hasInternet = await CoreController.Inst.HasInternetConnection();
 

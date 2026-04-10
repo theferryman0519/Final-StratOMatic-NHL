@@ -93,7 +93,24 @@ public class SeasonCreation : MonoBehaviour {
         else if (league == "NHLFranchise") { leagueType = ConstantController.LeagueType.NHLFranchise; }
         else if (league == "PWHLFranchise") { leagueType = ConstantController.LeagueType.PWHLFranchise; }
 
-        return TeamsController.Inst.GetTeamFromCode(team, leagueType);
+        Team userTeam = TeamsController.Inst.GetTeamFromCode(team, leagueType);
+        
+        GameTeam newTeam = new GameTeam
+        {
+            SkaterLineup = new(),
+            GoalieLineup = new(),
+            CurrentLine = 1,
+            CurrentPair = 1,
+            CurrentStrategy = 3,
+            NextLine = 1,
+            NextPair = 1,
+            NextStrategy = 3,
+            IsGoaliePulled = false,
+            Team = userTeam.Info,
+            Stats = userTeam.Game,
+        };
+
+        return newTeam;
     }
 
     private async Task<List<GameNight>> SetGameNights()

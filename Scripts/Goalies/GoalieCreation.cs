@@ -201,15 +201,15 @@ public class GoalieCreation : MonoBehaviour {
         {
             string[] userPlayoffArray = userPlayoffString.Split('/');
 
-            newSeason.GamesPlayed = Int32.Parse(userPlayoffArray[1]);
-            newSeason.Wins = Int32.Parse(userPlayoffArray[2]);
-            newSeason.Losses = Int32.Parse(userPlayoffArray[3]);
-            newSeason.Shutouts = Int32.Parse(userPlayoffArray[4]);
-            newSeason.GoalsAgainst = Int32.Parse(userPlayoffArray[5]);
-            newSeason.ShotsAgainst = Int32.Parse(userPlayoffArray[6]);
-            newSeason.Assists = Int32.Parse(userPlayoffArray[7]);
-            newSeason.PenaltyMinutes = Int32.Parse(userPlayoffArray[8]);
-            newSeason.Stamina = Int32.Parse(userPlayoffArray[9]);
+            newPlayoff.GamesPlayed = Int32.Parse(userPlayoffArray[1]);
+            newPlayoff.Wins = Int32.Parse(userPlayoffArray[2]);
+            newPlayoff.Losses = Int32.Parse(userPlayoffArray[3]);
+            newPlayoff.Shutouts = Int32.Parse(userPlayoffArray[4]);
+            newPlayoff.GoalsAgainst = Int32.Parse(userPlayoffArray[5]);
+            newPlayoff.ShotsAgainst = Int32.Parse(userPlayoffArray[6]);
+            newPlayoff.Assists = Int32.Parse(userPlayoffArray[7]);
+            newPlayoff.PenaltyMinutes = Int32.Parse(userPlayoffArray[8]);
+            newPlayoff.Stamina = Int32.Parse(userPlayoffArray[9]);
         }
 
         return newPlayoff;

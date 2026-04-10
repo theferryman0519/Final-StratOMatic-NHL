@@ -2,6 +2,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -12,6 +13,7 @@ using UnityEngine.SceneManagement;
 using SoM.Core;
 using SoM.Models;
 using SoM.Teams;
+using Random = Unity.Mathematics.Random;
 
 namespace SoM.Controllers {
 public class TeamsController : Singleton<TeamsController> {
@@ -114,10 +116,8 @@ public class TeamsController : Singleton<TeamsController> {
                 teamSkaters = SkatersController.Inst.PwhlFranchiseSkaters[team.Info.Code];
                 break;
         }
-
-        teamSkaters = teamSkaters.OrderBy(_ => Random.Shared.Next()).ToList();
-
-        teamForwards = teamSkaters.Where(s => s.Info.Postition == "F")
+        
+        teamForwards = teamSkaters.Where(s => s.Info.Position == "F")
             .OrderByDescending(s => s.Card.Offense + s.Card.Defense + s.Card.Breakaway)
             .ToList();
         

@@ -101,9 +101,9 @@ public class UiHomeMain : UiSceneBase {
 	{
 		CoreController.Inst.WriteLog(this.GetType().Name, $"Setting the home screen texts.");
 
-		_welcomeText.text = $"Welcome, {UsersController.Inst.User.Info.Name}! Please choose whether you wish to play in an Exhibition match or in a Season.";
+		_welcomeText.text = $"Welcome, {UsersController.Inst.UserData.Info.Name}! Please choose whether you wish to play in an Exhibition match or in a Season.";
 
-		UserStats userStats = UsersController.Inst.User.Stats;
+		UserStats userStats = UsersController.Inst.UserData.Stats;
 
 		int wins = userStats.NhlWins + userStats.PwhlWins + userStats.NhlFranchiseWins + userStats.PwhlFranchiseWins;
 		int losses = userStats.NhlLosses + userStats.PwhlLosses + userStats.NhlFranchiseLosses + userStats.PwhlFranchiseLosses;
@@ -112,17 +112,17 @@ public class UiHomeMain : UiSceneBase {
 
 		_recordText.text = "Single Game Record" + "\n" + $"{wins} - {losses} - {ties} - {otls}";
 
-		hasSeason = UsersController.Inst.User.SeasonStats.IsInSeason;
+		hasSeason = UsersController.Inst.UserData.SeasonStats.IsInSeason;
 
 		if (hasSeason)
 		{
-			int seasonWins = UsersController.Inst.User.SeasonStats.CurrentWins;
-			int seasonLosses = UsersController.Inst.User.SeasonStats.CurrentLosses;
-			int seasonTies = UsersController.Inst.User.SeasonStats.CurrentTies;
-			int seasonOTLs = UsersController.Inst.User.SeasonStats.CurrentOTLs;
+			int seasonWins = UsersController.Inst.UserData.SeasonStats.CurrentWins;
+			int seasonLosses = UsersController.Inst.UserData.SeasonStats.CurrentLosses;
+			int seasonTies = UsersController.Inst.UserData.SeasonStats.CurrentTies;
+			int seasonOTLs = UsersController.Inst.UserData.SeasonStats.CurrentOTLs;
 
-			string team = UsersController.Inst.User.SeasonStats.Team;
-			string league = UsersController.Inst.User.SeasonStats.League;
+			string team = UsersController.Inst.UserData.SeasonStats.Team;
+			string league = UsersController.Inst.UserData.SeasonStats.League;
 
 			_seasonText.text = "Current Season Record" + "\n" + TeamsController.Inst.GetFullTeamName(team, league) + "\n"
 				+ $"{seasonWins} - {seasonLosses} - {seasonTies} - {seasonOTLs}";
@@ -134,7 +134,7 @@ public class UiHomeMain : UiSceneBase {
 		}
 
 		_seasonObject.SetActive(hasSeason);
-		_newSeasonButton.SetActive(!hasSeason);
+		_newSeasonButton.gameObject.SetActive(!hasSeason);
 	}
 #endregion
 }}

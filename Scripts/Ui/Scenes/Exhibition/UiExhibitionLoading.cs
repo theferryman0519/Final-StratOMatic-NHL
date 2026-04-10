@@ -40,10 +40,12 @@ public class UiExhibitionLoading : UiSceneBase {
 #endregion
 #region -------------------- Public Methods --------------------
     protected override void InitializeUi()
-	{
-		SetGameData();
+    {
+        SetGameData();
 
-        base.InitializeUi(StartLoading);
+        base.InitializeUi();
+        
+        StartLoading();
 	}
 #endregion
 #region -------------------- Private Methods --------------------

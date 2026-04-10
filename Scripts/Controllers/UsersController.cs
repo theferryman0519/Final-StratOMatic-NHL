@@ -111,6 +111,7 @@ public class UsersController : Singleton<UsersController> {
             Email = string.IsNullOrEmpty(info) ? "email" : info.Split('/')[2].Trim(),
             Password = string.IsNullOrEmpty(info) ? "password" : info.Split('/')[3].Trim(),
             Team = string.IsNullOrEmpty(info) ? "team" : info.Split('/')[4].Trim(),
+            League = string.IsNullOrEmpty(info) ? "team" : info.Split('/')[5].Trim(),
         };
 
         return userInfo;
@@ -168,7 +169,8 @@ public class UsersController : Singleton<UsersController> {
         finalString += UserData.Info.Name + "/";
         finalString += UserData.Info.Email + "/";
         finalString += UserData.Info.Password + "/";
-        finalString += UserData.Info.Team;
+        finalString += UserData.Info.Team + "/";
+        finalString += UserData.Info.League;
 
         return finalString;
     }

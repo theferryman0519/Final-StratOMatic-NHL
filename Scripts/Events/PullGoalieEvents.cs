@@ -375,7 +375,7 @@ public class PullGoalieEvents : MonoBehaviour {
 
         if (ShotType == ConstantController.ShotType.Outside) { shotActions = ShootingSkater.Card.OutsideShotActions; }
         else if (ShotType == ConstantController.ShotType.Outside) { shotActions = ShootingSkater.Card.InsideShotActions; }
-        else { ShotType = ShootingSkater.Card.ReboundShotActions; }
+        else { shotActions = ShootingSkater.Card.ReboundShotActions; }
 
         string shotAction = shotActions[randomNumber];
 

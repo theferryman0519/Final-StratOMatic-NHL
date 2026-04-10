@@ -61,14 +61,14 @@ public class UiExhibitionReady : UiSceneBase {
     {
         CoreController.Inst.WriteLog(this.GetType().Name, $"Going to exhibition game loading screen.");
 
-		GoToScene(CoreController.Inst.Scene_Exhibition04);
+        GoToNewScene(CoreController.Inst.Scene_Exhibition04);
     }
 
     private void GoToEditLines()
     {
         CoreController.Inst.WriteLog(this.GetType().Name, $"Going to exhibition edit lines screen.");
 
-		GoToScene(CoreController.Inst.Scene_Exhibition02);
+        GoToNewScene(CoreController.Inst.Scene_Exhibition02);
     }
 
     private void SetGameData()

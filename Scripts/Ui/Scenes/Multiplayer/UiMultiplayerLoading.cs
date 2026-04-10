@@ -43,8 +43,10 @@ public class UiMultiplayerLoading : UiSceneBase {
 	{
 		SetGameData();
 
-        base.InitializeUi(StartLoading);
-	}
+        base.InitializeUi();
+
+        StartLoading();
+    }
 #endregion
 #region -------------------- Private Methods --------------------
     private void SetGameData()

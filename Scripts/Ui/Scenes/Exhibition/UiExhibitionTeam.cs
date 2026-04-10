@@ -71,14 +71,14 @@ public class UiExhibitionTeam : UiSceneBase {
 
         GameplayController.Inst.SetGameTeam(selectedTeam, true);
 
-		GoToScene(CoreController.Inst.Scene_Exhibition01);
+		GoToNewScene(CoreController.Inst.Scene_Exhibition01);
     }
 
 	private void GoToHome()
     {
         CoreController.Inst.WriteLog(this.GetType().Name, $"Going to home screen.");
 
-		GoToScene(CoreController.Inst.Scene_Home00);
+		GoToNewScene(CoreController.Inst.Scene_Home00);
     }
     
     private void SetContainer()
@@ -91,7 +91,7 @@ public class UiExhibitionTeam : UiSceneBase {
 
         foreach (Team team in teamSelections)
         {
-            GameObject icon = Instantiate(_teamPrefab, _container);
+	        FavoriteTeamPrefab icon = Instantiate(_teamPrefab, _container);
 
             icon.SetIcon(team, false);
             icon.SetListener(() =>
@@ -132,16 +132,16 @@ public class UiExhibitionTeam : UiSceneBase {
 
 		switch (selectedLeague)
 		{
-			case ConstantController.Inst.LeagueType.PWHL:
+			case ConstantController.LeagueType.PWHL:
 				teamList = TeamsController.Inst.AllPwhlTeams;
 				break;
-			case ConstantController.Inst.LeagueType.NHLFranchise:
+			case ConstantController.LeagueType.NHLFranchise:
 				teamList = TeamsController.Inst.AllNhlFranchiseTeams;
 				break;
-			case ConstantController.Inst.LeagueType.PWHLFranchise:
+			case ConstantController.LeagueType.PWHLFranchise:
 				teamList = TeamsController.Inst.AllPwhlFranchiseTeams;
 				break;
-			case ConstantController.Inst.LeagueType.NHL:
+			case ConstantController.LeagueType.NHL:
 			default:
 				teamList = TeamsController.Inst.AllNhlTeams;
 				break;
@@ -157,17 +157,17 @@ public class UiExhibitionTeam : UiSceneBase {
 		switch (option)
 		{
 			case 1:
-				selectedLeague = ConstantController.Inst.LeagueType.PWHL;
+				selectedLeague = ConstantController.LeagueType.PWHL;
 				break;
 			case 2:
-				selectedLeague = ConstantController.Inst.LeagueType.NHLFranchise;
+				selectedLeague = ConstantController.LeagueType.NHLFranchise;
 				break;
 			case 3:
-				selectedLeague = ConstantController.Inst.LeagueType.PWHLFranchise;
+				selectedLeague = ConstantController.LeagueType.PWHLFranchise;
 				break;
 			case 0:
 			default:
-				selectedLeague = ConstantController.Inst.LeagueType.NHL;
+				selectedLeague = ConstantController.LeagueType.NHL;
 				break;
 		}
 

@@ -4,6 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.UI;
 using UnityEngine.Audio;
 using UnityEngine.SceneManagement;
@@ -12,7 +13,7 @@ using UnityEngine.SceneManagement;
 using SoM.Controllers;
 
 namespace SoM.Ui {
-public class SoM_Input : MonoBehavior {
+public class SoM_Input : MonoBehaviour {
 
 #region -------------------- Serialized Variables --------------------
     [Header("Input Field Elements")]
@@ -31,7 +32,7 @@ public class SoM_Input : MonoBehavior {
     
 #endregion
 #region -------------------- Public Methods --------------------
-    public void SetListeners(Action selectAction, Action deselectAction, Action endEditAction)
+    public void SetListeners(UnityAction<string> selectAction, UnityAction<string> deselectAction, UnityAction<string> endEditAction)
     {
         _inputField.onSelect.RemoveAllListeners();
         _inputField.onDeselect.RemoveAllListeners();
@@ -47,7 +48,7 @@ public class SoM_Input : MonoBehavior {
         return _inputField.text;
     }
 
-    public string SetInput(string input)
+    public void SetInput(string input)
     {
         _inputField.text = input;
     }

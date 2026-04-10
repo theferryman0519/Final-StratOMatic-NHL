@@ -63,14 +63,14 @@ public class UiSeasonReady : UiSceneBase {
     {
         CoreController.Inst.WriteLog(this.GetType().Name, $"Going to season game loading screen.");
 
-		GoToScene(CoreController.Inst.Scene_Season09);
+        GoToNewScene(CoreController.Inst.Scene_Season09);
     }
 
     private void GoToEditLines()
     {
         CoreController.Inst.WriteLog(this.GetType().Name, $"Going to season edit lines screen.");
 
-		GoToScene(CoreController.Inst.Scene_Season08);
+        GoToNewScene(CoreController.Inst.Scene_Season08);
     }
 
     private void SetGameData()
