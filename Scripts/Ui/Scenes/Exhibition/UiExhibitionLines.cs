@@ -111,6 +111,28 @@ public class UiExhibitionLines : UiSceneBase {
 				ShowSelectionPanel(posOption);
 			});
 		}
+
+		int goalieIndex = _editLinePositions.Count - 1;
+
+		_editLinePositions[goalieIndex].ThisFullPos = "G";
+		_editLinePositions[goalieIndex].ThisSkater = null;
+		_editLinePositions[goalieIndex].ThisGoalie = defaultGoalie;
+		_editLinePositions[goalieIndex].SetPosition("G", true, goalie = defaultGoalie);
+
+		_editLinePositions[goalieIndex].RemoveButton.SetListener(() =>
+		{
+			ClearPosition("G", _editLinePositions[goalieIndex]);
+		});
+
+		_editLinePositions[goalieIndex].SelectButton.SetListener(() =>
+		{
+			ShowSelectionPanel(2);
+		});
+
+		foreach (EditLinePositionPrefab prefab in _editLinePositions)
+		{
+			positionObjectsDict.Add(prefab.ThisFullPos, prefab);
+		}
     }
 
 	private void GoToReady()
