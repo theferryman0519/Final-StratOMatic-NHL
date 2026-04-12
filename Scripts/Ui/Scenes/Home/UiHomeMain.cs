@@ -121,10 +121,9 @@ public class UiHomeMain : UiSceneBase {
 			int seasonTies = UsersController.Inst.UserData.SeasonStats.CurrentTies;
 			int seasonOTLs = UsersController.Inst.UserData.SeasonStats.CurrentOTLs;
 
-			string team = UsersController.Inst.UserData.SeasonStats.Team;
-			string league = UsersController.Inst.UserData.SeasonStats.League;
+			GameTeam seasonTeam = SeasonsController.Inst.SeasonData.Team;
 
-			_seasonText.text = "Current Season Record" + "\n" + TeamsController.Inst.GetFullTeamName(team, league) + "\n"
+			_seasonText.text = "Current Season Record" + "\n" + seasonTeam.Team.CityName + " " + seasonTeam.Team.NickName + "\n"
 				+ $"{seasonWins} - {seasonLosses} - {seasonTies} - {seasonOTLs}";
 		}
 

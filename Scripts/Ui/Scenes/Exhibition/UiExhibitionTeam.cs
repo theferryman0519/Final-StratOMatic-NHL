@@ -38,7 +38,7 @@ public class UiExhibitionTeam : UiSceneBase {
 
 	private List<Team> teamSelections = new();
 
-	private ConstantController.Inst.LeagueType selectedLeague = ConstantController.Inst.LeagueType.NHL;
+	private ConstantController.LeagueType selectedLeague = ConstantController.LeagueType.NHL;
 #endregion
 #region -------------------- Initial Functions --------------------
     void Start()
@@ -94,7 +94,7 @@ public class UiExhibitionTeam : UiSceneBase {
 	        FavoriteTeamPrefab icon = Instantiate(_teamPrefab, _container);
 
             icon.SetIcon(team, false);
-            icon.SetListener(() =>
+            icon.IconButton.onClick.AddListener(() =>
             {
                 CoreController.Inst.WriteLog(this.GetType().Name, $"Choosing {team.Info.Code} as a selected team.");
 
@@ -107,6 +107,16 @@ public class UiExhibitionTeam : UiSceneBase {
                 _continueButton.gameObject.SetActive(true);
             });
         }
+    }
+
+    private void SetBanner(Team team)
+    {
+	    CoreController.Inst.WriteLog(this.GetType().Name, $"Setting the team banner.");
+	    
+	    string teamString = $"{team.Info.League}_{team.Info.Code}";
+	    
+	    _bannerBackground.sprite = ConstantController.Inst.BannerSprites[teamString];
+	    _bannerLogo.sprite = ConstantController.Inst.LogoSprites[teamString];
     }
 
     private void ClearContainer()

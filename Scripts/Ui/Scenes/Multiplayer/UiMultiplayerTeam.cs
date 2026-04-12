@@ -81,7 +81,7 @@ public class UiMultiplayerTeam : UiSceneBase {
 	        FavoriteTeamPrefab icon = Instantiate(_teamPrefab, _container);
 
             icon.SetIcon(team, false);
-            icon.SetListener(() =>
+            icon.IconButton.onClick.AddListener(() =>
             {
                 CoreController.Inst.WriteLog(this.GetType().Name, $"Choosing {team.Info.Code} as a selected team.");
 
@@ -94,6 +94,16 @@ public class UiMultiplayerTeam : UiSceneBase {
                 _continueButton.gameObject.SetActive(true);
             });
         }
+    }
+    
+    private void SetBanner(Team team)
+    {
+	    CoreController.Inst.WriteLog(this.GetType().Name, $"Setting the team banner.");
+	    
+	    string teamString = $"{team.Info.League}_{team.Info.Code}";
+	    
+	    _bannerBackground.sprite = ConstantController.Inst.BannerSprites[teamString];
+	    _bannerLogo.sprite = ConstantController.Inst.LogoSprites[teamString];
     }
 
     private void ClearContainer()

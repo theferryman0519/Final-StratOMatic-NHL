@@ -13,19 +13,16 @@ using SoM.Controllers;
 using SoM.Models;
 
 namespace SoM.Ui {
-public class FavoriteTeamPrefab : MonoBehaviour {
+public class UiGameplayMainRink : MonoBehaviour {
 
 #region -------------------- Serialized Variables --------------------
-    [Header("Team Icon Elements")]
-    [SerializeField] private Image _icon;
-    [SerializeField] private Button _iconButton;
-    [SerializeField] private GameObject _checkIcon;
+    
 #endregion
 #region -------------------- Public Variables --------------------
-    public Button IconButton => _iconButton;
+
 #endregion
 #region -------------------- Private Variables --------------------
-
+    private UiGameplayMain mainUi;
 #endregion
 #region -------------------- Initial Functions --------------------
 
@@ -34,18 +31,9 @@ public class FavoriteTeamPrefab : MonoBehaviour {
 
 #endregion
 #region -------------------- Public Methods --------------------
-    public void SetIcon(Team team, bool isSelected)
-    {
-        CoreController.Inst.WriteLog(this.GetType().Name, $"Setting the team icon.");
-        
-        string teamString = $"{team.Info.League}_{team.Info.Code}";
-        
-        _icon.sprite = ConstantController.Inst.IconSprites[teamString];
-        
-        _checkIcon.SetActive(isSelected);
-    }
+    // TODO
 #endregion
 #region -------------------- Private Methods --------------------
-
+    
 #endregion
 }}

@@ -19,12 +19,13 @@ public class GameplayStaminaPrefab : MonoBehaviour {
     [Header("Prefab Elements")]
     [SerializeField] private Image _staminaImage;
     [SerializeField] private TMP_Text _playerText;
+    [SerializeField] private Button _staminaButton;
 
     [Header("Stamina Elements")]
     [SerializeField] private List<Sprite> _staminaSprites = new();
 #endregion
 #region -------------------- Public Variables --------------------
-
+    public Button StaminaButton => _staminaButton;
 #endregion
 #region -------------------- Private Variables --------------------
 

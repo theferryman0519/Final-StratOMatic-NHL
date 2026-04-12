@@ -142,18 +142,19 @@ public class UiMainLoading : UiSceneBase {
         _mainContent.Clear();
         _mainContent = _pageElements;
 
-		GameDatabase savedGame = await GetCurrentGame(UsersController.Inst.UserData.Id);
+        FirebaseController.Inst.GetCurrentGame(UsersController.Inst.UserData.Id, savedGame =>
+        {
+	        if (savedGame == null)
+	        {
+		        GoToNewScene(CoreController.Inst.Scene_Home00);
+	        }
 
-		if (savedGame == null)
-		{
-			GoToNewScene(CoreController.Inst.Scene_Home00);
-		}
-
-		else
-		{
-			GameplayController.Inst.SavedGame = savedGame;
-			GoToNewScene(CoreController.Inst.Scene_Main05);
-		}
+	        else
+	        {
+		        GameplayController.Inst.SavedGame = savedGame;
+		        GoToNewScene(CoreController.Inst.Scene_Main05);
+	        }
+        });
 	}
 
     private bool IsVersionCompatible(string localVersion, string requiredVersion)

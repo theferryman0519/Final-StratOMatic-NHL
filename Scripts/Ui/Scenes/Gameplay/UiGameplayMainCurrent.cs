@@ -110,7 +110,7 @@ public class UiGameplayMainCurrent : MonoBehaviour {
             GameplayStaminaPrefab staminaObj = Instantiate(_staminaPrefab, _container);
 
             staminaObj.SetVisual(onIceSkater.Key, onIceSkater.Value);
-            staminaObj.SetListener(() =>
+            staminaObj.StaminaButton.onClick.AddListener(() =>
             {
                 CoreController.Inst.WriteLog(this.GetType().Name, $"Showing the skater stats.");
 

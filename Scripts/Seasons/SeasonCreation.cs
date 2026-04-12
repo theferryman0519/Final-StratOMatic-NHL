@@ -162,7 +162,7 @@ public class SeasonCreation : MonoBehaviour {
 
         Dictionary<string, Goalie> lineup = new();
         List<Goalie> goaliesList = new();
-        List<Goalie> fullTeamGoalieList = new(league == "NHL" ? SkatersController.Inst.NhlGoalies[team] : SkatersController.Inst.PwhlGoalies[team]);
+        List<Goalie> fullTeamGoalieList = new(league == "NHL" ? GoaliesController.Inst.NhlGoalies[team] : GoaliesController.Inst.PwhlGoalies[team]);
 
         foreach (Goalie teamGoalie in fullTeamGoalieList)
         {
@@ -232,8 +232,8 @@ public class SeasonCreation : MonoBehaviour {
             Type = "Season",
             HomeUserType = (gameTeams[0] == userTeam) ? "User" : "Ai",
             AwayUserType = (gameTeams[1] == userTeam) ? "User" : "Ai",
-            HomeTeam = await GetUserTeam(gameTeams[0], userLeague),
-            AwayTeam = await GetUserTeam(gameTeams[1], userLeague),
+            HomeTeam = await GetUserTeam(gameTeams[0], userLeague, new(), new()), // TODO
+            AwayTeam = await GetUserTeam(gameTeams[1], userLeague, new(), new()), // TODO
         };
 
         return game;

@@ -2,6 +2,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -86,24 +87,24 @@ public class UiSeasonLines : UiSceneBase {
 
 		Goalie defaultGoalie = TeamsController.Inst.GetDefaultStartingGoalie(teamCode, teamLeague);
 
-		for (int s = 0; s < defaulSkaters.Count; s++)
+		for (int s = 0; s < defaultSkaters.Count; s++)
 		{
-			_editLinePositions[s].ThisFullPos = defaulSkaters.ElementAt(s).Key;
-			_editLinePositions[s].ThisSkater = defaulSkaters[s];
+			_editLinePositions[s].ThisFullPos = defaultSkaters.ElementAt(s).Key;
+			_editLinePositions[s].ThisSkater = defaultSkaters.ElementAt(s).Value;
 			_editLinePositions[s].ThisGoalie = null;
 
-			string pos = defaulSkaters.ElementAt(s).Key.Contains("D") ? "D" : "F";
+			string pos = defaultSkaters.ElementAt(s).Key.Contains("D") ? "D" : "F";
 
-			_editLinePositions[s].SetPosition(pos, true, skater = defaulSkaters[s]);
+			_editLinePositions[s].SetPosition(pos, true, defaultSkaters.ElementAt(s).Value, null);
 
 			int posOption = 0;
 
-			if (defaulSkaters.ElementAt(s).Key.Contains("D")) { posOption = 1; }
-			else if (defaulSkaters.ElementAt(s).Key.Contains("G")) { posOption = 2; }
+			if (defaultSkaters.ElementAt(s).Key.Contains("D")) { posOption = 1; }
+			else if (defaultSkaters.ElementAt(s).Key.Contains("G")) { posOption = 2; }
 
 			_editLinePositions[s].RemoveButton.SetListener(() =>
 			{
-				ClearPosition(defaulSkaters.ElementAt(s).Key, _editLinePositions[s]);
+				ClearPosition(defaultSkaters.ElementAt(s).Key, _editLinePositions[s]);
 			});
 
 			_editLinePositions[s].SelectButton.SetListener(() =>
@@ -117,7 +118,7 @@ public class UiSeasonLines : UiSceneBase {
 		_editLinePositions[goalieIndex].ThisFullPos = "G";
 		_editLinePositions[goalieIndex].ThisSkater = null;
 		_editLinePositions[goalieIndex].ThisGoalie = defaultGoalie;
-		_editLinePositions[goalieIndex].SetPosition("G", true, goalie = defaultGoalie);
+		_editLinePositions[goalieIndex].SetPosition("G", true, null, defaultGoalie);
 
 		_editLinePositions[goalieIndex].RemoveButton.SetListener(() =>
 		{
@@ -205,7 +206,7 @@ public class UiSeasonLines : UiSceneBase {
 
 	private void ClearPosition(string pos, EditLinePositionPrefab prefab)
 	{
-		prefab.ThisFullPos = posPrefab.Key;
+		prefab.ThisFullPos = pos;
 		prefab.ThisSkater = null;
 		prefab.ThisGoalie = null;
 
@@ -235,12 +236,12 @@ public class UiSeasonLines : UiSceneBase {
 		for (int s = 0; s < seasonSkaters.Count; s++)
 		{
 			_editLinePositions[s].ThisFullPos = seasonSkaters.ElementAt(s).Key;
-			_editLinePositions[s].ThisSkater = seasonSkaters[s];
+			_editLinePositions[s].ThisSkater = seasonSkaters.ElementAt(s).Value;
 			_editLinePositions[s].ThisGoalie = null;
 
 			string pos = seasonSkaters.ElementAt(s).Key.Contains("D") ? "D" : "F";
 
-			_editLinePositions[s].SetPosition(pos, true, skater = seasonSkaters[s]);
+			_editLinePositions[s].SetPosition(pos, true, seasonSkaters.ElementAt(s).Value, null);
 
 			int posOption = 0;
 
@@ -263,7 +264,7 @@ public class UiSeasonLines : UiSceneBase {
 		_editLinePositions[goalieIndex].ThisFullPos = "G";
 		_editLinePositions[goalieIndex].ThisSkater = null;
 		_editLinePositions[goalieIndex].ThisGoalie = seasonGoalies["G"];
-		_editLinePositions[goalieIndex].SetPosition("G", true, goalie = seasonGoalies["G"]);
+		_editLinePositions[goalieIndex].SetPosition("G", true, null, seasonGoalies["G"]);
 
 		_editLinePositions[goalieIndex].RemoveButton.SetListener(() =>
 		{

@@ -75,7 +75,7 @@ public class UiSettingsUpdateTeam : UiSceneBase {
             FavoriteTeamPrefab icon = Instantiate(_teamPrefab, _container);
 
             icon.SetIcon(team, false);
-            icon.SetListener(() =>
+            icon.IconButton.onClick.AddListener(() =>
             {
                 CoreController.Inst.WriteLog(this.GetType().Name, $"Choosing {team.Info.Code} as a favorite team.");
 
