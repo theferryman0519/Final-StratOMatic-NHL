@@ -113,7 +113,7 @@ public class UiSeasonLines : UiSceneBase {
 
 			_editLinePositions[s].SelectButton.SetListener(() =>
 			{
-				ShowSelectionPanel(posOption, _editLinePosition.ElementAt(s).Key);
+				ShowSelectionPanel(posOption, defaultSkaters.ElementAt(s).Key);
 			});
 		}
 
