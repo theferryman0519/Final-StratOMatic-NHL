@@ -144,7 +144,14 @@ public class UiExhibitionLines : UiSceneBase {
     {
         CoreController.Inst.WriteLog(this.GetType().Name, $"Going to the exhibition game ready screen.");
 
-		// TODO: Set team edit lines
+		GameplayController.Inst.GameData.HomeTeam.SkaterLineup.Clear();
+		GameplayController.Inst.GameData.HomeTeam.GoalieLineup.Clear();
+
+		foreach (KeyValuePair<string, EditLinePositionPrefab> position in positionObjectsDict)
+		{
+			if (!position.Key.Contains("G")) { GameplayController.Inst.GameData.HomeTeam.SkaterLineup.Add(position.Key, position.Value.ThisSkater); }
+			else { GameplayController.Inst.GameData.HomeTeam.GoalieLineup.Add("G", position.Value.ThisGoalie); }
+		}
 
 		GoToNewScene(CoreController.Inst.Scene_Exhibition03);
     }
