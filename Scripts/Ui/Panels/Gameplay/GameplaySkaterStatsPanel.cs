@@ -65,7 +65,7 @@ public class GameplaySkaterStatsPanel : MonoBehaviour {
 		_returnButton.SetListener(() => { ClosePanel(); });
 
 		_statsDropdown.SetListener(ChangeStatsOption);
-		_statsDropdown.SetListener(ChangeCardsOption);
+		_cardDropdown.SetListener(ChangeCardsOption);
 
 		ChangeStatsOption(0);
 		ChangeCardsOption(0);
