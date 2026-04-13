@@ -18,7 +18,7 @@ public class Playoff {
     public string Id { get; set; }
     public string League { get; set; }
 
-    public Team Team { get; set; }
+    public GameTeam Team { get; set; }
 
     public List<PlayoffRound> Rounds { get; set; } = new();
 #endregion
