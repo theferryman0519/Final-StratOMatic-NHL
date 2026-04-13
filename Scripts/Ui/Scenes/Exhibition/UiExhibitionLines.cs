@@ -226,13 +226,43 @@ public class UiExhibitionLines : UiSceneBase {
 				ClearPosition(skater.Key, skaterPosPrefab);
 
 				GameplayController.Inst.GameData.HomeTeam.SkaterLineup.Remove(skater.Key);
-				
+
 				RefreshAllPositions();
 			});
 
 			skaterPosPrefab.SelectButton.SetListener(() =>
 			{
 				ShowSelectionPanel(posOption, skater.Key);
+			});
+		}
+
+		foreach (KeyValuePair<string, Goalie> goalie in GameplayController.Inst.GameData.HomeTeam.GoalieLineup)
+		{
+			EditLinePositionPrefab goaliePosPrefab = positionObjectsDict[goalie.Key];
+
+			goaliePosPrefab.ThisFullPos = goalie.Key;
+			goaliePosPrefab.ThisSkater = null;
+			goaliePosPrefab.ThisGoalie = goalie;
+
+			goaliePosPrefab.SetPosition(goalie.Key, true);
+
+			int posOption = 0;
+
+			if (goalie.Key.Contains("D")) { posOption = 1; }
+			else if (goalie.Key.Contains("G")) { posOption = 2; }
+
+			goaliePosPrefab.RemoveButton.SetListener(() =>
+			{
+				ClearPosition(goalie.Key, goaliePosPrefab);
+
+				GameplayController.Inst.GameData.HomeTeam.GoalieLineup.Remove(goalie.Key);
+				
+				RefreshAllPositions();
+			});
+
+			goaliePosPrefab.SelectButton.SetListener(() =>
+			{
+				ShowSelectionPanel(posOption, goalie.Key);
 			});
 		}
 	}
