@@ -144,8 +144,17 @@ public class UiSeasonLines : UiSceneBase {
     {
         CoreController.Inst.WriteLog(this.GetType().Name, $"Going to the season game ready screen.");
 
-		// TODO: Set team edit lines
-        // TODO: Set lines into PlayerPrefs
+		GameplayController.Inst.GameData.HomeTeam.SkaterLineup.Clear();
+		GameplayController.Inst.GameData.HomeTeam.GoalieLineup.Clear();
+
+		foreach (KeyValuePair<string, EditLinePositionPrefab> position in positionObjectsDict)
+		{
+			if (!position.Key.Contains("G")) { GameplayController.Inst.GameData.HomeTeam.SkaterLineup.Add(position.Key, position.Value.ThisSkater); }
+			else { GameplayController.Inst.GameData.HomeTeam.GoalieLineup.Add("G", position.Value.ThisGoalie); }
+		}
+
+		SeasonsController.Inst.SeasonData.Team.SkaterLineup = GameplayController.Inst.GameData.HomeTeam.SkaterLineup;
+		SeasonsController.Inst.SeasonData.Team.GoalieLineup = GameplayController.Inst.GameData.HomeTeam.GoalieLineup;
 
 		GoToNewScene(CoreController.Inst.Scene_Season07);
     }
