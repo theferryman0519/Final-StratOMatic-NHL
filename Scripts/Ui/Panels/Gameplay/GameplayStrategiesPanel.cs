@@ -18,6 +18,11 @@ public class GameplayStrategiesPanel : MonoBehaviour {
 #region -------------------- Serialized Variables --------------------
     [Header("Button Elements")]
 	[SerializeField] private SoM_Button _closeButton;
+	[SerializeField] private SoM_Button _cancelButton;
+
+	[Header("Section Elements")]
+	[SerializeField] private List<GameObject> _sectionObjects = new();
+	[SerializeField] private List<SoM_Button> _sectionButtons = new();
 
     [Header("Main Elements")]
 	[SerializeField] private CanvasGroup _mainElement;
@@ -38,11 +43,14 @@ public class GameplayStrategiesPanel : MonoBehaviour {
     
 #endregion
 #region -------------------- Public Methods --------------------
-    public void InitializeMenuPanel()
+    public void InitializeStrategiesPanel()
 	{
         _mainElement.alpha = 0f;
 
         _closeButton.SetListener(() => { ClosePanel(); });
+		_cancelButton.SetListener(() => { ClosePanel(); });
+
+		SetSections();
 
         AnimationController.Inst.FadeInPanel(_mainElement, _mainPanel, () =>
         {
@@ -62,6 +70,21 @@ public class GameplayStrategiesPanel : MonoBehaviour {
 	}
 #endregion
 #region -------------------- Private Methods --------------------
-    
+    private void SetSections()
+	{
+		int currentStrategy = GameplayController.Inst.GameData.HomeTeam.CurrentStrategy;
+
+		for (int i = 0; i < 5; i++)
+		{
+			int index = i;
+			
+			_sectionObjects[index].SetActive((index + 1) != currentStrategy);
+			_sectionButtons[index].SetListener(() =>
+			{
+				GameplayController.Inst.GameData.HomeTeam.NextStrategy = index + 1;
+				ClosePanel();
+			});
+		}
+	}
 #endregion
 }}
