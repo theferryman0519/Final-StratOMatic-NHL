@@ -162,6 +162,7 @@ public class UiExhibitionLines : UiSceneBase {
 
         _editLinesPanel.gameObject.SetActive(true);
 		_editLinesPanel.SelectedPosition = pos;
+		_editLinesPanel.RefreshAction = RefreshAllPositions;
 		_editLinesPanel.InitializeEditLinesPanel(posOption);
     }
 
@@ -189,6 +190,52 @@ public class UiExhibitionLines : UiSceneBase {
 				break;
 		}
     }
+
+	private void RefreshAllPositions()
+	{
+		CoreController.Inst.WriteLog(this.GetType().Name, $"Refreshing the set line-up for all selections.");
+
+		positionObjectsDict.Clear();
+
+		for (int i = 0; i < positionsList.Count; i++)
+		{
+			int index = i;
+
+			positionObjectsDict.Add(positionsList[index], _editLinePositions[index]);
+		}
+
+		ClearAllPositions();
+
+		foreach (KeyValuePair<string, Skater> skater in GameplayController.Inst.GameData.HomeTeam.SkaterLineup)
+		{
+			EditLinePositionPrefab skaterPosPrefab = positionObjectsDict[skater.Key];
+
+			skaterPosPrefab.ThisFullPos = skater.Key;
+			skaterPosPrefab.ThisSkater = skater.Value;
+			skaterPosPrefab.ThisGoalie = null;
+
+			skaterPosPrefab.SetPosition(skater.Key, true);
+
+			int posOption = 0;
+
+			if (skater.Key.Contains("D")) { posOption = 1; }
+			else if (skater.Key.Contains("G")) { posOption = 2; }
+
+			skaterPosPrefab.RemoveButton.SetListener(() =>
+			{
+				ClearPosition(skater.Key, skaterPosPrefab);
+
+				GameplayController.Inst.GameData.HomeTeam.SkaterLineup.Remove(skater.Key);
+				
+				RefreshAllPositions();
+			});
+
+			skaterPosPrefab.SelectButton.SetListener(() =>
+			{
+				ShowSelectionPanel(posOption, skater.Key);
+			});
+		}
+	}
 
 	private void ClearAllPositions()
 	{
