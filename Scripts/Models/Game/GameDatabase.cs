@@ -23,6 +23,7 @@ public class GameDatabase {
     public string AwayTeam { get; set; }
     public string HomeStatsString { get; set; }
     public string AwayStatsString { get; set; }
+    public string Possession { get; set; }
     
     public int Period { get; set; }
     public int CardsDrawn { get; set; }
