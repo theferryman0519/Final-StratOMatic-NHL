@@ -113,7 +113,7 @@ public class UiExhibitionLines : UiSceneBase {
 
 			_editLinePositions[s].SelectButton.SetListener(() =>
 			{
-				ShowSelectionPanel(posOption);
+				ShowSelectionPanel(posOption, defaultSkaters.ElementAt(s).Key);
 			});
 		}
 
@@ -131,7 +131,7 @@ public class UiExhibitionLines : UiSceneBase {
 
 		_editLinePositions[goalieIndex].SelectButton.SetListener(() =>
 		{
-			ShowSelectionPanel(2);
+			ShowSelectionPanel(2, "G");
 		});
 
 		foreach (EditLinePositionPrefab prefab in _editLinePositions)
