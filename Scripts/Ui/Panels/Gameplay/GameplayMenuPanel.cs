@@ -79,10 +79,7 @@ public class GameplayMenuPanel : MonoBehaviour {
 	{
 		CoreController.Inst.WriteLog(this.GetType().Name, $"Showing the logs panel.");
 		
-		ClosePanel(() =>
-		{
-			mainUi.ShowLogsPanel();
-		});
+		mainUi.ShowLogsPanel();
 	}
 
 	public void QuitGame()
