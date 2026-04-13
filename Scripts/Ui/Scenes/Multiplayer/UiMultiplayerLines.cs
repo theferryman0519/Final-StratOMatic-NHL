@@ -66,6 +66,7 @@ public class UiMultiplayerLines : UiSceneBase {
         _cancelButton.SetListener(LeaveMatch);
 
 		_positionDropdown.SetListener(ChangePositionOption);
+		_editLinesPanel.HidePanel();
 
 		ClearAllPositions();
 		ChangePositionOption(0);
