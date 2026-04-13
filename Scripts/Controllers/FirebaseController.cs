@@ -484,29 +484,37 @@ public class FirebaseController : Singleton<FirebaseController> {
 #region ---------- Current Games ----------
 	public async Task PutCurrentGame(GameDatabase game, string id, Action continueAction = null)
 	{
-		CoreController.Inst.WriteLog(this.GetType().Name, $"Putting a current game to Firebase.");
-
-		FirebaseRest newRest = new FirebaseRest
+		if (game.Type == "Multiplayer")
 		{
-			Url = $"Games/{id}",
-			Method = "Games",
-			Json = JsonConvert.SerializeObject(game),
-		};
-
-		newRest.SuccessAction = (responseText) =>
-		{
-			CoreController.Inst.WriteLog(this.GetType().Name, $"Successfully put the user current game.");
-
 			continueAction?.Invoke();
-		};
+		}
 
-		newRest.FailAction = (errorText) =>
+		else
 		{
-			CoreController.Inst.WriteError(this.GetType().Name, $"Cannot put the user current game.");
-			PanelController.Inst.ShowBottomPanel(ConstantController.PanelType.FirebaseCannotPutUserGame);
-		};
+			CoreController.Inst.WriteLog(this.GetType().Name, $"Putting a current game to Firebase.");
 
-		await RestPut(newRest);
+			FirebaseRest newRest = new FirebaseRest
+			{
+				Url = $"Games/{id}",
+				Method = "Games",
+				Json = JsonConvert.SerializeObject(game),
+			};
+
+			newRest.SuccessAction = (responseText) =>
+			{
+				CoreController.Inst.WriteLog(this.GetType().Name, $"Successfully put the user current game.");
+
+				continueAction?.Invoke();
+			};
+
+			newRest.FailAction = (errorText) =>
+			{
+				CoreController.Inst.WriteError(this.GetType().Name, $"Cannot put the user current game.");
+				PanelController.Inst.ShowBottomPanel(ConstantController.PanelType.FirebaseCannotPutUserGame);
+			};
+
+			await RestPut(newRest);
+		}
 	}
 
 	public async Task GetCurrentGame(string id, Action<GameDatabase> continueAction = null)
