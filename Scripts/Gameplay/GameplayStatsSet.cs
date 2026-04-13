@@ -128,6 +128,9 @@ public class GameplayStatsSet : MonoBehaviour {
             skater.Game.ShorthandedGoals += delta;
             skater.Game.ShorthandedPoints += delta;
         }
+
+        SetGoalieStats();
+        SetTeamStats();
     }
 
     public void AddAssist(Skater skater, ConstantController.GoalType goalType, int delta)
@@ -147,60 +150,90 @@ public class GameplayStatsSet : MonoBehaviour {
             skater.Game.ShorthandedAssists += delta;
             skater.Game.ShorthandedPoints += delta;
         }
+
+        SetGoalieStats();
+        SetTeamStats();
     }
 
     public void AddPlusMinus(Skater skater, int delta)
     {
         CoreController.Inst.WriteLog(this.GetType().Name, $"Adding to plus/minus.");
         skater.Game.PlusMinus += delta;
+
+        SetGoalieStats();
+        SetTeamStats();
     }
 
     public void AddPenaltyMinute(Skater skater, int delta)
     {
         CoreController.Inst.WriteLog(this.GetType().Name, $"Adding to penalty minutes.");
         skater.Game.PenaltyMinutes += delta;
+
+        SetGoalieStats();
+        SetTeamStats();
     }
 
     public void AddShot(Skater skater, int delta)
     {
         CoreController.Inst.WriteLog(this.GetType().Name, $"Adding to shots.");
         skater.Game.Shots += delta;
+
+        SetGoalieStats();
+        SetTeamStats();
     }
 
     public void AddGiveaway(Skater skater, int delta)
     {
         CoreController.Inst.WriteLog(this.GetType().Name, $"Adding to giveaways.");
         skater.Game.Giveaways += delta;
+
+        SetGoalieStats();
+        SetTeamStats();
     }
 
     public void AddTakeaway(Skater skater, int delta)
     {
         CoreController.Inst.WriteLog(this.GetType().Name, $"Adding to takeaways.");
         skater.Game.Takeaways += delta;
+
+        SetGoalieStats();
+        SetTeamStats();
     }
 
     public void AddHit(Skater skater, int delta)
     {
         CoreController.Inst.WriteLog(this.GetType().Name, $"Adding to hits.");
         skater.Game.Hits += delta;
+
+        SetGoalieStats();
+        SetTeamStats();
     }
 
     public void AddBlockedShot(Skater skater, int delta)
     {
         CoreController.Inst.WriteLog(this.GetType().Name, $"Adding to blocked shot.");
         skater.Game.BlockedShots += delta;
+
+        SetGoalieStats();
+        SetTeamStats();
     }
     
     public void AddFaceoffWon(Skater skater, int delta)
     {
         CoreController.Inst.WriteLog(this.GetType().Name, $"Adding to faceoff won.");
         skater.Game.FaceoffsWon += delta;
+
+        SetGoalieStats();
+        SetTeamStats();
     }
 
     public void AddFaceoffLost(Skater skater, int delta)
     {
         CoreController.Inst.WriteLog(this.GetType().Name, $"Adding to faceoff won.");
         skater.Game.FaceoffsLost += delta;
+
+        SetGoalieStats();
+        SetTeamStats();
     }
 
     public void AddShiftSegment(Skater skater)
@@ -244,12 +277,160 @@ public class GameplayStatsSet : MonoBehaviour {
     {
         CoreController.Inst.WriteLog(this.GetType().Name, $"Adding to assists.");
         goalie.Game.Assists += delta;
+
+        SetGoalieStats();
+        SetTeamStats();
     }
 
     public void AddGoaliePenaltyMinute(Goalie goalie, int delta)
     {
         CoreController.Inst.WriteLog(this.GetType().Name, $"Adding to penalty minutes.");
         goalie.Game.PenaltyMinutes += delta;
+
+        SetGoalieStats();
+        SetTeamStats();
+    }
+#endregion
+#region -------------------- Total Stats Methods --------------------
+    public void SetGoalieStats()
+    {
+        CoreController.Inst.WriteLog(this.GetType().Name, $"Setting full goalie stats.");
+
+        GoalieGame homeGoalieStats = GameplayController.Inst.GameData.HomeTeam.GoalieLineup[0].Game;
+        GoalieGame awayGoalieStats = GameplayController.Inst.GameData.AwayTeam.GoalieLineup[0].Game;
+
+        int homeGoals = 0;
+        int awayGoals = 0;
+
+        int homeShots = 0;
+        int awayShots = 0;
+
+        List<string> usedSkaterIds = new();
+
+        foreach (Skater skater in GameplayController.Inst.GameData.HomeTeam.SkaterLineup.Values)
+        {
+            if (!usedSkaterIds.Contains(skater.Id))
+            {
+                homeGoals += skater.Game.Goals;
+                homeShots += skater.Game.Shots;
+
+                usedSkaterIds.Add(skater.Id);
+            }
+        }
+
+        usedSkaterIds.Clear();
+
+        foreach (Skater skater in GameplayController.Inst.GameData.AwayTeam.SkaterLineup.Values)
+        {
+            if (!usedSkaterIds.Contains(skater.Id))
+            {
+                awayGoals += skater.Game.Goals;
+                awayShots += skater.Game.Shots;
+
+                usedSkaterIds.Add(skater.Id);
+            }
+        }
+
+        homeGoalieStats.GoalsAgainst = awayGoals;
+        homeGoalieStats.ShotsAgainst = awayShots;
+
+        awayGoalieStats.GoalsAgainst = homeGoals;
+        awayGoalieStats.ShotsAgainst = homeShots;
+    }
+
+    public void SetTeamStats()
+    {
+        CoreController.Inst.WriteLog(this.GetType().Name, $"Setting full team stats.");
+
+        TeamGame homeStats = GameplayController.Inst.GameData.HomeTeam.Stats;
+        TeamGame awayStats = GameplayController.Inst.GameData.AwayTeam.Stats;
+
+        int homeGoals = 0;
+        int homeShots = 0;
+        int homePowerplayGoals = 0;
+        int homeShorthandedGoals = 0;
+        int homeFaceoffsWon = 0;
+        int homeFaceoffsLost = 0;
+        int homeHits = 0;
+        int homeBlockedShots = 0;
+        int homeGiveaways = 0;
+        int homeTakeaways = 0;
+
+        List<string> usedSkaterIds = new();
+
+        foreach (Skater skater in GameplayController.Inst.GameData.HomeTeam.SkaterLineup.Values)
+        {
+            if (!usedSkaterIds.Contains(skater.Id))
+            {
+                homeGoals += skater.Game.Goals;
+                homeShots += skater.Game.Shots;
+                homePowerplayGoals += skater.Game.PowerplayGoals;
+                homeShorthandedGoals += skater.Game.ShorthandedGoals;
+                homeFaceoffsWon += skater.Game.FaceoffsWon;
+                homeFaceoffsLost += skater.Game.FaceoffsLost;
+                homeHits += skater.Game.Hits;
+                homeBlockedShots += skater.Game.BlockedShots;
+                homeGiveaways += skater.Game.Giveaways;
+                homeTakeaways += skater.Game.Takeaways;
+
+                usedSkaterIds.Add(skater.Id);
+            }
+        }
+
+        usedSkaterIds.Clear();
+
+        int awayGoals = 0;
+        int awayShots = 0;
+        int awayPowerplayGoals = 0;
+        int awayPowerplays = 0;
+        int awayShorthandedGoals = 0;
+        int awayFaceoffsWon = 0;
+        int awayFaceoffsLost = 0;
+        int awayHits = 0;
+        int awayBlockedShots = 0;
+        int awayGiveaways = 0;
+        int awayTakeaways = 0;
+
+        foreach (Skater skater in GameplayController.Inst.GameData.AwayTeam.SkaterLineup.Values)
+        {
+            if (!usedSkaterIds.Contains(skater.Id))
+            {
+                awayGoals += skater.Game.Goals;
+                awayShots += skater.Game.Shots;
+                awayPowerplayGoals += skater.Game.PowerplayGoals;
+                awayShorthandedGoals += skater.Game.ShorthandedGoals;
+                awayFaceoffsWon += skater.Game.FaceoffsWon;
+                awayFaceoffsLost += skater.Game.FaceoffsLost;
+                awayHits += skater.Game.Hits;
+                awayBlockedShots += skater.Game.BlockedShots;
+                awayGiveaways += skater.Game.Giveaways;
+                awayTakeaways += skater.Game.Takeaways;
+
+                usedSkaterIds.Add(skater.Id);
+            }
+        }
+
+        homeStats.Goals = homeGoals;
+        homeStats.Shots = homeShots;
+        homeStats.PowerplayGoals = homePowerplayGoals;
+        homeStats.ShorthandedGoals = homeShorthandedGoals;
+        homeStats.FaceoffsWon = homeFaceoffsWon;
+        homeStats.FaceoffsLost = homeFaceoffsLost;
+        homeStats.Hits = homeHits;
+        homeStats.BlockedShots = homeBlockedShots;
+        homeStats.Giveaways = homeGiveaways;
+        homeStats.Takeaways = homeTakeaways;
+
+        awayStats.Goals = awayGoals;
+        awayStats.Shots = awayShots;
+        awayStats.PowerplayGoals = awayPowerplayGoals;
+        awayStats.ShorthandedGoals = awayShorthandedGoals;
+        awayStats.FaceoffsWon = awayFaceoffsWon;
+        awayStats.FaceoffsLost = awayFaceoffsLost;
+        awayStats.Hits = awayHits;
+        awayStats.BlockedShots = awayBlockedShots;
+        awayStats.Giveaways = awayGiveaways;
+        awayStats.Takeaways = awayTakeaways;
     }
 #endregion
 }}
