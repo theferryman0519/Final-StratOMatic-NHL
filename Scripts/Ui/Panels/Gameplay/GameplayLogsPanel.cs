@@ -38,7 +38,7 @@ public class GameplayLogsPanel : MonoBehaviour {
     
 #endregion
 #region -------------------- Public Methods --------------------
-    public void InitializeMenuPanel()
+    public void InitializeGameLogsPanel()
 	{
         _mainElement.alpha = 0f;
 
