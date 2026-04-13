@@ -7,6 +7,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Audio;
 using UnityEngine.SceneManagement;
+using Random = UnityEngine.Random;
 
 // Game Dependencies
 using SoM.Controllers;
@@ -24,7 +25,7 @@ public class UiExhibitionLoading : UiSceneBase {
 	[SerializeField] private Slider _loadingBar;
 #endregion
 #region -------------------- Public Variables --------------------
-    
+    private bool isLoading = false;
 #endregion
 #region -------------------- Private Variables --------------------
     
@@ -36,7 +37,26 @@ public class UiExhibitionLoading : UiSceneBase {
     }
 #endregion
 #region -------------------- Coroutines --------------------
-    
+    private IEnumerator LoadingGame()
+    {
+        while (isLoading && _loadingBar.value < 1f)
+        {
+            float randomPause = Random.Range(0f, 1f);
+            float randomLoad = Random.Range(0.1f, 0.3f);
+
+            yield return new WaitForSeconds(randomPause);
+
+            _loadingBar.value += randomLoad;
+        }
+
+        if (isLoading)
+        {
+            isLoading = false;
+            _loadingBar.value = 1f;
+
+            GoToNewScene(CoreController.Inst.Scene_Gameplay00);
+        }
+    }
 #endregion
 #region -------------------- Public Methods --------------------
     protected override void InitializeUi()
@@ -53,14 +73,22 @@ public class UiExhibitionLoading : UiSceneBase {
     {
         CoreController.Inst.WriteLog(this.GetType().Name, $"Setting the game data.");
 
-        // TODO
+        GameTeam homeTeam = GameplayController.Inst.GameData.HomeTeam;
+        GameTeam awayTeam = GameplayController.Inst.GameData.AwayTeam;
+
+        string homeString = $"{homeTeam.Team.League}_{homeTeam.Team.Code}_ON";
+        string awayString = $"{awayTeam.Team.League}_{awayTeam.Team.Code}_ON";
+
+        _homeIcon.sprite = ConstantController.Inst.IconSprites[homeString];
+        _awayIcon.sprite = ConstantController.Inst.IconSprites[awayString];
     }
 
     private void StartLoading()
     {
         CoreController.Inst.WriteLog(this.GetType().Name, $"Starting to load the exhibition game.");
 
-        // TODO
+        isLoading = true;
+        StartCoroutine(LoadingGame());
     }
 #endregion
 }}
