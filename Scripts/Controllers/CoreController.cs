@@ -49,6 +49,9 @@ public class CoreController : Singleton<CoreController> {
     public string Scene_Settings01 = "Settings_01_Statistics";
     public string Scene_Settings02 = "Settings_02_UpdateProfile";
     public string Scene_Settings03 = "Settings_03_UpdateTeam";
+    
+    // Gameplay Scenes
+    public string Scene_Gameplay00 = "Gameplay_00_Main";
 
     // Exhibition Scenes
     public string Scene_Exhibition00 = "Exhibition_00_Team";

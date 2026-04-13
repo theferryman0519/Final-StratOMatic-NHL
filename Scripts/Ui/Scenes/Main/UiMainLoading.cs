@@ -142,7 +142,7 @@ public class UiMainLoading : UiSceneBase {
         _mainContent.Clear();
         _mainContent = _pageElements;
 
-        FirebaseController.Inst.GetCurrentGame(UsersController.Inst.UserData.Id, savedGame =>
+        await FirebaseController.Inst.GetCurrentGame(UsersController.Inst.UserData.Id, savedGame =>
         {
 	        if (savedGame == null)
 	        {
