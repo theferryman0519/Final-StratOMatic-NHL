@@ -29,6 +29,8 @@ public class Game {
 
     public GameTeam HomeTeam { get; set; }
     public GameTeam AwayTeam { get; set; }
+
+    public List<GameLog> Logs { get; set; } = new();
 #endregion
 #region -------------------- Private Variables --------------------
     
