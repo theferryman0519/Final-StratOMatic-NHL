@@ -33,6 +33,9 @@ public class UiMultiplayerLines : UiSceneBase {
 	[SerializeField] private GameObject _defenseObject;
 	[SerializeField] private GameObject _goalieObject;
 
+	[Header("Panel Elements")]
+	[SerializeField] private EditLinesPanel _editLinesPanel;
+
 	[Header("List Elements")]
 	[SerializeField] private List<EditLinePositionPrefab> _editLinePositions = new();
 #endregion
@@ -154,11 +157,14 @@ public class UiMultiplayerLines : UiSceneBase {
         GoToNewScene(CoreController.Inst.Scene_Multiplayer04);
     }
 
-	private void ShowSelectionPanel(int posOption)
+	private void ShowSelectionPanel(int posOption, string pos)
     {
         CoreController.Inst.WriteLog(this.GetType().Name, $"Showing the position selection panel.");
 
-        // TODO
+        _editLinesPanel.gameObject.SetActive(true);
+		_editLinesPanel.SelectedPosition = pos;
+		_editLinesPanel.RefreshAction = RefreshAllPositions;
+		_editLinesPanel.InitializeEditLinesPanel(posOption);
     }
 
     private void LeaveMatch()
@@ -192,6 +198,80 @@ public class UiMultiplayerLines : UiSceneBase {
 				break;
 		}
     }
+
+	private void RefreshAllPositions()
+	{
+		CoreController.Inst.WriteLog(this.GetType().Name, $"Refreshing the set line-up for all selections.");
+
+		positionObjectsDict.Clear();
+
+		for (int i = 0; i < positionsList.Count; i++)
+		{
+			int index = i;
+
+			positionObjectsDict.Add(positionsList[index], _editLinePositions[index]);
+		}
+
+		ClearAllPositions();
+
+		// TODO: Change for multiplayer team
+		foreach (KeyValuePair<string, Skater> skater in GameplayController.Inst.GameData.HomeTeam.SkaterLineup)
+		{
+			EditLinePositionPrefab skaterPosPrefab = positionObjectsDict[skater.Key];
+
+			skaterPosPrefab.ThisFullPos = skater.Key;
+			skaterPosPrefab.ThisSkater = skater.Value;
+			skaterPosPrefab.ThisGoalie = null;
+
+			skaterPosPrefab.SetPosition(skater.Key, true);
+
+			int posOption = 0;
+
+			if (skater.Key.Contains("D")) { posOption = 1; }
+
+			skaterPosPrefab.RemoveButton.SetListener(() =>
+			{
+				ClearPosition(skater.Key, skaterPosPrefab);
+
+				GameplayController.Inst.GameData.HomeTeam.SkaterLineup.Remove(skater.Key);
+
+				RefreshAllPositions();
+			});
+
+			skaterPosPrefab.SelectButton.SetListener(() =>
+			{
+				ShowSelectionPanel(posOption, skater.Key);
+			});
+		}
+
+		// TODO: Change for multiplayer team
+		foreach (KeyValuePair<string, Goalie> goalie in GameplayController.Inst.GameData.HomeTeam.GoalieLineup)
+		{
+			EditLinePositionPrefab goaliePosPrefab = positionObjectsDict[goalie.Key];
+
+			goaliePosPrefab.ThisFullPos = goalie.Key;
+			goaliePosPrefab.ThisSkater = null;
+			goaliePosPrefab.ThisGoalie = goalie;
+
+			goaliePosPrefab.SetPosition(goalie.Key, true);
+
+			int posOption = 2;
+
+			goaliePosPrefab.RemoveButton.SetListener(() =>
+			{
+				ClearPosition(goalie.Key, goaliePosPrefab);
+
+				GameplayController.Inst.GameData.HomeTeam.GoalieLineup.Remove(goalie.Key);
+				
+				RefreshAllPositions();
+			});
+
+			goaliePosPrefab.SelectButton.SetListener(() =>
+			{
+				ShowSelectionPanel(posOption, goalie.Key);
+			});
+		}
+	}
 
 	private void ClearAllPositions()
 	{
@@ -228,7 +308,7 @@ public class UiMultiplayerLines : UiSceneBase {
 		prefab.RemoveButton.RemoveListener();
 		prefab.SelectButton.SetListener(() =>
 		{
-			ShowSelectionPanel(posOption);
+			ShowSelectionPanel(posOption, pos);
 		});
 	}
 #endregion
