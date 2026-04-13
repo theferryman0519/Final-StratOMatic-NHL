@@ -64,6 +64,7 @@ public class GameplayController : Singleton<GameplayController> {
             PossPos = new(),
             HomeTeam = null,
             AwayTeam = null,
+            Logs = new(),
         };
     }
 
@@ -84,6 +85,7 @@ public class GameplayController : Singleton<GameplayController> {
             PossPos = new(),
             HomeTeam = null,
             AwayTeam = null,
+            Logs = new(),
         };
     }
 
@@ -104,6 +106,7 @@ public class GameplayController : Singleton<GameplayController> {
             PossPos = new(),
             HomeTeam = null,
             AwayTeam = null,
+            Logs = new(),
         };
     }
 
@@ -124,6 +127,7 @@ public class GameplayController : Singleton<GameplayController> {
             PossPos = new(),
             HomeTeam = null,
             AwayTeam = null,
+            Logs = new(),
         };
     }
 
