@@ -18,6 +18,12 @@ public class GameplayForwardsPanel : MonoBehaviour {
 #region -------------------- Serialized Variables --------------------
     [Header("Button Elements")]
 	[SerializeField] private SoM_Button _closeButton;
+	[SerializeField] private SoM_Button _cancelButton;
+
+	[Header("Section Elements")]
+	[SerializeField] private List<GameObject> _sectionObjects = new();
+	[SerializeField] private List<TMP_Text> _sectionTexts = new();
+	[SerializeField] private List<SoM_Button> _sectionButtons = new();
 
     [Header("Main Elements")]
 	[SerializeField] private CanvasGroup _mainElement;
@@ -38,11 +44,14 @@ public class GameplayForwardsPanel : MonoBehaviour {
     
 #endregion
 #region -------------------- Public Methods --------------------
-    public void InitializeMenuPanel()
+    public void InitializeForwardsPanel()
 	{
         _mainElement.alpha = 0f;
 
         _closeButton.SetListener(() => { ClosePanel(); });
+		_cancelButton.SetListener(() => { ClosePanel(); });
+
+		SetSections();
 
         AnimationController.Inst.FadeInPanel(_mainElement, _mainPanel, () =>
         {
@@ -62,6 +71,27 @@ public class GameplayForwardsPanel : MonoBehaviour {
 	}
 #endregion
 #region -------------------- Private Methods --------------------
-    
+    private void SetSections()
+	{
+		int currentLine = GameplayController.Inst.GameData.HomeTeam.CurrentLine;
+
+		Dictionary<string, Skater> skaters = new(GameplayController.Inst.GameData.HomeTeam.SkaterLineup);
+
+		for (int i = 0; i < 4; i++)
+		{
+			int index = i;
+
+			_sectionTexts[index].text = $"{skaters[$"C{index + 1}"].Info.LastName} - Fatigue: {skaters[$"C{index + 1}"].Game.Stamina}%" + "\n" +
+				$"{skaters[$"LW{index + 1}"].Info.LastName} - Fatigue: {skaters[$"LW{index + 1}"].Game.Stamina}%" + "\n" +
+				$"{skaters[$"RW{index + 1}"].Info.LastName} - Fatigue: {skaters[$"RW{index + 1}"].Game.Stamina}%";
+			
+			_sectionObjects[index].SetActive((index + 1) != currentLine);
+			_sectionButtons[index].SetListener(() =>
+			{
+				GameplayController.Inst.GameData.HomeTeam.NextLine = index + 1;
+				ClosePanel();
+			});
+		}
+	}
 #endregion
 }}
