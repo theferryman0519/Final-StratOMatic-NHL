@@ -787,6 +787,9 @@ public class OffenseEvents : MonoBehaviour {
             GameplayController.Inst.StatsSet.AddPossPos(newPossPos);
         }
 
+        GameplayController.Inst.GameData.HomeTeam.CurrentStrategy = GameplayController.Inst.GameData.HomeTeam.NextStrategy;
+        GameplayController.Inst.GameData.AwayTeam.CurrentStrategy = GameplayController.Inst.GameData.AwayTeam.NextStrategy;
+
         continueAction?.Invoke();
     }
 
@@ -801,7 +804,7 @@ public class OffenseEvents : MonoBehaviour {
 
         int skaterFatigue = possSkater.Game.Stamina;
         int randomNumber = Random.Range(0,9);
-        int teamStrategy = possTeam.CurrentStrategy;
+        int teamStrategy = possTeam.CurrentStrategy - 3;
         int strategyShift = Random.Range(-teamStrategy, teamStrategy + 1);
         int staminaShift = 0;
         int finalAction = 0;
