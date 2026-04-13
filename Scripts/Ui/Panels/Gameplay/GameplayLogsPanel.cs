@@ -18,6 +18,11 @@ public class GameplayLogsPanel : MonoBehaviour {
 #region -------------------- Serialized Variables --------------------
     [Header("Button Elements")]
 	[SerializeField] private SoM_Button _closeButton;
+	[SerializeField] private SoM_Button _returnButton;
+
+	[Header("Section Elements")]
+	[SerializeField] private Transform _container;
+	[SerializeField] private GameplayLogPrefab _logPrefab;
 
     [Header("Main Elements")]
 	[SerializeField] private CanvasGroup _mainElement;
@@ -43,6 +48,9 @@ public class GameplayLogsPanel : MonoBehaviour {
         _mainElement.alpha = 0f;
 
         _closeButton.SetListener(() => { ClosePanel(); });
+		_returnButton.SetListener(() => { ClosePanel(); });
+
+		SetContainer();
 
         AnimationController.Inst.FadeInPanel(_mainElement, _mainPanel, () =>
         {
@@ -62,6 +70,18 @@ public class GameplayLogsPanel : MonoBehaviour {
 	}
 #endregion
 #region -------------------- Private Methods --------------------
-    
+    private void SetContainer()
+	{
+		foreach (Transform child in _container)
+		{
+			Destroy(child.gameObject);
+		}
+		
+		foreach (GameLog log in GameplayController.Inst.GameData.Logs)
+		{
+			GameplayLogPrefab prefab = Instantiate(_logPrefab, _container);
+			prefab.SetTexts(log);
+		}
+	}
 #endregion
 }}
