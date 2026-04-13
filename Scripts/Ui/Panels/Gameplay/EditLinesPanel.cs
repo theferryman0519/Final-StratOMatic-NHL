@@ -26,8 +26,13 @@ public class EditLinesPanel : MonoBehaviour {
     [Header("Main Elements")]
 	[SerializeField] private CanvasGroup _mainElement;
 	[SerializeField] private RectTransform _mainPanel;
+    [SerializeField] private EditLinesCardPanel _cardPanel;
 #endregion
 #region -------------------- Public Variables --------------------
+    public string SelectedPosition = string.Empty;
+
+    public Action RefreshAction = null;
+
     public CanvasGroup CanvasGroup => _mainElement;
     
     public RectTransform MainPanel => _mainPanel;
@@ -45,6 +50,7 @@ public class EditLinesPanel : MonoBehaviour {
     public void InitializeEditLinesPanel(int posOption)
 	{
         _mainElement.alpha = 0f;
+        _cardPanel.HidePanel();
 
         _closeButton.SetListener(() => { ClosePanel(); });
 
@@ -117,7 +123,18 @@ public class EditLinesPanel : MonoBehaviour {
                 {
                     if (defenseSkater.Info.Position == "D")
                     {
-                        // TODO: Instantiate _panelPrefab
+                        EditLinePositionPanelPrefab panelObj = Instantiate(_panelPrefab, _container);
+                        panelObj.SetPositionDetails(defenseSkater, null);
+
+                        panelObj.ViewCardButton.SetListener(() =>
+                        {
+                            _cardPanel.gameObject.SetActive(true);
+                            _cardPanel.InitializeEditLinesCardPanel(defenseSkater, null);
+
+                            _cardPanel.SelectButton.SetListener(() => { SetSkaterPosition(defenseSkater); });
+                        });
+
+                        panelObject.SelectButton.SetListener(() => { SetSkaterPosition(defenseSkater); });
                     }
                 }
 
@@ -125,7 +142,18 @@ public class EditLinesPanel : MonoBehaviour {
             case 2:
                 foreach (Goalie goalie in teamGoalies)
                 {
-                    // TODO: Instantiate _panelPrefab
+                    EditLinePositionPanelPrefab panelObj = Instantiate(_panelPrefab, _container);
+                    panelObj.SetPositionDetails(null, goalie);
+
+                    panelObj.ViewCardButton.SetListener(() =>
+                    {
+                        _cardPanel.gameObject.SetActive(true);
+                        _cardPanel.InitializeEditLinesCardPanel(null, goalie);
+
+                        _cardPanel.SelectButton.SetListener(() => { SetGoaliePosition(goalie); });
+                    });
+
+                    panelObject.SelectButton.SetListener(() => { SetGoaliePosition(goalie); });
                 }
 
                 break;
@@ -135,11 +163,40 @@ public class EditLinesPanel : MonoBehaviour {
                 {
                     if (forwardSkater.Info.Position == "F")
                     {
-                        // TODO: Instantiate _panelPrefab
+                        EditLinePositionPanelPrefab panelObj = Instantiate(_panelPrefab, _container);
+                        panelObj.SetPositionDetails(forwardSkater, null);
+
+                        panelObj.ViewCardButton.SetListener(() =>
+                        {
+                            _cardPanel.gameObject.SetActive(true);
+                            _cardPanel.InitializeEditLinesCardPanel(forwardSkater, null);
+
+                            _cardPanel.SelectButton.SetListener(() => { SetSkaterPosition(forwardSkater); });
+                        });
+
+                        panelObject.SelectButton.SetListener(() => { SetSkaterPosition(forwardSkater); });
                     }
                 }
 
                 break;
+        }
+    }
+
+    private void SetSkaterPosition(Skater skater)
+    {
+        if (!string.IsNullOrEmpty(SelectedPosition))
+        {
+            GameplayController.Inst.GameData.HomeTeam.SkaterLineup[SelectedPosition] = Skater;
+            RefreshAction?.Invoke();
+        }
+    }
+
+    private void SetGoaliePosition(Goalie goalie)
+    {
+        if (!string.IsNullOrEmpty(SelectedPosition) && SelectedPosition == "G")
+        {
+            GameplayController.Inst.GameData.HomeTeam.GoalieLineup[SelectedPosition] = Goalie;
+            RefreshAction?.Invoke();
         }
     }
 #endregion
