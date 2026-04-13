@@ -115,49 +115,49 @@ public class UiGameplayMain : MonoBehaviour {
     {
         CoreController.Inst.WriteLog(this.GetType().Name, $"Showing the gameplay logs panel.");
 
-        // TODO
+        _logsPanel.InitializeGameLogsPanel();
     }
 
     public void ShowForwardsPanel()
     {
         CoreController.Inst.WriteLog(this.GetType().Name, $"Showing the gameplay change forwards panel.");
 
-        // TODO
+        _forwardsPanel.InitializeForwardsPanel();
     }
 
     public void ShowDefensePanel()
     {
         CoreController.Inst.WriteLog(this.GetType().Name, $"Showing the gameplay change defense panel.");
 
-        // TODO
+        _defensePanel.InitializeDefensePanel();
     }
 
     public void ShowStrategiesPanel()
     {
         CoreController.Inst.WriteLog(this.GetType().Name, $"Showing the gameplay change strategies panel.");
 
-        // TODO
+        _strategiesPanel.InitializeStrategiesPanel();
     }
 
     public void ShowSkaterStatsPanel(Skater skater)
     {
         CoreController.Inst.WriteLog(this.GetType().Name, $"Showing the gameplay skater stats panel.");
 
-        // TODO
+        _skaterStatsPanel.InitializeSkaterStatsPanel(skater);
     }
 
     public void ShowGoalieStatsPanel(Goalie goalie)
     {
         CoreController.Inst.WriteLog(this.GetType().Name, $"Showing the gameplay goalie stats panel.");
 
-        // TODO
+        _goalieStatsPanel.InitializeGoalieStatsPanel(goalie);
     }
 
     public void ShowGameStatsPanel()
     {
         CoreController.Inst.WriteLog(this.GetType().Name, $"Showing the gameplay game stats panel.");
 
-        // TODO
+        _gameStatsPanel.InitializeGameStatsPanel();
     }
 #endregion
 #region -------------------- Private Methods --------------------
