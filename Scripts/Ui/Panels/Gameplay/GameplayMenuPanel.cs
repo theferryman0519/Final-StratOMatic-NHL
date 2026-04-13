@@ -86,7 +86,7 @@ public class GameplayMenuPanel : MonoBehaviour {
 	{
 		CoreController.Inst.WriteLog(this.GetType().Name, $"Quitting the game.");
 
-		GameDatabase saveGame = GameplayController.Inst.GetCurrentGameSaveData();
+		GameDatabase saveGame = SaveController.Inst.GetCurrentGameSaveData();
 		
 		await FirebaseController.Inst.PutCurrentGame(saveGame, UsersController.Inst.UserData.Id, () =>
 		{
