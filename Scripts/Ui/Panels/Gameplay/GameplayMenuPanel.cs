@@ -82,13 +82,29 @@ public class GameplayMenuPanel : MonoBehaviour {
 		mainUi.ShowLogsPanel();
 	}
 
-	public void QuitGame()
+	public async void QuitGame()
 	{
 		CoreController.Inst.WriteLog(this.GetType().Name, $"Quitting the game.");
+
+		GameDatabase saveGame = GameplayController.Inst.GetCurrentGameSaveData();
 		
-		// TODO
-		// Save the game data
-		// Go back to the home screen
+		await FirebaseController.Inst.PutCurrentGame(saveGame, UsersController.Inst.UserData.Id, () =>
+		{
+			if (GameplayController.Inst.GameData.Type == "Season")
+			{
+				CoreController.Inst.ChangeScene(CoreController.Inst.Scene_Season02);
+			}
+
+			else if (GameplayController.Inst.GameData.Type == "Playoff")
+			{
+				CoreController.Inst.ChangeScene(CoreController.Inst.Scene_Playoff01);
+			}
+
+			else
+			{
+				CoreController.Inst.ChangeScene(CoreController.Inst.Scene_Home00);
+			}
+		});
 	}
 #endregion
 #region -------------------- Private Methods --------------------
