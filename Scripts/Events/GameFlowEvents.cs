@@ -190,7 +190,7 @@ public class GameFlowEvents : MonoBehaviour {
         };
 
         EventsController.Inst.CurrentEventRun = newEventRun;
-        EventsController.Inst.ContinueAction = DetermineFinalStats;
+        EventsController.Inst.ContinueAction = () => { EventsController.Inst.MainUi.EndGame(); };
 
         yield return null;
     }
@@ -286,14 +286,6 @@ public class GameFlowEvents : MonoBehaviour {
         GameplayController.Inst.StatsSet.SetPossTeam("None");
 
         EventsController.Inst.RunFaceoffEvent(0);
-    }
-
-    public void DetermineFinalStats()
-    {
-        CoreController.Inst.WriteLog(this.GetType().Name, $"Determining the final stats of the game.");
-
-        // TODO
-        // EventsController.Inst.MainUi.EndGame();
     }
 #endregion
 #region -------------------- Private Methods --------------------
