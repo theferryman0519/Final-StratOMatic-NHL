@@ -393,23 +393,28 @@ public class OffenseEvents : MonoBehaviour {
     }
 #endregion
 #region -------------------- Public Methods --------------------
-    public void PickActionCard()
+    public async void PickActionCard()
     {
         CoreController.Inst.WriteLog(this.GetType().Name, $"Picking an Action Card.");
 
-        SetCardsDrawn(() =>
-        {
-            CheckForGoaliePull(() =>
+        GameDatabase saveGame = GameplayController.Inst.GetCurrentGameSaveData();
+		
+		await FirebaseController.Inst.PutCurrentGame(saveGame, UsersController.Inst.UserData.Id, () =>
+		{
+			SetCardsDrawn(() =>
             {
-                CheckForInjuries(() =>
+                CheckForGoaliePull(() =>
                 {
-                    UpdateLinesPairs(() =>
+                    CheckForInjuries(() =>
                     {
-                        DrawActionCard();
+                        UpdateLinesPairs(() =>
+                        {
+                            DrawActionCard();
+                        });
                     });
                 });
             });
-        });
+		});
     }
 
     public void DetermineShotOutcome()
