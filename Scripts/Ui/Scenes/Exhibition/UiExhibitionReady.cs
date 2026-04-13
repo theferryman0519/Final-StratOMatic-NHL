@@ -75,7 +75,31 @@ public class UiExhibitionReady : UiSceneBase {
     {
         CoreController.Inst.WriteLog(this.GetType().Name, $"Setting the game data.");
 
-        // TODO
+        GameTeam homeTeam = GameplayController.Inst.GameData.HomeTeam;
+        GameTeam awayTeam = GameplayController.Inst.GameData.AwayTeam;
+
+        _homeTeamText.text = homeTeam.Team.Code;
+        _awayTeamText.text = awayTeam.Team.Code;
+
+        string homeString = $"{homeTeam.Team.League}_{homeTeam.Team.Code}";
+        string awayString = $"{awayTeam.Team.League}_{awayTeam.Team.Code}";
+
+        _homeIcon.sprite = ConstantController.Inst.IconSprites[homeString];
+        _awayIcon.sprite = ConstantController.Inst.IconSprites[awayString];
+
+        _homeLinesText.text = $"C: {homeTeam.SkaterLineup["C1"].Info.LastName}" + "\n" +
+            $"LW: {homeTeam.SkaterLineup["LW1"].Info.LastName}" + "\n" +
+            $"RW: {homeTeam.SkaterLineup["RW1"].Info.LastName}" + "\n\n" +
+            $"LD: {homeTeam.SkaterLineup["LD1"].Info.LastName}" + "\n" +
+            $"RD: {homeTeam.SkaterLineup["RD1"].Info.LastName}" + "\n\n" +
+            $"G: {homeTeam.GoalieLineup["G"].Info.LastName}";
+        
+        _awayLinesText.text = $"C: {awayTeam.SkaterLineup["C1"].Info.LastName}" + "\n" +
+            $"LW: {awayTeam.SkaterLineup["LW1"].Info.LastName}" + "\n" +
+            $"RW: {awayTeam.SkaterLineup["RW1"].Info.LastName}" + "\n\n" +
+            $"LD: {awayTeam.SkaterLineup["LD1"].Info.LastName}" + "\n" +
+            $"RD: {awayTeam.SkaterLineup["RD1"].Info.LastName}" + "\n\n" +
+            $"G: {awayTeam.GoalieLineup["G"].Info.LastName}";
     }
 #endregion
 }}
