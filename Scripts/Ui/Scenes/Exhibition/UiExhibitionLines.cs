@@ -156,11 +156,12 @@ public class UiExhibitionLines : UiSceneBase {
         GoToNewScene(CoreController.Inst.Scene_Exhibition01);
     }
 
-	private void ShowSelectionPanel(int posOption)
+	private void ShowSelectionPanel(int posOption, string pos)
     {
         CoreController.Inst.WriteLog(this.GetType().Name, $"Showing the position selection panel.");
 
         _editLinesPanel.gameObject.SetActive(true);
+		_editLinesPanel.SelectedPosition = pos;
 		_editLinesPanel.InitializeEditLinesPanel(posOption);
     }
 
@@ -224,7 +225,7 @@ public class UiExhibitionLines : UiSceneBase {
 		prefab.RemoveButton.RemoveListener();
 		prefab.SelectButton.SetListener(() =>
 		{
-			ShowSelectionPanel(posOption);
+			ShowSelectionPanel(posOption, pos);
 		});
 	}
 #endregion
