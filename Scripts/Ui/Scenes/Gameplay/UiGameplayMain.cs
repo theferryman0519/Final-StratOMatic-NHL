@@ -35,6 +35,9 @@ public class UiGameplayMain : MonoBehaviour {
     [SerializeField] private GameplaySkaterStatsPanel _skaterStatsPanel;
     [SerializeField] private GameplayGoalieStatsPanel _goalieStatsPanel;
     [SerializeField] private GameplayGameStatsPanel _gameStatsPanel;
+
+    [Header("Overlay Elements")]
+    [SerializeField] private List<CanvasGroup> _overlays = new();
 #endregion
 #region -------------------- Public Variables --------------------
     public bool IsOutsideOptions = false;
@@ -52,6 +55,11 @@ public class UiGameplayMain : MonoBehaviour {
         });
 
         EventsController.Inst.MainUi = this;
+
+        AnimationController.Inst.FadeOutObjects(_overlays, () =>
+        {
+            EventsController.Inst.RunGameFlowEvent(0);
+        });
     }
 #endregion
 #region -------------------- Coroutines --------------------
@@ -158,6 +166,34 @@ public class UiGameplayMain : MonoBehaviour {
         CoreController.Inst.WriteLog(this.GetType().Name, $"Showing the gameplay game stats panel.");
 
         _gameStatsPanel.InitializeGameStatsPanel();
+    }
+
+    public void EndGame()
+    {
+        CoreController.Inst.WriteLog(this.GetType().Name, $"Ending the game.");
+
+        AnimationController.Inst.FadeInObjects(_overlays, () =>
+        {
+            if (GameplayController.Inst.GameData.Type == "Exhibition")
+            {
+                CoreController.Inst.ChangeScene(CoreController.Inst.Scene_Exhibition05);
+            }
+
+            else if (GameplayController.Inst.GameData.Type == "Season")
+            {
+                CoreController.Inst.ChangeScene(CoreController.Inst.Scene_Season10);
+            }
+
+            else if (GameplayController.Inst.GameData.Type == "Playoff")
+            {
+                CoreController.Inst.ChangeScene(CoreController.Inst.Scene_Playoff09);
+            }
+
+            else // Multiplayer
+            {
+                CoreController.Inst.ChangeScene(CoreController.Inst.Scene_Multiplayer09);
+            }
+        });
     }
 #endregion
 #region -------------------- Private Methods --------------------
