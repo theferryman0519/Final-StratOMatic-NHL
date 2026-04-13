@@ -18,6 +18,12 @@ public class GameplayDefensePanel : MonoBehaviour {
 #region -------------------- Serialized Variables --------------------
     [Header("Button Elements")]
 	[SerializeField] private SoM_Button _closeButton;
+	[SerializeField] private SoM_Button _cancelButton;
+
+	[Header("Section Elements")]
+	[SerializeField] private List<GameObject> _sectionObjects = new();
+	[SerializeField] private List<TMP_Text> _sectionTexts = new();
+	[SerializeField] private List<SoM_Button> _sectionButtons = new();
 
     [Header("Main Elements")]
 	[SerializeField] private CanvasGroup _mainElement;
@@ -38,11 +44,14 @@ public class GameplayDefensePanel : MonoBehaviour {
     
 #endregion
 #region -------------------- Public Methods --------------------
-    public void InitializeMenuPanel()
+    public void InitializeDefensePanel()
 	{
         _mainElement.alpha = 0f;
 
         _closeButton.SetListener(() => { ClosePanel(); });
+		_cancelButton.SetListener(() => { ClosePanel(); });
+
+		SetSections();
 
         AnimationController.Inst.FadeInPanel(_mainElement, _mainPanel, () =>
         {
@@ -62,6 +71,26 @@ public class GameplayDefensePanel : MonoBehaviour {
 	}
 #endregion
 #region -------------------- Private Methods --------------------
-    
+    private void SetSections()
+	{
+		int currentPair = GameplayController.Inst.GameData.HomeTeam.CurrentPair;
+
+		Dictionary<string, Skater> skaters = new(GameplayController.Inst.GameData.HomeTeam.SkaterLineup);
+
+		for (int i = 0; i < 3; i++)
+		{
+			int index = i;
+
+			_sectionTexts[index].text = $"{skaters[$"LD{index + 1}"].Info.LastName} - Fatigue: {skaters[$"LD{index + 1}"].Game.Stamina}%" + "\n" +
+				$"{skaters[$"RD{index + 1}"].Info.LastName} - Fatigue: {skaters[$"RD{index + 1}"].Game.Stamina}%";
+			
+			_sectionObjects[index].SetActive((index + 1) != currentPair);
+			_sectionButtons[index].SetListener(() =>
+			{
+				GameplayController.Inst.GameData.HomeTeam.NextPair = index + 1;
+				ClosePanel();
+			});
+		}
+	}
 #endregion
 }}
