@@ -2,6 +2,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -42,6 +43,15 @@ public class GameplayEvents : MonoBehaviour {
         if (EventsController.Inst.MainUi != null) { EventsController.Inst.MainUi.UpdateVisuals(); }
 
         yield return new WaitForSeconds(0.15f);
+
+        GameLog newlog = new GameLog
+        {
+            Period = GameplayController.Inst.GameData.Period,
+            GameTime = GetGameTime(),
+            Action = EventsController.Inst.CurrentEventRun.ActionText,
+        };
+
+        GameplayController.Inst.GameData.Logs.Insert(0, newLog);
 
         isQueueRunning = false;
 
@@ -225,6 +235,45 @@ public class GameplayEvents : MonoBehaviour {
         EventsController.Inst.ToggleOverlay(true);
 
         StartCoroutine(RunningEvent(runEvent));
+    }
+
+    private string GetGameTime()
+    {
+        switch (GameplayController.Inst.GameData.CardsDrawn)
+        {
+            case 0: return "20:00";
+            case 1: return "19:20";
+            case 2: return "18:40";
+            case 3: return "18:00";
+            case 4: return "17:20";
+            case 5: return "16:40";
+            case 6: return "16:00";
+            case 7: return "15:20";
+            case 8: return "14:40";
+            case 9: return "14:00";
+            case 10: return "13:20";
+            case 11: return "12:40";
+            case 12: return "12:00";
+            case 13: return "11:20";
+            case 14: return "10:40";
+            case 15: return "10:00";
+            case 16: return "9:20";
+            case 17: return "8:40";
+            case 18: return "8:00";
+            case 19: return "7:20";
+            case 20: return "6:40";
+            case 21: return "6:00";
+            case 22: return "5:20";
+            case 23: return "4:40";
+            case 24: return "4:00";
+            case 25: return "3:20";
+            case 26: return "2:40";
+            case 27: return "2:00";
+            case 28: return "1:20";
+            case 29: return "0:40";
+            case 30:
+            default: return "0:05";
+        }
     }
 #endregion
 }}
