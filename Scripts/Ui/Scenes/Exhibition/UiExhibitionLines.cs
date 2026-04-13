@@ -219,7 +219,6 @@ public class UiExhibitionLines : UiSceneBase {
 			int posOption = 0;
 
 			if (skater.Key.Contains("D")) { posOption = 1; }
-			else if (skater.Key.Contains("G")) { posOption = 2; }
 
 			skaterPosPrefab.RemoveButton.SetListener(() =>
 			{
@@ -246,10 +245,7 @@ public class UiExhibitionLines : UiSceneBase {
 
 			goaliePosPrefab.SetPosition(goalie.Key, true);
 
-			int posOption = 0;
-
-			if (goalie.Key.Contains("D")) { posOption = 1; }
-			else if (goalie.Key.Contains("G")) { posOption = 2; }
+			int posOption = 2;
 
 			goaliePosPrefab.RemoveButton.SetListener(() =>
 			{
