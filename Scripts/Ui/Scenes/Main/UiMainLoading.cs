@@ -151,6 +151,7 @@ public class UiMainLoading : UiSceneBase {
 
 	        else
 	        {
+				// TODO: Add UiMainSavedGame and its logic
 		        GameplayController.Inst.SavedGame = savedGame;
 		        GoToNewScene(CoreController.Inst.Scene_Main05);
 	        }
