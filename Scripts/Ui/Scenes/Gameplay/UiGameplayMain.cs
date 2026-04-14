@@ -95,7 +95,7 @@ public class UiGameplayMain : MonoBehaviour {
     {
         CoreController.Inst.WriteLog(this.GetType().Name, $"Updating the gameplay rink block.");
 
-        // TODO
+        _rink.UpdateRink(this);
     }
 
     public void UpdateButtons()
