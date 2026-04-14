@@ -36,9 +36,23 @@ public class UiGameplayMainButtons : MonoBehaviour {
 #endregion
 #region -------------------- Private Variables --------------------
     private UiGameplayMain mainUi;
+
+    private bool lastActionInteractable;
 #endregion
 #region -------------------- Initial Functions --------------------
-    
+    void Update()
+    {
+        if (mainUi == null) { return; }
+
+        bool isInteractable = !mainUi.IsMoving;
+
+        if (lastActionInteractable != isInteractable)
+        {
+            _actionButton.SetInteractivity(isInteractable);
+
+            lastActionInteractable = isInteractable;
+        }
+    }
 #endregion
 #region -------------------- Coroutines --------------------
     
@@ -51,6 +65,9 @@ public class UiGameplayMainButtons : MonoBehaviour {
         CoreController.Inst.WriteLog(this.GetType().Name, $"Updating the buttons.");
 
         mainUi = ui;
+
+        lastActionInteractable = !mainUi.IsMoving;
+        _actionButton.SetInteractivity(lastActionInteractable);
 
         string actionText = EventsController.Inst.CurrentEventRun.ButtonText;
         string pullGoalieText = GameplayController.Inst.GameData.HomeTeam.IsGoaliePulled ? "Pulling Goalie..." : "Pull Goalie";
