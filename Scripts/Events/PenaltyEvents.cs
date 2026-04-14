@@ -313,7 +313,7 @@ public class PenaltyEvents : MonoBehaviour {
         PenaltyShots.Clear();
         ShorthandedShots.Clear();
 
-        GameplayController.Inst.GameData.CardsDrawn -= 3;
+        GameplayController.Inst.GameData.CardsDrawn += 3;
 
         string powerplayTeam = GameplayController.Inst.GameData.PowerplayTeam == "Home" ? "Home" : "Away";
         string penaltyKillTeam = GameplayController.Inst.GameData.PowerplayTeam == "Home" ? "Away" : "Home";
