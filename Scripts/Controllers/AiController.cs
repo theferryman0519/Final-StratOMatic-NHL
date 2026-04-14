@@ -78,8 +78,30 @@ public class AiController : Singleton<AiController> {
         }
     }
 
+    public int GetAiPullGoalieNoise()
+    {
+        CoreController.Inst.WriteLog(this.GetType().Name, $"Getting Ai pull goalie noise.");
+
+        int aiSetting = GameplayController.Inst.GameOptions.AiDifficulty;
+
+        switch (aiSetting)
+        {
+            // Rookie
+            case 0: return Random.Range(23, 29);
+
+            // Hall of Famer
+            case 2: return Random.Range(26, 27);
+
+            // Veteran
+            case 1:
+            default: return Random.Range(25, 28);
+        }
+    }
+
     public int GetAiNextLine(int currentLine)
     {
+        CoreController.Inst.WriteLog(this.GetType().Name, $"Getting Ai next line.");
+
         int aiSetting = GameplayController.Inst.GameOptions.AiDifficulty;
         List<int> weightedChoices = new();
 
@@ -119,6 +141,8 @@ public class AiController : Singleton<AiController> {
 
     public int GetAiNextPair(int currentPair)
     {
+        CoreController.Inst.WriteLog(this.GetType().Name, $"Getting Ai next pair.");
+
         int aiSetting = GameplayController.Inst.GameOptions.AiDifficulty;
         List<int> weightedChoices = new();
 
