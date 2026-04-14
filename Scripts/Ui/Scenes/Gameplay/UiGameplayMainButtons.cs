@@ -100,12 +100,23 @@ public class UiGameplayMainButtons : MonoBehaviour {
             mainUi.IsOutsideOptions = false;
         });
 
-        if (mainUi.IsOutsideOptions)
+        if (GameplayController.Inst.GameData.PossTeam != "Away")
         {
-            _actionObject.SetActive(false);
-            _outOptionShotObject.SetActive(true);
-            _outOptionPassObject.SetActive(true);
-            _outOptionDriveObject.SetActive(true);
+            if (mainUi.IsOutsideOptions)
+            {
+                _actionObject.SetActive(false);
+                _outOptionShotObject.SetActive(true);
+                _outOptionPassObject.SetActive(true);
+                _outOptionDriveObject.SetActive(true);
+            }
+
+            else
+            {
+                _actionObject.SetActive(true);
+                _outOptionShotObject.SetActive(false);
+                _outOptionPassObject.SetActive(false);
+                _outOptionDriveObject.SetActive(false);
+            }
         }
 
         else
