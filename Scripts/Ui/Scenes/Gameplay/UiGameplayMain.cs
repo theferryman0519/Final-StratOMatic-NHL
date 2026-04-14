@@ -41,6 +41,7 @@ public class UiGameplayMain : MonoBehaviour {
 #endregion
 #region -------------------- Public Variables --------------------
     public bool IsOutsideOptions = false;
+    public bool IsMoving => _rink.IsMoving;
 #endregion
 #region -------------------- Private Variables --------------------
     
