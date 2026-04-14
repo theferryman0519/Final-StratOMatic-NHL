@@ -65,13 +65,12 @@ public class UiGameplayMainButtons : MonoBehaviour {
         CoreController.Inst.WriteLog(this.GetType().Name, $"Updating the buttons.");
 
         mainUi = ui;
-
         lastActionInteractable = !mainUi.IsMoving;
-        _actionButton.SetInteractivity(lastActionInteractable);
 
         string actionText = EventsController.Inst.CurrentEventRun.ButtonText;
         string pullGoalieText = GameplayController.Inst.GameData.HomeTeam.IsGoaliePulled ? "Pulling Goalie..." : "Pull Goalie";
 
+        _actionButton.SetInteractivity(lastActionInteractable);
         _actionButton.SetText(actionText);
         _actionButton.SetListener(() =>
         {
