@@ -23,7 +23,7 @@ public class UiMainOpening : UiSceneBase {
     
 #endregion
 #region -------------------- Private Variables --------------------
-    private float keepDuration = 3f;
+    private float keepDuration = 2f;
 #endregion
 #region -------------------- Initial Functions --------------------
     void Start()

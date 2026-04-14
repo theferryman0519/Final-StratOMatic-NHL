@@ -94,25 +94,25 @@ public class GameplayGameStatsPanel : MonoBehaviour {
 		int awayGAs = GameplayController.Inst.GameData.AwayTeam.Stats.Giveaways;
 		int awayTAs = GameplayController.Inst.GameData.AwayTeam.Stats.Takeaways;
 
-		_homeTexts[0].text = homeGoals;
-		_homeTexts[1].text = homeShots;
-		_homeTexts[2].text = homePPGs;
-		_homeTexts[3].text = homeSHGs;
-		_homeTexts[4].text = homeFOWs;
-		_homeTexts[5].text = homeHits;
-		_homeTexts[6].text = homeBSs;
-		_homeTexts[7].text = homeGAs;
-		_homeTexts[8].text = homeTAs;
+		_homeTexts[0].text = homeGoals.ToString();
+		_homeTexts[1].text = homeShots.ToString();
+		_homeTexts[2].text = homePPGs.ToString();
+		_homeTexts[3].text = homeSHGs.ToString();
+		_homeTexts[4].text = homeFOWs.ToString();
+		_homeTexts[5].text = homeHits.ToString();
+		_homeTexts[6].text = homeBSs.ToString();
+		_homeTexts[7].text = homeGAs.ToString();
+		_homeTexts[8].text = homeTAs.ToString();
 
-		_awayTexts[0].text = awayGoals;
-		_awayTexts[1].text = awayShots;
-		_awayTexts[2].text = awayPPGs;
-		_awayTexts[3].text = awaySHGs;
-		_awayTexts[4].text = awayFOWs;
-		_awayTexts[5].text = awayHits;
-		_awayTexts[6].text = awayBSs;
-		_awayTexts[7].text = awayGAs;
-		_awayTexts[8].text = awayTAs;
+		_awayTexts[0].text = awayGoals.ToString();
+		_awayTexts[1].text = awayShots.ToString();
+		_awayTexts[2].text = awayPPGs.ToString();
+		_awayTexts[3].text = awaySHGs.ToString();
+		_awayTexts[4].text = awayFOWs.ToString();
+		_awayTexts[5].text = awayHits.ToString();
+		_awayTexts[6].text = awayBSs.ToString();
+		_awayTexts[7].text = awayGAs.ToString();
+		_awayTexts[8].text = awayTAs.ToString();
 
 		_homeSliders[0].value = (homeGoals + awayGoals) == 0 ? 0 : homeGoals / (homeGoals + awayGoals);
 		_homeSliders[1].value = (homeShots + awayShots) == 0 ? 0 : homeShots / (homeShots + awayShots);

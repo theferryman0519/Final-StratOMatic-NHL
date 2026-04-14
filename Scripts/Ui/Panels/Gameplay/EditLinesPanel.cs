@@ -134,7 +134,7 @@ public class EditLinesPanel : MonoBehaviour {
                             _cardPanel.SelectButton.SetListener(() => { SetSkaterPosition(defenseSkater); });
                         });
 
-                        panelObject.SelectButton.SetListener(() => { SetSkaterPosition(defenseSkater); });
+                        panelObj.SelectButton.SetListener(() => { SetSkaterPosition(defenseSkater); });
                     }
                 }
 
@@ -153,7 +153,7 @@ public class EditLinesPanel : MonoBehaviour {
                         _cardPanel.SelectButton.SetListener(() => { SetGoaliePosition(goalie); });
                     });
 
-                    panelObject.SelectButton.SetListener(() => { SetGoaliePosition(goalie); });
+                    panelObj.SelectButton.SetListener(() => { SetGoaliePosition(goalie); });
                 }
 
                 break;
@@ -174,7 +174,7 @@ public class EditLinesPanel : MonoBehaviour {
                             _cardPanel.SelectButton.SetListener(() => { SetSkaterPosition(forwardSkater); });
                         });
 
-                        panelObject.SelectButton.SetListener(() => { SetSkaterPosition(forwardSkater); });
+                        panelObj.SelectButton.SetListener(() => { SetSkaterPosition(forwardSkater); });
                     }
                 }
 
@@ -186,7 +186,7 @@ public class EditLinesPanel : MonoBehaviour {
     {
         if (!string.IsNullOrEmpty(SelectedPosition))
         {
-            GameplayController.Inst.GameData.HomeTeam.SkaterLineup[SelectedPosition] = Skater;
+            GameplayController.Inst.GameData.HomeTeam.SkaterLineup[SelectedPosition] = skater;
             RefreshAction?.Invoke();
         }
     }
@@ -195,7 +195,7 @@ public class EditLinesPanel : MonoBehaviour {
     {
         if (!string.IsNullOrEmpty(SelectedPosition) && SelectedPosition == "G")
         {
-            GameplayController.Inst.GameData.HomeTeam.GoalieLineup[SelectedPosition] = Goalie;
+            GameplayController.Inst.GameData.HomeTeam.GoalieLineup[SelectedPosition] = goalie;
             RefreshAction?.Invoke();
         }
     }

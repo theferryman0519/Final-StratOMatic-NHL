@@ -251,7 +251,7 @@ public class UiSeasonLines : UiSceneBase {
 
 			goaliePosPrefab.ThisFullPos = goalie.Key;
 			goaliePosPrefab.ThisSkater = null;
-			goaliePosPrefab.ThisGoalie = goalie;
+			goaliePosPrefab.ThisGoalie = goalie.Value;
 
 			goaliePosPrefab.SetPosition(goalie.Key, true);
 
@@ -343,7 +343,7 @@ public class UiSeasonLines : UiSceneBase {
 
 			_editLinePositions[s].SelectButton.SetListener(() =>
 			{
-				ShowSelectionPanel(posOption);
+				ShowSelectionPanel(posOption, seasonSkaters.ElementAt(s).Key);
 			});
 		}
 
@@ -361,7 +361,7 @@ public class UiSeasonLines : UiSceneBase {
 
 		_editLinePositions[goalieIndex].SelectButton.SetListener(() =>
 		{
-			ShowSelectionPanel(2);
+			ShowSelectionPanel(2, "G");
 		});
 
 		foreach (EditLinePositionPrefab prefab in _editLinePositions)

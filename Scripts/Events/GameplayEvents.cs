@@ -11,6 +11,7 @@ using UnityEngine.SceneManagement;
 
 // Game Dependencies
 using SoM.Controllers;
+using SoM.Models;
 
 namespace SoM.Events {
 public class GameplayEvents : MonoBehaviour {
@@ -44,7 +45,7 @@ public class GameplayEvents : MonoBehaviour {
 
         yield return new WaitForSeconds(0.15f);
 
-        GameLog newlog = new GameLog
+        GameLog newLog = new GameLog
         {
             Period = GameplayController.Inst.GameData.Period,
             GameTime = GetGameTime(),

@@ -2,6 +2,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -296,8 +297,8 @@ public class GameplayStatsSet : MonoBehaviour {
     {
         CoreController.Inst.WriteLog(this.GetType().Name, $"Setting full goalie stats.");
 
-        GoalieGame homeGoalieStats = GameplayController.Inst.GameData.HomeTeam.GoalieLineup[0].Game;
-        GoalieGame awayGoalieStats = GameplayController.Inst.GameData.AwayTeam.GoalieLineup[0].Game;
+        GoalieGame homeGoalieStats = GameplayController.Inst.GameData.HomeTeam.GoalieLineup.ElementAt(0).Value.Game;
+        GoalieGame awayGoalieStats = GameplayController.Inst.GameData.AwayTeam.GoalieLineup.ElementAt(0).Value.Game;
 
         int homeGoals = 0;
         int awayGoals = 0;

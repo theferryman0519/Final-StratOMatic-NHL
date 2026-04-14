@@ -248,7 +248,7 @@ public class UiExhibitionLines : UiSceneBase {
 
 			goaliePosPrefab.ThisFullPos = goalie.Key;
 			goaliePosPrefab.ThisSkater = null;
-			goaliePosPrefab.ThisGoalie = goalie;
+			goaliePosPrefab.ThisGoalie = goalie.Value;
 
 			goaliePosPrefab.SetPosition(goalie.Key, true);
 

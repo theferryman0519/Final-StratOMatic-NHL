@@ -265,7 +265,7 @@ public class SaveController : Singleton<SaveController> {
             int index = i;
             string[] statArray = skaterStats[index].Split('/');
 
-            Skater skater = teamSkaters.Where(s => s.Id == statArray[0]);
+            Skater skater = teamSkaters.FirstOrDefault(s => s.Id == statArray[0]);
 
             skater.Game = new SkaterGame
             {
@@ -315,7 +315,7 @@ public class SaveController : Singleton<SaveController> {
             int index = i;
             string[] statArray = goalieStats[index].Split('/');
 
-            Goalie goalie = teamGoalies.Where(s => s.Id == statArray[0]);
+            Goalie goalie = teamGoalies.FirstOrDefault(s => s.Id == statArray[0]);
 
             goalie.Game = new GoalieGame
             {
