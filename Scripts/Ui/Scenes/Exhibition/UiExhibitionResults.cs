@@ -101,9 +101,7 @@ public class UiExhibitionResults : UiSceneBase {
             else { UsersController.UserData.Stats.NhlOTLs += 1; }
         }
 
-        UserDatabase userData = SaveController.Inst.GetCurrentUserSaveData();
-
-        await FirebaseController.Inst.PutUser(userData, UsersController.Inst.UserData.Id, GoToHome);
+        await UsersController.Inst.SetUserData(UsersController.Inst.UserData.Id, GoToHome);
     }
     
     private void GoToHome()
