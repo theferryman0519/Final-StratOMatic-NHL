@@ -60,7 +60,7 @@ public class OffenseEvents : MonoBehaviour {
 
         Skater possSkater = GameplayController.Inst.GetPossSkater();
 
-        EventsController.Inst.MainUi.IsOutsideOptions = true;
+        EventsController.Inst.MainUi.IsOutsideOptions = GameplayController.Inst.GameData.PossTeam != "Away";
 
         EventRun newEventRun = new EventRun
         {
@@ -70,6 +70,7 @@ public class OffenseEvents : MonoBehaviour {
         };
 
         EventsController.Inst.CurrentEventRun = newEventRun;
+        EventsController.Inst.ContinueAction = AiPickOption;
 
         yield return null;
     }
@@ -625,7 +626,7 @@ public class OffenseEvents : MonoBehaviour {
             EventsController.Inst.RunOffenseEvent(11);
         }
 
-        else if (finalAction == 1) // LOSE OUT
+        else if (finalAction == 2) // LOSE OUT
         {
             string newPossTeamString = GameplayController.Inst.GameData.PossTeam == "Home" ? "Away" : "Home";
 
@@ -647,7 +648,7 @@ public class OffenseEvents : MonoBehaviour {
             EventsController.Inst.RunOffenseEvent(11);
         }
 
-        else if (finalAction == 1) // LOSE
+        else if (finalAction == 3) // LOSE
         {
             string newPossTeamString = GameplayController.Inst.GameData.PossTeam == "Home" ? "Away" : "Home";
 
@@ -666,7 +667,7 @@ public class OffenseEvents : MonoBehaviour {
             EventsController.Inst.RunOffenseEvent(10);
         }
 
-        else if (finalAction == 1) // OUT
+        else if (finalAction == 4) // OUT
         {
             GameTeam newPossTeam = GameplayController.Inst.GameData.PossTeam == "Home" ? GameplayController.Inst.GameData.HomeTeam : GameplayController.Inst.GameData.AwayTeam;
 
@@ -683,7 +684,7 @@ public class OffenseEvents : MonoBehaviour {
             EventsController.Inst.RunOffenseEvent(14);
         }
 
-        else if (finalAction == 1) // IN
+        else // IN
         {
             GameTeam newPossTeam = GameplayController.Inst.GameData.PossTeam == "Home" ? GameplayController.Inst.GameData.HomeTeam : GameplayController.Inst.GameData.AwayTeam;
 
@@ -772,6 +773,11 @@ public class OffenseEvents : MonoBehaviour {
         {
             bool isPossTeamHome = GameplayController.Inst.GameData.PossTeam == "Home";
 
+            if (GameplayController.Inst.GameData.AwayUserType == "Ai")
+            {
+                AiChooseNewLinesPairs();
+            }
+
             GameplayController.Inst.StatsSet.AddTeamStamina(isPossTeamHome);
             GameplayController.Inst.StatsSet.AddTeamStamina(!isPossTeamHome);
 
@@ -796,6 +802,30 @@ public class OffenseEvents : MonoBehaviour {
         GameplayController.Inst.GameData.AwayTeam.CurrentStrategy = GameplayController.Inst.GameData.AwayTeam.NextStrategy;
 
         continueAction?.Invoke();
+    }
+
+    private void AiChooseNewLinesPairs()
+    {
+        GameTeam aiTeam = GameplayController.Inst.GameData.AwayTeam;
+
+        int aiLineThreshold = AiController.Inst.GetAiStaminaNoise();
+        int aiPairThreshold = AiController.Inst.GetAiStaminaNoise();
+
+        int aiCurrentLine = aiTeam.CurrentLine;
+        int aiCurrentPair = aiTeam.CurrentPair;
+
+        aiTeam.NextLine = aiCurrentLine;
+        aiTeam.NextPair = aiCurrentPair;
+
+        if (aiTeam.SkaterLineup[$"LW{aiCurrentLine}"].Game.Stamina <= aiLineThreshold)
+        {
+            aiTeam.NextLine = AiController.Inst.GetAiNextLine(aiCurrentLine);
+        }
+
+        if (aiTeam.SkaterLineup[$"LD{aiCurrentPair}"].Game.Stamina <= aiPairThreshold)
+        {
+            aiTeam.NextPair = AiController.Inst.GetAiNextPair(aiCurrentPair);
+        }
     }
 
     private void DrawActionCard()
@@ -975,6 +1005,29 @@ public class OffenseEvents : MonoBehaviour {
 
             EventsController.Inst.GameplayEvents.OffenseEvents.ShootingSkater = possTeam.SkaterLineup[possPos];
             EventsController.Inst.RunOffenseEvent(2, ConstantController.ShotType.RebBreak);
+        }
+    }
+
+    private void AiPickOption()
+    {
+        CoreController.Inst.WriteLog(this.GetType().Name, $"Ai is selecting outside shot option.");
+
+        int noise = AiController.Inst.GetAiNoise();
+
+        if (noise >= 3)
+        {
+            EventsController.Inst.GameplayEvents.OffenseEvents.SelectedShotType = ConstantController.ShotType.Outside;
+            EventsController.Inst.RunOffenseEvent(2);
+        }
+
+        else if (noise >= 1)
+        {
+            EventsController.Inst.RunOffenseEvent(9);
+        }
+
+        else {
+            EventsController.Inst.GameplayEvents.OffenseEvents.SelectedShotType = ConstantController.ShotType.Inside;
+            EventsController.Inst.RunDefenseEvent(0);
         }
     }
 
