@@ -55,6 +55,7 @@ public class PullGoalieEvents : MonoBehaviour {
             ButtonText = "Continue",
         };
 
+        exTeam.IsGoaliePulled = false;
         EventsController.Inst.CurrentEventRun = newEventRun;
         EventsController.Inst.ContinueAction = GeneratePullGoalieShots;
 
@@ -197,7 +198,7 @@ public class PullGoalieEvents : MonoBehaviour {
         PullGoalieShots.Clear();
         EmptyNetShots.Clear();
 
-        GameplayController.Inst.GameData.CardsDrawn -= 3;
+        GameplayController.Inst.GameData.CardsDrawn += 3;
 
         string extraAttackerTeam = GameplayController.Inst.GameData.PossTeam == "Home" ? "Home" : "Away";
         string emptyNetTeam = GameplayController.Inst.GameData.PossTeam == "Home" ? "Away" : "Home";
