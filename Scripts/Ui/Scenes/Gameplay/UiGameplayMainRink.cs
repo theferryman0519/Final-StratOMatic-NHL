@@ -25,6 +25,9 @@ public class UiGameplayMainRink : MonoBehaviour {
     [Header("Marker Elements")]
     [SerializeField] private List<GameplayRinkMarkerPrefab> _markerPrefabs = new();
 #endregion
+#region -------------------- Public Variables --------------------
+    public bool IsMoving = false;
+#endregion
 #region -------------------- Private Variables --------------------
     private UiGameplayMain mainUi;
 
@@ -147,6 +150,8 @@ public class UiGameplayMainRink : MonoBehaviour {
         activeMoveSequence?.Kill();
         activeMoveSequence = DOTween.Sequence();
 
+        IsMoving = false;
+
         Tween rinkTween = MoveRink(rinkPhase);
 
         if (rinkTween != null)
@@ -168,6 +173,8 @@ public class UiGameplayMainRink : MonoBehaviour {
             activeMoveSequence.Join(puckTween);
         }
 
+        activeMoveSequence.OnStart(() => { IsMoving = true; });
+        activeMoveSequence.OnComplete(() => { IsMoving = false; });
         activeMoveSequence.Play();
     }
 
