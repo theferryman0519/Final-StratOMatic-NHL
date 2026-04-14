@@ -21,6 +21,11 @@ public class EditLinesCardPanel : MonoBehaviour {
     [SerializeField] private SoM_Button _selectButton;
     [SerializeField] private SoM_Button _returnButton;
 
+    [Header("Text Elements")]
+    [SerializeField] private TMP_Text _titleText;
+    [SerializeField] private TMP_Text _statsTextA;
+    [SerializeField] private TMP_Text _statsTextB;
+
     [Header("Main Elements")]
 	[SerializeField] private CanvasGroup _mainElement;
 	[SerializeField] private RectTransform _mainPanel;
@@ -76,12 +81,26 @@ public class EditLinesCardPanel : MonoBehaviour {
 #region -------------------- Private Methods --------------------
     private void SetSkaterDetails(Skater skater)
     {
-        // TODO
+        _titleText.text = $"{skater.Info.FirstName} {skater.Info.LastName}";
+
+        _statsTextA.text = $"Offense: {skater.Card.Offense}" + "\n" +
+            $"Defense: {skater.Card.Defense}" + "\n" +
+            $"Breakaway: {skater.Card.Breakaway}" + "\n" +
+            $"Penalty: {skater.Card.Penalty}";
+        
+        _statsTextB.text = $"Intimidation: {skater.Card.Intimidation}" + "\n" +
+            $"Passing: {skater.Card.Passing}" + "\n" +
+            $"Faceoff: +{skater.Card.Faceoff}" + "\n" +
+            $"Fatigue: {skater.Card.Fatigue}";
     }
 
     private void SetGoalieDetails(Goalie goalie)
     {
-        // TODO
+        _titleText.text = $"{goalie.Info.FirstName} {goalie.Info.LastName}";
+
+        _statsTextA.text = $"Penalty: {goalie.Card.Penalty}";
+        
+        _statsTextB.text = $"Fatigue: {goalie.Card.Fatigue}";
     }
 #endregion
 }}
