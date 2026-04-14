@@ -65,7 +65,7 @@ public class SeasonCreation : MonoBehaviour {
             version = seasonDatabase.Version;
             gameNight = seasonDatabase.GameNight;
 
-            newSeason.GameNights = await SetGameNights();
+            newSeason.GameNights = await SetGameNights(seasonDatabase);
 
             CoreController.Inst.WriteLog(this.GetType().Name, $"Season data has been created.");
             return newSeason;
@@ -179,7 +179,7 @@ public class SeasonCreation : MonoBehaviour {
         return lineup;
     }
 
-    private async Task<List<GameNight>> SetGameNights()
+    private async Task<List<GameNight>> SetGameNights(SeasonDatabase seasonDatabase)
     {
         CoreController.Inst.WriteLog(this.GetType().Name, $"Setting all game nights for the season.");
 
@@ -189,7 +189,7 @@ public class SeasonCreation : MonoBehaviour {
         {
             int index = i;
 
-            GameNight newGameNight = await SetGameNight(index);
+            GameNight newGameNight = await SetGameNight(index, seasonDatabase);
             
             gameNights.Add(newGameNight);
         }
@@ -197,7 +197,7 @@ public class SeasonCreation : MonoBehaviour {
         return gameNights;
     }
 
-    private async Task<GameNight> SetGameNight(int index)
+    private async Task<GameNight> SetGameNight(int index, SeasonDatabase seasonDatabase)
     {
         CoreController.Inst.WriteLog(this.GetType().Name, $"Setting each game night for the season.");
 
@@ -211,7 +211,7 @@ public class SeasonCreation : MonoBehaviour {
         {
             int gameIndex = i;
 
-            Game newGame = await SetGame(index + 1, gameIndex);
+            Game newGame = await SetGame(index + 1, gameIndex, seasonDatabase);
 
             gameNight.Games.Add(newGame);
         }
@@ -219,7 +219,7 @@ public class SeasonCreation : MonoBehaviour {
         return gameNight;
     }
 
-    private async Task<Game> SetGame(int nightIndex, int gameIndex)
+    private async Task<Game> SetGame(int nightIndex, int gameIndex, SeasonDatabase seasonDatabase)
     {
         CoreController.Inst.WriteLog(this.GetType().Name, $"Setting each game for the night.");
 
@@ -232,11 +232,140 @@ public class SeasonCreation : MonoBehaviour {
             Type = "Season",
             HomeUserType = (gameTeams[0] == userTeam) ? "User" : "Ai",
             AwayUserType = (gameTeams[1] == userTeam) ? "User" : "Ai",
-            HomeTeam = await GetUserTeam(gameTeams[0], userLeague, new(), new()), // TODO
-            AwayTeam = await GetUserTeam(gameTeams[1], userLeague, new(), new()), // TODO
+            HomeTeam = await GetUserTeam(gameTeams[0], userLeague, new(), new()),
+            AwayTeam = await GetUserTeam(gameTeams[1], userLeague, new(), new()),
         };
 
+        if (game.HomeUserType == "User")
+        {
+            game.HomeTeam.SkaterLineup = await SetSkaterLineup(seasonDatabase.SkaterLineup);
+            game.HomeTeam.GoalieLineup = await SetGoalieLineup(seasonDatabase.GoalieLineup);
+        }
+
+        else
+        {
+            ConstantController.LeagueType leagueType = ConstantController.LeagueType.None;
+
+            if (userLeague == "NHL") { leagueType = ConstantController.LeagueType.NHL; }
+            else if (userLeague == "PWHL") { leagueType = ConstantController.LeagueType.PWHL; }
+            else if (userLeague == "NHLFranchise") { leagueType = ConstantController.LeagueType.NHLFranchise; }
+            else if (userLeague == "PWHLFranchise") { leagueType = ConstantController.LeagueType.PWHLFranchise; }
+
+            Dictionary<string, Goalie> homeGoalies = new();
+            homeGoalies.Add("G", TeamsController.Inst.GetDefaultStartingGoalie(gameTeams[0], leagueType));
+
+            game.HomeTeam.SkaterLinep = TeamsController.Inst.GetDefaultLineup(gameTeams[0], leagueType);
+            game.HomeTeam.GoalieLineup = homeGoalies;
+        }
+
+        if (game.AwayUserType == "User")
+        {
+            game.AwayTeam.SkaterLineup = await SetSkaterLineup(seasonDatabase.SkaterLineup);
+            game.AwayTeam.GoalieLineup = await SetGoalieLineup(seasonDatabase.GoalieLineup);
+        }
+
+        else
+        {
+            ConstantController.LeagueType leagueType = ConstantController.LeagueType.None;
+
+            if (userLeague == "NHL") { leagueType = ConstantController.LeagueType.NHL; }
+            else if (userLeague == "PWHL") { leagueType = ConstantController.LeagueType.PWHL; }
+            else if (userLeague == "NHLFranchise") { leagueType = ConstantController.LeagueType.NHLFranchise; }
+            else if (userLeague == "PWHLFranchise") { leagueType = ConstantController.LeagueType.PWHLFranchise; }
+
+            Dictionary<string, Goalie> awayGoalies = new();
+            awayGoalies.Add("G", TeamsController.Inst.GetDefaultStartingGoalie(gameTeams[1], leagueType));
+
+            game.AwayTeam.SkaterLinep = TeamsController.Inst.GetDefaultLineup(gameTeams[1], leagueType);
+            game.AwayTeam.GoalieLineup = homeGoalies;
+        }
+
         return game;
+    }
+
+    private async Task<Dictionary<string, Skater>> SetSkaterLineup(List<string> skaterIds)
+    {
+        CoreController.Inst.WriteLog(this.GetType().Name, $"Setting the skater lineup.");
+
+        Dictionary<string, Skater> skaterLineup = new();
+
+        if (skaterIds.Count < 18)
+        {
+            return skaterLineup;
+        }
+
+        List<string> posStrings = new() { "C1", "LW1", "RW1", "C2", "LW2", "RW2", "C3", "LW3", "RW3", "C4", "LW4", "RW4", "LD1", "RD1", "LD2", "RD2", "LD3", "RD3" };
+
+        for (int i = 0; i < posStrings.Count; i++)
+        {
+            Skater nextSkater = GetSkaterById(skaterIds[i]);
+
+            if (nextSkater != null) { skaterLineup.Add(posStrings[i], nextSkater); }
+        }
+
+        return skaterLineup;
+    }
+
+    private async Task<Dictionary<string, Goalie>> SetGoalieLineup(List<string> goalieIds)
+    {
+        CoreController.Inst.WriteLog(this.GetType().Name, $"Setting the goalie lineup.");
+
+        Dictionary<string, Goalie> goalieLineup = new();
+
+        if (goalieIds.Count < 1)
+        {
+            return goalieLineup;
+        }
+
+        Goalie startingGoalie = GetGoalieById(goalieIds[0]);
+
+        if (startingGoalie != null) { goalieLineup.Add("G", startingGoalie); }
+
+        return goalieLineup;
+    }
+
+    private Skater GetSkaterById(string id)
+    {
+        CoreController.Inst.WriteLog(this.GetType().Name, $"Getting the skater by id.");
+
+        Skater resultSkater = new Skater { };
+
+        List<Skater> teamSkaters = new();
+
+        if (SeasonData.League == "NHL") { teamSkaters = SkatersController.Inst.NhlSkaters[SeasonData.Team.Team.Code]; }
+        else { teamSkaters = SkatersController.Inst.PwhlSkaters[SeasonData.Team.Team.Code]; }
+
+        foreach (Skater skater in teamSkaters)
+        {
+            if (id == skater.Id)
+            {
+                resultSkater = skater;
+            }
+        }
+
+        return resultSkater;
+    }
+
+    private Goalie GetGoalieById(string id)
+    {
+        CoreController.Inst.WriteLog(this.GetType().Name, $"Getting the goalie by id.");
+
+        Goalie resultGoalie = new Goalie { };
+
+        List<Goalie> teamGoalies = new();
+
+        if (SeasonData.League == "NHL") { teamGoalies = GoaliesController.Inst.NhlGoalies[SeasonData.Team.Team.Code]; }
+        else { teamGoalies = GoaliesController.Inst.PwhlGoalies[SeasonData.Team.Team.Code]; }
+
+        foreach (Goalie goalie in teamGoalies)
+        {
+            if (id == goalie.Id)
+            {
+                resultGoalie = goalie;
+            }
+        }
+
+        return resultGoalie;
     }
 
     private async Task<string> GetGameString(int nightIndex, int gameIndex)
