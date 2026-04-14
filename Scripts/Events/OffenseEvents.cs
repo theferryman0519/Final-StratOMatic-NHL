@@ -724,6 +724,11 @@ public class OffenseEvents : MonoBehaviour {
 
         if (GameplayController.Inst.GameData.PossTeam != "None")
         {
+            if (GameplayController.Inst.GameData.AwayUserType == "Ai")
+            {
+                AiChooseToPullGoalie();
+            }
+
             GameTeam possTeam = GameplayController.Inst.GameData.PossTeam == "Home" ? GameplayController.Inst.GameData.HomeTeam : GameplayController.Inst.GameData.AwayTeam;
 
             if (possTeam.IsGoaliePulled)
@@ -734,6 +739,29 @@ public class OffenseEvents : MonoBehaviour {
         }
 
         continueAction?.Invoke();
+    }
+
+    private void AiChooseToPullGoalie()
+    {
+        GameTeam aiTeam = GameplayController.Inst.GameData.AwayTeam;
+
+        if (GameplayController.Inst.GameData.Period == 3)
+        {
+            int pullThreshold = AiController.Inst.GetAiPullGoalieNoise();
+
+            if (GameplayController.Inst.GameData.CardsDrawn >= pullThreshold)
+            {
+                if (aiTeam.Stats.Goals < GameplayController.Inst.GameData.HomeTeam.Stats.Goals)
+                {
+                    int diff = GameplayController.Inst.GameData.HomeTeam.Stats.Goals - aiTeam.Stats.Goals;
+
+                    if (diff <= 3)
+                    {
+                        aiTeam.IsGoaliePulled = true;
+                    }
+                }
+            }
+        }
     }
 
     private void CheckForInjuries(Action continueAction = null)
