@@ -59,14 +59,17 @@ public class UsersController : Singleton<UsersController> {
         UserDatabase newUserData = new UserDatabase
         {
             Id = id,
-            InfoString = string.Empty,
+            InfoString = $"{id}/{TempName}/{TempEmail}/{TempPassword}/team/league",
             StatsString = string.Empty,
             SeasonStatsString = string.Empty,
         };
 
         PlayerPrefs.SetString(ConstantController.Pref_ExhibitionOptions, "true/true/true/true/Veteran");
 
-        SetUser(newUserData, continueAction);
+        SetUser(newUserData, () =>
+        {
+            SaveUserData(continueAction);
+        });
     }
 
     public async void SaveUserData(Action continueAction = null)

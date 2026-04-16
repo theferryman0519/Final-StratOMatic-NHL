@@ -92,7 +92,7 @@ public class UiMainLogIn : UiSceneBase {
         {
             Email = email,
             Password = password,
-            SuccessAction = () => { UiController.Inst.IsNewUser = false; GoToNewScene(CoreController.Inst.Scene_Main01); },
+            SuccessAction = () => { FirebaseController.Inst.IsNewUser = false; GoToNewScene(CoreController.Inst.Scene_Main01); },
             FailAction = () => { PanelController.Inst.ShowBottomPanel(ConstantController.PanelType.LoginInvalidCredentials); },
         };
 

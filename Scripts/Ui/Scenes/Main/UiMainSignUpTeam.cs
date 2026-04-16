@@ -31,6 +31,8 @@ public class UiMainSignUpTeam : UiSceneBase {
 #endregion
 #region -------------------- Private Variables --------------------
     private Team favTeam;
+
+    private List<string> usedTeams = new();
 #endregion
 #region -------------------- Initial Functions --------------------
     void Start()
@@ -60,10 +62,11 @@ public class UiMainSignUpTeam : UiSceneBase {
         UsersController.Inst.UserData.Info.Email = UsersController.Inst.TempEmail;
         UsersController.Inst.UserData.Info.Password = UsersController.Inst.TempPassword;
         UsersController.Inst.UserData.Info.Team = favTeam.Info.Code;
+        UsersController.Inst.UserData.Info.League = favTeam.Info.League;
 
         UsersController.Inst.SaveUserData(() =>
         {
-            GoToNewScene(CoreController.Inst.Scene_Main01);
+            GoToNewScene(CoreController.Inst.Scene_Home00);
         });
     }
     
@@ -75,21 +78,41 @@ public class UiMainSignUpTeam : UiSceneBase {
 
         foreach (Team team in TeamsController.Inst.AllTeams)
         {
-            FavoriteTeamPrefab icon = Instantiate(_teamPrefab, _container);
-
-            icon.SetIcon(team, false);
-            icon.IconButton.onClick.AddListener(() =>
+            string usedTeamName = $"{team.Info.CityName}_{team.Info.NickName}";
+            
+            if (!usedTeams.Contains(usedTeamName))
             {
-                CoreController.Inst.WriteLog(this.GetType().Name, $"Choosing {team.Info.Code} as a favorite team.");
+                FavoriteTeamPrefab icon = Instantiate(_teamPrefab, _container);
 
-                favTeam = team;
-                icon.SetIcon(team, true);
+                icon.SetIcon(team, false);
+                icon.IconButton.onClick.AddListener(() =>
+                {
+                    CoreController.Inst.WriteLog(this.GetType().Name, $"Choosing {team.Info.Code} as a favorite team.");
 
-                string league = team.Info.League.Contains("Nhl") ? "NHL" : "PWHL";
+                    RefreshAllIcons();
 
-                _selectionText.text = $"You have selected the {team.Info.CityName} {team.Info.NickName} of the {league}";
-                _signUpButton.gameObject.SetActive(true);
-            });
+                    favTeam = team;
+                    icon.SetIcon(team, true);
+
+                    string league = team.Info.League.Contains("NHL") ? "NHL" : "PWHL";
+
+                    _selectionText.text =
+                        $"You have selected the {team.Info.CityName} {team.Info.NickName} of the {league}";
+                    _signUpButton.gameObject.SetActive(true);
+                });
+                
+                usedTeams.Add(usedTeamName);
+            }
+        }
+    }
+
+    private void RefreshAllIcons()
+    {
+        foreach (Transform obj in _container)
+        {
+            FavoriteTeamPrefab icon = obj.GetComponent<FavoriteTeamPrefab>();
+            
+            icon.SwitchOff();
         }
     }
 
@@ -105,6 +128,7 @@ public class UiMainSignUpTeam : UiSceneBase {
         _selectionText.text = "You have not selected a team";
 
         favTeam = null;
+        usedTeams.Clear();
 
         _signUpButton.gameObject.SetActive(false);
     }

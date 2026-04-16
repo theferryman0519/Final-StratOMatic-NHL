@@ -36,7 +36,7 @@ public class UiMainOpening : UiSceneBase {
     {
         yield return new WaitForSeconds(keepDuration);
 
-        CheckAutoLogin();
+        StartCoroutine(FirebaseController.Inst.InitializingFirebase(CheckAutoLogin));
     }
 #endregion
 #region -------------------- Public Methods --------------------
@@ -53,9 +53,6 @@ public class UiMainOpening : UiSceneBase {
     private async void CheckAutoLogin()
     {
         CoreController.Inst.WriteLog(this.GetType().Name, $"Checking for auto login capability.");
-
-        CoreController.Inst.InitializeController();
-		ConstantController.Inst.InitializeController();
 		
 		bool hasInternet = await CoreController.Inst.HasInternetConnection();
 
@@ -75,7 +72,7 @@ public class UiMainOpening : UiSceneBase {
 
         else
         {
-            StartCoroutine(FirebaseController.Inst.InitializingFirebase(AutoLogin));
+            AutoLogin();
         }
     }
 

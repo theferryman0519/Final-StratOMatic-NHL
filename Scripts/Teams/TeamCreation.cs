@@ -51,8 +51,8 @@ public class TeamCreation : MonoBehaviour {
 
             newTeam.Info = await CreateInfo(teamDatabase.InfoString);
             newTeam.Game = await CreateGame();
-            newTeam.Season = await CreateSeason(teamDatabase.SeasonStrings);
-            newTeam.Playoff = await CreatePlayoff(teamDatabase.PlayoffStrings);
+            newTeam.Season = await CreateSeason(teamDatabase.SeasonStrings ?? new List<string>());
+            newTeam.Playoff = await CreatePlayoff(teamDatabase.PlayoffStrings ?? new List<string>());
 
             CoreController.Inst.WriteLog(this.GetType().Name, $"Team data for {newTeam.Info.CityName} {newTeam.Info.NickName} has been created.");
             return newTeam;
@@ -107,6 +107,8 @@ public class TeamCreation : MonoBehaviour {
     private async Task<TeamSeason> CreateSeason(List<string> seasonStrings)
     {
         CoreController.Inst.WriteLog(this.GetType().Name, $"Creating the team season.");
+        
+        if (seasonStrings.Count < 1) { return null; }
 
         string userSeasonString = string.Empty;
 
@@ -171,6 +173,8 @@ public class TeamCreation : MonoBehaviour {
     private async Task<TeamPlayoff> CreatePlayoff(List<string> playoffStrings)
     {
         CoreController.Inst.WriteLog(this.GetType().Name, $"Creating the team playoff.");
+        
+        if (playoffStrings.Count < 1) { return null; }
 
         string userPlayoffString = string.Empty;
 

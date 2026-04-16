@@ -19,10 +19,11 @@ public class FavoriteTeamPrefab : MonoBehaviour {
     [Header("Team Icon Elements")]
     [SerializeField] private Image _icon;
     [SerializeField] private Button _iconButton;
-    [SerializeField] private GameObject _checkIcon;
 #endregion
 #region -------------------- Public Variables --------------------
     public Button IconButton => _iconButton;
+
+    public string TeamString = string.Empty;
 #endregion
 #region -------------------- Private Variables --------------------
 
@@ -37,12 +38,23 @@ public class FavoriteTeamPrefab : MonoBehaviour {
     public void SetIcon(Team team, bool isSelected)
     {
         CoreController.Inst.WriteLog(this.GetType().Name, $"Setting the team icon.");
+
+        string shortLeague = team.Info.League.Contains("NHL") ? "NHL" : "PWHL";
         
-        string teamString = $"{team.Info.League}_{team.Info.Code}";
+        TeamString = $"{shortLeague}_{team.Info.Code}";
+        string isSelectedString = isSelected ? "_ON" : "_OFF";
         
-        _icon.sprite = ConstantController.Inst.IconSprites[teamString];
-        
-        _checkIcon.SetActive(isSelected);
+        _icon.sprite = ConstantController.Inst.IconSprites[TeamString + isSelectedString];
+    }
+
+    public void SwitchOff()
+    {
+        if (!string.IsNullOrEmpty(TeamString))
+        {
+            string newTeamString = TeamString;
+
+            _icon.sprite = ConstantController.Inst.IconSprites[TeamString + "_OFF"];
+        }
     }
 #endregion
 #region -------------------- Private Methods --------------------

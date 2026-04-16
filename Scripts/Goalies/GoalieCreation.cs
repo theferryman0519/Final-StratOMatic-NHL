@@ -70,8 +70,8 @@ public class GoalieCreation : MonoBehaviour {
 
             newGoalie.Info = await CreateInfo(goalieDatabase.InfoString);
             newGoalie.Game = await CreateGame();
-            newGoalie.Season = await CreateSeason(goalieDatabase.SeasonStrings);
-            newGoalie.Playoff = await CreatePlayoff(goalieDatabase.PlayoffStrings);
+            newGoalie.Season = await CreateSeason(goalieDatabase.SeasonStrings ?? new List<string>());
+            newGoalie.Playoff = await CreatePlayoff(goalieDatabase.PlayoffStrings ?? new List<string>());
             newGoalie.Stats = await CreateStats(goalieDatabase.StatsStrings);
             newGoalie.Card = await CreateCard();
             newGoalie.WinPercentage = winPercentage;
@@ -122,6 +122,8 @@ public class GoalieCreation : MonoBehaviour {
     private async Task<GoalieSeason> CreateSeason(List<string> seasonStrings)
     {
         CoreController.Inst.WriteLog(this.GetType().Name, $"Creating the goalie season.");
+        
+        if (seasonStrings.Count < 1) { return null; }
 
         string userSeasonString = string.Empty;
 
@@ -170,6 +172,8 @@ public class GoalieCreation : MonoBehaviour {
     private async Task<GoaliePlayoff> CreatePlayoff(List<string> playoffStrings)
     {
         CoreController.Inst.WriteLog(this.GetType().Name, $"Creating the goalie playoff.");
+        
+        if (playoffStrings.Count < 1) { return null; }
 
         string userPlayoffString = string.Empty;
 
@@ -223,9 +227,12 @@ public class GoalieCreation : MonoBehaviour {
 
         foreach (string year in statsStrings)
         {
-            GoalieStats newStat = await CreateSingleStats(year);
+            if (!string.IsNullOrEmpty(year))
+            {
+                GoalieStats newStat = await CreateSingleStats(year);
 
-            newStats.Add(newStat);
+                newStats.Add(newStat);
+            }
         }
 
         int totalWins = 0;

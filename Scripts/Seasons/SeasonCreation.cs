@@ -254,7 +254,7 @@ public class SeasonCreation : MonoBehaviour {
             Dictionary<string, Goalie> homeGoalies = new();
             homeGoalies.Add("G", TeamsController.Inst.GetDefaultStartingGoalie(gameTeams[0], leagueType));
 
-            game.HomeTeam.SkaterLinep = TeamsController.Inst.GetDefaultLineup(gameTeams[0], leagueType);
+            game.HomeTeam.SkaterLineup = TeamsController.Inst.GetDefaultLineup(gameTeams[0], leagueType);
             game.HomeTeam.GoalieLineup = homeGoalies;
         }
 
@@ -276,8 +276,8 @@ public class SeasonCreation : MonoBehaviour {
             Dictionary<string, Goalie> awayGoalies = new();
             awayGoalies.Add("G", TeamsController.Inst.GetDefaultStartingGoalie(gameTeams[1], leagueType));
 
-            game.AwayTeam.SkaterLinep = TeamsController.Inst.GetDefaultLineup(gameTeams[1], leagueType);
-            game.AwayTeam.GoalieLineup = homeGoalies;
+            game.AwayTeam.SkaterLineup = TeamsController.Inst.GetDefaultLineup(gameTeams[1], leagueType);
+            game.AwayTeam.GoalieLineup = awayGoalies;
         }
 
         return game;
@@ -332,8 +332,8 @@ public class SeasonCreation : MonoBehaviour {
 
         List<Skater> teamSkaters = new();
 
-        if (SeasonData.League == "NHL") { teamSkaters = SkatersController.Inst.NhlSkaters[SeasonData.Team.Team.Code]; }
-        else { teamSkaters = SkatersController.Inst.PwhlSkaters[SeasonData.Team.Team.Code]; }
+        if (SeasonsController.Inst.SeasonData.League == "NHL") { teamSkaters = SkatersController.Inst.NhlSkaters[SeasonsController.Inst.SeasonData.Team.Team.Code]; }
+        else { teamSkaters = SkatersController.Inst.PwhlSkaters[SeasonsController.Inst.SeasonData.Team.Team.Code]; }
 
         foreach (Skater skater in teamSkaters)
         {
@@ -354,8 +354,8 @@ public class SeasonCreation : MonoBehaviour {
 
         List<Goalie> teamGoalies = new();
 
-        if (SeasonData.League == "NHL") { teamGoalies = GoaliesController.Inst.NhlGoalies[SeasonData.Team.Team.Code]; }
-        else { teamGoalies = GoaliesController.Inst.PwhlGoalies[SeasonData.Team.Team.Code]; }
+        if (SeasonsController.Inst.SeasonData.League == "NHL") { teamGoalies = GoaliesController.Inst.NhlGoalies[SeasonsController.Inst.SeasonData.Team.Team.Code]; }
+        else { teamGoalies = GoaliesController.Inst.PwhlGoalies[SeasonsController.Inst.SeasonData.Team.Team.Code]; }
 
         foreach (Goalie goalie in teamGoalies)
         {

@@ -27,7 +27,9 @@ public class ConstantController : Singleton<ConstantController> {
 	public const string Game_Email = "ferrymanstudios@gmail.com";
 	
 	// URL Links
-	public const string URL_Firebase = "";
+	public const string URL_Firebase = "https://hockey-strat-o-matic-default-rtdb.firebaseio.com/";
+	public const string URL_FirebaseAuth = "https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=";
+	public const string URL_FirebaseAuthRemoval = "https://identitytoolkit.googleapis.com/v1/accounts:delete?key=";
 
     // Player Prefs
 	public const string Pref_MusicVolume = "SoM_MusicVolume";

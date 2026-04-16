@@ -188,17 +188,19 @@ public class TeamsController : Singleton<TeamsController> {
                 {
                     case "NHL":
                         AllNhlTeams.Add(team);
+                        allTeams.Add(team);
                         break;
                     case "PWHL":
                         AllPwhlTeams.Add(team);
                         allTeams.Add(team);
                         break;
-                    case "NHL-Franchise":
+                    case "NHLFranchise":
                         AllNhlFranchiseTeams.Add(team);
                         allTeams.Add(team);
                         break;
-                    case "PWHL-Franchise":
+                    case "PWHLFranchise":
                         AllPwhlFranchiseTeams.Add(team);
+                        allTeams.Add(team);
                         break;
                 }
             }

@@ -148,7 +148,17 @@ public class UiSceneBase : MonoBehaviour {
 			else if (UsersController.Inst.UserData.Info.League == "PWHLFranchise") { leagueType = ConstantController.LeagueType.PWHLFranchise; }
 		
 			Team userTeam = TeamsController.Inst.GetTeamFromCode(UsersController.Inst.UserData.Info.Team, leagueType);
-			spriteName = $"{userTeam.Info.League}_{userTeam.Info.Code}";
+
+			if (userTeam == null)
+			{
+				spriteName = $"NHL_NHL";
+			}
+			
+			else
+			{
+				string shortLeague = userTeam.Info.League.Contains("NHL") ? "NHL" : "PWHL";
+				spriteName = $"{shortLeague}_{userTeam.Info.Code}";
+			}
 
 			_bannerBackground.sprite = ConstantController.Inst.BannerSprites[spriteName];
 			_bannerLogo.sprite = ConstantController.Inst.LogoSprites[spriteName];

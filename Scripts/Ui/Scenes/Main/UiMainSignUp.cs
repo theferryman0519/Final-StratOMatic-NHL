@@ -100,7 +100,7 @@ public class UiMainSignUp : UiSceneBase {
         {
             Email = email,
             Password = password,
-            SuccessAction = () => { UiController.Inst.IsNewUser = true; GoToNewScene(CoreController.Inst.Scene_Main01); },
+            SuccessAction = () => { FirebaseController.Inst.IsNewUser = true; GoToNewScene(CoreController.Inst.Scene_Main01); },
             FailAction = () => { PanelController.Inst.ShowBottomPanel(ConstantController.PanelType.SignUpInvalidCredentials); },
         };
 

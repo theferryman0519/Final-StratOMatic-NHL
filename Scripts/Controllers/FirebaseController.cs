@@ -55,6 +55,8 @@ public class FirebaseController : Singleton<FirebaseController> {
 		{
 			auth = FirebaseAuth.DefaultInstance;
 			
+			CoreController.Inst.LoadingStepCompleted();
+			
 			CoreController.Inst.WriteLog(this.GetType().Name, "Firebase initialized successfully.");
 			continueAction?.Invoke();
 		}
@@ -318,6 +320,14 @@ public class FirebaseController : Singleton<FirebaseController> {
 
         else
         {
+	        NewUser = new User()
+	        {
+		        Id = string.Empty,
+		        Info = new UserInfo(),
+		        SeasonStats = new UserSeasonStats(),
+		        Stats = new UserStats(),
+	        };
+	        
             AuthResult newUser = createUserTask.Result;
             OnlineUser = newUser.User;
 			NewUser.Id = OnlineUser.UserId;

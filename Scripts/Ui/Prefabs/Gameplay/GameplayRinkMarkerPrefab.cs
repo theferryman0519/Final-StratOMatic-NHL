@@ -36,6 +36,8 @@ public class GameplayRinkMarkerPrefab : MonoBehaviour {
     public RectTransform FaceoffAnchor => _faceoffAnchor;
 
     public Button JerseyButton => _jerseyButton;
+    
+    public Vector2 PuckOffset => puckOffset;
 #endregion
 #region -------------------- Private Variables --------------------
     private Vector2 motionAmplitude = new(10f, 6f);

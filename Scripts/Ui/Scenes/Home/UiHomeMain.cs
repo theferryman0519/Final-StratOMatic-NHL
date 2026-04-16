@@ -27,10 +27,6 @@ public class UiHomeMain : UiSceneBase {
 	[SerializeField] private SoM_Button _seasonButton;
 	[SerializeField] private SoM_Button _newSeasonButton;
 	[SerializeField] private SoM_Button _settingsButton;
-
-	[Header("Game Object Elements")]
-	[SerializeField] private GameObject _seasonObject;
-	[SerializeField] private GameObject _newSeasonObject;
 #endregion
 #region -------------------- Public Variables --------------------
     
@@ -132,7 +128,7 @@ public class UiHomeMain : UiSceneBase {
 			_seasonText.text = "You have not started a season yet";
 		}
 
-		_seasonObject.SetActive(hasSeason);
+		_seasonButton.gameObject.SetActive(hasSeason);
 		_newSeasonButton.gameObject.SetActive(!hasSeason);
 	}
 #endregion

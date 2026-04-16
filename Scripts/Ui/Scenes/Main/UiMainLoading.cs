@@ -146,7 +146,8 @@ public class UiMainLoading : UiSceneBase {
         {
 	        if (savedGame == null)
 	        {
-		        GoToNewScene(CoreController.Inst.Scene_Home00);
+		        if (FirebaseController.Inst.IsNewUser) { GoToNewScene(CoreController.Inst.Scene_Main04); }
+		        else { GoToNewScene(CoreController.Inst.Scene_Home00); }
 	        }
 
 	        else
@@ -155,7 +156,8 @@ public class UiMainLoading : UiSceneBase {
 
 				if (loadedGame == null)
 				{
-					GoToNewScene(CoreController.Inst.Scene_Home00);
+					if (FirebaseController.Inst.IsNewUser) { GoToNewScene(CoreController.Inst.Scene_Main04); }
+					else { GoToNewScene(CoreController.Inst.Scene_Home00); }
 				}
 
 				else

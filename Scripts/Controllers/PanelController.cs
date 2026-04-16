@@ -17,8 +17,7 @@ namespace SoM.Controllers {
 public class PanelController : Singleton<PanelController> {
 
 #region -------------------- Serialized Variables --------------------
-    [Header("Panel Elements")]
-    [SerializeField] private UiBottomPanel _bottomPanel;
+    
 #endregion
 #region -------------------- Public Variables --------------------
     public bool IsBottomVisible = false;
@@ -38,6 +37,8 @@ public class PanelController : Singleton<PanelController> {
         CoreController.Inst.WriteLog(this.GetType().Name, $"Initializing the controller.");
 
         IsBottomVisible = false;
+        
+        CoreController.Inst.LoadingStepCompleted();
     }
 
     public void ShowBottomPanel(ConstantController.PanelType panelType, Action actionA = null, Action actionB = null)
@@ -48,8 +49,8 @@ public class PanelController : Singleton<PanelController> {
 
         if (!IsBottomVisible && (newPanel != null))
         {
-            _bottomPanel.gameObject.SetActive(true);
-            _bottomPanel.InitializePanel(newPanel);
+            UiController.Inst.BottomPanel.gameObject.SetActive(true);
+            UiController.Inst.BottomPanel.InitializePanel(newPanel);
         }
     }
 #endregion
@@ -66,10 +67,10 @@ public class PanelController : Singleton<PanelController> {
             SpriteB = 0,
         };
 
-        if (actionA == null) { newPanel.ActionA = () => { _bottomPanel.ClosePanel(); }; }
+        if (actionA == null) { newPanel.ActionA = () => { UiController.Inst.BottomPanel.ClosePanel(); }; }
         else { newPanel.ActionA = () => { actionA?.Invoke(); }; }
 
-        if (actionB == null) { newPanel.ActionB = () => { _bottomPanel.ClosePanel(); }; }
+        if (actionB == null) { newPanel.ActionB = () => { UiController.Inst.BottomPanel.ClosePanel(); }; }
         else { newPanel.ActionB = () => { actionB?.Invoke(); }; }
 
         switch (panelType)

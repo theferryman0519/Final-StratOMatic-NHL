@@ -34,6 +34,8 @@ public class PlayoffsController : Singleton<PlayoffsController> {
     public void InitializeController()
     {
         CoreController.Inst.WriteLog(this.GetType().Name, $"Initializing the controller.");
+        
+        CoreController.Inst.LoadingStepCompleted();
 
         // TODO
     }

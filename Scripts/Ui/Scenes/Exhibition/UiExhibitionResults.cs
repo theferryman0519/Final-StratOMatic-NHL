@@ -71,37 +71,37 @@ public class UiExhibitionResults : UiSceneBase {
 
         if (league == "NHLFranchise")
         {
-            if (result == "Win") { UsersController.UserData.Stats.NhlFranchiseWins += 1; }
-            else if (result == "Lose") { UsersController.UserData.Stats.NhlFranchiseLosses += 1; }
-            else if (result == "Tie") { UsersController.UserData.Stats.NhlFranchiseTies += 1; }
-            else { UsersController.UserData.Stats.NhlFranchiseOTLs += 1; }
+            if (result == "Win") { UsersController.Inst.UserData.Stats.NhlFranchiseWins += 1; }
+            else if (result == "Lose") { UsersController.Inst.UserData.Stats.NhlFranchiseLosses += 1; }
+            else if (result == "Tie") { UsersController.Inst.UserData.Stats.NhlFranchiseTies += 1; }
+            else { UsersController.Inst.UserData.Stats.NhlFranchiseOTLs += 1; }
         }
 
         else if (league == "PWHL")
         {
-            if (result == "Win") { UsersController.UserData.Stats.PwhlWins += 1; }
-            else if (result == "Lose") { UsersController.UserData.Stats.PwhlLosses += 1; }
-            else if (result == "Tie") { UsersController.UserData.Stats.PwhlTies += 1; }
-            else { UsersController.UserData.Stats.PwhlOTLs += 1; }
+            if (result == "Win") { UsersController.Inst.UserData.Stats.PwhlWins += 1; }
+            else if (result == "Lose") { UsersController.Inst.UserData.Stats.PwhlLosses += 1; }
+            else if (result == "Tie") { UsersController.Inst.UserData.Stats.PwhlTies += 1; }
+            else { UsersController.Inst.UserData.Stats.PwhlOTLs += 1; }
         }
 
         else if (league == "PWHLFranchise")
         {
-            if (result == "Win") { UsersController.UserData.Stats.PwhlFranchiseWins += 1; }
-            else if (result == "Lose") { UsersController.UserData.Stats.PwhlFranchiseLosses += 1; }
-            else if (result == "Tie") { UsersController.UserData.Stats.PwhlFranchiseTies += 1; }
-            else { UsersController.UserData.Stats.PwhlFranchiseOTLs += 1; }
+            if (result == "Win") { UsersController.Inst.UserData.Stats.PwhlFranchiseWins += 1; }
+            else if (result == "Lose") { UsersController.Inst.UserData.Stats.PwhlFranchiseLosses += 1; }
+            else if (result == "Tie") { UsersController.Inst.UserData.Stats.PwhlFranchiseTies += 1; }
+            else { UsersController.Inst.UserData.Stats.PwhlFranchiseOTLs += 1; }
         }
 
         else // NHL
         {
-            if (result == "Win") { UsersController.UserData.Stats.NhlWins += 1; }
-            else if (result == "Lose") { UsersController.UserData.Stats.NhlLosses += 1; }
-            else if (result == "Tie") { UsersController.UserData.Stats.NhlTies += 1; }
-            else { UsersController.UserData.Stats.NhlOTLs += 1; }
+            if (result == "Win") { UsersController.Inst.UserData.Stats.NhlWins += 1; }
+            else if (result == "Lose") { UsersController.Inst.UserData.Stats.NhlLosses += 1; }
+            else if (result == "Tie") { UsersController.Inst.UserData.Stats.NhlTies += 1; }
+            else { UsersController.Inst.UserData.Stats.NhlOTLs += 1; }
         }
 
-        await UsersController.Inst.SetUserData(UsersController.Inst.UserData.Id, GoToHome);
+        UsersController.Inst.SetUserData(UsersController.Inst.UserData.Id, GoToHome);
     }
     
     private void GoToHome()

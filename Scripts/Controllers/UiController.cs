@@ -26,7 +26,8 @@ public class UiController : Singleton<UiController> {
 #region -------------------- Public Variables --------------------
     public bool IsFadingBannerIn = false;
     public bool IsFadingBannerOut = false;
-	public bool IsNewUser = false;
+	
+	public UiBottomPanel BottomPanel => _bottomPanel;
 #endregion
 #region -------------------- Private Variables --------------------
     

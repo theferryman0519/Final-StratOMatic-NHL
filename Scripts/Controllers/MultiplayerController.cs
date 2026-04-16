@@ -33,6 +33,8 @@ public class MultiplayerController : Singleton<MultiplayerController> {
     public void InitializeController()
     {
         CoreController.Inst.WriteLog(this.GetType().Name, $"Initializing the controller.");
+        
+        CoreController.Inst.LoadingStepCompleted();
 
         // TODO
     }

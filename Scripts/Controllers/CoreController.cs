@@ -186,7 +186,7 @@ public class CoreController : Singleton<CoreController> {
 
     public void LoadingStepCompleted()
 	{
-		WriteLog(this.GetType().Name, $"Loading step has completed.");
+		WriteLog(this.GetType().Name, $"Loading step has completed: {LoadingSteps.progress + 1} of {LoadingSteps.max}.");
 		
 		int newProgress = Mathf.Clamp(LoadingSteps.progress + 1, 0, LoadingSteps.max);
 		LoadingSteps = (newProgress, LoadingSteps.max);
