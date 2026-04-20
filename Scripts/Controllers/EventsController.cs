@@ -76,7 +76,7 @@ public class EventsController : Singleton<EventsController> {
     {
         CoreController.Inst.WriteLog(this.GetType().Name, $"---------- Running a OffenseEvent ----------");
 
-        GameplayEvents.RunOffenseEvent(index, shotType);
+        GameplayEvents.RunOffenseEvent(index);
     }
 
     public void RunDefenseEvent(int index)
