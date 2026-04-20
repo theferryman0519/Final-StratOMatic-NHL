@@ -900,7 +900,8 @@ public class OffenseEvents : MonoBehaviour {
             GameplayController.Inst.StatsSet.AddPossPos(newPossPos);
 
             ShootingSkater = newPossTeam.SkaterLineup[newPossPos];
-            EventsController.Inst.RunOffenseEvent(2, ConstantController.ShotType.RebBreak);
+            SelectedShotType = ConstantController.ShotType.RebBreak;
+            EventsController.Inst.RunOffenseEvent(2);
         }
 
         else if (finalActionString == "LOSE IN")
@@ -941,7 +942,8 @@ public class OffenseEvents : MonoBehaviour {
             GameplayController.Inst.StatsSet.AddPossPos(newPossPos);
 
             ShootingSkater = newPossTeam.SkaterLineup[newPossPos];
-            EventsController.Inst.RunOffenseEvent(1, ConstantController.ShotType.Outside);
+            SelectedShotType = ConstantController.ShotType.Outside;
+            EventsController.Inst.RunOffenseEvent(1);
         }
 
         else if (finalActionString == "LOSE")
@@ -1000,7 +1002,8 @@ public class OffenseEvents : MonoBehaviour {
             GameplayController.Inst.StatsSet.AddPossPos(possPos);
 
             ShootingSkater = possTeam.SkaterLineup[possPos];
-            EventsController.Inst.RunOffenseEvent(1, ConstantController.ShotType.Outside);
+            SelectedShotType = ConstantController.ShotType.Outside;
+            EventsController.Inst.RunOffenseEvent(1);
         }
 
         else if (finalActionString == "IN")
@@ -1029,7 +1032,8 @@ public class OffenseEvents : MonoBehaviour {
             GameplayController.Inst.StatsSet.AddPossPos(possPos);
 
             ShootingSkater = possTeam.SkaterLineup[possPos];
-            EventsController.Inst.RunOffenseEvent(2, ConstantController.ShotType.RebBreak);
+            SelectedShotType = ConstantController.ShotType.RebBreak;
+            EventsController.Inst.RunOffenseEvent(2);
         }
     }
 
