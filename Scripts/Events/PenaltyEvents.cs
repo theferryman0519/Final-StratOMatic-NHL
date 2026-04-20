@@ -97,6 +97,19 @@ public class PenaltyEvents : MonoBehaviour {
     {
         CoreController.Inst.WriteLog(this.GetType().Name, $"Adding PenaltyShotsList to the queue.");
 
+        GameplayController.Inst.GameData.HomeTeam.CurrentLine = 1;
+        GameplayController.Inst.GameData.HomeTeam.CurrentPair = 1;
+        GameplayController.Inst.GameData.HomeTeam.NextLine = 1;
+        GameplayController.Inst.GameData.HomeTeam.NextPair = 1;
+
+        GameplayController.Inst.GameData.AwayTeam.CurrentLine = 1;
+        GameplayController.Inst.GameData.AwayTeam.CurrentPair = 1;
+        GameplayController.Inst.GameData.AwayTeam.NextLine = 1;
+        GameplayController.Inst.GameData.AwayTeam.NextPair = 1;
+
+        GameplayController.Inst.StatsSet.ResetFullTeamStamina(true);
+        GameplayController.Inst.StatsSet.ResetFullTeamStamina(false);
+
         string penaltyPlayerFirst = PenaltyGoalie == null ? PenaltySkater.Info.FirstName : PenaltyGoalie.Info.FirstName;
         string penaltyPlayerLast = PenaltyGoalie == null ? PenaltySkater.Info.LastName : PenaltyGoalie.Info.LastName;
 
