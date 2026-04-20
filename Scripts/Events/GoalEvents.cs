@@ -177,6 +177,8 @@ public class GoalEvents : MonoBehaviour {
             ButtonText = "Continue",
         };
 
+        AudioController.Inst.PlayGoalHorn();
+        
         EventsController.Inst.CurrentEventRun = newEventRun;
         EventsController.Inst.ContinueAction = DetermineAfterGoalEvent;
 
@@ -288,7 +290,6 @@ public class GoalEvents : MonoBehaviour {
 
         if (isUnderThreshold)
         {
-            AudioController.Inst.PlayGoalHorn();
             EventsController.Inst.RunGoalEvent(7);
         }
 
