@@ -437,7 +437,11 @@ public class UiExhibitionLines : UiSceneBase {
 		if (IsDefensePos(pos)) { posOption = 1; }
 		if (pos == "G") { posOption = 2; }
 
-		prefab.RemoveButton.RemoveListener();
+		prefab.RemoveButton.SetListener(() =>
+		{
+			GameplayController.Inst.GameData.HomeTeam.SkaterLineup.Remove(pos);
+			ClearPosition(pos, prefab);
+		});
 		prefab.SelectButton.SetListener(() =>
 		{
 			ShowSelectionPanel(posOption, pos);
