@@ -551,7 +551,7 @@ public class OffenseEvents : MonoBehaviour {
 
             ShootingSkater = GameplayController.Inst.GetPossSkater();
 
-            EventsController.Inst.GameplayEvents.OffenseEvents.SelectedShotType = ConstantController.ShotType.RebBreak;
+            SelectedShotType = ConstantController.ShotType.RebBreak;
             EventsController.Inst.RunOffenseEvent(2);
         }
 
@@ -622,7 +622,7 @@ public class OffenseEvents : MonoBehaviour {
 
             ShootingSkater = GameplayController.Inst.GetPossSkater();
 
-            EventsController.Inst.GameplayEvents.OffenseEvents.SelectedShotType = ConstantController.ShotType.Inside;
+            SelectedShotType = ConstantController.ShotType.Inside;
             EventsController.Inst.RunOffenseEvent(11);
         }
 
@@ -644,7 +644,7 @@ public class OffenseEvents : MonoBehaviour {
 
             ShootingSkater = GameplayController.Inst.GetPossSkater();
 
-            EventsController.Inst.GameplayEvents.OffenseEvents.SelectedShotType = ConstantController.ShotType.Outside;
+            SelectedShotType = ConstantController.ShotType.Outside;
             EventsController.Inst.RunOffenseEvent(11);
         }
 
@@ -902,7 +902,7 @@ public class OffenseEvents : MonoBehaviour {
             GameplayController.Inst.StatsSet.SetPossTeam(newPossTeamString);
             GameplayController.Inst.StatsSet.AddPossPos(newPossPos);
 
-            EventsController.Inst.GameplayEvents.OffenseEvents.ShootingSkater = newPossTeam.SkaterLineup[newPossPos];
+            ShootingSkater = newPossTeam.SkaterLineup[newPossPos];
             EventsController.Inst.RunOffenseEvent(2, ConstantController.ShotType.RebBreak);
         }
 
@@ -922,8 +922,8 @@ public class OffenseEvents : MonoBehaviour {
             GameplayController.Inst.StatsSet.SetPossTeam(newPossTeamString);
             GameplayController.Inst.StatsSet.AddPossPos(newPossPos);
 
-            EventsController.Inst.GameplayEvents.OffenseEvents.SelectedShotType = ConstantController.ShotType.Inside;
-            EventsController.Inst.GameplayEvents.OffenseEvents.ShootingSkater = newPossTeam.SkaterLineup[newPossPos];
+            SelectedShotType = ConstantController.ShotType.Inside;
+            ShootingSkater = newPossTeam.SkaterLineup[newPossPos];
             EventsController.Inst.RunDefenseEvent(0);
         }
 
@@ -943,7 +943,7 @@ public class OffenseEvents : MonoBehaviour {
             GameplayController.Inst.StatsSet.SetPossTeam(newPossTeamString);
             GameplayController.Inst.StatsSet.AddPossPos(newPossPos);
 
-            EventsController.Inst.GameplayEvents.OffenseEvents.ShootingSkater = newPossTeam.SkaterLineup[newPossPos];
+            ShootingSkater = newPossTeam.SkaterLineup[newPossPos];
             EventsController.Inst.RunOffenseEvent(1, ConstantController.ShotType.Outside);
         }
 
@@ -1002,7 +1002,7 @@ public class OffenseEvents : MonoBehaviour {
 
             GameplayController.Inst.StatsSet.AddPossPos(possPos);
 
-            EventsController.Inst.GameplayEvents.OffenseEvents.ShootingSkater = possTeam.SkaterLineup[possPos];
+            ShootingSkater = possTeam.SkaterLineup[possPos];
             EventsController.Inst.RunOffenseEvent(1, ConstantController.ShotType.Outside);
         }
 
@@ -1016,8 +1016,8 @@ public class OffenseEvents : MonoBehaviour {
 
             GameplayController.Inst.StatsSet.AddPossPos(possPos);
 
-            EventsController.Inst.GameplayEvents.OffenseEvents.SelectedShotType = ConstantController.ShotType.Inside;
-            EventsController.Inst.GameplayEvents.OffenseEvents.ShootingSkater = possTeam.SkaterLineup[possPos];
+            SelectedShotType = ConstantController.ShotType.Inside;
+            ShootingSkater = possTeam.SkaterLineup[possPos];
             EventsController.Inst.RunDefenseEvent(0);
         }
 
@@ -1031,7 +1031,7 @@ public class OffenseEvents : MonoBehaviour {
 
             GameplayController.Inst.StatsSet.AddPossPos(possPos);
 
-            EventsController.Inst.GameplayEvents.OffenseEvents.ShootingSkater = possTeam.SkaterLineup[possPos];
+            ShootingSkater = possTeam.SkaterLineup[possPos];
             EventsController.Inst.RunOffenseEvent(2, ConstantController.ShotType.RebBreak);
         }
     }
@@ -1044,7 +1044,7 @@ public class OffenseEvents : MonoBehaviour {
 
         if (noise >= 3)
         {
-            EventsController.Inst.GameplayEvents.OffenseEvents.SelectedShotType = ConstantController.ShotType.Outside;
+            SelectedShotType = ConstantController.ShotType.Outside;
             EventsController.Inst.RunOffenseEvent(2);
         }
 
@@ -1054,7 +1054,7 @@ public class OffenseEvents : MonoBehaviour {
         }
 
         else {
-            EventsController.Inst.GameplayEvents.OffenseEvents.SelectedShotType = ConstantController.ShotType.Inside;
+            SelectedShotType = ConstantController.ShotType.Inside;
             EventsController.Inst.RunDefenseEvent(0);
         }
     }
