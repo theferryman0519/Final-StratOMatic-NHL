@@ -95,6 +95,7 @@ public class FaceoffEvents : MonoBehaviour {
         };
 
         EventsController.Inst.CurrentEventRun = newEventRun;
+        EventsController.Inst.GameplayEvents.OffenseEvents.SelectedShotType = ConstantController.ShotType.Outside;
         EventsController.Inst.ContinueAction = () => { EventsController.Inst.RunOffenseEvent(0); };
 
         yield return null;
