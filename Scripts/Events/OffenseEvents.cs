@@ -722,20 +722,17 @@ public class OffenseEvents : MonoBehaviour {
     {
         CoreController.Inst.WriteLog(this.GetType().Name, $"Checking for potential goalie pull.");
 
-        if (GameplayController.Inst.GameData.PossTeam != "None")
+        if (GameplayController.Inst.GameData.AwayUserType == "Ai")
         {
-            if (GameplayController.Inst.GameData.AwayUserType == "Ai")
-            {
-                AiChooseToPullGoalie();
-            }
+            AiChooseToPullGoalie();
+        }
 
-            GameTeam possTeam = GameplayController.Inst.GameData.PossTeam == "Home" ? GameplayController.Inst.GameData.HomeTeam : GameplayController.Inst.GameData.AwayTeam;
+        GameTeam possTeam = GameplayController.Inst.GameData.PossTeam == "Home" ? GameplayController.Inst.GameData.HomeTeam : GameplayController.Inst.GameData.AwayTeam;
 
-            if (possTeam.IsGoaliePulled)
-            {
-                EventsController.Inst.RunPullGoalieEvent(0);
-                return;
-            }
+        if (possTeam.IsGoaliePulled)
+        {
+            EventsController.Inst.RunPullGoalieEvent(0);
+            return;
         }
 
         continueAction?.Invoke();
