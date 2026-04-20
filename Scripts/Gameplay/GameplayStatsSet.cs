@@ -72,11 +72,11 @@ public class GameplayStatsSet : MonoBehaviour {
 
         if (GameplayController.Inst.GameOptions.FatigueOn)
         {
-            LowerStamina(gameTeam.SkaterLineup[$"C{lineNum}"]);
-            LowerStamina(gameTeam.SkaterLineup[$"LW{lineNum}"]);
-            LowerStamina(gameTeam.SkaterLineup[$"RW{lineNum}"]);
-            LowerStamina(gameTeam.SkaterLineup[$"LD{pairNum}"]);
-            LowerStamina(gameTeam.SkaterLineup[$"RD{pairNum}"]);
+            LowerStamina(gameTeam.SkaterLineup[$"C{lineNum}"], isHomeTeam);
+            LowerStamina(gameTeam.SkaterLineup[$"LW{lineNum}"], isHomeTeam);
+            LowerStamina(gameTeam.SkaterLineup[$"RW{lineNum}"], isHomeTeam);
+            LowerStamina(gameTeam.SkaterLineup[$"LD{pairNum}"], isHomeTeam);
+            LowerStamina(gameTeam.SkaterLineup[$"RD{pairNum}"], isHomeTeam);
         }
 
         for (int l = 1; l < 5; l++)
@@ -243,21 +243,27 @@ public class GameplayStatsSet : MonoBehaviour {
         skater.Game.SecondsPlayed += 40;
     }
 
-    public void LowerStamina(Skater skater)
+    public void LowerStamina(Skater skater, bool isHome)
     {
         CoreController.Inst.WriteLog(this.GetType().Name, $"Lowering stamina.");
 
         if (GameplayController.Inst.GameOptions.FatigueOn)
         {
             string fatigueRating = skater.Card.Fatigue;
+            int strategy = isHome ? GameplayController.Inst.GameData.HomeTeam.CurrentStrategy : GameplayController.Inst.GameData.AwayTeam.CurrentStrategy;
+            int strategyShift = 0;
+
+            if (strategy == 5 || strategy == 1) { strategyShift = 3; }
+            else if (strategy == 4 || strategy == 2) { strategyShift = 2; }
+            else { strategyShift = 1; }
 
             switch (fatigueRating)
             {
-                case "AA": skater.Game.Stamina -= 25; break;
-                case "A": skater.Game.Stamina -= 20; break;
-                case "B": skater.Game.Stamina -= 15; break;
-                case "C": skater.Game.Stamina -= 10; break;
-                case "D": skater.Game.Stamina -= 5; break;
+                case "AA": skater.Game.Stamina -= 25 * strategyShift; break;
+                case "A": skater.Game.Stamina -= 20 * strategyShift; break;
+                case "B": skater.Game.Stamina -= 15 * strategyShift; break;
+                case "C": skater.Game.Stamina -= 10 * strategyShift; break;
+                case "D": skater.Game.Stamina -= 5 * strategyShift; break;
             }
 
             if (skater.Game.Stamina < 0)
