@@ -37,6 +37,15 @@ public class ConstantController : Singleton<ConstantController> {
     public const string Pref_Email = "SoM_Email";
 	public const string Pref_Password = "SoM_Password";
     public const string Pref_ExhibitionOptions = "SoM_ExhibitionOptions";
+    public const string Pref_DefaultExhibitionLeague = "SoM_DefaultExhibitionLeague";
+    public const string Pref_DefaultExhibitionTeam = "SoM_DefaultExhibitionTeam";
+    public const string Pref_DefaultExhibitionLineup = "SoM_DefaultExhibitionLineup";
+    public const string Pref_DefaultSeasonLeague = "SoM_DefaultSeasonLeague";
+    public const string Pref_DefaultSeasonTeam = "SoM_DefaultSeasonTeam";
+    public const string Pref_DefaultSeasonLineup = "SoM_DefaultSeasonLineup";
+    public const string Pref_DefaultPlayoffLeague = "SoM_DefaultPlayoffLeague";
+    public const string Pref_DefaultPlayoffTeam = "SoM_DefaultPlayoffTeam";
+    public const string Pref_DefaultPlayoffLineup = "SoM_DefaultPlayoffLineup";
 
     // Resources Load
 	public const string ResourceBanners = "Banners/";
