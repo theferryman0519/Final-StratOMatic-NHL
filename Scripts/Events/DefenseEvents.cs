@@ -62,6 +62,7 @@ public class DefenseEvents : MonoBehaviour {
         };
 
         EventsController.Inst.CurrentEventRun = newEventRun;
+        EventsController.Inst.GameplayEvents.OffenseEvents.SelectedShotType = ConstantController.ShotType.Outside;
         EventsController.Inst.ContinueAction = () => { EventsController.Inst.RunOffenseEvent(0); };
 
         DefendingSkater = null;
@@ -81,9 +82,8 @@ public class DefenseEvents : MonoBehaviour {
             ButtonText = "Continue",
         };
 
-        EventsController.Inst.GameplayEvents.OffenseEvents.SelectedShotType = ConstantController.ShotType.Inside;
-
         EventsController.Inst.CurrentEventRun = newEventRun;
+        EventsController.Inst.GameplayEvents.OffenseEvents.SelectedShotType = ConstantController.ShotType.Inside;
         EventsController.Inst.ContinueAction = () => { EventsController.Inst.RunOffenseEvent(2); };
 
         DefendingSkater = null;
@@ -123,6 +123,7 @@ public class DefenseEvents : MonoBehaviour {
         };
 
         EventsController.Inst.CurrentEventRun = newEventRun;
+        EventsController.Inst.GameplayEvents.OffenseEvents.SelectedShotType = ConstantController.ShotType.Outside;
         EventsController.Inst.ContinueAction = () => { EventsController.Inst.RunOffenseEvent(0); };
 
         DefendingSkater = null;
@@ -143,6 +144,7 @@ public class DefenseEvents : MonoBehaviour {
         };
 
         EventsController.Inst.CurrentEventRun = newEventRun;
+        EventsController.Inst.GameplayEvents.OffenseEvents.SelectedShotType = ConstantController.ShotType.Inside;
         EventsController.Inst.ContinueAction = () => { EventsController.Inst.RunOffenseEvent(2); };
 
         DefendingSkater = null;
@@ -162,9 +164,8 @@ public class DefenseEvents : MonoBehaviour {
             ButtonText = "Continue",
         };
         
-        EventsController.Inst.GameplayEvents.OffenseEvents.SelectedShotType = ConstantController.ShotType.Inside;
-
         EventsController.Inst.CurrentEventRun = newEventRun;
+        EventsController.Inst.GameplayEvents.OffenseEvents.SelectedShotType = ConstantController.ShotType.Inside;
         EventsController.Inst.ContinueAction = () => { EventsController.Inst.RunOffenseEvent(2); };
 
         DefendingSkater = null;
