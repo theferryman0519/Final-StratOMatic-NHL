@@ -99,13 +99,11 @@ public class GameplayEvents : MonoBehaviour {
         }
     }
 
-    public void RunOffenseEvent(int index, ConstantController.ShotType shotType)
+    public void RunOffenseEvent(int index)
     {
         if (OffenseEvents == null) { InitializeEvents(); }
 
         CoreController.Inst.WriteLog(this.GetType().Name, $"Running a OffenseEvent.");
-
-        OffenseEvents.SelectedShotType = shotType;
 
         switch (index)
         {
