@@ -84,6 +84,7 @@ public class UiExhibitionLines : UiSceneBase {
 
 		ClearAllPositions();
 		ChangePositionOption(0);
+		SetLinesFromPrefs();
 
         base.InitializeUi();
 	}
@@ -113,6 +114,70 @@ public class UiExhibitionLines : UiSceneBase {
         GameplayController.Inst.GameData.HomeTeam.GoalieLineup["G"] = defaultGoalie;
 
         RefreshAllPositions();
+    }
+
+	private void SetLinesFromPrefs()
+    {
+        CoreController.Inst.WriteLog(this.GetType().Name, $"Setting the lineup from saved prefs.");
+
+		GameplayController.Inst.GameData.HomeTeam.SkaterLineup.Clear();
+        GameplayController.Inst.GameData.HomeTeam.GoalieLineup.Clear();
+
+		if (PlayerPrefs.HasKey(ConstantController.Pref_DefaultExhibitionLeague) && 
+			PlayerPrefs.HasKey(ConstantController.Pref_DefaultExhibitionTeam) && 
+			PlayerPrefs.HasKey(ConstantController.Pref_DefaultExhibitionLineup))
+		{
+            string leagueDefault = string.Empty;
+            string teamDefault = string.Empty;
+			string lineupDefault = string.Empty;
+
+			leagueDefault = PlayerPrefs.GetString(ConstantController.Pref_DefaultExhibitionLeague);
+            teamDefault = PlayerPrefs.GetString(ConstantController.Pref_DefaultExhibitionTeam);
+			lineupDefault = PlayerPrefs.GetString(ConstantController.Pref_DefaultExhibitionLineup);
+
+			string[] lineupDefaultArray = lineupDefault.Split('/');
+
+			Dictionary<string, Skater> defaultTeamSkaters = new();
+			Dictionary<string, Goalie> defaultTeamGoalies = new();
+
+            if (leagueDefault == "NHL")
+			{
+				defaultTeamSkaters = SkatersController.Inst.NhlSkaters[teamDefault];
+				defaultTeamGoalies = GoaliesController.Inst.NhlGoalies[teamDefault];
+			}
+
+			else if (leagueDefault == "NHLFranchise")
+			{
+				defaultTeamSkaters = SkatersController.Inst.NhlFranchiseSkaters[teamDefault];
+				defaultTeamGoalies = GoaliesController.Inst.NhlFranchiseGoalies[teamDefault];
+			}
+
+			else if (leagueDefault == "PWHL")
+			{
+				defaultTeamSkaters = SkatersController.Inst.PwhlSkaters[teamDefault];
+				defaultTeamGoalies = GoaliesController.Inst.PwhlGoalies[teamDefault];
+			}
+
+			else if (leagueDefault == "PWHLFranchise")
+			{
+				defaultTeamSkaters = SkatersController.Inst.PwhlFranchiseSkaters[teamDefault];
+				defaultTeamGoalies = GoaliesController.Inst.PwhlFranchiseGoalies[teamDefault];
+			}
+
+			if (defaultTeamSkaters.Count > 0 && defaultTeamGoalies.Count > 0 && lineupDefaultArray.Length == 19)
+			{
+				for (int i = 0; i < positionsList.Count - 1; i++)
+				{
+					Skater skater = defaultTeamSkaters.Values.FirstOrDefault(s => s.Id == lineupDefaultArray[i]);
+					if (skater != null) { GameplayController.Inst.GameData.HomeTeam.SkaterLineup.Add(positionsList[i], skater); }
+				}
+
+				Goalie goalie = defaultTeamGoalies.Values.FirstOrDefault(g => g.Id == lineupDefaultArray[18]);
+				if (goalie != null) { GameplayController.Inst.GameData.HomeTeam.GoalieLineup.Add("G", goalie); }
+			}
+
+			RefreshAllPositions();
+		}
     }
 
 	private void GoToReady()
@@ -173,6 +238,8 @@ public class UiExhibitionLines : UiSceneBase {
         GameplayController.Inst.GameData.AwayTeam.SkaterLineup = defaultSkaters;
         GameplayController.Inst.GameData.AwayTeam.GoalieLineup["G"] = defaultGoalie;
 
+		SetLinesToPlayerPrefs();
+
 		GoToNewScene(CoreController.Inst.Scene_Exhibition03);
     }
 
@@ -182,6 +249,26 @@ public class UiExhibitionLines : UiSceneBase {
 
         GoToNewScene(CoreController.Inst.Scene_Exhibition01);
     }
+
+	private void SetLinesToPlayerPrefs()
+	{
+		CoreController.Inst.WriteLog(this.GetType().Name, $"Setting lines to player prefs.");
+
+		string userTeam = GameplayController.Inst.GameData.HomeTeam.Team.Code;
+        string userLeague = GameplayController.Inst.GameData.HomeTeam.Team.League;
+		string userLineup = string.Empty;
+
+		foreach (Skater skater in GameplayController.Inst.GameData.HomeTeam.SkaterLineup)
+		{
+			userLineup += $"{skater.Id}/";
+		}
+
+		userLineup += $"{GameplayController.Inst.GameData.HomeTeam.GoalieLineup["G"].Id}";
+
+		PlayerPrefs.SetString(ConstantController.Pref_DefaultExhibitionLeague, userLeague);
+		PlayerPrefs.SetString(ConstantController.Pref_DefaultExhibitionTeam, userTeam);
+		PlayerPrefs.SetString(ConstantController.Pref_DefaultExhibitionLineup, userLineup);
+	}
 
 	private string SetRandomTeam(int maxChoice, string teamCode, ConstantController.LeagueType teamLeague)
 	{
