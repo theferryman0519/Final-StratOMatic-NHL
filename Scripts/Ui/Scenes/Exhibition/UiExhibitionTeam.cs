@@ -61,6 +61,7 @@ public class UiExhibitionTeam : UiSceneBase {
         GameplayController.Inst.CreateExhibitionGame();
 
         SetContainer();
+        SetTeamFromDefault();
 
         base.InitializeUi();
 	}
@@ -112,6 +113,51 @@ public class UiExhibitionTeam : UiSceneBase {
                 _continueButton.gameObject.SetActive(true);
             });
         }
+    }
+
+    private void SetTeamFromDefault()
+    {
+        CoreController.Inst.WriteLog(this.GetType().Name, $"Setting the team from default.");
+
+		if (PlayerPrefs.HasKey(ConstantController.Pref_DefaultExhibitionLeague) && PlayerPrefs.HasKey(ConstantController.Pref_DefaultExhibitionTeam))
+		{
+            string leagueDefault = string.Empty;
+            string teamDefault = string.Empty;
+            int leagueOption = -1;
+
+			leagueDefault = PlayerPrefs.GetString(ConstantController.Pref_DefaultExhibitionLeague);
+            teamDefault = PlayerPrefs.GetString(ConstantController.Pref_DefaultExhibitionTeam);
+
+            if (leagueDefault == "NHL") { selectedLeague = ConstantController.LeagueType.NHL; leagueOption = 0; }
+            else if (leagueDefault == "PWHL") { selectedLeague = ConstantController.LeagueType.PWHL; leagueOption = 1; }
+            else if (leagueDefault == "NHLFranchise") { selectedLeague = ConstantController.LeagueType.NHLFranchise; leagueOption = 2; }
+            else if (leagueDefault == "PWHLFranchise") { selectedLeague = ConstantController.LeagueType.PWHLFranchise; leagueOption = 3; }
+
+            ChangeLeagueOption(leagueOption);
+
+            _leagueDropdown.Dropdown.value = leagueOption;
+
+            Team defaultTeam = TeamsController.Inst.GetTeamFromCode(teamDefault, selectedLeague);
+
+            if (defaultTeam != null)
+            {
+                foreach (GameObject teamObj in _container)
+                {
+                    if (teamObj.TryGetComponent<FavoriteTeamPrefab>(out FavoriteTeamPrefab teamPrefab))
+                    {
+                        if (teamPrefab.TeamString.Contains($"_{teamDefault}"))
+                        {
+                            teamPrefab.SetIcon(defaultTeam, true);
+
+                            SetBanner(defaultTeam);
+
+                            _selectionText.text = $"You have selected the {defaultTeam.Info.CityName} {defaultTeam.Info.NickName} of the {defaultTeam.Info.League}";
+                            _continueButton.gameObject.SetActive(true);
+                        }
+                    }
+                }
+            }
+		}
     }
 
     private void SetBanner(Team team)
