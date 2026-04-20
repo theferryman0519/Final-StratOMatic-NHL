@@ -80,51 +80,54 @@ public class SeasonsController : Singleton<SeasonsController> {
     {
         CoreController.Inst.WriteLog(this.GetType().Name, $"Loading the season data.");
 
-        await FirebaseController.Inst.GetSeason(UsersController.Inst.UserData.Id, async seasonData =>
-        {
-            SeasonData = null;
-
-            if (seasonData != null)
-            {
-                SeasonData = new Season
-                {
-                    Id = seasonData.Id,
-                    League = seasonData.League,
-                    Version = seasonData.Version,
-                    GameNights = new(),
-                };
-
-                ConstantController.LeagueType leagueType = ConstantController.LeagueType.None;
-
-                if (SeasonData.League == "NHL") { leagueType = ConstantController.LeagueType.NHL; }
-                else { leagueType = ConstantController.LeagueType.PWHL; }
-
-                Team userTeam = TeamsController.Inst.GetTeamFromCode(seasonData.Team, leagueType);
-
-                GameTeam userGameTeam = new GameTeam
-                {
-                    SkaterLineup = new(),
-                    GoalieLineup = new(),
-                    CurrentLine = 1,
-                    CurrentPair = 1,
-                    CurrentStrategy = 3,
-                    NextLine = 1,
-                    NextPair = 1,
-                    NextStrategy = 3,
-                    IsGoaliePulled = false,
-                    Team = userTeam.Info,
-                    Stats = userTeam.Game,
-                };
-
-                SeasonData.Team = userGameTeam;
-                SeasonData.Team.SkaterLineup = await SetSkaterLineup(seasonData.SkaterLineup);
-                SeasonData.Team.GoalieLineup = await SetGoalieLineup(seasonData.GoalieLineup);
-
-                SeasonGameNight = seasonData.GameNight;
-            }
-
-            CoreController.Inst.LoadingStepCompleted();
-        });
+        // TODO
+        // await FirebaseController.Inst.GetSeason(UsersController.Inst.UserData.Id, async seasonData =>
+        // {
+        //     SeasonData = null;
+        //
+        //     if (seasonData != null)
+        //     {
+        //         SeasonData = new Season
+        //         {
+        //             Id = seasonData.Id,
+        //             League = seasonData.League,
+        //             Version = seasonData.Version,
+        //             GameNights = new(),
+        //         };
+        //
+        //         ConstantController.LeagueType leagueType = ConstantController.LeagueType.None;
+        //
+        //         if (SeasonData.League == "NHL") { leagueType = ConstantController.LeagueType.NHL; }
+        //         else { leagueType = ConstantController.LeagueType.PWHL; }
+        //
+        //         Team userTeam = TeamsController.Inst.GetTeamFromCode(seasonData.Team, leagueType);
+        //
+        //         GameTeam userGameTeam = new GameTeam
+        //         {
+        //             SkaterLineup = new(),
+        //             GoalieLineup = new(),
+        //             CurrentLine = 1,
+        //             CurrentPair = 1,
+        //             CurrentStrategy = 3,
+        //             NextLine = 1,
+        //             NextPair = 1,
+        //             NextStrategy = 3,
+        //             IsGoaliePulled = false,
+        //             Team = userTeam.Info,
+        //             Stats = userTeam.Game,
+        //         };
+        //
+        //         SeasonData.Team = userGameTeam;
+        //         SeasonData.Team.SkaterLineup = await SetSkaterLineup(seasonData.SkaterLineup);
+        //         SeasonData.Team.GoalieLineup = await SetGoalieLineup(seasonData.GoalieLineup);
+        //
+        //         SeasonGameNight = seasonData.GameNight;
+        //     }
+        //
+        //     CoreController.Inst.LoadingStepCompleted();
+        // });
+        
+        CoreController.Inst.LoadingStepCompleted();
     }
 
     private async Task<Dictionary<string, Skater>> SetSkaterLineup(List<string> skaterIds)

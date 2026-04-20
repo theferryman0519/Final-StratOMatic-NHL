@@ -87,7 +87,7 @@ public class TeamsController : Singleton<TeamsController> {
     public Dictionary<string, Skater> GetDefaultLineup(string code, ConstantController.LeagueType league)
     {
         CoreController.Inst.WriteLog(this.GetType().Name, $"Getting the default lineup for a team.");
-
+        
         Dictionary<string, Skater> defaultLineup = new();
 
         Team team = GetTeamFromCode(code, league);

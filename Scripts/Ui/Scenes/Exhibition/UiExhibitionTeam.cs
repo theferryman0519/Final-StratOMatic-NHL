@@ -2,6 +2,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -78,6 +79,8 @@ public class UiExhibitionTeam : UiSceneBase {
     {
         CoreController.Inst.WriteLog(this.GetType().Name, $"Going to home screen.");
 
+        GameplayController.Inst.GameData = null;
+
 		GoToNewScene(CoreController.Inst.Scene_Home00);
     }
     
@@ -97,6 +100,8 @@ public class UiExhibitionTeam : UiSceneBase {
             icon.IconButton.onClick.AddListener(() =>
             {
                 CoreController.Inst.WriteLog(this.GetType().Name, $"Choosing {team.Info.Code} as a selected team.");
+                
+                RefreshAllIcons();
 
                 selectedTeam = team;
                 icon.SetIcon(team, true);
@@ -113,10 +118,19 @@ public class UiExhibitionTeam : UiSceneBase {
     {
 	    CoreController.Inst.WriteLog(this.GetType().Name, $"Setting the team banner.");
 	    
-	    string teamString = $"{team.Info.League}_{team.Info.Code}";
-	    
-	    _bannerBackground.sprite = ConstantController.Inst.BannerSprites[teamString];
-	    _bannerLogo.sprite = ConstantController.Inst.LogoSprites[teamString];
+	    GameplayController.Inst.SetGameTeam(team, true);
+
+	    SetBanner();
+    }
+    
+    private void RefreshAllIcons()
+    {
+	    foreach (Transform obj in _container)
+	    {
+		    FavoriteTeamPrefab icon = obj.GetComponent<FavoriteTeamPrefab>();
+            
+		    icon.SwitchOff();
+	    }
     }
 
     private void ClearContainer()
@@ -157,7 +171,7 @@ public class UiExhibitionTeam : UiSceneBase {
 				break;
 		}
 
-		return teamList;
+		return teamList.OrderBy(team => team.Info.CityName).ToList();
 	}
 
 	private void ChangeLeagueOption(int option)
@@ -172,9 +186,9 @@ public class UiExhibitionTeam : UiSceneBase {
 			case 2:
 				selectedLeague = ConstantController.LeagueType.NHLFranchise;
 				break;
-			case 3:
-				selectedLeague = ConstantController.LeagueType.PWHLFranchise;
-				break;
+			// case 3:
+			// 	selectedLeague = ConstantController.LeagueType.PWHLFranchise;
+			// 	break;
 			case 0:
 			default:
 				selectedLeague = ConstantController.LeagueType.NHL;

@@ -54,6 +54,8 @@ public class UiExhibitionOptions : UiSceneBase {
 		_injuriesDropdown.SetListener(ChangeInjuriesOption);
 		_difficultyDropdown.SetListener(ChangeDifficultyOption);
 
+		GameplayController.Inst.GameOptions = new GameOptions();
+
 		SetDropdownDefaults();
 
         base.InitializeUi();
@@ -68,7 +70,7 @@ public class UiExhibitionOptions : UiSceneBase {
 		string fatigueSelection = GameplayController.Inst.GameOptions.FatigueOn.ToString();
 		string injuriesSelection = GameplayController.Inst.GameOptions.InjuriesOn.ToString();
 
-		PlayerPrefs.SetString(ConstantController.Pref_ExhibitionOptions, $"{lineChangesSelection}/{fatigueSelection}/true/{injuriesSelection}/{aiDifficulty}");
+		PlayerPrefs.SetString(ConstantController.Pref_ExhibitionOptions, $"{lineChangesSelection}/{fatigueSelection}/True/{injuriesSelection}/{aiDifficulty}");
     }
 
 	private void GoToEditLines()
@@ -98,22 +100,22 @@ public class UiExhibitionOptions : UiSceneBase {
 
 		else
 		{
-			optionsDefault = "true/true/true/true/Veteran";
+			optionsDefault = "True/True/True/True/Veteran";
 
 			PlayerPrefs.SetString(ConstantController.Pref_ExhibitionOptions, optionsDefault);
 		}
-
+		
 		string[] optionsArray = optionsDefault.Split("/");
 
-		if (optionsArray[0] == "true") { ChangeLineChangesOption(0); }
+		if (optionsArray[0] == "true" || optionsArray[0] == "True") { ChangeLineChangesOption(0); }
 		else { ChangeLineChangesOption(1); }
 
-		if (optionsArray[1] == "true") { ChangeFatigueOption(0); }
+		if (optionsArray[1] == "true" || optionsArray[1] == "True") { ChangeFatigueOption(0); }
 		else { ChangeFatigueOption(1); }
 
 		// optionsArray[2] is for season only
 
-		if (optionsArray[3] == "true") { ChangeInjuriesOption(0); }
+		if (optionsArray[3] == "true" || optionsArray[3] == "True") { ChangeInjuriesOption(0); }
 		else { ChangeInjuriesOption(1); }
 
 		if (optionsArray[4] == "Rookie") { ChangeDifficultyOption(0); }
@@ -135,6 +137,8 @@ public class UiExhibitionOptions : UiSceneBase {
 				GameplayController.Inst.GameOptions.LineChangesOn = true;
 				break;
 		}
+		
+		_lineChangesDropdown.Dropdown.value = option;
     }
 
 	private void ChangeFatigueOption(int option)
@@ -151,6 +155,8 @@ public class UiExhibitionOptions : UiSceneBase {
 				GameplayController.Inst.GameOptions.FatigueOn = true;
 				break;
 		}
+		
+		_fatigueDropdown.Dropdown.value = option;
     }
 
 	private void ChangeInjuriesOption(int option)
@@ -167,6 +173,8 @@ public class UiExhibitionOptions : UiSceneBase {
 				GameplayController.Inst.GameOptions.InjuriesOn = true;
 				break;
 		}
+		
+		_injuriesDropdown.Dropdown.value = option;
     }
 
 	private void ChangeDifficultyOption(int option)
@@ -189,6 +197,8 @@ public class UiExhibitionOptions : UiSceneBase {
 				aiDifficulty = "Veteran";
 				break;
 		}
+		
+		_difficultyDropdown.Dropdown.value = option;
     }
 #endregion
 }}

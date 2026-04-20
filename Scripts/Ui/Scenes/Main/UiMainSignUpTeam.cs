@@ -96,8 +96,7 @@ public class UiMainSignUpTeam : UiSceneBase {
 
                     string league = team.Info.League.Contains("NHL") ? "NHL" : "PWHL";
 
-                    _selectionText.text =
-                        $"You have selected the {team.Info.CityName} {team.Info.NickName} of the {league}";
+                    _selectionText.text = $"You have selected the {team.Info.CityName} {team.Info.NickName} of the {league}";
                     _signUpButton.gameObject.SetActive(true);
                 });
                 

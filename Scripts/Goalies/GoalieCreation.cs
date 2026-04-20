@@ -36,7 +36,7 @@ public class GoalieCreation : MonoBehaviour {
     private float assistsPerGame = 0f;
     private float penaltyMinutesPerGame = 0f;
 
-    private int[] orderedSums = { 7, 6, 9, 5, 10, 4, 11, 3, 12, 2 };
+    private int[] orderedSums = { 7, 6, 8, 9, 5, 10, 4, 11, 3, 12, 2 };
 
     private SemaphoreSlim createGoalieLock = new(1, 1);
 #endregion

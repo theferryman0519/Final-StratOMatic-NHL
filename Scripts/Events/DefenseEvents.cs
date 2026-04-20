@@ -81,6 +81,8 @@ public class DefenseEvents : MonoBehaviour {
             ButtonText = "Continue",
         };
 
+        EventsController.Inst.GameplayEvents.OffenseEvents.SelectedShotType = ConstantController.ShotType.Inside;
+
         EventsController.Inst.CurrentEventRun = newEventRun;
         EventsController.Inst.ContinueAction = () => { EventsController.Inst.RunOffenseEvent(2); };
 
@@ -159,6 +161,8 @@ public class DefenseEvents : MonoBehaviour {
             ActionText = $"{PriorSkater.Info.LastName} dekes around the missed stick lift by {DefendingSkater.Info.LastName} and is now looking to shoot.",
             ButtonText = "Continue",
         };
+        
+        EventsController.Inst.GameplayEvents.OffenseEvents.SelectedShotType = ConstantController.ShotType.Inside;
 
         EventsController.Inst.CurrentEventRun = newEventRun;
         EventsController.Inst.ContinueAction = () => { EventsController.Inst.RunOffenseEvent(2); };
@@ -375,7 +379,7 @@ public class DefenseEvents : MonoBehaviour {
             GameplayController.Inst.StatsSet.AddPossPos(newPossPos);
             GameplayController.Inst.StatsSet.AddTakeaway(DefendingSkater, 1);
 
-            EventsController.Inst.GameplayEvents.OffenseEvents.SelectedShotType = ConstantController.ShotType.Outside;
+            EventsController.Inst.GameplayEvents.OffenseEvents.SelectedShotType = ConstantController.ShotType.Inside;
             EventsController.Inst.GameplayEvents.OffenseEvents.ShootingSkater = DefendingSkater;
             EventsController.Inst.RunDefenseEvent(5);
         }

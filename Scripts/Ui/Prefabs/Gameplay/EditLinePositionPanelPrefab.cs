@@ -62,6 +62,7 @@ public class EditLinePositionPanelPrefab : MonoBehaviour {
 
         SetShownDetails(true);
 
+        _nameText.text = $"{skater.Info.FirstName} {skater.Info.LastName}";
         _offenseText.text = $"Offense: {skater.Card.Offense}";
         _defenseText.text = $"Defense: {skater.Card.Defense}";
         _fatigueText.text = $"Fatigue: {skater.Card.Fatigue}";
@@ -79,6 +80,7 @@ public class EditLinePositionPanelPrefab : MonoBehaviour {
         if (GameplayController.Inst.GameData.Type == "Season") { stamina = goalie.Season.Stamina; }
         else if (GameplayController.Inst.GameData.Type == "Playoff") { stamina = goalie.Playoff.Stamina; }
 
+        _nameText.text = $"{goalie.Info.FirstName} {goalie.Info.LastName}";
         _winPercentText.text = $"Win Percentage: {winPercent.ToString("n0")}%";
         _staminaText.text = $"Stamina: {stamina}";
     }

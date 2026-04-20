@@ -62,11 +62,15 @@ public class GameplayStrategiesPanel : MonoBehaviour {
 	{
 		AnimationController.Inst.FadeOutPanel(_mainElement, _mainPanel, () =>
 		{
-			_mainElement.alpha = 0f;
-			this.gameObject.SetActive(false);
-
+			HidePanel();
 			continueAction?.Invoke();
 		});
+	}
+    
+	public void HidePanel()
+	{
+		_mainElement.alpha = 0f;
+		this.gameObject.SetActive(false);
 	}
 #endregion
 #region -------------------- Private Methods --------------------

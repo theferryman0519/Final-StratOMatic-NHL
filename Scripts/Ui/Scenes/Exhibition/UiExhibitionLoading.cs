@@ -39,23 +39,25 @@ public class UiExhibitionLoading : UiSceneBase {
 #region -------------------- Coroutines --------------------
     private IEnumerator LoadingGame()
     {
-        while (isLoading && _loadingBar.value < 1f)
+        float duration = 2f;
+        float elapsed = 0f;
+
+        _loadingBar.value = 0f;
+
+        while (elapsed < duration)
         {
-            float randomPause = Random.Range(0f, 1f);
-            float randomLoad = Random.Range(0.1f, 0.3f);
-
-            yield return new WaitForSeconds(randomPause);
-
-            _loadingBar.value += randomLoad;
+            elapsed += Time.deltaTime;
+            
+            _loadingBar.value = Mathf.Clamp01(elapsed / duration);
+            
+            yield return null;
         }
 
-        if (isLoading)
-        {
-            isLoading = false;
-            _loadingBar.value = 1f;
+        _loadingBar.value = 1f;
 
-            GoToNewScene(CoreController.Inst.Scene_Gameplay00);
-        }
+        AudioController.Inst.ChangeMusicVolume(true);
+        
+        GoToNewScene(CoreController.Inst.Scene_Gameplay00);
     }
 #endregion
 #region -------------------- Public Methods --------------------
@@ -76,8 +78,11 @@ public class UiExhibitionLoading : UiSceneBase {
         GameTeam homeTeam = GameplayController.Inst.GameData.HomeTeam;
         GameTeam awayTeam = GameplayController.Inst.GameData.AwayTeam;
 
-        string homeString = $"{homeTeam.Team.League}_{homeTeam.Team.Code}_ON";
-        string awayString = $"{awayTeam.Team.League}_{awayTeam.Team.Code}_ON";
+        string homeLeague = homeTeam.Team.League.Contains("NHL") ? "NHL" : "PWHL";
+        string awayLeague = awayTeam.Team.League.Contains("NHL") ? "NHL" : "PWHL";
+
+        string homeString = $"{homeLeague}_{homeTeam.Team.Code}_ON";
+        string awayString = $"{awayLeague}_{awayTeam.Team.Code}_ON";
 
         _homeIcon.sprite = ConstantController.Inst.IconSprites[homeString];
         _awayIcon.sprite = ConstantController.Inst.IconSprites[awayString];
@@ -87,7 +92,6 @@ public class UiExhibitionLoading : UiSceneBase {
     {
         CoreController.Inst.WriteLog(this.GetType().Name, $"Starting to load the exhibition game.");
 
-        isLoading = true;
         StartCoroutine(LoadingGame());
     }
 #endregion

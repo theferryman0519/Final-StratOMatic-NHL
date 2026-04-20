@@ -42,10 +42,17 @@ public class ConstantController : Singleton<ConstantController> {
 	public const string ResourceBanners = "Banners/";
     public const string ResourceIcons = "Icons/";
     public const string ResourceLogos = "Logos/";
+    public const string ResourceMarkers = "Markers/";
 
     // Screen Dimensions
 	public float Screen_Height;
 	public float Screen_Width;
+	
+	// Team Counts
+	public const int NhlTeamCount = 32;
+	public const int PwhlTeamCount = 8;
+	public const int NhlFranchiseTeamCount = 37;
+	public const int PwhlFranchiseTeamCount = 8;
 
 	// Audio Volumes
 	public const float Audio_Volume_Music = 1f;
@@ -61,6 +68,7 @@ public class ConstantController : Singleton<ConstantController> {
 	public Dictionary<string, Sprite> BannerSprites = new();
     public Dictionary<string, Sprite> IconSprites = new();
     public Dictionary<string, Sprite> LogoSprites = new();
+    public Dictionary<string, Sprite> MarkerSprites = new();
 
     public List<string> PenaltyTypes = new();
 
@@ -172,7 +180,11 @@ public class ConstantController : Singleton<ConstantController> {
     
 #endregion
 #region -------------------- Initial Functions --------------------
-    
+	void Update()
+	{
+		Screen_Height = Screen.height;
+		Screen_Width = Screen.width;
+	}
 #endregion
 #region -------------------- Coroutines --------------------
     
@@ -181,10 +193,11 @@ public class ConstantController : Singleton<ConstantController> {
     public void InitializeController()
     {
         CoreController.Inst.WriteLog(this.GetType().Name, $"Initializing the controller.");
-
+        
         LoadBannerSprites();
         LoadIconSprites();
         LoadLogoSprites();
+        LoadMarkerSprites();
         SetPenaltyTypes();
 
 		CoreController.Inst.LoadingStepCompleted();
@@ -230,6 +243,20 @@ public class ConstantController : Singleton<ConstantController> {
 		foreach (Sprite sprite in spriteArray)
 		{
 			LogoSprites.Add(sprite.name, sprite);
+		}
+	}
+    
+	private void LoadMarkerSprites()
+	{
+		CoreController.Inst.WriteLog(this.GetType().Name, $"Loading the marker sprites.");
+
+		MarkerSprites.Clear();
+		
+		Sprite[] spriteArray = Resources.LoadAll<Sprite>(ResourceMarkers);
+
+		foreach (Sprite sprite in spriteArray)
+		{
+			MarkerSprites.Add(sprite.name, sprite);
 		}
 	}
 

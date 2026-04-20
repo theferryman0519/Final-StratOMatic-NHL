@@ -18,6 +18,7 @@ public class UiGameplayMainRink : MonoBehaviour {
 
 #region -------------------- Serialized Variables --------------------
     [Header("Rink Elements")]
+    [SerializeField] private RectTransform _mainElement;
     [SerializeField] private RectTransform _rink;
     [SerializeField] private RectTransform _puck;
     [SerializeField] private RectTransform _puckFaceoffAnchor;
@@ -39,6 +40,7 @@ public class UiGameplayMainRink : MonoBehaviour {
     private Ease moveEase = Ease.OutCubic;
 
     private Dictionary<string, GameplayRinkMarkerPrefab> markerMap = new();
+    private Dictionary<string, Vector2> currentMarkerTargets = new();
 
     private Sequence activeMoveSequence;
 #endregion
@@ -67,6 +69,11 @@ public class UiGameplayMainRink : MonoBehaviour {
         if (isInitialized) { return; }
 
         CoreController.Inst.WriteLog(this.GetType().Name, $"Initializing the rink.");
+        
+        float height = _mainElement.rect.height - 50f;
+        float width = height / 0.4825f;
+        
+        _rink.sizeDelta = new Vector2(width, height);
 
         markerMap.Clear();
 
@@ -85,6 +92,16 @@ public class UiGameplayMainRink : MonoBehaviour {
                 }
 
                 markerMap.Add(markerKey, marker);
+
+                if (marker.Key.Contains("Home"))
+                {
+                    marker.SetJerseyImage(GameplayController.Inst.GameData.HomeTeam, true);
+                }
+                
+                else if (marker.Key.Contains("Away"))
+                {
+                    marker.SetJerseyImage(GameplayController.Inst.GameData.AwayTeam, false);
+                }
             }
         }
 
@@ -137,8 +154,8 @@ public class UiGameplayMainRink : MonoBehaviour {
 
         if (isFaceoff) { return "Center"; }
 
-        if (GameplayController.Inst.GameData.PossTeam == "Home") { return "Right"; }
-        if (GameplayController.Inst.GameData.PossTeam == "Away") { return "Left"; }
+        if (GameplayController.Inst.GameData.PossTeam == "Home") { return "Left"; }
+        if (GameplayController.Inst.GameData.PossTeam == "Away") { return "Right"; }
 
         return "Center";
     }
@@ -152,13 +169,6 @@ public class UiGameplayMainRink : MonoBehaviour {
 
         IsMoving = false;
 
-        Tween rinkTween = MoveRink(rinkPhase);
-
-        if (rinkTween != null)
-        {
-            activeMoveSequence.Join(rinkTween);
-        }
-
         Tween markersTween = MoveMarkers(rinkPhase, isFaceoff);
 
         if (markersTween != null)
@@ -166,11 +176,18 @@ public class UiGameplayMainRink : MonoBehaviour {
             activeMoveSequence.Join(markersTween);
         }
 
-        Tween puckTween = MovePuck(rinkPhase, isFaceoff);
+        Tween puckTween = MovePuck(isFaceoff);
 
         if (puckTween != null)
         {
             activeMoveSequence.Join(puckTween);
+        }
+        
+        Tween rinkTween = MoveRink(rinkPhase);
+
+        if (rinkTween != null)
+        {
+            activeMoveSequence.Join(rinkTween);
         }
 
         activeMoveSequence.OnStart(() => { IsMoving = true; });
@@ -210,6 +227,8 @@ public class UiGameplayMainRink : MonoBehaviour {
 
         if (_markerPrefabs == null || _markerPrefabs.Count == 0) { return null; }
 
+        currentMarkerTargets.Clear();
+
         Sequence markerSequence = DOTween.Sequence();
 
         foreach (GameplayRinkMarkerPrefab marker in _markerPrefabs)
@@ -219,6 +238,7 @@ public class UiGameplayMainRink : MonoBehaviour {
             marker.Transform.DOKill();
 
             Vector2 targetPos = GetMarkerTargetPosition(marker, rinkPhase, isFaceoff);
+            currentMarkerTargets[marker.Key] = targetPos;
 
             markerSequence.Join(marker.Transform.DOAnchorPos(targetPos, moveDuration).SetEase(moveEase));
         }
@@ -226,7 +246,7 @@ public class UiGameplayMainRink : MonoBehaviour {
         return markerSequence;
     }
 
-    private Tween MovePuck(string rinkPhase, bool isFaceoff)
+    private Tween MovePuck(bool isFaceoff)
     {
         CoreController.Inst.WriteLog(this.GetType().Name, $"Moving the puck.");
 
@@ -241,14 +261,17 @@ public class UiGameplayMainRink : MonoBehaviour {
                 targetPos = _puckFaceoffAnchor.anchoredPosition;
             }
         }
+        
         else
         {
             GameplayRinkMarkerPrefab possMarker = GetPossessionMarker();
 
             if (possMarker != null)
             {
-                Vector2 markerTarget = GetMarkerTargetPosition(possMarker, rinkPhase, false);
-                targetPos = markerTarget + possMarker.PuckOffset;
+                if (currentMarkerTargets.TryGetValue(possMarker.Key, out Vector2 markerTarget))
+                {
+                    targetPos = markerTarget + possMarker.PuckOffset;
+                }
             }
         }
 
@@ -260,11 +283,6 @@ public class UiGameplayMainRink : MonoBehaviour {
         if (marker == null || marker.Transform == null)
         {
             return Vector2.zero;
-        }
-
-        if (isFaceoff && marker.FaceoffAnchor != null)
-        {
-            return marker.FaceoffAnchor.anchoredPosition;
         }
 
         return marker.GetNewPosition(rinkPhase, isFaceoff);
@@ -326,18 +344,18 @@ public class UiGameplayMainRink : MonoBehaviour {
     {
         GameTeam team = GameplayController.Inst.GameData.HomeTeam;
 
-        if (markerKey.Contains("Away")) { team = GameplayController.Inst.GameData.AwayTeam; }
+        if (markerKey.StartsWith("Away")) { team = GameplayController.Inst.GameData.AwayTeam; }
 
         int line = team.CurrentLine;
         int pair = team.CurrentPair;
 
         string posString = "G";
 
-        if (markerKey.Contains("C")) { posString = "C"; }
-        else if (markerKey.Contains("LW")) { posString = "LW"; }
-        else if (markerKey.Contains("RW")) { posString = "RW"; }
-        else if (markerKey.Contains("LD")) { posString = "LD"; }
-        else if (markerKey.Contains("RD")) { posString = "RD"; }
+        if (markerKey.EndsWith("C")) { posString = "C"; }
+        else if (markerKey.EndsWith("LW")) { posString = "LW"; }
+        else if (markerKey.EndsWith("RW")) { posString = "RW"; }
+        else if (markerKey.EndsWith("LD")) { posString = "LD"; }
+        else if (markerKey.EndsWith("RD")) { posString = "RD"; }
 
         if (posString == "G")
         {

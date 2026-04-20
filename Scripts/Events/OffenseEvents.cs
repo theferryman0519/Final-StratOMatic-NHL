@@ -133,7 +133,7 @@ public class OffenseEvents : MonoBehaviour {
         EventRun newEventRun = new EventRun
         {
             InfoText = $"After taking a shot, one action that might occur is the shot being saved by the goalie before being moved to another player.",
-            ActionText = $"The shot by {ShootingSkater.Info.LastName} was blocked and passed to {possSkater.Info.FirstName} {possSkater.Info.LastName}.",
+            ActionText = $"The shot by {ShootingSkater.Info.LastName} was saved and given to {possSkater.Info.FirstName} {possSkater.Info.LastName}.",
             ButtonText = "Continue",
         };
 
@@ -199,7 +199,7 @@ public class OffenseEvents : MonoBehaviour {
         };
 
         EventsController.Inst.CurrentEventRun = newEventRun;
-        EventsController.Inst.ContinueAction = () => { EventsController.Inst.RunGoalEvent(2); };
+        EventsController.Inst.ContinueAction = () => { EventsController.Inst.RunGoalEvent(5); };
 
         yield return null;
     }
@@ -430,7 +430,7 @@ public class OffenseEvents : MonoBehaviour {
         List<string> shotActions = new();
 
         if (SelectedShotType == ConstantController.ShotType.Outside) { shotActions = ShootingSkater.Card.OutsideShotActions; }
-        else if (SelectedShotType == ConstantController.ShotType.Outside) { shotActions = ShootingSkater.Card.InsideShotActions; }
+        else if (SelectedShotType == ConstantController.ShotType.Inside) { shotActions = ShootingSkater.Card.InsideShotActions; }
         else { shotActions = ShootingSkater.Card.ReboundShotActions; }
 
         string shotAction = shotActions[randomNumber];

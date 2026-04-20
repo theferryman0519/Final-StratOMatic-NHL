@@ -60,15 +60,19 @@ public class GameplayDefensePanel : MonoBehaviour {
         });
 	}
 
-    public void ClosePanel(Action continueAction = null)
+	public void ClosePanel(Action continueAction = null)
 	{
 		AnimationController.Inst.FadeOutPanel(_mainElement, _mainPanel, () =>
 		{
-			_mainElement.alpha = 0f;
-			this.gameObject.SetActive(false);
-
+			HidePanel();
 			continueAction?.Invoke();
 		});
+	}
+    
+	public void HidePanel()
+	{
+		_mainElement.alpha = 0f;
+		this.gameObject.SetActive(false);
 	}
 #endregion
 #region -------------------- Private Methods --------------------
@@ -82,8 +86,8 @@ public class GameplayDefensePanel : MonoBehaviour {
 		{
 			int index = i;
 
-			_sectionTexts[index].text = $"{skaters[$"LD{index + 1}"].Info.LastName} - Fatigue: {skaters[$"LD{index + 1}"].Game.Stamina}%" + "\n" +
-				$"{skaters[$"RD{index + 1}"].Info.LastName} - Fatigue: {skaters[$"RD{index + 1}"].Game.Stamina}%";
+			_sectionTexts[index].text = $"{skaters[$"LD{index + 1}"].Info.LastName} - Defense: {skaters[$"LD{index + 1}"].Card.Defense}" + "\n" +
+				$"{skaters[$"RD{index + 1}"].Info.LastName} - Defense: {skaters[$"RD{index + 1}"].Card.Defense}";
 			
 			_sectionObjects[index].SetActive((index + 1) != currentPair);
 			_sectionButtons[index].SetListener(() =>

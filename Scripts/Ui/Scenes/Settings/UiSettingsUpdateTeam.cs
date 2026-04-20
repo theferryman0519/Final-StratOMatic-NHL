@@ -31,6 +31,8 @@ public class UiSettingsUpdateTeam : UiSceneBase {
 #endregion
 #region -------------------- Private Variables --------------------
     private Team favTeam;
+    
+    private List<string> usedTeams = new();
 #endregion
 #region -------------------- Initial Functions --------------------
     void Start()
@@ -46,6 +48,15 @@ public class UiSettingsUpdateTeam : UiSceneBase {
 	{
         _saveButton.SetListener(SaveChanges);
 
+        ConstantController.LeagueType leagueType = ConstantController.LeagueType.None;
+        
+        if (UsersController.Inst.UserData.Info.League == "NHL") { leagueType = ConstantController.LeagueType.NHL; }
+        else if (UsersController.Inst.UserData.Info.League == "PWHL") { leagueType = ConstantController.LeagueType.PWHL; }
+        else if (UsersController.Inst.UserData.Info.League == "NHLFranchise") { leagueType = ConstantController.LeagueType.NHLFranchise; }
+        else { leagueType = ConstantController.LeagueType.PWHLFranchise; }
+
+        favTeam = TeamsController.Inst.GetTeamFromCode(UsersController.Inst.UserData.Info.Team, leagueType);
+
         SetContainer();
 
         base.InitializeUi();
@@ -57,6 +68,7 @@ public class UiSettingsUpdateTeam : UiSceneBase {
         CoreController.Inst.WriteLog(this.GetType().Name, $"Attempting to save changes to the user favorite team.");
 
         UsersController.Inst.UserData.Info.Team = favTeam.Info.Code;
+        UsersController.Inst.UserData.Info.League = favTeam.Info.League;
 
         UsersController.Inst.SaveUserData(() =>
         {
@@ -72,21 +84,40 @@ public class UiSettingsUpdateTeam : UiSceneBase {
 
         foreach (Team team in TeamsController.Inst.AllTeams)
         {
-            FavoriteTeamPrefab icon = Instantiate(_teamPrefab, _container);
-
-            icon.SetIcon(team, false);
-            icon.IconButton.onClick.AddListener(() =>
+            string usedTeamName = $"{team.Info.CityName}_{team.Info.NickName}";
+            
+            if (!usedTeams.Contains(usedTeamName))
             {
-                CoreController.Inst.WriteLog(this.GetType().Name, $"Choosing {team.Info.Code} as a favorite team.");
+                FavoriteTeamPrefab icon = Instantiate(_teamPrefab, _container);
 
-                favTeam = team;
-                icon.SetIcon(team, true);
+                icon.SetIcon(team, false);
+                icon.IconButton.onClick.AddListener(() =>
+                {
+                    CoreController.Inst.WriteLog(this.GetType().Name, $"Choosing {team.Info.Code} of the {team.Info.League} as a favorite team.");
 
-                string league = team.Info.League.Contains("Nhl") ? "NHL" : "PWHL";
+                    RefreshAllIcons();
 
-                _selectionText.text = $"You have selected the {team.Info.CityName} {team.Info.NickName} of the {league}";
-                _saveButton.gameObject.SetActive(true);
-            });
+                    favTeam = team;
+                    icon.SetIcon(team, true);
+
+                    string league = team.Info.League.Contains("NHL") ? "NHL" : "PWHL";
+
+                    _selectionText.text = $"You have selected the {team.Info.CityName} {team.Info.NickName} of the {league}";
+                    _saveButton.gameObject.SetActive(true);
+                });
+                
+                usedTeams.Add(usedTeamName);
+            }
+        }
+    }
+
+    private void RefreshAllIcons()
+    {
+        foreach (Transform obj in _container)
+        {
+            FavoriteTeamPrefab icon = obj.GetComponent<FavoriteTeamPrefab>();
+            
+            icon.SwitchOff();
         }
     }
 
@@ -102,6 +133,7 @@ public class UiSettingsUpdateTeam : UiSceneBase {
         _selectionText.text = "You have not selected a team";
 
         favTeam = null;
+        usedTeams.Clear();
 
         _saveButton.gameObject.SetActive(false);
     }

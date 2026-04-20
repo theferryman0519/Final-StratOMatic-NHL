@@ -59,15 +59,19 @@ public class GameplayForwardsPanel : MonoBehaviour {
         });
 	}
 
-    public void ClosePanel(Action continueAction = null)
+	public void ClosePanel(Action continueAction = null)
 	{
 		AnimationController.Inst.FadeOutPanel(_mainElement, _mainPanel, () =>
 		{
-			_mainElement.alpha = 0f;
-			this.gameObject.SetActive(false);
-
+			HidePanel();
 			continueAction?.Invoke();
 		});
+	}
+    
+	public void HidePanel()
+	{
+		_mainElement.alpha = 0f;
+		this.gameObject.SetActive(false);
 	}
 #endregion
 #region -------------------- Private Methods --------------------
@@ -81,9 +85,9 @@ public class GameplayForwardsPanel : MonoBehaviour {
 		{
 			int index = i;
 
-			_sectionTexts[index].text = $"{skaters[$"C{index + 1}"].Info.LastName} - Fatigue: {skaters[$"C{index + 1}"].Game.Stamina}%" + "\n" +
-				$"{skaters[$"LW{index + 1}"].Info.LastName} - Fatigue: {skaters[$"LW{index + 1}"].Game.Stamina}%" + "\n" +
-				$"{skaters[$"RW{index + 1}"].Info.LastName} - Fatigue: {skaters[$"RW{index + 1}"].Game.Stamina}%";
+			_sectionTexts[index].text = $"{skaters[$"C{index + 1}"].Info.LastName} - Offense: {skaters[$"C{index + 1}"].Card.Offense}" + "\n" +
+				$"{skaters[$"LW{index + 1}"].Info.LastName} - Offense: {skaters[$"LW{index + 1}"].Card.Offense}" + "\n" +
+				$"{skaters[$"RW{index + 1}"].Info.LastName} - Offense: {skaters[$"RW{index + 1}"].Card.Offense}";
 			
 			_sectionObjects[index].SetActive((index + 1) != currentLine);
 			_sectionButtons[index].SetListener(() =>

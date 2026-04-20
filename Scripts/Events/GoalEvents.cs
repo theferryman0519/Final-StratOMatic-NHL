@@ -201,8 +201,8 @@ public class GoalEvents : MonoBehaviour {
             stamina = DefendingGoalie.Playoff.Stamina;
         }
 
-        int randomNumber = Random.Range(2,13);
-        string ratingAction = DefendingGoalie.Card.GoalieRatingActions[randomNumber - 1];
+        int randomNumber = Random.Range(0,11);
+        string ratingAction = DefendingGoalie.Card.GoalieRatingActions[randomNumber];
         int staminaShift = 0;
         int finalOption = 0;
 
@@ -288,6 +288,7 @@ public class GoalEvents : MonoBehaviour {
 
         if (isUnderThreshold)
         {
+            AudioController.Inst.PlayGoalHorn();
             EventsController.Inst.RunGoalEvent(7);
         }
 
@@ -295,7 +296,7 @@ public class GoalEvents : MonoBehaviour {
         {
             GameplayController.Inst.StatsSet.ClearPossPos();
             GameplayController.Inst.StatsSet.SetPossTeam("None");
-
+            
             EventsController.Inst.RunGoalEvent(6);
         }
     }
@@ -349,7 +350,7 @@ public class GoalEvents : MonoBehaviour {
         {
             if (!assistPos.Contains(pos)) { assistPos.Add(pos); }
         }
-
+        
         if (assistPos.Count > 2)
         {
             string assistPosA = assistPos[assistPos.Count - 2];
@@ -364,7 +365,16 @@ public class GoalEvents : MonoBehaviour {
             else
             {
                 assistSkaterA = possTeam.SkaterLineup[assistPosA];
-                GameplayController.Inst.StatsSet.AddAssist(assistSkaterA, EventsController.Inst.GameplayEvents.GoalEvents.GoalType, 1);
+
+                if (assistSkaterA != ShootingSkater)
+                {
+                    GameplayController.Inst.StatsSet.AddAssist(assistSkaterA, EventsController.Inst.GameplayEvents.GoalEvents.GoalType, 1);
+                }
+
+                else
+                {
+                    assistSkaterA = null;
+                }
             }
 
             if (assistPosB == "G")
@@ -376,7 +386,22 @@ public class GoalEvents : MonoBehaviour {
             else
             {
                 assistSkaterB = possTeam.SkaterLineup[assistPosB];
-                GameplayController.Inst.StatsSet.AddAssist(assistSkaterB, EventsController.Inst.GameplayEvents.GoalEvents.GoalType, 1);
+                
+                if (assistSkaterB != ShootingSkater)
+                {
+                    GameplayController.Inst.StatsSet.AddAssist(assistSkaterB, EventsController.Inst.GameplayEvents.GoalEvents.GoalType, 1);
+
+                    if (assistSkaterA == null)
+                    {
+                        assistSkaterA = assistSkaterB;
+                        assistSkaterB = null;
+                    }
+                }
+
+                else
+                {
+                    assistSkaterB = null;
+                }
             }
         }
 
@@ -384,8 +409,26 @@ public class GoalEvents : MonoBehaviour {
         {
             string assistPosA = assistPos[0];
 
-            if (assistPosA == "G") { assistGoalieA = possTeam.GoalieLineup["G"]; }
-            else { assistSkaterA = possTeam.SkaterLineup[assistPosA]; }
+            if (assistPosA == "G")
+            {
+                assistGoalieA = possTeam.GoalieLineup["G"];
+                GameplayController.Inst.StatsSet.AddGoalieAssist(assistGoalieA, 1);
+            }
+
+            else
+            {
+                assistSkaterA = possTeam.SkaterLineup[assistPosA];
+                
+                if (assistSkaterA != ShootingSkater)
+                {
+                    GameplayController.Inst.StatsSet.AddAssist(assistSkaterA, EventsController.Inst.GameplayEvents.GoalEvents.GoalType, 1);
+                }
+
+                else
+                {
+                    assistSkaterA = null;
+                }
+            }
         }
 
         if (EventsController.Inst.GameplayEvents.GoalEvents.GoalType != ConstantController.GoalType.Powerplay && 
@@ -399,30 +442,28 @@ public class GoalEvents : MonoBehaviour {
         string goalAnnouncement = string.Empty;
         string goalTypeString = string.Empty;
 
-        if (EventsController.Inst.GameplayEvents.GoalEvents.GoalType == ConstantController.GoalType.Powerplay) { goalTypeString = "on the powerplay"; }
-        else if (EventsController.Inst.GameplayEvents.GoalEvents.GoalType == ConstantController.GoalType.Shorthanded) { goalTypeString = "while shorthanded"; }
+        if (EventsController.Inst.GameplayEvents.GoalEvents.GoalType == ConstantController.GoalType.Powerplay) { goalTypeString = " on the powerplay"; }
+        else if (EventsController.Inst.GameplayEvents.GoalEvents.GoalType == ConstantController.GoalType.Shorthanded) { goalTypeString = " while shorthanded"; }
 
         string goalCountString = "With their first goal of the night";
 
         if (ShootingSkater.Game.Goals == 2) { goalCountString = "Netting their second goal tonight"; }
         else if (ShootingSkater.Game.Goals == 3) { goalCountString = "With that hat trick goal"; }
         else if (ShootingSkater.Game.Goals > 3) { goalCountString = "After many goals scored tonight"; }
-
-        string gameTypeString = string.Empty;
-
+        
         if (GameplayController.Inst.GameData.Type == "Season")
         {
             int seasonGoals = ShootingSkater.Season.Goals += ShootingSkater.Game.Goals;
-            gameTypeString = $" (number {seasonGoals} on the season)";
+            goalTypeString += $" (number {seasonGoals} on the season)";
         }
 
         else if (GameplayController.Inst.GameData.Type == "Playoff")
         {
             int playoffGoals = ShootingSkater.Playoff.Goals += ShootingSkater.Game.Goals;
-            gameTypeString = $" (number {playoffGoals} of the playoffs)";
+            goalTypeString += $" (number {playoffGoals} of the playoffs)";
         }
 
-        goalAnnouncement = $"{goalCountString}, {ShootingSkater.Info.FirstName} {ShootingSkater.Info.LastName} scores {goalTypeString}{gameTypeString}.";
+        goalAnnouncement = $"{goalCountString}, {ShootingSkater.Info.FirstName} {ShootingSkater.Info.LastName} scores{goalTypeString}!";
 
         string addedAssistsString = string.Empty;
 

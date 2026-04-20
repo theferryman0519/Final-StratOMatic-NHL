@@ -27,6 +27,8 @@ public class GameplayGoalieStatsPanel : MonoBehaviour {
 	[SerializeField] private GameObject _infoPage;
 	[SerializeField] private GameObject _cardPage;
 
+	[SerializeField] private TMP_Text _titleText; 
+
 	[SerializeField] private List<TMP_Text> _infoTexts = new();
 	[SerializeField] private List<TMP_Text> _cardTexts = new();
 
@@ -59,6 +61,7 @@ public class GameplayGoalieStatsPanel : MonoBehaviour {
 		_returnButton.SetListener(() => { ClosePanel(); });
 
 		_statsDropdown.SetListener(ChangeStatsOption);
+		_statsDropdown.Dropdown.value = 0;
 
 		ChangeStatsOption(0);
 
@@ -70,15 +73,19 @@ public class GameplayGoalieStatsPanel : MonoBehaviour {
         });
 	}
 
-    public void ClosePanel(Action continueAction = null)
+	public void ClosePanel(Action continueAction = null)
 	{
 		AnimationController.Inst.FadeOutPanel(_mainElement, _mainPanel, () =>
 		{
-			_mainElement.alpha = 0f;
-			this.gameObject.SetActive(false);
-
+			HidePanel();
 			continueAction?.Invoke();
 		});
+	}
+    
+	public void HidePanel()
+	{
+		_mainElement.alpha = 0f;
+		this.gameObject.SetActive(false);
 	}
 #endregion
 #region -------------------- Private Methods --------------------
@@ -100,6 +107,8 @@ public class GameplayGoalieStatsPanel : MonoBehaviour {
 
 	private void SetTexts(Goalie goalie)
 	{
+		_titleText.text = $"{goalie.Info.FirstName} {goalie.Info.LastName}";
+		
 		_infoTexts[0].text = $"Penalty: {goalie.Card.Penalty}";
 		_infoTexts[1].text = $"Fatigue: {goalie.Card.Fatigue}";
 		

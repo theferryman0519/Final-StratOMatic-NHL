@@ -97,6 +97,8 @@ public class UiSeasonTeam : UiSceneBase {
             icon.IconButton.onClick.AddListener(() =>
             {
                 CoreController.Inst.WriteLog(this.GetType().Name, $"Choosing {team.Info.Code} as a selected team.");
+                
+                RefreshAllIcons();
 
                 selectedTeam = team;
                 icon.SetIcon(team, true);
@@ -117,6 +119,16 @@ public class UiSeasonTeam : UiSceneBase {
 	    
 	    _bannerBackground.sprite = ConstantController.Inst.BannerSprites[teamString];
 	    _bannerLogo.sprite = ConstantController.Inst.LogoSprites[teamString];
+    }
+    
+    private void RefreshAllIcons()
+    {
+	    foreach (Transform obj in _container)
+	    {
+		    FavoriteTeamPrefab icon = obj.GetComponent<FavoriteTeamPrefab>();
+            
+		    icon.SwitchOff();
+	    }
     }
 
     private void ClearContainer()

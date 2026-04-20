@@ -60,15 +60,19 @@ public class GameplayGameStatsPanel : MonoBehaviour {
         });
 	}
 
-    public void ClosePanel(Action continueAction = null)
+	public void ClosePanel(Action continueAction = null)
 	{
 		AnimationController.Inst.FadeOutPanel(_mainElement, _mainPanel, () =>
 		{
-			_mainElement.alpha = 0f;
-			this.gameObject.SetActive(false);
-
+			HidePanel();
 			continueAction?.Invoke();
 		});
+	}
+    
+	public void HidePanel()
+	{
+		_mainElement.alpha = 0f;
+		this.gameObject.SetActive(false);
 	}
 #endregion
 #region -------------------- Private Methods --------------------
@@ -81,8 +85,6 @@ public class GameplayGameStatsPanel : MonoBehaviour {
 		int homeFOWs = GameplayController.Inst.GameData.HomeTeam.Stats.FaceoffsWon;
 		int homeHits = GameplayController.Inst.GameData.HomeTeam.Stats.Hits;
 		int homeBSs = GameplayController.Inst.GameData.HomeTeam.Stats.BlockedShots;
-		int homeGAs = GameplayController.Inst.GameData.HomeTeam.Stats.Giveaways;
-		int homeTAs = GameplayController.Inst.GameData.HomeTeam.Stats.Takeaways;
 
 		int awayGoals = GameplayController.Inst.GameData.AwayTeam.Stats.Goals;
 		int awayShots = GameplayController.Inst.GameData.AwayTeam.Stats.Shots;
@@ -91,8 +93,6 @@ public class GameplayGameStatsPanel : MonoBehaviour {
 		int awayFOWs = GameplayController.Inst.GameData.AwayTeam.Stats.FaceoffsWon;
 		int awayHits = GameplayController.Inst.GameData.AwayTeam.Stats.Hits;
 		int awayBSs = GameplayController.Inst.GameData.AwayTeam.Stats.BlockedShots;
-		int awayGAs = GameplayController.Inst.GameData.AwayTeam.Stats.Giveaways;
-		int awayTAs = GameplayController.Inst.GameData.AwayTeam.Stats.Takeaways;
 
 		_homeTexts[0].text = homeGoals.ToString();
 		_homeTexts[1].text = homeShots.ToString();
@@ -101,8 +101,6 @@ public class GameplayGameStatsPanel : MonoBehaviour {
 		_homeTexts[4].text = homeFOWs.ToString();
 		_homeTexts[5].text = homeHits.ToString();
 		_homeTexts[6].text = homeBSs.ToString();
-		_homeTexts[7].text = homeGAs.ToString();
-		_homeTexts[8].text = homeTAs.ToString();
 
 		_awayTexts[0].text = awayGoals.ToString();
 		_awayTexts[1].text = awayShots.ToString();
@@ -111,28 +109,22 @@ public class GameplayGameStatsPanel : MonoBehaviour {
 		_awayTexts[4].text = awayFOWs.ToString();
 		_awayTexts[5].text = awayHits.ToString();
 		_awayTexts[6].text = awayBSs.ToString();
-		_awayTexts[7].text = awayGAs.ToString();
-		_awayTexts[8].text = awayTAs.ToString();
 
-		_homeSliders[0].value = (homeGoals + awayGoals) == 0 ? 0 : homeGoals / (homeGoals + awayGoals);
-		_homeSliders[1].value = (homeShots + awayShots) == 0 ? 0 : homeShots / (homeShots + awayShots);
-		_homeSliders[2].value = (homePPGs + awayPPGs) == 0 ? 0 : homePPGs / (homePPGs + awayPPGs);
-		_homeSliders[3].value = (homeSHGs + awaySHGs) == 0 ? 0 : homeSHGs / (homeSHGs + awaySHGs);
-		_homeSliders[4].value = (homeFOWs + awayFOWs) == 0 ? 0 : homeFOWs / (homeFOWs + awayFOWs);
-		_homeSliders[5].value = (homeHits + awayHits) == 0 ? 0 : homeHits / (homeHits + awayHits);
-		_homeSliders[6].value = (homeBSs + awayBSs) == 0 ? 0 : homeBSs / (homeBSs + awayBSs);
-		_homeSliders[7].value = (homeGAs + awayGAs) == 0 ? 0 : homeGAs / (homeGAs + awayGAs);
-		_homeSliders[8].value = (homeTAs + awayTAs) == 0 ? 0 : homeTAs / (homeTAs + awayTAs);
+		_homeSliders[0].value = (homeGoals + awayGoals) == 0 ? 0f : (float)homeGoals / (float)(homeGoals + awayGoals);
+		_homeSliders[1].value = (homeShots + awayShots) == 0 ? 0f : (float)homeShots / (float)(homeShots + awayShots);
+		_homeSliders[2].value = (homePPGs + awayPPGs) == 0 ? 0f : (float)homePPGs / (float)(homePPGs + awayPPGs);
+		_homeSliders[3].value = (homeSHGs + awaySHGs) == 0 ? 0f : (float)homeSHGs / (float)(homeSHGs + awaySHGs);
+		_homeSliders[4].value = (homeFOWs + awayFOWs) == 0 ? 0f : (float)homeFOWs / (float)(homeFOWs + awayFOWs);
+		_homeSliders[5].value = (homeHits + awayHits) == 0 ? 0f : (float)homeHits / (float)(homeHits + awayHits);
+		_homeSliders[6].value = (homeBSs + awayBSs) == 0 ? 0f : (float)homeBSs / (float)(homeBSs + awayBSs);
 
-		_awaySliders[0].value = (homeGoals + awayGoals) == 0 ? 0 : awayGoals / (homeGoals + awayGoals);
-		_awaySliders[1].value = (homeShots + awayShots) == 0 ? 0 : awayShots / (homeShots + awayShots);
-		_awaySliders[2].value = (homePPGs + awayPPGs) == 0 ? 0 : awayPPGs / (homePPGs + awayPPGs);
-		_awaySliders[3].value = (homeSHGs + awaySHGs) == 0 ? 0 : awaySHGs / (homeSHGs + awaySHGs);
-		_awaySliders[4].value = (homeFOWs + awayFOWs) == 0 ? 0 : awayFOWs / (homeFOWs + awayFOWs);
-		_awaySliders[5].value = (homeHits + awayHits) == 0 ? 0 : awayHits / (homeHits + awayHits);
-		_awaySliders[6].value = (homeBSs + awayBSs) == 0 ? 0 : awayBSs / (homeBSs + awayBSs);
-		_awaySliders[7].value = (homeGAs + awayGAs) == 0 ? 0 : awayGAs / (homeGAs + awayGAs);
-		_awaySliders[8].value = (homeTAs + awayTAs) == 0 ? 0 : awayTAs / (homeTAs + awayTAs);
+		_awaySliders[0].value = (homeGoals + awayGoals) == 0 ? 0f : (float)awayGoals / (float)(homeGoals + awayGoals);
+		_awaySliders[1].value = (homeShots + awayShots) == 0 ? 0f : (float)awayShots / (float)(homeShots + awayShots);
+		_awaySliders[2].value = (homePPGs + awayPPGs) == 0 ? 0f : (float)awayPPGs / (float)(homePPGs + awayPPGs);
+		_awaySliders[3].value = (homeSHGs + awaySHGs) == 0 ? 0f : (float)awaySHGs / (float)(homeSHGs + awaySHGs);
+		_awaySliders[4].value = (homeFOWs + awayFOWs) == 0 ? 0f : (float)awayFOWs / (float)(homeFOWs + awayFOWs);
+		_awaySliders[5].value = (homeHits + awayHits) == 0 ? 0f : (float)awayHits / (float)(homeHits + awayHits);
+		_awaySliders[6].value = (homeBSs + awayBSs) == 0 ? 0f : (float)awayBSs / (float)(homeBSs + awayBSs);
 	}
 #endregion
 }}

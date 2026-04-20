@@ -7,6 +7,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Audio;
 using UnityEngine.SceneManagement;
+using Random = UnityEngine.Random;
 
 // Game Dependencies
 using SoM.Controllers;
@@ -21,30 +22,29 @@ public class GameplayRinkMarkerPrefab : MonoBehaviour {
     [SerializeField] private Button _jerseyButton;
 
     [SerializeField] private RectTransform _transform;
-    [SerializeField] private RectTransform _leftAnchor;
-    [SerializeField] private RectTransform _rightAnchor;
-    [SerializeField] private RectTransform _centerAnchor;
+    [SerializeField] private RectTransform _leftSegment;
+    [SerializeField] private RectTransform _rightSegment;
+    [SerializeField] private RectTransform _centerSegment;
+    [SerializeField] private RectTransform _homeGoalSegment;
+    [SerializeField] private RectTransform _awayGoalSegment;
     [SerializeField] private RectTransform _faceoffAnchor;
 #endregion
 #region -------------------- Public Variables --------------------
     public string Key = string.Empty;
 
     public RectTransform Transform => _transform;
-    public RectTransform LeftAnchor => _leftAnchor;
-    public RectTransform RightAnchor => _rightAnchor;
-    public RectTransform CenterAnchor => _centerAnchor;
-    public RectTransform FaceoffAnchor => _faceoffAnchor;
 
     public Button JerseyButton => _jerseyButton;
     
     public Vector2 PuckOffset => puckOffset;
 #endregion
 #region -------------------- Private Variables --------------------
-    private Vector2 motionAmplitude = new(10f, 6f);
     private Vector2 puckOffset = new(18f, -10f);
 
     private float motionSpeed = 1f;
     private float motionPhase = 0f;
+    private float paddingX = 20f;
+    private float paddingY = 20f;
 #endregion
 #region -------------------- Initial Functions --------------------
 
@@ -53,41 +53,71 @@ public class GameplayRinkMarkerPrefab : MonoBehaviour {
 
 #endregion
 #region -------------------- Public Methods --------------------
+    public void SetJerseyImage(GameTeam gameTeam, bool isHomeTeam)
+    {
+        string spriteLeague = gameTeam.Team.League.Contains("NHL") ? "NHL" : "PWHL";
+        string spriteString = isHomeTeam ? $"{spriteLeague}_{gameTeam.Team.Code}_HOME" : $"{spriteLeague}_{gameTeam.Team.Code}_AWAY";
+        
+        _jerseyImage.sprite = ConstantController.Inst.MarkerSprites[spriteString];
+    }
+
     public Vector2 GetNewPosition(string rinkPhase, bool isFaceoff)
     {
-        RectTransform targetAnchor = null;
-
-        switch (rinkPhase)
+        if (Key == "AwayG")
         {
-            case "Left":
-                targetAnchor = _leftAnchor;
-                break;
-            case "Right":
-                targetAnchor = _rightAnchor;
-                break;
-            default:
-                targetAnchor = _centerAnchor;
-                break;
+            return GetRandomPointInSegment(_awayGoalSegment);
+        }
+        
+        if (Key == "HomeG")
+        {
+            return GetRandomPointInSegment(_homeGoalSegment);
+        }
+        
+        if (isFaceoff && _faceoffAnchor != null)
+        {
+            return GetRandomPointInSegment(_faceoffAnchor);
         }
 
-        float speed = Mathf.Max(0.01f, motionSpeed);
-        float phase = motionPhase;
-        float time = Time.time;
+        RectTransform targetSegment = GetTargetSegment(rinkPhase);
 
-        float xOffset = Mathf.Sin((time * speed) + phase) * motionAmplitude.x;
-        float yOffset = Mathf.Cos((time * speed * 0.85f) + phase) * motionAmplitude.y;
-
-        Vector2 targetPos = targetAnchor != null ? targetAnchor.anchoredPosition : _transform.anchoredPosition;
-
-        if (!isFaceoff)
+        if (targetSegment == null)
         {
-            targetPos += new Vector2(xOffset, yOffset);
+            return _transform.anchoredPosition;
         }
 
-        return targetPos;
+        return GetRandomPointInSegment(targetSegment);
     }
 #endregion
 #region -------------------- Private Methods --------------------
+    private RectTransform GetTargetSegment(string rinkPhase)
+    {
+        switch (rinkPhase)
+        {
+            case "Left":
+                return _leftSegment;
+            case "Right":
+                return _rightSegment;
+            default:
+                return _centerSegment;
+        }
+    }
 
+    private Vector2 GetRandomPointInSegment(RectTransform segment)
+    {
+        Rect rect = segment.rect;
+
+        float minX = rect.xMin + paddingX;
+        float maxX = rect.xMax - paddingX;
+        float minY = rect.yMin + paddingY;
+        float maxY = rect.yMax - paddingY;
+
+        float randomX = Random.Range(minX, maxX);
+        float randomY = Random.Range(minY, maxY);
+
+        Vector3 worldPoint = segment.TransformPoint(new Vector3(randomX, randomY, 0f));
+        Vector2 localPoint = _transform.parent.InverseTransformPoint(worldPoint);
+
+        return localPoint;
+    }
 #endregion
 }}

@@ -77,7 +77,7 @@ public class GoaliesController : Singleton<GoaliesController> {
 
                         PwhlGoalies[goalie.Info.Team].Add(goalie);
                         break;
-                    case "NHL-Franchise":
+                    case "NHLFranchise":
                         if (!NhlFranchiseGoalies.ContainsKey(goalie.Info.Team))
                         {
                             NhlFranchiseGoalies.Add(goalie.Info.Team, new());
@@ -85,7 +85,7 @@ public class GoaliesController : Singleton<GoaliesController> {
 
                         NhlFranchiseGoalies[goalie.Info.Team].Add(goalie);
                         break;
-                    case "PWHL-Franchise":
+                    case "PWHLFranchise":
                         if (!PwhlFranchiseGoalies.ContainsKey(goalie.Info.Team))
                         {
                             PwhlFranchiseGoalies.Add(goalie.Info.Team, new());

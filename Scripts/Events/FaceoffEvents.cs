@@ -152,6 +152,7 @@ public class FaceoffEvents : MonoBehaviour {
         CoreController.Inst.WriteLog(this.GetType().Name, $"Getting the skater possession.");
 
         GameTeam team = isHome ? GameplayController.Inst.GameData.HomeTeam : GameplayController.Inst.GameData.AwayTeam;
+        GameTeam otherTeam = isHome ? GameplayController.Inst.GameData.AwayTeam : GameplayController.Inst.GameData.HomeTeam;
 
         int currentLine = team.CurrentLine;
         int currentPair = team.CurrentPair;
@@ -161,8 +162,12 @@ public class FaceoffEvents : MonoBehaviour {
         GameplayController.Inst.StatsSet.AddPossPos($"C{currentLine.ToString()}");
         GameplayController.Inst.StatsSet.AddPossPos(currentSkater);
         GameplayController.Inst.StatsSet.SetPossTeam(isHome ? "Home" : "Away");
-        GameplayController.Inst.StatsSet.AddFaceoffWon(team.SkaterLineup[currentSkater], 1);
-        GameplayController.Inst.StatsSet.AddFaceoffLost(team.SkaterLineup[currentSkater], 1);
+
+        Skater winningSkater = GetFaceoffCenter(team == GameplayController.Inst.GameData.HomeTeam);
+        Skater otherSkater = GetFaceoffCenter(team != GameplayController.Inst.GameData.HomeTeam);
+        
+        GameplayController.Inst.StatsSet.AddFaceoffWon(winningSkater, 1);
+        GameplayController.Inst.StatsSet.AddFaceoffLost(otherSkater, 1);
 
         return team.SkaterLineup[currentSkater];
     }

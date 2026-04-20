@@ -62,6 +62,7 @@ public class PenaltyEvents : MonoBehaviour {
         {
             InfoText = $"When a player selects a penalty action, their Penalty rating determines if they are getting a penalty or not.",
             ActionText = $"The referees have their arm up as {penaltyPlayer} might get charged with a penalty.",
+            ButtonText = "Check for Penalty",
         };
 
         EventsController.Inst.CurrentEventRun = newEventRun;
@@ -80,6 +81,7 @@ public class PenaltyEvents : MonoBehaviour {
         {
             InfoText = $"After checking for a penalty, there might be a chance where the penalty does not get called.",
             ActionText = $"After debate, it looks like {penaltyPlayer} was not given a penalty. The centers are getting ready for a faceoff.",
+            ButtonText = "Continue to Faceoff",
         };
 
         EventsController.Inst.CurrentEventRun = newEventRun;
@@ -102,6 +104,7 @@ public class PenaltyEvents : MonoBehaviour {
         {
             InfoText = $"After checking for a penalty, there might be a chance where a penalty is called and a powerplay starts.",
             ActionText = $"The call on the ice is, indeed, a penalty. {penaltyPlayerFirst} {penaltyPlayerLast} is getting {PenaltyTime} minutes for {PenaltyCall}.",
+            ButtonText = "Continue",
         };
 
         EventsController.Inst.CurrentEventRun = newEventRun;
@@ -120,6 +123,7 @@ public class PenaltyEvents : MonoBehaviour {
         {
             InfoText = $"At the start of a powerplay, a shot list is generated based on the team's overall Offense ratings.",
             ActionText = $"It looks like the {ppTeam.Team.CityName} {ppTeam.Team.NickName} will be on the powerplay.",
+            ButtonText = "Continue",
         };
 
         EventsController.Inst.CurrentEventRun = newEventRun;
@@ -143,6 +147,7 @@ public class PenaltyEvents : MonoBehaviour {
         {
             InfoText = $"During the powerplay, each shot attempt taken by a player will be either an Outside, Inside, or Rebound shot.",
             ActionText = $"{ShootingSkater.Info.LastName} is looking to get a {shotType} {shot}.",
+            ButtonText = "Continue",
         };
 
         EventsController.Inst.CurrentEventRun = newEventRun;
@@ -163,6 +168,7 @@ public class PenaltyEvents : MonoBehaviour {
         {
             InfoText = $"After the shooting player takes a shot, if a goal is not scored, the powerplay either continues or ends.",
             ActionText = $"{actionText}",
+            ButtonText = "Continue",
         };
 
         EventsController.Inst.CurrentEventRun = newEventRun;
@@ -181,6 +187,7 @@ public class PenaltyEvents : MonoBehaviour {
         {
             InfoText = $"After the shooting player takes a shot, if a goal is scored, the powerplay either continues if the goal was shorthanded or it ends.",
             ActionText = $"With that shot by {ShootingSkater.Info.LastName}, the puck appears to get behind the goalie for a {shotType}!",
+            ButtonText = "Check for Goal",
         };
 
         EventsController.Inst.CurrentEventRun = newEventRun;
@@ -198,10 +205,15 @@ public class PenaltyEvents : MonoBehaviour {
         {
             InfoText = $"After the duration of the penalty, the penalized player comes out of the box and the game continues with a faceoff.",
             ActionText = $"That concludes the powerplay. Both teams are now at even strength as we get ready for a faceoff.",
+            ButtonText = "Continue to Faceoff",
         };
 
         EventsController.Inst.CurrentEventRun = newEventRun;
-        EventsController.Inst.ContinueAction = () => { EventsController.Inst.RunFaceoffEvent(0); };
+        EventsController.Inst.ContinueAction = () =>
+        {
+            GameplayController.Inst.GameData.PowerplayTeam = "None";
+            EventsController.Inst.RunFaceoffEvent(0);
+        };
 
         PenaltySkater = null;
         PenaltyGoalie = null;
@@ -259,6 +271,8 @@ public class PenaltyEvents : MonoBehaviour {
 
             ppTeam.Stats.Powerplays += 1;
 
+            AudioController.Inst.PlayPenaltyWhistle();
+            
             EventsController.Inst.RunPenaltyEvent(2);
         }
 
@@ -485,7 +499,7 @@ public class PenaltyEvents : MonoBehaviour {
         List<string> shotActions = new();
 
         if (ShotType == ConstantController.ShotType.Outside) { shotActions = ShootingSkater.Card.OutsideShotActions; }
-        else if (ShotType == ConstantController.ShotType.Outside) { shotActions = ShootingSkater.Card.InsideShotActions; }
+        else if (ShotType == ConstantController.ShotType.Inside) { shotActions = ShootingSkater.Card.InsideShotActions; }
         else { shotActions = ShootingSkater.Card.ReboundShotActions; }
 
         string shotAction = shotActions[randomNumber];

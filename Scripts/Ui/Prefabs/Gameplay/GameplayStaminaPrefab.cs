@@ -44,8 +44,9 @@ public class GameplayStaminaPrefab : MonoBehaviour {
         _playerText.text = pos + "\n" + skater.Info.LastName;
 
         int staminaDiff = (100 - skater.Game.Stamina) / 5;
+        int maxCount = _staminaSprites.Count - 1;
         
-        _staminaImage.sprite = _staminaSprites[staminaDiff];
+        _staminaImage.sprite = _staminaSprites[maxCount - staminaDiff];
     }
 #endregion
 #region -------------------- Private Methods --------------------

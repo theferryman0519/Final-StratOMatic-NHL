@@ -49,6 +49,15 @@ public class UiGameplayMain : MonoBehaviour {
 #region -------------------- Initial Functions --------------------
     void Start()
     {
+        _menuPanel.HidePanel();
+        _logsPanel.HidePanel();
+        _forwardsPanel.HidePanel();
+        _defensePanel.HidePanel();
+        _strategiesPanel.HidePanel();
+        _skaterStatsPanel.HidePanel();
+        _goalieStatsPanel.HidePanel();
+        _gameStatsPanel.HidePanel();
+        
         _menuButton.onClick.RemoveAllListeners();
         _menuButton.onClick.AddListener(() =>
         {
@@ -117,6 +126,7 @@ public class UiGameplayMain : MonoBehaviour {
     {
         CoreController.Inst.WriteLog(this.GetType().Name, $"Showing the gameplay menu panel.");
 
+        _menuPanel.gameObject.SetActive(true);
         _menuPanel.InitializeMenuPanel(this);
     }
 
@@ -124,6 +134,7 @@ public class UiGameplayMain : MonoBehaviour {
     {
         CoreController.Inst.WriteLog(this.GetType().Name, $"Showing the gameplay logs panel.");
 
+        _logsPanel.gameObject.SetActive(true);
         _logsPanel.InitializeGameLogsPanel();
     }
 
@@ -131,6 +142,7 @@ public class UiGameplayMain : MonoBehaviour {
     {
         CoreController.Inst.WriteLog(this.GetType().Name, $"Showing the gameplay change forwards panel.");
 
+        _forwardsPanel.gameObject.SetActive(true);
         _forwardsPanel.InitializeForwardsPanel();
     }
 
@@ -138,6 +150,7 @@ public class UiGameplayMain : MonoBehaviour {
     {
         CoreController.Inst.WriteLog(this.GetType().Name, $"Showing the gameplay change defense panel.");
 
+        _defensePanel.gameObject.SetActive(true);
         _defensePanel.InitializeDefensePanel();
     }
 
@@ -145,6 +158,7 @@ public class UiGameplayMain : MonoBehaviour {
     {
         CoreController.Inst.WriteLog(this.GetType().Name, $"Showing the gameplay change strategies panel.");
 
+        _strategiesPanel.gameObject.SetActive(true);
         _strategiesPanel.InitializeStrategiesPanel();
     }
 
@@ -152,6 +166,7 @@ public class UiGameplayMain : MonoBehaviour {
     {
         CoreController.Inst.WriteLog(this.GetType().Name, $"Showing the gameplay skater stats panel.");
 
+        _skaterStatsPanel.gameObject.SetActive(true);
         _skaterStatsPanel.InitializeSkaterStatsPanel(skater);
     }
 
@@ -159,6 +174,7 @@ public class UiGameplayMain : MonoBehaviour {
     {
         CoreController.Inst.WriteLog(this.GetType().Name, $"Showing the gameplay goalie stats panel.");
 
+        _goalieStatsPanel.gameObject.SetActive(true);
         _goalieStatsPanel.InitializeGoalieStatsPanel(goalie);
     }
 
@@ -166,6 +182,7 @@ public class UiGameplayMain : MonoBehaviour {
     {
         CoreController.Inst.WriteLog(this.GetType().Name, $"Showing the gameplay game stats panel.");
 
+        _gameStatsPanel.gameObject.SetActive(true);
         _gameStatsPanel.InitializeGameStatsPanel();
     }
 

@@ -330,17 +330,17 @@ public class GameSaveData : MonoBehaviour {
 
         TeamGame newTeamGame = new TeamGame
         {
-            Goals = Int32.Parse(statArray[1]),
-            Shots = Int32.Parse(statArray[2]),
-            PowerplayGoals = Int32.Parse(statArray[3]),
-            Powerplays = Int32.Parse(statArray[4]),
-            ShorthandedGoals = Int32.Parse(statArray[5]),
-            FaceoffsWon = Int32.Parse(statArray[6]),
-            FaceoffsLost = Int32.Parse(statArray[7]),
-            Hits = Int32.Parse(statArray[8]),
-            BlockedShots = Int32.Parse(statArray[9]),
-            Giveaways = Int32.Parse(statArray[10]),
-            Takeaways = Int32.Parse(statArray[11]),
+            Goals = Int32.Parse(statArray[0]),
+            Shots = Int32.Parse(statArray[1]),
+            PowerplayGoals = Int32.Parse(statArray[2]),
+            Powerplays = Int32.Parse(statArray[3]),
+            ShorthandedGoals = Int32.Parse(statArray[4]),
+            FaceoffsWon = Int32.Parse(statArray[5]),
+            FaceoffsLost = Int32.Parse(statArray[6]),
+            Hits = Int32.Parse(statArray[7]),
+            BlockedShots = Int32.Parse(statArray[8]),
+            Giveaways = Int32.Parse(statArray[9]),
+            Takeaways = Int32.Parse(statArray[10]),
         };
 
         return newTeamGame;

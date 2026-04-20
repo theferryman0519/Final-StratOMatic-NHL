@@ -2,6 +2,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -73,6 +74,8 @@ public class EditLinesPanel : MonoBehaviour {
 
     public void HidePanel()
     {
+        _cardPanel.HidePanel();
+        
         _mainElement.alpha = 0f;
         this.gameObject.SetActive(false);
     }
@@ -115,6 +118,14 @@ public class EditLinesPanel : MonoBehaviour {
             teamSkaters = new(SkatersController.Inst.PwhlFranchiseSkaters[teamCode]);
             teamGoalies = new(GoaliesController.Inst.PwhlFranchiseGoalies[teamCode]);
         }
+        
+        teamSkaters = teamSkaters.OrderByDescending(s => s.Card.Defense + s.Card.Offense).ToList();
+        teamGoalies = teamGoalies.OrderByDescending(g => g.WinPercentage).ToList();
+
+        foreach (Skater skater in GameplayController.Inst.GameData.HomeTeam.SkaterLineup.Values)
+        {
+            teamSkaters.Remove(skater);
+        }
 
         switch (posOption)
         {
@@ -131,10 +142,10 @@ public class EditLinesPanel : MonoBehaviour {
                             _cardPanel.gameObject.SetActive(true);
                             _cardPanel.InitializeEditLinesCardPanel(defenseSkater, null);
 
-                            _cardPanel.SelectButton.SetListener(() => { SetSkaterPosition(defenseSkater); });
+                            _cardPanel.SelectButton.SetListener(() => { ClosePanel(() => { SetSkaterPosition(defenseSkater); }); });
                         });
 
-                        panelObj.SelectButton.SetListener(() => { SetSkaterPosition(defenseSkater); });
+                        panelObj.SelectButton.SetListener(() => { ClosePanel(() => { SetSkaterPosition(defenseSkater); }); });
                     }
                 }
 
@@ -150,10 +161,10 @@ public class EditLinesPanel : MonoBehaviour {
                         _cardPanel.gameObject.SetActive(true);
                         _cardPanel.InitializeEditLinesCardPanel(null, goalie);
 
-                        _cardPanel.SelectButton.SetListener(() => { SetGoaliePosition(goalie); });
+                        _cardPanel.SelectButton.SetListener(() => { ClosePanel(() => { SetGoaliePosition(goalie); }); });
                     });
 
-                    panelObj.SelectButton.SetListener(() => { SetGoaliePosition(goalie); });
+                    panelObj.SelectButton.SetListener(() => { ClosePanel(() => { SetGoaliePosition(goalie); }); });
                 }
 
                 break;
@@ -171,10 +182,10 @@ public class EditLinesPanel : MonoBehaviour {
                             _cardPanel.gameObject.SetActive(true);
                             _cardPanel.InitializeEditLinesCardPanel(forwardSkater, null);
 
-                            _cardPanel.SelectButton.SetListener(() => { SetSkaterPosition(forwardSkater); });
+                            _cardPanel.SelectButton.SetListener(() => { ClosePanel(() => { SetSkaterPosition(forwardSkater); }); });
                         });
 
-                        panelObj.SelectButton.SetListener(() => { SetSkaterPosition(forwardSkater); });
+                        panelObj.SelectButton.SetListener(() => { ClosePanel(() => { SetSkaterPosition(forwardSkater); }); });
                     }
                 }
 

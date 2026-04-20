@@ -62,17 +62,19 @@ public class GameplayMenuPanel : MonoBehaviour {
         });
 	}
 
-    public void ClosePanel(Action continueAction = null)
+	public void ClosePanel(Action continueAction = null)
 	{
-		CoreController.Inst.WriteLog(this.GetType().Name, $"Closing the menu panel.");
-
 		AnimationController.Inst.FadeOutPanel(_mainElement, _mainPanel, () =>
 		{
-			_mainElement.alpha = 0f;
-			this.gameObject.SetActive(false);
-
+			HidePanel();
 			continueAction?.Invoke();
 		});
+	}
+    
+	public void HidePanel()
+	{
+		_mainElement.alpha = 0f;
+		this.gameObject.SetActive(false);
 	}
 
 	public void ShowLogsPanel()

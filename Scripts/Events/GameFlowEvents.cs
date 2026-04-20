@@ -48,7 +48,23 @@ public class GameFlowEvents : MonoBehaviour {
         };
 
         EventsController.Inst.CurrentEventRun = newEventRun;
-        EventsController.Inst.ContinueAction = () => { EventsController.Inst.RunGameFlowEvent(1); };
+        EventsController.Inst.ContinueAction = () =>
+        {
+            GameplayController.Inst.GameData.HomeTeam.CurrentLine = 1;
+            GameplayController.Inst.GameData.HomeTeam.CurrentPair = 1;
+            GameplayController.Inst.GameData.HomeTeam.NextLine = 1;
+            GameplayController.Inst.GameData.HomeTeam.NextPair = 1;
+            
+            GameplayController.Inst.GameData.AwayTeam.CurrentLine = 1;
+            GameplayController.Inst.GameData.AwayTeam.CurrentPair = 1;
+            GameplayController.Inst.GameData.AwayTeam.NextLine = 1;
+            GameplayController.Inst.GameData.AwayTeam.NextPair = 1;
+
+            GameplayController.Inst.StatsSet.ResetFullTeamStamina(true);
+            GameplayController.Inst.StatsSet.ResetFullTeamStamina(false);
+            
+            EventsController.Inst.RunGameFlowEvent(1);
+        };
 
         IsOvertimeGame = false;
         InjuredSkater = null;
@@ -77,7 +93,23 @@ public class GameFlowEvents : MonoBehaviour {
         };
 
         EventsController.Inst.CurrentEventRun = newEventRun;
-        EventsController.Inst.ContinueAction = () => { EventsController.Inst.RunFaceoffEvent(0); };
+        EventsController.Inst.ContinueAction = () =>
+        {
+            GameplayController.Inst.GameData.HomeTeam.CurrentLine = 1;
+            GameplayController.Inst.GameData.HomeTeam.CurrentPair = 1;
+            GameplayController.Inst.GameData.HomeTeam.NextLine = 1;
+            GameplayController.Inst.GameData.HomeTeam.NextPair = 1;
+            
+            GameplayController.Inst.GameData.AwayTeam.CurrentLine = 1;
+            GameplayController.Inst.GameData.AwayTeam.CurrentPair = 1;
+            GameplayController.Inst.GameData.AwayTeam.NextLine = 1;
+            GameplayController.Inst.GameData.AwayTeam.NextPair = 1;
+
+            GameplayController.Inst.StatsSet.ResetFullTeamStamina(true);
+            GameplayController.Inst.StatsSet.ResetFullTeamStamina(false);
+            
+            EventsController.Inst.RunFaceoffEvent(0);
+        };
 
         yield return null;
     }
@@ -102,6 +134,8 @@ public class GameFlowEvents : MonoBehaviour {
     public IEnumerator EndOfPeriod()
     {
         CoreController.Inst.WriteLog(this.GetType().Name, $"Adding EndOfPeriod to the queue.");
+        
+        AudioController.Inst.PlayPeriodHorn();
 
         string period = string.Empty;
 
@@ -186,7 +220,7 @@ public class GameFlowEvents : MonoBehaviour {
         {
             InfoText = string.Empty,
             ActionText = string.Empty,
-            ButtonText = string.Empty,
+            ButtonText = "Go to Game Results",
         };
 
         EventsController.Inst.CurrentEventRun = newEventRun;

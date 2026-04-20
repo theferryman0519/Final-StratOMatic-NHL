@@ -77,7 +77,7 @@ public class SkatersController : Singleton<SkatersController> {
 
                         PwhlSkaters[skater.Info.Team].Add(skater);
                         break;
-                    case "NHL-Franchise":
+                    case "NHLFranchise":
                         if (!NhlFranchiseSkaters.ContainsKey(skater.Info.Team))
                         {
                             NhlFranchiseSkaters.Add(skater.Info.Team, new());
@@ -85,7 +85,7 @@ public class SkatersController : Singleton<SkatersController> {
 
                         NhlFranchiseSkaters[skater.Info.Team].Add(skater);
                         break;
-                    case "PWHL-Franchise":
+                    case "PWHLFranchise":
                         if (!PwhlFranchiseSkaters.ContainsKey(skater.Info.Team))
                         {
                             PwhlFranchiseSkaters.Add(skater.Info.Team, new());

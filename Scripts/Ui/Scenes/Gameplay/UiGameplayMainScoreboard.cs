@@ -82,8 +82,11 @@ public class UiGameplayMainScoreboard : MonoBehaviour {
         GameTeam homeTeam = GameplayController.Inst.GameData.HomeTeam;
         GameTeam awayTeam = GameplayController.Inst.GameData.AwayTeam;
 
-        string homeString = $"{homeTeam.Team.League}_{homeTeam.Team.Code}_ON";
-        string awayString = $"{awayTeam.Team.League}_{awayTeam.Team.Code}_ON";
+        string homeLeague = homeTeam.Team.League.Contains("NHL") ? "NHL" : "PWHL";
+        string awayLeague = awayTeam.Team.League.Contains("NHL") ? "NHL" : "PWHL";
+
+        string homeString = $"{homeLeague}_{homeTeam.Team.Code}_ON";
+        string awayString = $"{awayLeague}_{awayTeam.Team.Code}_ON";
 
         _homeIcon.sprite = ConstantController.Inst.IconSprites[homeString];
         _awayIcon.sprite = ConstantController.Inst.IconSprites[awayString];
@@ -120,6 +123,9 @@ public class UiGameplayMainScoreboard : MonoBehaviour {
 
         string periodString = string.Empty;
         string timeString = GetGameTime(cardsDrawn);
+        
+        if (cardsDrawn > 30) { cardsDrawn = 30; }
+        else if (cardsDrawn < 0) { cardsDrawn = 0; }
 
         if (period == 1 || period == 0) { periodString = "1st Period"; }
         else if (period == 2) { periodString = "2nd Period"; }
@@ -227,8 +233,9 @@ public class UiGameplayMainScoreboard : MonoBehaviour {
             case 27: return "2:00";
             case 28: return "1:20";
             case 29: return "0:40";
-            case 30:
-            default: return "0:05";
+            case 30: return "0:05";
+            case 31:
+            default: return "0:00";
         }
     }
 #endregion

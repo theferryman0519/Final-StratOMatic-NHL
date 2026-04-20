@@ -80,9 +80,12 @@ public class UiExhibitionReady : UiSceneBase {
 
         _homeTeamText.text = homeTeam.Team.Code;
         _awayTeamText.text = awayTeam.Team.Code;
+        
+        string homeLeague = homeTeam.Team.League.Contains("NHL") ? "NHL" : "PWHL";
+        string awayLeague = awayTeam.Team.League.Contains("NHL") ? "NHL" : "PWHL";
 
-        string homeString = $"{homeTeam.Team.League}_{homeTeam.Team.Code}_ON";
-        string awayString = $"{awayTeam.Team.League}_{awayTeam.Team.Code}_ON";
+        string homeString = $"{homeLeague}_{homeTeam.Team.Code}_ON";
+        string awayString = $"{awayLeague}_{awayTeam.Team.Code}_ON";
 
         _homeIcon.sprite = ConstantController.Inst.IconSprites[homeString];
         _awayIcon.sprite = ConstantController.Inst.IconSprites[awayString];

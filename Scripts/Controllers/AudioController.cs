@@ -84,7 +84,17 @@ public class AudioController : Singleton<AudioController> {
         }
     }
 
-    public void PlayGoalHorn(Team team)
+    public void ChangeMusicVolume(bool isStartingGame)
+    {
+        if (musicVolume > 0f)
+        {
+            CoreController.Inst.WriteLog(this.GetType().Name, $"Setting the music volume for a game.");
+            
+            _musicSource.volume = isStartingGame ? musicVolume - 0.6f : musicVolume;
+        }
+    }
+
+    public void PlayGoalHorn()
     {
         if (effectsVolume > 0f)
         {
@@ -94,8 +104,6 @@ public class AudioController : Singleton<AudioController> {
             
             _goalSource.loop = false;
             _goalSource.volume = effectsVolume;
-
-            AudioClip hornClip = GetGoalHorn(team);
             
             _goalSource.Play();
         }

@@ -32,6 +32,8 @@ public class GameplaySkaterStatsPanel : MonoBehaviour {
 	[SerializeField] private GameObject _cardReboundShotsPage;
 	[SerializeField] private GameObject _cardPassingPage;
 	[SerializeField] private GameObject _cardDefendingPage;
+	
+	[SerializeField] private TMP_Text _titleText;
 
 	[SerializeField] private List<TMP_Text> _infoTexts = new();
 	[SerializeField] private List<TMP_Text> _cardTexts = new();
@@ -65,7 +67,10 @@ public class GameplaySkaterStatsPanel : MonoBehaviour {
 		_returnButton.SetListener(() => { ClosePanel(); });
 
 		_statsDropdown.SetListener(ChangeStatsOption);
+		_statsDropdown.Dropdown.value = 0;
+		
 		_cardDropdown.SetListener(ChangeCardsOption);
+		_cardDropdown.Dropdown.value = 0;
 
 		ChangeStatsOption(0);
 		ChangeCardsOption(0);
@@ -78,15 +83,19 @@ public class GameplaySkaterStatsPanel : MonoBehaviour {
         });
 	}
 
-    public void ClosePanel(Action continueAction = null)
+	public void ClosePanel(Action continueAction = null)
 	{
 		AnimationController.Inst.FadeOutPanel(_mainElement, _mainPanel, () =>
 		{
-			_mainElement.alpha = 0f;
-			this.gameObject.SetActive(false);
-
+			HidePanel();
 			continueAction?.Invoke();
 		});
+	}
+    
+	public void HidePanel()
+	{
+		_mainElement.alpha = 0f;
+		this.gameObject.SetActive(false);
 	}
 #endregion
 #region -------------------- Private Methods --------------------
@@ -151,6 +160,8 @@ public class GameplaySkaterStatsPanel : MonoBehaviour {
 
 	private void SetTexts(Skater skater)
 	{
+		_titleText.text = $"{skater.Info.FirstName} {skater.Info.LastName}";
+		
 		_infoTexts[0].text = $"Offense: {skater.Card.Offense}" + "\n" +
 			$"Defense: {skater.Card.Defense}" + "\n" +
 			$"Breakaway: {skater.Card.Breakaway}" + "\n" +
@@ -163,16 +174,16 @@ public class GameplaySkaterStatsPanel : MonoBehaviour {
 		
 		_infoTexts[2].text = $"Goals: {skater.Game.Goals}" + "\n" +
 			$"Assists: {skater.Game.Assists}" + "\n" +
-			$"Points: +{skater.Game.Points}" + "\n" +
-			$"Shots: +{skater.Game.Shots}" + "\n" +
-			$"+/-: +{skater.Game.PlusMinus}" + "\n" +
+			$"Points: {skater.Game.Points}" + "\n" +
+			$"Shots: {skater.Game.Shots}" + "\n" +
+			$"+/-: {skater.Game.PlusMinus}" + "\n" +
 			$"Stamina: {skater.Game.Stamina}%";
 		
 		_infoTexts[3].text = $"PIM: {skater.Game.PenaltyMinutes}" + "\n" +
 			$"Hits: {skater.Game.Hits}" + "\n" +
-			$"Blocked Shots: +{skater.Game.BlockedShots}" + "\n" +
-			$"Giveaways: +{skater.Game.Giveaways}" + "\n" +
-			$"Takeaways: +{skater.Game.Takeaways}" + "\n" +
+			$"Blocked Shots: {skater.Game.BlockedShots}" + "\n" +
+			$"Giveaways: {skater.Game.Giveaways}" + "\n" +
+			$"Takeaways: {skater.Game.Takeaways}" + "\n" +
 			$"Faceoffs: {skater.Game.FaceoffsWon} for {skater.Game.FaceoffsWon + skater.Game.FaceoffsLost}";
 		
 		_cardTexts[0].text = $"02) {skater.Card.OutsideShotActions[0]}" + "\n" +
@@ -211,7 +222,7 @@ public class GameplaySkaterStatsPanel : MonoBehaviour {
 			$"11) {skater.Card.ReboundShotActions[9]}" + "\n" +
 			$"12) {skater.Card.ReboundShotActions[10]}";
 		
-		_cardTexts[2].text = $"A) {skater.Card.PassingActions[0]}" + "\n" +
+		_cardTexts[3].text = $"A) {skater.Card.PassingActions[0]}" + "\n" +
 			$"B) {skater.Card.PassingActions[1]}" + "\n" +
 			$"C) {skater.Card.PassingActions[2]}" + "\n" +
 			$"D) {skater.Card.PassingActions[3]}" + "\n" +
@@ -224,7 +235,7 @@ public class GameplaySkaterStatsPanel : MonoBehaviour {
 			$"K) {skater.Card.PassingActions[10]}" + "\n" +
 			$"L) {skater.Card.PassingActions[11]}";
 		
-		_cardTexts[2].text = $"01) {skater.Card.DefendingActions[0]}" + "\n" +
+		_cardTexts[4].text = $"01) {skater.Card.DefendingActions[0]}" + "\n" +
 			$"02) {skater.Card.DefendingActions[1]}" + "\n" +
 			$"03) {skater.Card.DefendingActions[2]}" + "\n" +
 			$"04) {skater.Card.DefendingActions[3]}" + "\n" +

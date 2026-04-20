@@ -17,6 +17,7 @@ using Unity.Notifications.iOS;
 
 // Game Dependencies
 using SoM.Core;
+using UnityEngine.InputSystem.LowLevel;
 
 namespace SoM.Controllers {
 public class CoreController : Singleton<CoreController> {
@@ -155,15 +156,12 @@ public class CoreController : Singleton<CoreController> {
 		}
 #endif
 #if UNITY_ANDROID
-	    if (DeviceInfo.GetApiLevel() >= 33)
-	    {
-	        if (!Permission.HasUserAuthorizedPermission("android.permission.POST_NOTIFICATIONS"))
-	        {
-	            Permission.RequestUserPermission("android.permission.POST_NOTIFICATIONS");
+		if (!Permission.HasUserAuthorizedPermission("android.permission.POST_NOTIFICATIONS"))
+		{
+			Permission.RequestUserPermission("android.permission.POST_NOTIFICATIONS");
 
-				yield return new WaitForSeconds(0.25f);
-	        }
-	    }
+			yield return new WaitForSeconds(0.25f);
+		}
 #endif
 	    yield return null;
 	}

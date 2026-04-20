@@ -47,6 +47,8 @@ public class UiExhibitionResults : UiSceneBase {
 #region -------------------- Public Methods --------------------
     protected override void InitializeUi()
 	{
+        AudioController.Inst.ChangeMusicVolume(false);
+        
 		_returnButton.SetListener(SetUserStats);
 
         SetGameData();
@@ -101,7 +103,7 @@ public class UiExhibitionResults : UiSceneBase {
             else { UsersController.Inst.UserData.Stats.NhlOTLs += 1; }
         }
 
-        UsersController.Inst.SetUserData(UsersController.Inst.UserData.Id, GoToHome);
+        UsersController.Inst.SaveUserData(GoToHome);
     }
     
     private void GoToHome()
@@ -121,8 +123,11 @@ public class UiExhibitionResults : UiSceneBase {
         _homeTeamText.text = homeTeam.Team.Code;
         _awayTeamText.text = awayTeam.Team.Code;
 
-        string homeString = $"{homeTeam.Team.League}_{homeTeam.Team.Code}_ON";
-        string awayString = $"{awayTeam.Team.League}_{awayTeam.Team.Code}_ON";
+        string homeLeague = homeTeam.Team.League.Contains("NHL") ? "NHL" : "PWHL";
+        string awayLeague = awayTeam.Team.League.Contains("NHL") ? "NHL" : "PWHL";
+
+        string homeString = $"{homeLeague}_{homeTeam.Team.Code}_ON";
+        string awayString = $"{awayLeague}_{awayTeam.Team.Code}_ON";
 
         _homeIcon.sprite = ConstantController.Inst.IconSprites[homeString];
         _awayIcon.sprite = ConstantController.Inst.IconSprites[awayString];

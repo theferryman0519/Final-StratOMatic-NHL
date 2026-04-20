@@ -142,32 +142,36 @@ public class UiMainLoading : UiSceneBase {
         _mainContent.Clear();
         _mainContent = _pageElements;
 
-        await FirebaseController.Inst.GetCurrentGame(UsersController.Inst.UserData.Id, savedGame =>
-        {
-	        if (savedGame == null)
-	        {
-		        if (FirebaseController.Inst.IsNewUser) { GoToNewScene(CoreController.Inst.Scene_Main04); }
-		        else { GoToNewScene(CoreController.Inst.Scene_Home00); }
-	        }
-
-	        else
-	        {
-				Game loadedGame = SaveController.Inst.LoadGameFromSaveData(savedGame);
-
-				if (loadedGame == null)
-				{
-					if (FirebaseController.Inst.IsNewUser) { GoToNewScene(CoreController.Inst.Scene_Main04); }
-					else { GoToNewScene(CoreController.Inst.Scene_Home00); }
-				}
-
-				else
-				{
-					GameplayController.Inst.GameData = loadedGame;
-
-					GoToNewScene(CoreController.Inst.Scene_Main05);
-				}
-	        }
-        });
+        // TODO
+    //     await FirebaseController.Inst.GetCurrentGame(UsersController.Inst.UserData.Id, savedGame =>
+    //     {
+	   //      if (savedGame == null)
+	   //      {
+		  //       if (FirebaseController.Inst.IsNewUser) { GoToNewScene(CoreController.Inst.Scene_Main04); }
+		  //       else { GoToNewScene(CoreController.Inst.Scene_Home00); }
+	   //      }
+    //
+	   //      else
+	   //      {
+				// Game loadedGame = SaveController.Inst.LoadGameFromSaveData(savedGame);
+    //
+				// if (loadedGame == null)
+				// {
+				// 	if (FirebaseController.Inst.IsNewUser) { GoToNewScene(CoreController.Inst.Scene_Main04); }
+				// 	else { GoToNewScene(CoreController.Inst.Scene_Home00); }
+				// }
+    //
+				// else
+				// {
+				// 	GameplayController.Inst.GameData = loadedGame;
+    //
+				// 	GoToNewScene(CoreController.Inst.Scene_Main05);
+				// }
+	   //      }
+    //     });
+        
+        if (FirebaseController.Inst.IsNewUser) { GoToNewScene(CoreController.Inst.Scene_Main04); }
+        else { GoToNewScene(CoreController.Inst.Scene_Home00); }
 	}
 
     private bool IsVersionCompatible(string localVersion, string requiredVersion)
