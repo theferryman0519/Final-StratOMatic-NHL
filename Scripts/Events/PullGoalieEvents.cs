@@ -46,6 +46,19 @@ public class PullGoalieEvents : MonoBehaviour {
         PullGoalieShots.Clear();
         EmptyNetShots.Clear();
 
+        GameplayController.Inst.GameData.HomeTeam.CurrentLine = 1;
+        GameplayController.Inst.GameData.HomeTeam.CurrentPair = 1;
+        GameplayController.Inst.GameData.HomeTeam.NextLine = 1;
+        GameplayController.Inst.GameData.HomeTeam.NextPair = 1;
+
+        GameplayController.Inst.GameData.AwayTeam.CurrentLine = 1;
+        GameplayController.Inst.GameData.AwayTeam.CurrentPair = 1;
+        GameplayController.Inst.GameData.AwayTeam.NextLine = 1;
+        GameplayController.Inst.GameData.AwayTeam.NextPair = 1;
+
+        GameplayController.Inst.StatsSet.ResetFullTeamStamina(true);
+        GameplayController.Inst.StatsSet.ResetFullTeamStamina(false);
+
         GameTeam exTeam = GameplayController.Inst.GameData.PossTeam == "Home" ? GameplayController.Inst.GameData.HomeTeam : GameplayController.Inst.GameData.AwayTeam;
 
         EventRun newEventRun = new EventRun
