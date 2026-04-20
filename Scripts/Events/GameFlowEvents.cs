@@ -246,6 +246,35 @@ public class GameFlowEvents : MonoBehaviour {
             EventsController.Inst.RunGameFlowEvent(1);
         }
 
+        else if (periodNumber == 4)
+        {
+            if (GameplayController.Inst.GameData.Type == "Playoffs")
+            {
+                int homeScore = GameplayController.Inst.GameData.HomeTeam.Stats.Goals;
+                int awayScore = GameplayController.Inst.GameData.AwayTeam.Stats.Goals;
+
+                if (homeScore == awayScore)
+                {
+                    periodNumber += 1;
+
+                    GameplayController.Inst.GameData.CardsDrawn = 0;
+                    GameplayController.Inst.GameData.Period = periodNumber;
+
+                    EventsController.Inst.RunGameFlowEvent(4);
+                }
+
+                else
+                {
+                    EventsController.Inst.RunGameFlowEvent(5);
+                }
+            }
+
+            else
+            {
+                EventsController.Inst.RunGameFlowEvent(5);
+            }
+        }
+
         else
         {
             int homeScore = GameplayController.Inst.GameData.HomeTeam.Stats.Goals;
