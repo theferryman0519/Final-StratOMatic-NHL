@@ -87,6 +87,7 @@ public class GoalEvents : MonoBehaviour {
         };
 
         EventsController.Inst.CurrentEventRun = newEventRun;
+        EventsController.Inst.GameplayEvents.OffenseEvents.SelectedShotType = ConstantController.ShotType.RebBreak;
         EventsController.Inst.ContinueAction = () => { EventsController.Inst.RunOffenseEvent(2); };
 
         yield return null;
