@@ -184,6 +184,9 @@ public class ConstantController : Singleton<ConstantController> {
 
         // Multiplayer
         MultiplayerOpponentLeft,
+
+        // Season
+        SeasonDeleteSeason,
     };
 #endregion
 #region -------------------- Private Variables --------------------
