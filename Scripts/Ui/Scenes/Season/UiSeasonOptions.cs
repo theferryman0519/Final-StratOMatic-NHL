@@ -69,7 +69,19 @@ public class UiSeasonOptions : UiSceneBase {
 
 		PlayerPrefs.SetString(ConstantController.Pref_SeasonOptions, $"True/{fatigueSelection}/{goalieFatigueSelection}/{injuriesSelection}/Hall of Famer");
 
-		GoToNewScene(CoreController.Inst.Scene_Season02);
+		UsersController.Inst.UserData.SeasonStats.IsInSeason = true;
+		UsersController.Inst.UserData.SeasonStats.Id = Guid.NewGuid();
+		UsersController.Inst.UserData.SeasonStats.League = SeasonsController.Inst.SeasonData.League;
+		UsersController.Inst.UserData.SeasonStats.Team = SeasonsController.Inst.SeasonData.Team.Team.Code;
+		UsersController.Inst.UserData.SeasonStats.CurrentWins = 0;
+		UsersController.Inst.UserData.SeasonStats.CurrentLosses = 0;
+		UsersController.Inst.UserData.SeasonStats.CurrentTies = 0;
+		UsersController.Inst.UserData.SeasonStats.CurrentOTLs = 0;
+
+		UsersController.Inst.SaveUserData(() =>
+		{
+			GoToNewScene(CoreController.Inst.Scene_Season02);
+		});
     }
 
 	private void GoToTeamSelect()
