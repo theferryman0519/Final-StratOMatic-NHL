@@ -21,10 +21,9 @@ public class UiSeasonOptions : UiSceneBase {
 	[SerializeField] private SoM_Button _returnButton;
 
 	[Header("Dropdown Elements")]
-	[SerializeField] private SoM_Dropdown _playerFatigueButton;
+	[SerializeField] private SoM_Dropdown _playerFatigueDropdown;
 	[SerializeField] private SoM_Dropdown _goalieFatigueDropdown;
 	[SerializeField] private SoM_Dropdown _injuriesDropdown;
-	[SerializeField] private SoM_Dropdown _difficultyDropdown;
 #endregion
 #region -------------------- Public Variables --------------------
     
@@ -47,10 +46,11 @@ public class UiSeasonOptions : UiSceneBase {
 		_startButton.SetListener(AttemptToStartSeason);
 		_returnButton.SetListener(GoToTeamSelect);
 
-		_playerFatigueButton.SetListener(ChangePlayerFatigueOption);
+		_playerFatigueDropdown.SetListener(ChangePlayerFatigueOption);
 		_goalieFatigueDropdown.SetListener(ChangeGoalieFatigueOption);
 		_injuriesDropdown.SetListener(ChangeInjuriesOption);
-		_difficultyDropdown.SetListener(ChangeDifficultyOption);
+
+		SeasonsController.Inst.SeasonOptions = new GameOptions();
 
         base.InitializeUi();
 	}
@@ -60,7 +60,11 @@ public class UiSeasonOptions : UiSceneBase {
     {
         CoreController.Inst.WriteLog(this.GetType().Name, $"Attempting to start new season.");
 
-		// TODO
+		string fatigueSelection = SeasonsController.Inst.SeasonOptions.FatigueOn.ToString();
+		string goalieFatigueSelection = SeasonsController.Inst.SeasonOptions.GoalieFatigueOn.ToString();
+		string injuriesSelection = SeasonsController.Inst.SeasonOptions.InjuriesOn.ToString();
+
+		PlayerPrefs.SetString(ConstantController.Pref_SeasonOptions, $"True/{fatigueSelection}/{goalieFatigueSelection}/{injuriesSelection}/Hall of Famer");
 
 		GoToNewScene(CoreController.Inst.Scene_Season02);
     }
@@ -79,13 +83,15 @@ public class UiSeasonOptions : UiSceneBase {
 		switch (option)
 		{
 			case 1:
-				// TODO: Set as off
+				SeasonsController.Inst.SeasonOptions.FatigueOn = false;
 				break;
 			case 0:
 			default:
-				// TODO: Set as on
+				SeasonsController.Inst.SeasonOptions.FatigueOn = true;
 				break;
 		}
+		
+		_playerFatigueDropdown.Dropdown.value = option;
     }
 
 	private void ChangeGoalieFatigueOption(int option)
@@ -95,13 +101,15 @@ public class UiSeasonOptions : UiSceneBase {
 		switch (option)
 		{
 			case 1:
-				// TODO: Set as off
+				SeasonsController.Inst.SeasonOptions.GoalieFatigueOn = false;
 				break;
 			case 0:
 			default:
-				// TODO: Set as on
+				SeasonsController.Inst.SeasonOptions.GoalieFatigueOn = true;
 				break;
 		}
+		
+		_goalieFatigueDropdown.Dropdown.value = option;
     }
 
 	private void ChangeInjuriesOption(int option)
@@ -111,32 +119,15 @@ public class UiSeasonOptions : UiSceneBase {
 		switch (option)
 		{
 			case 1:
-				// TODO: Set as off
+				SeasonsController.Inst.SeasonOptions.InjuriesOn = false;
 				break;
 			case 0:
 			default:
-				// TODO: Set as on
+				SeasonsController.Inst.SeasonOptions.InjuriesOn = true;
 				break;
 		}
-    }
-
-	private void ChangeDifficultyOption(int option)
-    {
-        CoreController.Inst.WriteLog(this.GetType().Name, $"Changing the AI difficulty option.");
-
-		switch (option)
-		{
-			case 0:
-				// TODO: Set as Rookie
-				break;
-			case 2:
-				// TODO: Set as Hall of Famer
-				break;
-			case 1:
-			default:
-				// TODO: Set as Veteran
-				break;
-		}
+		
+		_injuriesDropdown.Dropdown.value = option;
     }
 #endregion
 }}
