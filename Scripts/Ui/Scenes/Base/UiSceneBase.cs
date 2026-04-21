@@ -67,85 +67,13 @@ public class UiSceneBase : MonoBehaviour {
     public void SetBanner()
 	{
 		CoreController.Inst.WriteLog(this.GetType().Name, $"Setting the main banner.");
-		
-		string spriteName = string.Empty;
 
-		if (SeasonsController.Inst.SeasonData != null)
-		{
-			string shortLeague = SeasonsController.Inst.SeasonData.League.Contains("NHL") ? "NHL" : "PWHL";
-			spriteName = $"{shortLeague}_{SeasonsController.Inst.SeasonData.Team.Team.Code}";
+		string sceneName = CoreController.Inst.GetSceneName();
 
-			_bannerBackground.sprite = ConstantController.Inst.BannerSprites[spriteName];
-			_bannerLogo.sprite = ConstantController.Inst.LogoSprites[spriteName];
-
-			SetBannerTitle();
-
-			return;
-		}
-
-		if (PlayoffsController.Inst.PlayoffData != null)
-		{
-			string shortLeague = PlayoffsController.Inst.PlayoffData.League.Contains("NHL") ? "NHL" : "PWHL";
-			spriteName = $"{shortLeague}_{PlayoffsController.Inst.PlayoffData.Team.Team.Code}";
-
-			_bannerBackground.sprite = ConstantController.Inst.BannerSprites[spriteName];
-			_bannerLogo.sprite = ConstantController.Inst.LogoSprites[spriteName];
-
-			SetBannerTitle();
-
-			return;
-		}
-
-		if (GameplayController.Inst.GameData != null)
-		{
-			if (GameplayController.Inst.GameData.HomeTeam != null)
-			{
-				string shortLeague = GameplayController.Inst.GameData.HomeTeam.Team.League.Contains("NHL") ? "NHL" : "PWHL";
-				spriteName = $"{shortLeague}_{GameplayController.Inst.GameData.HomeTeam.Team.Code}";
-			}
-
-			else
-			{
-				spriteName = $"NHL_NHL";
-			}
-
-			_bannerBackground.sprite = ConstantController.Inst.BannerSprites[spriteName];
-			_bannerLogo.sprite = ConstantController.Inst.LogoSprites[spriteName];
-
-			SetBannerTitle();
-
-			return;
-		}
-
-		if (UsersController.Inst.UserData != null)
-		{
-			ConstantController.LeagueType leagueType = ConstantController.LeagueType.None;
-		
-			if (UsersController.Inst.UserData.Info.League == "NHL") { leagueType = ConstantController.LeagueType.NHL; }
-			else if (UsersController.Inst.UserData.Info.League == "NHLFranchise") { leagueType = ConstantController.LeagueType.NHLFranchise; }
-			else if (UsersController.Inst.UserData.Info.League == "PWHL") { leagueType = ConstantController.LeagueType.PWHL; }
-			else if (UsersController.Inst.UserData.Info.League == "PWHLFranchise") { leagueType = ConstantController.LeagueType.PWHLFranchise; }
-			
-			Team userTeam = TeamsController.Inst.GetTeamFromCode(UsersController.Inst.UserData.Info.Team, leagueType);
-
-			if (userTeam == null)
-			{
-				spriteName = $"NHL_NHL";
-			}
-			
-			else
-			{
-				string shortLeague = userTeam.Info.League.Contains("NHL") ? "NHL" : "PWHL";
-				spriteName = $"{shortLeague}_{userTeam.Info.Code}";
-			}
-
-			_bannerBackground.sprite = ConstantController.Inst.BannerSprites[spriteName];
-			_bannerLogo.sprite = ConstantController.Inst.LogoSprites[spriteName];
-
-			SetBannerTitle();
-
-			return;
-		}
+		if (sceneName.Contains("Exhibition")) { SetExhibitionBanner(); }
+		else if (sceneName.Contains("Season")) { SetSeasonBanner(); }
+		else if (sceneName.Contains("Playoff")) { SetSeasonBanner(); }
+		else { SetMainBanner(); }
 	}
 
     protected void GoToNewScene(string sceneName)
@@ -192,6 +120,100 @@ public class UiSceneBase : MonoBehaviour {
 		else if (sceneName.Contains("Playoff")) { _bannerTitle.text = "Playoff"; }
 		else if (sceneName.Contains("Multiplayer")) { _bannerTitle.text = "Multiplayer"; }
 		else { _bannerTitle.text = string.Empty; }
+	}
+
+	private void SetMainBanner()
+	{
+		string spriteName = string.Empty;
+
+		if (UsersController.Inst.UserData != null)
+		{
+			ConstantController.LeagueType leagueType = ConstantController.LeagueType.None;
+		
+			if (UsersController.Inst.UserData.Info.League == "NHL") { leagueType = ConstantController.LeagueType.NHL; }
+			else if (UsersController.Inst.UserData.Info.League == "NHLFranchise") { leagueType = ConstantController.LeagueType.NHLFranchise; }
+			else if (UsersController.Inst.UserData.Info.League == "PWHL") { leagueType = ConstantController.LeagueType.PWHL; }
+			else if (UsersController.Inst.UserData.Info.League == "PWHLFranchise") { leagueType = ConstantController.LeagueType.PWHLFranchise; }
+			
+			Team userTeam = TeamsController.Inst.GetTeamFromCode(UsersController.Inst.UserData.Info.Team, leagueType);
+
+			if (userTeam == null)
+			{
+				spriteName = $"NHL_NHL";
+			}
+			
+			else
+			{
+				string shortLeague = userTeam.Info.League.Contains("NHL") ? "NHL" : "PWHL";
+				spriteName = $"{shortLeague}_{userTeam.Info.Code}";
+			}
+
+			_bannerBackground.sprite = ConstantController.Inst.BannerSprites[spriteName];
+			_bannerLogo.sprite = ConstantController.Inst.LogoSprites[spriteName];
+
+			SetBannerTitle();
+		}
+	}
+
+	private void SetExhibitionBanner()
+	{
+		string spriteName = string.Empty;
+
+		if (GameplayController.Inst.GameData != null)
+		{
+			if (GameplayController.Inst.GameData.HomeTeam != null)
+			{
+				string shortLeague = GameplayController.Inst.GameData.HomeTeam.Team.League.Contains("NHL") ? "NHL" : "PWHL";
+				spriteName = $"{shortLeague}_{GameplayController.Inst.GameData.HomeTeam.Team.Code}";
+			}
+
+			else
+			{
+				spriteName = $"NHL_NHL";
+			}
+
+			_bannerBackground.sprite = ConstantController.Inst.BannerSprites[spriteName];
+			_bannerLogo.sprite = ConstantController.Inst.LogoSprites[spriteName];
+
+			SetBannerTitle();
+
+			return;
+		}
+
+		SetMainBanner();
+	}
+
+	private void SetSeasonBanner()
+	{
+		string spriteName = string.Empty;
+
+		if (SeasonsController.Inst.SeasonData != null)
+		{
+			string shortLeague = SeasonsController.Inst.SeasonData.League.Contains("NHL") ? "NHL" : "PWHL";
+			spriteName = $"{shortLeague}_{SeasonsController.Inst.SeasonData.Team.Team.Code}";
+
+			_bannerBackground.sprite = ConstantController.Inst.BannerSprites[spriteName];
+			_bannerLogo.sprite = ConstantController.Inst.LogoSprites[spriteName];
+
+			SetBannerTitle();
+
+			return;
+		}
+
+		if (PlayoffsController.Inst.PlayoffData != null)
+		{
+			string shortLeague = PlayoffsController.Inst.PlayoffData.League.Contains("NHL") ? "NHL" : "PWHL";
+			spriteName = $"{shortLeague}_{PlayoffsController.Inst.PlayoffData.Team.Team.Code}";
+
+			_bannerBackground.sprite = ConstantController.Inst.BannerSprites[spriteName];
+			_bannerLogo.sprite = ConstantController.Inst.LogoSprites[spriteName];
+
+			SetBannerTitle();
+
+			return;
+		}
+
+		SetMainBanner();
 	}
 #endregion
 }}
