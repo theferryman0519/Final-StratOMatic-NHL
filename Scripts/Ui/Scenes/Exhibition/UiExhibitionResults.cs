@@ -110,6 +110,8 @@ public class UiExhibitionResults : UiSceneBase {
     {
         CoreController.Inst.WriteLog(this.GetType().Name, $"Going to home screen.");
 
+        GameplayController.Inst.GameData = null;
+
         GoToNewScene(CoreController.Inst.Scene_Home00);
     }
 
