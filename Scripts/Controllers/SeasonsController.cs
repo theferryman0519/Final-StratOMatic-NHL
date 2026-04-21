@@ -76,6 +76,27 @@ public class SeasonsController : Singleton<SeasonsController> {
 
         continueAction?.Invoke();
     }
+
+    public (int wins, int losses, int ties, int otls) GetTeamRecord(GameTeam team)
+    {
+        CoreController.Inst.WriteLog(this.GetType().Name, $"Getting a team's season record.");
+
+        (int wins, int losses, int ties, int otls) teamRecord = (0, 0, 0, 0);
+
+        ConstantController.LeagueType league = ConstantController.LeagueType.None;
+
+        if (team.Team.League.Contains("NHL")) { league = ConstantController.LeagueType.NHL; }
+        else { league = ConstantController.LeagueType.PWHL; }
+
+        Team mainTeam = TeamsController.Inst.GetTeamFromCode(team.Team.Code, league);
+
+        if (mainTeam.Season != null)
+        {
+            teamRecord = (mainTeam.Season.Wins, mainTeam.Season.Losses, mainTeam.Season.Ties, mainTeam.Season.OTLs);
+        }
+
+        return teamRecord;
+    }
 #endregion
 #region -------------------- Private Methods --------------------
     private async void LoadSeasonData()
