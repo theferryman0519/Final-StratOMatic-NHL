@@ -77,11 +77,9 @@ public class SeasonsController : Singleton<SeasonsController> {
         continueAction?.Invoke();
     }
 
-    public (int wins, int losses, int ties, int otls) GetTeamRecord(GameTeam team)
+    public TeamSeason GetTeamSeason(GameTeam team)
     {
         CoreController.Inst.WriteLog(this.GetType().Name, $"Getting a team's season record.");
-
-        (int wins, int losses, int ties, int otls) teamRecord = (0, 0, 0, 0);
 
         ConstantController.LeagueType league = ConstantController.LeagueType.None;
 
@@ -92,10 +90,10 @@ public class SeasonsController : Singleton<SeasonsController> {
 
         if (mainTeam.Season != null)
         {
-            teamRecord = (mainTeam.Season.Wins, mainTeam.Season.Losses, mainTeam.Season.Ties, mainTeam.Season.OTLs);
+            return mainTeam.Season;
         }
 
-        return teamRecord;
+        return null;
     }
 #endregion
 #region -------------------- Private Methods --------------------
