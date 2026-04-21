@@ -2,6 +2,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -57,21 +58,23 @@ public class UiSeasonTeam : UiSceneBase {
 
 		_leagueDropdown.SetListener(ChangeLeagueOption);
 
-        // TODO: Create new season
-
         SetContainer();
 
         base.InitializeUi();
 	}
 #endregion
 #region -------------------- Private Methods --------------------
-    private void GoToOptions()
+    private async void GoToOptions()
     {
         CoreController.Inst.WriteLog(this.GetType().Name, $"Going to season options screen.");
 
-        // TODO: Set season team
+        string team = selectedTeam.Info.Code;
+        string league = selectedLeague.ToString();
 
-		GoToNewScene(CoreController.Inst.Scene_Season01);
+        await SeasonsController.Inst.CreateNewSeason(team, league, () =>
+        {
+            GoToNewScene(CoreController.Inst.Scene_Season01);
+        });
     }
 
 	private void GoToHome()
@@ -115,10 +118,9 @@ public class UiSeasonTeam : UiSceneBase {
     {
 	    CoreController.Inst.WriteLog(this.GetType().Name, $"Setting the team banner.");
 	    
-	    string teamString = $"{team.Info.League}_{team.Info.Code}";
-	    
-	    _bannerBackground.sprite = ConstantController.Inst.BannerSprites[teamString];
-	    _bannerLogo.sprite = ConstantController.Inst.LogoSprites[teamString];
+	    GameplayController.Inst.SetGameTeam(team, true);
+
+	    SetBanner();
     }
     
     private void RefreshAllIcons()
