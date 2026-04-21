@@ -40,6 +40,7 @@ public class ConstantController : Singleton<ConstantController> {
     public const string Pref_DefaultExhibitionLeague = "SoM_DefaultExhibitionLeague";
     public const string Pref_DefaultExhibitionTeam = "SoM_DefaultExhibitionTeam";
     public const string Pref_DefaultExhibitionLineup = "SoM_DefaultExhibitionLineup";
+    public const string Pref_SeasonOptions = "SoM_SeasonOptions";
     public const string Pref_DefaultSeasonLeague = "SoM_DefaultSeasonLeague";
     public const string Pref_DefaultSeasonTeam = "SoM_DefaultSeasonTeam";
     public const string Pref_DefaultSeasonLineup = "SoM_DefaultSeasonLineup";
