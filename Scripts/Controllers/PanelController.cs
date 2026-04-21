@@ -407,6 +407,17 @@ public class PanelController : Singleton<PanelController> {
                 newPanel.ButtonCount = 1;
                 break;
             
+            // Season
+            case ConstantController.PanelType.SeasonDeleteSeason:
+                newPanel.Title = "Delete Season";
+                newPanel.Body = "Are you sure you want to delete your season? This will end your current season, and you will need to start over.";
+                newPanel.ButtonA = "Yes, Delete Season";
+                newPanel.ButtonB = "No, Return";
+                newPanel.HasCloseButton = true;
+                newPanel.ButtonCount = 2;
+                newPanel.SpriteA = 1;
+                break;
+            
             // Default
             default:
                 newPanel.Title = "Game Error";
