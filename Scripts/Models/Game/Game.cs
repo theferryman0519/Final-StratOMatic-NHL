@@ -20,7 +20,7 @@ public class Game {
     public string HomeUserType { get; set; } // User, Ai
     public string AwayUserType { get; set; } // User, Ai
     public string PowerplayTeam { get; set; } // None, Home, Away
-    public string PulGoalieTeam { get; set; } // None, Home, Away
+    public string PullGoalieTeam { get; set; } // None, Home, Away
     public string PossTeam { get; set; } // None, Home, Away
 
     public int CardsDrawn { get; set; }
