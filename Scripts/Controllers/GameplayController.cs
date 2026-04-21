@@ -56,6 +56,7 @@ public class GameplayController : Singleton<GameplayController> {
             HomeUserType = "User",
             AwayUserType = "Ai",
             PowerplayTeam = "None",
+            PullGoalieTeam = "None",
             PossTeam = "None",
             CardsDrawn = 0,
             Period = 1,
@@ -77,6 +78,7 @@ public class GameplayController : Singleton<GameplayController> {
             HomeUserType = "User",
             AwayUserType = "User",
             PowerplayTeam = "None",
+            PullGoalieTeam = "None",
             PossTeam = "None",
             CardsDrawn = 0,
             Period = 1,
@@ -98,6 +100,7 @@ public class GameplayController : Singleton<GameplayController> {
             HomeUserType = "User",
             AwayUserType = "Ai",
             PowerplayTeam = "None",
+            PullGoalieTeam = "None",
             PossTeam = "None",
             CardsDrawn = 0,
             Period = 1,
@@ -119,6 +122,7 @@ public class GameplayController : Singleton<GameplayController> {
             HomeUserType = "User",
             AwayUserType = "Ai",
             PowerplayTeam = "None",
+            PullGoalieTeam = "None",
             PossTeam = "None",
             CardsDrawn = 0,
             Period = 1,
@@ -224,11 +228,11 @@ public class GameplayController : Singleton<GameplayController> {
         string possPos = GameData.PossPos[GameData.PossPos.Count - 1];
         string defendPos = string.Empty;
 
-        if (possPos.Contains("C")) { defendPos = $"C{defendingLine}"; }
-        else if (possPos.Contains("LW")) { defendPos = $"RW{defendingLine}"; }
-        else if (possPos.Contains("RW")) { defendPos = $"LW{defendingLine}"; }
-        else if (possPos.Contains("LD")) { defendPos = $"RW{defendingPair}"; }
-        else if (possPos.Contains("RD")) { defendPos = $"LW{defendingPair}"; }
+        if (possPos.StartsWith("C")) { defendPos = $"C{defendingLine}"; }
+        else if (possPos.StartsWith("LW")) { defendPos = $"RW{defendingLine}"; }
+        else if (possPos.StartsWith("RW")) { defendPos = $"LW{defendingLine}"; }
+        else if (possPos.StartsWith("LD")) { defendPos = $"RW{defendingPair}"; }
+        else if (possPos.StartsWith("RD")) { defendPos = $"LW{defendingPair}"; }
 
         return defendingTeam.SkaterLineup[defendPos];
     }
