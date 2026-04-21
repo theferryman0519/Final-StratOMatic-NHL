@@ -228,7 +228,33 @@ public class DefenseEvents : MonoBehaviour {
             GameplayController.Inst.StatsSet.AddHit(DefendingSkater, 1);
             GameplayController.Inst.StatsSet.AddTakeaway(DefendingSkater, 1);
 
-            EventsController.Inst.RunDefenseEvent(1);
+            string rating = DefendingSkater.Card.Penalty;
+            int randomNum = Random.Range(1,21);
+            int thresholdNum = 0;
+
+            switch (rating)
+            {
+                case "AA": thresholdNum = 5; break;
+                case "A": thresholdNum = 8; break;
+                case "B": thresholdNum = 11; break;
+                case "C": thresholdNum = 14; break;
+                case "D":
+                default: thresholdNum = 17; break;
+            }
+
+            bool isPenalty = thresholdNum <= randomNum;
+
+            if (isPenalty)
+            {
+                EventsController.Inst.GameplayEvents.PenaltyEvents.PenaltySkater = DefendingSkater;
+                EventsController.Inst.GameplayEvents.PenaltyEvents.PenaltyGoalie = null;
+                EventsController.Inst.RunPenaltyEvent(0);
+            }
+
+            else
+            {
+                EventsController.Inst.RunDefenseEvent(1);
+            }
         }
 
         else
