@@ -25,6 +25,8 @@ public class SeasonsController : Singleton<SeasonsController> {
 #region -------------------- Public Variables --------------------
     public Season SeasonData;
 
+    public GameOptions SeasonOptions;
+
     public int SeasonGameNight = 0;
 #endregion
 #region -------------------- Private Variables --------------------
