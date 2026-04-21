@@ -59,16 +59,16 @@ public class PullGoalieEvents : MonoBehaviour {
         GameplayController.Inst.StatsSet.ResetFullTeamStamina(true);
         GameplayController.Inst.StatsSet.ResetFullTeamStamina(false);
 
-        GameTeam exTeam = GameplayController.Inst.GameData.PossTeam == "Home" ? GameplayController.Inst.GameData.HomeTeam : GameplayController.Inst.GameData.AwayTeam;
+        GameplayController.Inst.GameData.PullGoalieTeam = GameplayController.Inst.GameData.PossTeam == "Home" ? GameplayController.Inst.GameData.HomeTeam : GameplayController.Inst.GameData.AwayTeam;
 
         EventRun newEventRun = new EventRun
         {
             InfoText = $"When a team pulls their goalie, they will get an extra attacker to help attempt to generate some offense and score.",
-            ActionText = $"It looks like the coach for the {exTeam.Team.NickName} is calling over the goalie, trying to get an extra attacker on the ice.",
+            ActionText = $"It looks like the coach for the {GameplayController.Inst.GameData.PullGoalieTeam.Team.NickName} is calling over the goalie, trying to get an extra attacker on the ice.",
             ButtonText = "Continue",
         };
 
-        exTeam.IsGoaliePulled = false;
+        GameplayController.Inst.GameData.PullGoalieTeam.IsGoaliePulled = false;
         EventsController.Inst.CurrentEventRun = newEventRun;
         EventsController.Inst.ContinueAction = GeneratePullGoalieShots;
 
@@ -79,12 +79,10 @@ public class PullGoalieEvents : MonoBehaviour {
     {
         CoreController.Inst.WriteLog(this.GetType().Name, $"Adding PullGoalieShotsStart to the queue.");
 
-        GameTeam exTeam = GameplayController.Inst.GameData.PossTeam == "Home" ? GameplayController.Inst.GameData.HomeTeam : GameplayController.Inst.GameData.AwayTeam;
-
         EventRun newEventRun = new EventRun
         {
             InfoText = $"At the start after a team pulls their goalie, a shot list is generated based on the team's overall Offense ratings.",
-            ActionText = $"With the goalie pulled, the {exTeam.Team.CityName} {exTeam.Team.NickName} look to add some offense to their game.",
+            ActionText = $"With the goalie pulled, the {GameplayController.Inst.GameData.PullGoalieTeam.Team.CityName} {GameplayController.Inst.GameData.PullGoalieTeam.Team.NickName} look to add some offense to their game.",
             ButtonText = "Continue",
         };
 
@@ -197,6 +195,7 @@ public class PullGoalieEvents : MonoBehaviour {
             ButtonText = "Continue",
         };
 
+        GameplayController.Inst.GameData.PullGoalieTeam = "None";
         EventsController.Inst.CurrentEventRun = newEventRun;
         EventsController.Inst.ContinueAction = () => { EventsController.Inst.RunFaceoffEvent(0); };
 
@@ -213,8 +212,8 @@ public class PullGoalieEvents : MonoBehaviour {
 
         GameplayController.Inst.GameData.CardsDrawn += 3;
 
-        string extraAttackerTeam = GameplayController.Inst.GameData.PossTeam == "Home" ? "Home" : "Away";
-        string emptyNetTeam = GameplayController.Inst.GameData.PossTeam == "Home" ? "Away" : "Home";
+        string extraAttackerTeam = GameplayController.Inst.GameData.PullGoalieTeam == "Home" ? "Home" : "Away";
+        string emptyNetTeam = GameplayController.Inst.GameData.PullGoalieTeam == "Home" ? "Away" : "Home";
 
         GameTeam eaTeam = extraAttackerTeam == "Home" ? GameplayController.Inst.GameData.HomeTeam : GameplayController.Inst.GameData.AwayTeam;
         GameTeam enTeam = extraAttackerTeam == "Home" ? GameplayController.Inst.GameData.AwayTeam : GameplayController.Inst.GameData.HomeTeam;
@@ -297,8 +296,8 @@ public class PullGoalieEvents : MonoBehaviour {
     {
         CoreController.Inst.WriteLog(this.GetType().Name, $"Determining the next pull goalie shot.");
         
-        string extraAttackerTeam = GameplayController.Inst.GameData.PossTeam == "Home" ? "Home" : "Away";
-        string emptyNetTeam = GameplayController.Inst.GameData.PossTeam == "Home" ? "Away" : "Home";
+        string extraAttackerTeam = GameplayController.Inst.GameData.PullGoalieTeam == "Home" ? "Home" : "Away";
+        string emptyNetTeam = GameplayController.Inst.GameData.PullGoalieTeam == "Home" ? "Away" : "Home";
 
         GameTeam eaTeam = extraAttackerTeam == "Home" ? GameplayController.Inst.GameData.HomeTeam : GameplayController.Inst.GameData.AwayTeam;
         GameTeam enTeam = extraAttackerTeam == "Home" ? GameplayController.Inst.GameData.AwayTeam : GameplayController.Inst.GameData.HomeTeam;
