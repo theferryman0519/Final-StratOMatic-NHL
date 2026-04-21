@@ -73,7 +73,7 @@ public class UiGameplayMainCurrent : MonoBehaviour {
 
         GameTeam chosenTeam = team == "Home" ? GameplayController.Inst.GameData.HomeTeam : GameplayController.Inst.GameData.AwayTeam;
 
-        bool isExtra = chosenTeam.IsGoaliePulled;
+        bool isExtra = GameplayController.Inst.GameData.PullGoalieTeam == team;
         bool isShorthanded = GameplayController.Inst.GameData.PowerplayTeam != "None" && GameplayController.Inst.GameData.PowerplayTeam != team;
 
         int currentLine = chosenTeam.CurrentLine;
