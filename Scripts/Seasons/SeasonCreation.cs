@@ -230,42 +230,22 @@ public class SeasonCreation : MonoBehaviour {
         {
             Id = Guid.NewGuid().ToString(),
             Type = "Season",
-            HomeUserType = (gameTeams[0] == userTeam) ? "User" : "Ai",
-            AwayUserType = (gameTeams[1] == userTeam) ? "User" : "Ai",
-            HomeTeam = await GetUserTeam(gameTeams[0], userLeague, new(), new()),
-            AwayTeam = await GetUserTeam(gameTeams[1], userLeague, new(), new()),
         };
 
-        if (game.HomeUserType == "User")
+        bool isUserGame = gameTeams[0] == userTeam || gameTeams[1] == userTeam;
+        
+        if (isUserGame)
         {
+            string homeTeam = gameTeams[0] == userTeam ? gameTeams[0] : gameTeams[1];
+            string awayTeam = gameTeams[0] == userTeam ? gameTeams[1] : gameTeams[0];
+
+            game.HomeUserType = "User";
+            game.AwayUserType = "Ai";
+            game.HomeTeam = await GetUserTeam(homeTeam, userLeague, new(), new());
+            game.AwayTeam = await GetUserTeam(awayTeam, userLeague, new(), new());
             game.HomeTeam.SkaterLineup = await SetSkaterLineup(seasonDatabase.SkaterLineup);
             game.HomeTeam.GoalieLineup = await SetGoalieLineup(seasonDatabase.GoalieLineup);
-        }
 
-        else
-        {
-            ConstantController.LeagueType leagueType = ConstantController.LeagueType.None;
-
-            if (userLeague == "NHL") { leagueType = ConstantController.LeagueType.NHL; }
-            else if (userLeague == "PWHL") { leagueType = ConstantController.LeagueType.PWHL; }
-            else if (userLeague == "NHLFranchise") { leagueType = ConstantController.LeagueType.NHLFranchise; }
-            else if (userLeague == "PWHLFranchise") { leagueType = ConstantController.LeagueType.PWHLFranchise; }
-
-            Dictionary<string, Goalie> homeGoalies = new();
-            homeGoalies.Add("G", TeamsController.Inst.GetDefaultStartingGoalie(gameTeams[0], leagueType));
-
-            game.HomeTeam.SkaterLineup = TeamsController.Inst.GetDefaultLineup(gameTeams[0], leagueType);
-            game.HomeTeam.GoalieLineup = homeGoalies;
-        }
-
-        if (game.AwayUserType == "User")
-        {
-            game.AwayTeam.SkaterLineup = await SetSkaterLineup(seasonDatabase.SkaterLineup);
-            game.AwayTeam.GoalieLineup = await SetGoalieLineup(seasonDatabase.GoalieLineup);
-        }
-
-        else
-        {
             ConstantController.LeagueType leagueType = ConstantController.LeagueType.None;
 
             if (userLeague == "NHL") { leagueType = ConstantController.LeagueType.NHL; }
@@ -274,9 +254,36 @@ public class SeasonCreation : MonoBehaviour {
             else if (userLeague == "PWHLFranchise") { leagueType = ConstantController.LeagueType.PWHLFranchise; }
 
             Dictionary<string, Goalie> awayGoalies = new();
-            awayGoalies.Add("G", TeamsController.Inst.GetDefaultStartingGoalie(gameTeams[1], leagueType));
+            awayGoalies.Add("G", TeamsController.Inst.GetDefaultStartingGoalie(awayTeam, leagueType));
 
-            game.AwayTeam.SkaterLineup = TeamsController.Inst.GetDefaultLineup(gameTeams[1], leagueType);
+            game.AwayTeam.SkaterLineup = TeamsController.Inst.GetDefaultLineup(awayTeam, leagueType);
+            game.AwayTeam.GoalieLineup = awayGoalies;
+        }
+
+        else
+        {
+            game.HomeUserType = "Ai";
+            game.AwayUserType = "Ai";
+            game.HomeTeam = await GetUserTeam(gameTeams[0], userLeague, new(), new());
+            game.AwayTeam = await GetUserTeam(gameTeams[1], userLeague, new(), new());
+
+            ConstantController.LeagueType leagueType = ConstantController.LeagueType.None;
+
+            if (userLeague == "NHL") { leagueType = ConstantController.LeagueType.NHL; }
+            else if (userLeague == "PWHL") { leagueType = ConstantController.LeagueType.PWHL; }
+            else if (userLeague == "NHLFranchise") { leagueType = ConstantController.LeagueType.NHLFranchise; }
+            else if (userLeague == "PWHLFranchise") { leagueType = ConstantController.LeagueType.PWHLFranchise; }
+
+            Dictionary<string, Goalie> homeGoalies = new();
+            Dictionary<string, Goalie> awayGoalies = new();
+
+            homeGoalies.Add("G", TeamsController.Inst.GetDefaultStartingGoalie(gameTeams[0], leagueType));
+            awayGoalies.Add("G", TeamsController.Inst.GetDefaultStartingGoalie(awayTeam, leagueType));
+
+            game.HomeTeam.SkaterLineup = TeamsController.Inst.GetDefaultLineup(gameTeams[0], leagueType);
+            game.HomeTeam.GoalieLineup = homeGoalies;
+
+            game.AwayTeam.SkaterLineup = TeamsController.Inst.GetDefaultLineup(awayTeam, leagueType);
             game.AwayTeam.GoalieLineup = awayGoalies;
         }
 
