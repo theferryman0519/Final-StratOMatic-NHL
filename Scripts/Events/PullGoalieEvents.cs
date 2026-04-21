@@ -437,8 +437,8 @@ public class PullGoalieEvents : MonoBehaviour {
             case 1:
             case 2: return "OUT";
             case 3:
-            case 5: return "IN";
-            case 6:
+            case 4: return "IN";
+            case 5:
             default: return "REB";
         }
     }
