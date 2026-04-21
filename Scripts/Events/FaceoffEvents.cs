@@ -123,7 +123,7 @@ public class FaceoffEvents : MonoBehaviour {
 
         int homeFaceoff = homeCenter.Card.Faceoff;
         int awayFaceoff = awayCenter.Card.Faceoff;
-        int faceoffMid = 3;
+        int faceoffMid = 4;
         int faceoffIndex = Random.Range(0,10);
         int faceoffDiff = homeFaceoff - awayFaceoff;
         int total = faceoffMid + faceoffDiff;
