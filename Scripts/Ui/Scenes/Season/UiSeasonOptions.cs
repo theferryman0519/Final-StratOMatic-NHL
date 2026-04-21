@@ -64,6 +64,9 @@ public class UiSeasonOptions : UiSceneBase {
 		string goalieFatigueSelection = SeasonsController.Inst.SeasonOptions.GoalieFatigueOn.ToString();
 		string injuriesSelection = SeasonsController.Inst.SeasonOptions.InjuriesOn.ToString();
 
+		SeasonsController.Inst.SeasonOptions.LineChangesOn = true;
+		SeasonsController.Inst.SeasonOptions.AiDifficulty = 2;
+
 		PlayerPrefs.SetString(ConstantController.Pref_SeasonOptions, $"True/{fatigueSelection}/{goalieFatigueSelection}/{injuriesSelection}/Hall of Famer");
 
 		GoToNewScene(CoreController.Inst.Scene_Season02);
