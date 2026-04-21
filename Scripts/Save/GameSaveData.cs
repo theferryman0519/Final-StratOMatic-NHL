@@ -182,6 +182,7 @@ public class GameSaveData : MonoBehaviour {
             HomeUserType = "User",
             AwayUserType = "Ai",
             PowerplayTeam = "None",
+            PullGoalieTeam = "None",
             PossTeam = SavedGame.Possession,
             CardsDrawn = SavedGame.CardsDrawn,
             Period = SavedGame.Period,
