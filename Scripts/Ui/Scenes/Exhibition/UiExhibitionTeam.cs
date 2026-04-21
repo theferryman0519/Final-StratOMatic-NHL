@@ -141,12 +141,14 @@ public class UiExhibitionTeam : UiSceneBase {
 
             if (defaultTeam != null)
             {
-                foreach (GameObject teamObj in _container)
+                foreach (Transform teamObj in _container)
                 {
                     if (teamObj.TryGetComponent<FavoriteTeamPrefab>(out FavoriteTeamPrefab teamPrefab))
                     {
                         if (teamPrefab.TeamString.Contains($"_{teamDefault}"))
                         {
+	                        selectedTeam = defaultTeam;
+	                        
                             teamPrefab.SetIcon(defaultTeam, true);
 
                             SetBanner(defaultTeam);

@@ -135,48 +135,51 @@ public class UiExhibitionLines : UiSceneBase {
             teamDefault = PlayerPrefs.GetString(ConstantController.Pref_DefaultExhibitionTeam);
 			lineupDefault = PlayerPrefs.GetString(ConstantController.Pref_DefaultExhibitionLineup);
 
-			string[] lineupDefaultArray = lineupDefault.Split('/');
-
-			Dictionary<string, Skater> defaultTeamSkaters = new();
-			Dictionary<string, Goalie> defaultTeamGoalies = new();
-
-            if (leagueDefault == "NHL")
+			if (teamDefault == GameplayController.Inst.GameData.HomeTeam.Team.Code)
 			{
-				defaultTeamSkaters = SkatersController.Inst.NhlSkaters[teamDefault];
-				defaultTeamGoalies = GoaliesController.Inst.NhlGoalies[teamDefault];
-			}
+				string[] lineupDefaultArray = lineupDefault.Split('/');
 
-			else if (leagueDefault == "NHLFranchise")
-			{
-				defaultTeamSkaters = SkatersController.Inst.NhlFranchiseSkaters[teamDefault];
-				defaultTeamGoalies = GoaliesController.Inst.NhlFranchiseGoalies[teamDefault];
-			}
+				List<Skater> defaultTeamSkaters = new();
+				List<Goalie> defaultTeamGoalies = new();
 
-			else if (leagueDefault == "PWHL")
-			{
-				defaultTeamSkaters = SkatersController.Inst.PwhlSkaters[teamDefault];
-				defaultTeamGoalies = GoaliesController.Inst.PwhlGoalies[teamDefault];
-			}
-
-			else if (leagueDefault == "PWHLFranchise")
-			{
-				defaultTeamSkaters = SkatersController.Inst.PwhlFranchiseSkaters[teamDefault];
-				defaultTeamGoalies = GoaliesController.Inst.PwhlFranchiseGoalies[teamDefault];
-			}
-
-			if (defaultTeamSkaters.Count > 0 && defaultTeamGoalies.Count > 0 && lineupDefaultArray.Length == 19)
-			{
-				for (int i = 0; i < positionsList.Count - 1; i++)
+				if (leagueDefault == "NHL")
 				{
-					Skater skater = defaultTeamSkaters.Values.FirstOrDefault(s => s.Id == lineupDefaultArray[i]);
-					if (skater != null) { GameplayController.Inst.GameData.HomeTeam.SkaterLineup.Add(positionsList[i], skater); }
+					defaultTeamSkaters = SkatersController.Inst.NhlSkaters[teamDefault];
+					defaultTeamGoalies = GoaliesController.Inst.NhlGoalies[teamDefault];
 				}
 
-				Goalie goalie = defaultTeamGoalies.Values.FirstOrDefault(g => g.Id == lineupDefaultArray[18]);
-				if (goalie != null) { GameplayController.Inst.GameData.HomeTeam.GoalieLineup.Add("G", goalie); }
-			}
+				else if (leagueDefault == "NHLFranchise")
+				{
+					defaultTeamSkaters = SkatersController.Inst.NhlFranchiseSkaters[teamDefault];
+					defaultTeamGoalies = GoaliesController.Inst.NhlFranchiseGoalies[teamDefault];
+				}
 
-			RefreshAllPositions();
+				else if (leagueDefault == "PWHL")
+				{
+					defaultTeamSkaters = SkatersController.Inst.PwhlSkaters[teamDefault];
+					defaultTeamGoalies = GoaliesController.Inst.PwhlGoalies[teamDefault];
+				}
+
+				else if (leagueDefault == "PWHLFranchise")
+				{
+					defaultTeamSkaters = SkatersController.Inst.PwhlFranchiseSkaters[teamDefault];
+					defaultTeamGoalies = GoaliesController.Inst.PwhlFranchiseGoalies[teamDefault];
+				}
+
+				if (defaultTeamSkaters.Count > 0 && defaultTeamGoalies.Count > 0 && lineupDefaultArray.Length == 19)
+				{
+					for (int i = 0; i < positionsList.Count - 1; i++)
+					{
+						Skater skater = defaultTeamSkaters.FirstOrDefault(s => s.Id == lineupDefaultArray[i]);
+						if (skater != null) { GameplayController.Inst.GameData.HomeTeam.SkaterLineup.Add(positionsList[i], skater); }
+					}
+
+					Goalie goalie = defaultTeamGoalies.FirstOrDefault(g => g.Id == lineupDefaultArray[18]);
+					if (goalie != null) { GameplayController.Inst.GameData.HomeTeam.GoalieLineup.Add("G", goalie); }
+				}
+
+				RefreshAllPositions();
+			}
 		}
     }
 
@@ -258,7 +261,7 @@ public class UiExhibitionLines : UiSceneBase {
         string userLeague = GameplayController.Inst.GameData.HomeTeam.Team.League;
 		string userLineup = string.Empty;
 
-		foreach (Skater skater in GameplayController.Inst.GameData.HomeTeam.SkaterLineup)
+		foreach (Skater skater in GameplayController.Inst.GameData.HomeTeam.SkaterLineup.Values)
 		{
 			userLineup += $"{skater.Id}/";
 		}

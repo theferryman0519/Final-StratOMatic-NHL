@@ -115,7 +115,7 @@ public class PullGoalieEvents : MonoBehaviour {
         {
             InfoText = $"While the goalie is pulled, each shot attempt taken by a player will be either an Outside, Inside, or Rebound shot.",
             ActionText = $"{action}",
-            ButtonText = (GameplayController.InstGameData.PossTeam == "Home") ? "Attempt Shot" : "Continue",
+            ButtonText = (GameplayController.Inst.GameData.PossTeam == "Home") ? "Attempt Shot" : "Continue",
         };
 
         EventsController.Inst.CurrentEventRun = newEventRun;

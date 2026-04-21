@@ -41,7 +41,7 @@ public class DefenseEvents : MonoBehaviour {
         {
             InfoText = $"If a skater has an Inside Shot, there might be an opportunity for the defending player to intimidate to steal the puck.",
             ActionText = $"As {possSkater.Info.LastName} is attempting a shot from in close, {DefendingSkater.Info.FirstName} {DefendingSkater.Info.LastName} is attempting to check and intimidate.",
-            ButtonText = (GameplayController.InstGameData.PossTeam == "Away") ? "Attempt Check" : "Continue",
+            ButtonText = (GameplayController.Inst.GameData.PossTeam == "Away") ? "Attempt Check" : "Continue",
         };
 
         EventsController.Inst.CurrentEventRun = newEventRun;
@@ -102,7 +102,7 @@ public class DefenseEvents : MonoBehaviour {
         {
             InfoText = $"One of the actions on an Action Card might be an action from a defender, which includes attempting to steal or taking a penalty.",
             ActionText = $"It looks like the skater is moving near {DefendingSkater.Info.FirstName} {DefendingSkater.Info.LastName}, who is attempting to defend.",
-            ButtonText = (GameplayController.InstGameData.PossTeam == "Away") ? "Attempt Defend" : "Continue",
+            ButtonText = (GameplayController.Inst.GameData.PossTeam == "Away") ? "Attempt Defend" : "Continue",
         };
 
         EventsController.Inst.CurrentEventRun = newEventRun;

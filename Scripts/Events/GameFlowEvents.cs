@@ -215,6 +215,8 @@ public class GameFlowEvents : MonoBehaviour {
     public IEnumerator CompleteGame()
     {
         CoreController.Inst.WriteLog(this.GetType().Name, $"Adding CompleteGame to the queue.");
+        
+        GameplayController.Inst.StatsSet.SetTeamStats();
 
         EventRun newEventRun = new EventRun
         {

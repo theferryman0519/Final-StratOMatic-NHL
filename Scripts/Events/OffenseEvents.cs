@@ -42,7 +42,7 @@ public class OffenseEvents : MonoBehaviour {
         {
             InfoText = $"At the start of each play, players must draw an Action Card. This will put the play into motion with a specific puck action.",
             ActionText = $"{possSkater.Info.LastName} has the puck and is getting ready to draw an Action Card to get the play started.",
-            ButtonText = (GameplayController.InstGameData.PossTeam == "Home") ? "Draw Action Card" : "Continue",
+            ButtonText = (GameplayController.Inst.GameData.PossTeam == "Home") ? "Draw Action Card" : "Continue",
         };
 
         EventsController.Inst.CurrentEventRun = newEventRun;
@@ -92,7 +92,7 @@ public class OffenseEvents : MonoBehaviour {
         {
             InfoText = $"A skater has three different types of shots: Outside, Inside, and Rebound/Breakaway. The closer to the net, the better the shots become.",
             ActionText = $"{possSkater.Info.LastName} is looking to attempt a {shotType}.",
-            ButtonText = (GameplayController.InstGameData.PossTeam == "Home") ? "Attempt Shot" : "Continue",
+            ButtonText = (GameplayController.Inst.GameData.PossTeam == "Home") ? "Attempt Shot" : "Continue",
         };
 
         EventsController.Inst.CurrentEventRun = newEventRun;
@@ -241,7 +241,7 @@ public class OffenseEvents : MonoBehaviour {
         {
             InfoText = $"One action a skater might take is passing the puck to another player for a better shot at the net.",
             ActionText = $"{possSkater.Info.FirstName} {possSkater.Info.LastName} is attempting to pass the puck.",
-            ButtonText = (GameplayController.InstGameData.PossTeam == "Home") ? "Attempt Pass" : "Continue",
+            ButtonText = (GameplayController.Inst.GameData.PossTeam == "Home") ? "Attempt Pass" : "Continue",
         };
 
         EventsController.Inst.CurrentEventRun = newEventRun;
