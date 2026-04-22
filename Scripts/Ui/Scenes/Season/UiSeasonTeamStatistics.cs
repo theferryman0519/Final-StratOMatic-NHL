@@ -163,7 +163,7 @@ public class UiSeasonTeamStatistics : UiSceneBase {
     {
         foreach (Transform child in _container)
         {
-            Destroy(chold.gameObject);
+            Destroy(child.gameObject);
         }
     }
 
