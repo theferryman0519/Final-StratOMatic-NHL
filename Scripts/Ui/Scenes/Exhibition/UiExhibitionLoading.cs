@@ -25,10 +25,10 @@ public class UiExhibitionLoading : UiSceneBase {
 	[SerializeField] private Slider _loadingBar;
 #endregion
 #region -------------------- Public Variables --------------------
-    private bool isLoading = false;
+    
 #endregion
 #region -------------------- Private Variables --------------------
-    
+    private bool isLoading = false;
 #endregion
 #region -------------------- Initial Functions --------------------
     void Start()
