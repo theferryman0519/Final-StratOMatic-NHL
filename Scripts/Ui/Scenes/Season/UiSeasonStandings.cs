@@ -75,10 +75,10 @@ public class UiSeasonStandings : UiSceneBase {
 
         if (SeasonsController.Inst.SeasonData.League.Contains("NHL"))
         {
-            if (divisionTeams["Atlantic"].Contains(SeasonsController.Inst.SeasonData.Team.Team.Code)) { ChangeDivisionOption(3); }
-            if (divisionTeams["Metropolitan"].Contains(SeasonsController.Inst.SeasonData.Team.Team.Code)) { ChangeDivisionOption(4); }
-            if (divisionTeams["Central"].Contains(SeasonsController.Inst.SeasonData.Team.Team.Code)) { ChangeDivisionOption(5); }
-            if (divisionTeams["Pacific"].Contains(SeasonsController.Inst.SeasonData.Team.Team.Code)) { ChangeDivisionOption(6); }
+            if (divisionTeams["Atlantic"].Contains(SeasonsController.Inst.SeasonData.Team.Team.Code)) { ChangeDivisionOption(3); _divisionDropdown.Dropdown.value = 3; }
+            if (divisionTeams["Metropolitan"].Contains(SeasonsController.Inst.SeasonData.Team.Team.Code)) { ChangeDivisionOption(4); _divisionDropdown.Dropdown.value = 4; }
+            if (divisionTeams["Central"].Contains(SeasonsController.Inst.SeasonData.Team.Team.Code)) { ChangeDivisionOption(5); _divisionDropdown.Dropdown.value = 5; }
+            if (divisionTeams["Pacific"].Contains(SeasonsController.Inst.SeasonData.Team.Team.Code)) { ChangeDivisionOption(6); _divisionDropdown.Dropdown.value = 6; }
         }
 
 		ChangeNavigationOption(1);
