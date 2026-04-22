@@ -146,6 +146,7 @@ public class UiSeasonTeamStatistics : UiSceneBase {
         CoreController.Inst.WriteLog(this.GetType().Name, $"Changing the division view.");
 
         divisionOption = option;
+        SortTable(2);
 
         // 0 = League
 
@@ -214,6 +215,8 @@ public class UiSeasonTeamStatistics : UiSceneBase {
                         break;
                 }
             }
+
+            sortedTeams = SortTeamListBy(option, sortedTeams);
 
             InstantiateRows(sortedTeams);
         }
