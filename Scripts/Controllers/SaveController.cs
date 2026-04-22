@@ -53,6 +53,12 @@ public class SaveController : Singleton<SaveController> {
         return _gameSaveData.LoadGameFromSaveData(loadGame);
     }
 
+    public SeasonDatabase SaveUserSeasonData()
+    {
+        // TODO
+        return null;
+    }
+
     public string SaveSkaterSeasonData(Skater skater)
     {
         // TODO
