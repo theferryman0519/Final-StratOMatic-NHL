@@ -73,6 +73,14 @@ public class UiSeasonStandings : UiSceneBase {
         divisionTeams.Add("Central", new(){ "CHI", "COL", "DAL", "MIN", "NSH", "STL", "UTA", "WPG" });
         divisionTeams.Add("Pacific", new(){ "ANA", "CGY", "EDM", "LAK", "SJS", "SEA", "VAN", "VGK" });
 
+        if (SeasonsController.Inst.SeasonData.League.Contains("NHL"))
+        {
+            if (divisionTeams["Atlantic"].Contains(SeasonsController.Inst.SeasonData.Team.Team.Code)) { ChangeDivisionOption(3); }
+            if (divisionTeams["Metropolitan"].Contains(SeasonsController.Inst.SeasonData.Team.Team.Code)) { ChangeDivisionOption(4); }
+            if (divisionTeams["Central"].Contains(SeasonsController.Inst.SeasonData.Team.Team.Code)) { ChangeDivisionOption(5); }
+            if (divisionTeams["Pacific"].Contains(SeasonsController.Inst.SeasonData.Team.Team.Code)) { ChangeDivisionOption(6); }
+        }
+
 		ChangeNavigationOption(1);
         SortTable(4);
 
@@ -176,7 +184,38 @@ public class UiSeasonStandings : UiSceneBase {
         {
             seasonTeams = TeamsController.Inst.AllNhlTeams;
 
-            // TODO
+            foreach (Team allTeam in seasonTeams)
+            {
+                switch (divisionOption)
+                {
+                    case 1:
+                        if (divisionTeams["Atlantic"].Contains(allTeam.Info.Code)) { sortedTeams.Add(allTeam); }
+                        if (divisionTeams["Metropolitan"].Contains(allTeam.Info.Code)) { sortedTeams.Add(allTeam); }
+                        break;
+                    case 2:
+                        if (divisionTeams["Central"].Contains(allTeam.Info.Code)) { sortedTeams.Add(allTeam); }
+                        if (divisionTeams["Pacific"].Contains(allTeam.Info.Code)) { sortedTeams.Add(allTeam); }
+                        break;
+                    case 3:
+                        if (divisionTeams["Atlantic"].Contains(allTeam.Info.Code)) { sortedTeams.Add(allTeam); }
+                        break;
+                    case 4:
+                        if (divisionTeams["Metropolitan"].Contains(allTeam.Info.Code)) { sortedTeams.Add(allTeam); }
+                        break;
+                    case 5:
+                        if (divisionTeams["Central"].Contains(allTeam.Info.Code)) { sortedTeams.Add(allTeam); }
+                        break;
+                    case 6:
+                        if (divisionTeams["Pacific"].Contains(allTeam.Info.Code)) { sortedTeams.Add(allTeam); }
+                        break;
+                    case 0:
+                    default:
+                        sortedTeams.Add(allTeam);
+                        break;
+                }
+            }
+
+            InstantiateRows(sortedTeams);
         }
 
         else // PWHL
@@ -186,23 +225,30 @@ public class UiSeasonStandings : UiSceneBase {
             seasonTeams = TeamsController.Inst.AllPwhlTeams;
             sortedTeams = SortTeamListBy(option, seasonTeams);
 
-            bool altBackground = false;
+            InstantiateRows(sortedTeams);
+        }
+    }
 
-            foreach (Team team in sortedTeams)
-            {
-                altBackground = !altBackground;
+    private void InstantiateRows(List<Team> teams)
+    {
+        CoreController.Inst.WriteLog(this.GetType().Name, $"Instantiating the table rows.");
 
-                SeasonTableRow row = Instantiate(_tableRowPrefab, _container);
+        bool altBackground = false;
 
-                row.SetColumnA(team.Info.Code);
-                row.SetColumnB(team.Season.Wins);
-                row.SetColumnC(team.Season.Losses);
-                row.SetColumnD(team.Season.Ties);
-                row.SetColumnE(team.Season.OTLs);
-                row.SetColumnF(team.Season.Points);
+        foreach (Team team in teams)
+        {
+            altBackground = !altBackground;
 
-                row.Setbackground(altBackground);
-            }
+            SeasonTableRow row = Instantiate(_tableRowPrefab, _container);
+
+            row.SetColumnA(team.Info.Code);
+            row.SetColumnB(team.Season.Wins);
+            row.SetColumnC(team.Season.Losses);
+            row.SetColumnD(team.Season.Ties);
+            row.SetColumnE(team.Season.OTLs);
+            row.SetColumnF(team.Season.Points);
+
+            row.Setbackground(altBackground);
         }
     }
 
