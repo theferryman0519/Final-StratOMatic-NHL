@@ -77,7 +77,41 @@ public class UiSeasonReady : UiSceneBase {
     {
         CoreController.Inst.WriteLog(this.GetType().Name, $"Setting the game data.");
 
-        // TODO
+        GameTeam homeTeam = GameplayController.Inst.GameData.HomeTeam;
+        GameTeam awayTeam = GameplayController.Inst.GameData.AwayTeam;
+
+        _homeTeamText.text = homeTeam.Team.Code;
+        _awayTeamText.text = awayTeam.Team.Code;
+        
+        string homeLeague = homeTeam.Team.League.Contains("NHL") ? "NHL" : "PWHL";
+        string awayLeague = awayTeam.Team.League.Contains("NHL") ? "NHL" : "PWHL";
+
+        string homeString = $"{homeLeague}_{homeTeam.Team.Code}_ON";
+        string awayString = $"{awayLeague}_{awayTeam.Team.Code}_ON";
+
+        _homeIcon.sprite = ConstantController.Inst.IconSprites[homeString];
+        _awayIcon.sprite = ConstantController.Inst.IconSprites[awayString];
+
+        _homeLinesText.text = $"C: {homeTeam.SkaterLineup["C1"].Info.LastName}" + "\n" +
+            $"LW: {homeTeam.SkaterLineup["LW1"].Info.LastName}" + "\n" +
+            $"RW: {homeTeam.SkaterLineup["RW1"].Info.LastName}" + "\n\n" +
+            $"LD: {homeTeam.SkaterLineup["LD1"].Info.LastName}" + "\n" +
+            $"RD: {homeTeam.SkaterLineup["RD1"].Info.LastName}" + "\n\n" +
+            $"G: {homeTeam.GoalieLineup["G"].Info.LastName}";
+        
+        _awayLinesText.text = $"C: {awayTeam.SkaterLineup["C1"].Info.LastName}" + "\n" +
+            $"LW: {awayTeam.SkaterLineup["LW1"].Info.LastName}" + "\n" +
+            $"RW: {awayTeam.SkaterLineup["RW1"].Info.LastName}" + "\n\n" +
+            $"LD: {awayTeam.SkaterLineup["LD1"].Info.LastName}" + "\n" +
+            $"RD: {awayTeam.SkaterLineup["RD1"].Info.LastName}" + "\n\n" +
+            $"G: {awayTeam.GoalieLineup["G"].Info.LastName}";
+        
+        _homeRecordText.text = $"{UsersController.Inst.UserData.SeasonStats.CurrentWins} - {UsersController.Inst.UserData.SeasonStats.CurrentLosses} - " + "\n" +
+            $"{UsersController.Inst.UserData.SeasonStats.CurrentTies} - {UsersController.Inst.UserData.SeasonStats.CurrentOTLs}";
+        
+        TeamSeason opponentSeason = SeasonsController.Inst.GetTeamSeason(awayTeam);
+
+        _awayRecordText.text = $"{opponentSeason.Wins} - {opponentSeason.Losses} - {opponentSeason.Ties} - {opponentSeason.OTLs}";
     }
 #endregion
 }}
