@@ -81,8 +81,8 @@ public class UiSeasonTeamStatistics : UiSceneBase {
             if (divisionTeams["Pacific"].Contains(SeasonsController.Inst.SeasonData.Team.Team.Code)) { ChangeDivisionOption(6); _divisionDropdown.Dropdown.value = 6; }
         }
 
-		ChangeNavigationOption(1);
-        SortTable(4);
+		ChangeNavigationOption(2);
+        SortTable(2);
 
         base.InitializeUi();
 	}
