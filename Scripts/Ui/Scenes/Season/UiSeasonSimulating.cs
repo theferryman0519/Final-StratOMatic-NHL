@@ -28,11 +28,23 @@ public class UiSeasonSimulating : UiSceneBase {
 #endregion
 #region -------------------- Private Variables --------------------
     private bool isLoading = false;
+
+    private int maxAmount = 0;
+    private int simmedAmount = 0;
 #endregion
 #region -------------------- Initial Functions --------------------
     void Start()
     {
         InitializeUi();
+    }
+
+    void Update()
+    {
+        if (isLoading)
+        {
+            if (simmedAmount < maxAmount) { _loadingBar.value = (float)simmedAmount / (float)maxAmount; }
+            else { _loadingBar.value = 1f; }
+        }
     }
 #endregion
 #region -------------------- Coroutines --------------------
@@ -70,7 +82,31 @@ public class UiSeasonSimulating : UiSceneBase {
     {
         CoreController.Inst.WriteLog(this.GetType().Name, $"Starting to simulate the rest of the night games.");
 
-        // TODO
+        int night = SeasonsController.Inst.SeasonGameNight;
+        string userTeam = SeasonsController.Inst.SeasonData.Team.Team.Code;
+        List<Game> nightGames = new(SeasonsController.Inst.SeasonData.GameNights.FirstOrDefault(g => g.Number == night).Games);
+
+        maxAmount = nightGames.Count;
+        simmedAmount += 1;
+
+        isLoading = true;
+
+        foreach (Game game in nightGames)
+        {
+            if (game.HomeTeam.Team.Code != userTeam && game.AwayTeam.Team.Code != userTeam)
+            {
+                // TODO
+                // Get default skaters and goalies for each home and away team
+                // Simulate game stats for each skater on home team
+                // Simulate game stats for each skater on away team
+                // Update game stats for goalie on home team based on away skater stats
+                // Update game stats for goalie on away team based on home skater stats
+                // Update team stats for home team
+                // Update team stats for away team
+
+                simmedAmount += 1;
+            }
+        }
     }
 #endregion
 }}
