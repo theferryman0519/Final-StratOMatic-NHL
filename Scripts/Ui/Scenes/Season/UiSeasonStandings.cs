@@ -216,7 +216,7 @@ public class UiSeasonStandings : UiSceneBase {
                 }
             }
 
-            sortedTeams = SortTeamListBy(option, seasonTeams);
+            sortedTeams = SortTeamListBy(option, sortedTeams);
 
             InstantiateRows(sortedTeams);
         }
