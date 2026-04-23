@@ -88,15 +88,39 @@ public class UiGameplayMainCurrent : MonoBehaviour {
         }
 
         Skater leftWing = chosenTeam.SkaterLineup[$"LW{currentLine}"];
+        
+        if (leftWing == EventsController.Inst.GameplayEvents.PenaltyEvents.PenaltySkater)
+        {
+            leftWing = chosenTeam.SkaterLineup[$"LW2"];
+        }
+        
         onIceSkaters.Add("LW", leftWing);
 
         Skater rightWing = chosenTeam.SkaterLineup[$"RW{currentLine}"];
+        
+        if (rightWing == EventsController.Inst.GameplayEvents.PenaltyEvents.PenaltySkater)
+        {
+            rightWing = chosenTeam.SkaterLineup[$"RW2"];
+        }
+        
         onIceSkaters.Add("RW", rightWing);
 
         Skater leftDefense = chosenTeam.SkaterLineup[$"LD{currentPair}"];
+        
+        if (leftDefense == EventsController.Inst.GameplayEvents.PenaltyEvents.PenaltySkater)
+        {
+            leftDefense = chosenTeam.SkaterLineup[$"LD2"];
+        }
+        
         onIceSkaters.Add("LD", leftDefense);
 
         Skater rightDefense = chosenTeam.SkaterLineup[$"RD{currentPair}"];
+        
+        if (rightDefense == EventsController.Inst.GameplayEvents.PenaltyEvents.PenaltySkater)
+        {
+            rightDefense = chosenTeam.SkaterLineup[$"RD2"];
+        }
+        
         onIceSkaters.Add("RD", rightDefense);
 
         if (isExtra)

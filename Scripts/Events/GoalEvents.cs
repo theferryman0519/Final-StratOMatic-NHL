@@ -321,7 +321,7 @@ public class GoalEvents : MonoBehaviour {
         {
             if (PowerplayGoalAction != null)
             {
-                PowerplayGoalAction?.Invoke();
+                PowerplayGoalAction.Invoke();
             }
 
             else

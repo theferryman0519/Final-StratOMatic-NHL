@@ -441,7 +441,10 @@ public class PenaltyEvents : MonoBehaviour {
 
         else
         {
-            PenaltyShots.RemoveAt(0);
+            if (PenaltyShots.Count > 0)
+            {
+                PenaltyShots.RemoveAt(0);
+            }
         }
 
         if (ShorthandedShots.Count > 0) { IsShorthandedShot = true; }
@@ -535,10 +538,7 @@ public class PenaltyEvents : MonoBehaviour {
     {
         CoreController.Inst.WriteLog(this.GetType().Name, $"Determining the next penalty shot after a goal.");
         
-        EventsController.Inst.GameplayEvents.GoalEvents.PowerplayGoalAction = () =>
-        {
-            DetermineNextPenaltyShot();
-        };
+        EventsController.Inst.GameplayEvents.GoalEvents.PowerplayGoalAction = DetermineNextPenaltyShot;
         
         if (IsShorthandedShot)
         {
