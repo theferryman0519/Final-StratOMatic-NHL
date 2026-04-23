@@ -80,6 +80,9 @@ public class UiSeasonResults : UiSceneBase {
         else if (result == "Tie") { UsersController.Inst.UserData.SeasonStats.CurrentTies += 1; }
         else if (result == "OTL") { UsersController.Inst.UserData.SeasonStats.CurrentOTLs += 1; }
 
+        ApplyGameToSeason(homeTeam, awayTeam);
+        ApplyGameToSeason(awayTeam, homeTeam);
+
         UsersController.Inst.SaveUserData(async () =>
         {
             // Home Team
@@ -115,6 +118,69 @@ public class UiSeasonResults : UiSceneBase {
 
             await FirebaseController.Inst.PutSeason(userSeasonData, UsersController.Inst.UserData.Id, GoToNightSimulate);
         });
+    }
+
+    private void ApplyGameToSeason(GameTeam gameTeam, GameTeam opponentTeam)
+    {
+        bool isWin = gameTeam.Stats.Goals > opponentTeam.Stats.Goals;
+        bool isLoss = gameTeam.Stats.Goals < opponentTeam.Stats.Goals;
+        bool isTie = gameTeam.Stats.Goals == opponentTeam.Stats.Goals;
+
+        ConstantController.LeagueType leagueType = gameTeam.Team.League.Contains("NHL") ? ConstantController.LeagueType.NHL : ConstantController.LeagueType.PWHL;
+        Team mainTeam = TeamsController.Inst.GetTeamFromCode(gameTeam.Team.Code, leagueType);
+
+        if (mainTeam == null || mainTeam.Season == null)
+        {
+            return;
+        }
+
+        mainTeam.Season.GamesPlayed += 1;
+        mainTeam.Season.Wins += isWin ? 1 : 0;
+        mainTeam.Season.Losses += isLoss ? 1 : 0;
+        mainTeam.Season.Ties += isTie ? 1 : 0;
+        mainTeam.Season.Points += isWin ? 2 : (isTie ? 1 : 0);
+        mainTeam.Season.Goals += gameTeam.Stats.Goals;
+        mainTeam.Season.Shots += gameTeam.Stats.Shots;
+        mainTeam.Season.PowerplayGoals += gameTeam.Stats.PowerplayGoals;
+        mainTeam.Season.Powerplays += gameTeam.Stats.Powerplays;
+        mainTeam.Season.ShorthandedGoals += gameTeam.Stats.ShorthandedGoals;
+        mainTeam.Season.FaceoffsWon += gameTeam.Stats.FaceoffsWon;
+        mainTeam.Season.FaceoffsLost += gameTeam.Stats.FaceoffsLost;
+        mainTeam.Season.Hits += gameTeam.Stats.Hits;
+        mainTeam.Season.BlockedShots += gameTeam.Stats.BlockedShots;
+        mainTeam.Season.Giveaways += gameTeam.Stats.Giveaways;
+        mainTeam.Season.Takeaways += gameTeam.Stats.Takeaways;
+
+        foreach (Skater skater in GetUniqueSkaters(gameTeam))
+        {
+            skater.Season.GamesPlayed += 1;
+            skater.Season.Goals += skater.Game.Goals;
+            skater.Season.Assists += skater.Game.Assists;
+            skater.Season.Points += skater.Game.Points;
+            skater.Season.PlusMinus += skater.Game.PlusMinus;
+            skater.Season.PenaltyMinutes += skater.Game.PenaltyMinutes;
+            skater.Season.PowerplayGoals += skater.Game.PowerplayGoals;
+            skater.Season.PowerplayAssists += skater.Game.PowerplayAssists;
+            skater.Season.PowerplayPoints += skater.Game.PowerplayPoints;
+            skater.Season.ShorthandedGoals += skater.Game.ShorthandedGoals;
+            skater.Season.ShorthandedAssists += skater.Game.ShorthandedAssists;
+            skater.Season.ShorthandedPoints += skater.Game.ShorthandedPoints;
+            skater.Season.Shots += skater.Game.Shots;
+            skater.Season.Giveaways += skater.Game.Giveaways;
+            skater.Season.Takeaways += skater.Game.Takeaways;
+            skater.Season.FaceoffsWon += skater.Game.FaceoffsWon;
+            skater.Season.FaceoffsLost += skater.Game.FaceoffsLost;
+        }
+
+        Goalie goalie = gameTeam.GoalieLineup["G"];
+        goalie.Season.GamesPlayed += 1;
+        goalie.Season.Wins += isWin ? 1 : 0;
+        goalie.Season.Losses += isLoss ? 1 : 0;
+        goalie.Season.Shutouts += goalie.Game.GoalsAgainst == 0 ? 1 : 0;
+        goalie.Season.GoalsAgainst += goalie.Game.GoalsAgainst;
+        goalie.Season.ShotsAgainst += goalie.Game.ShotsAgainst;
+        goalie.Season.Assists += goalie.Game.Assists;
+        goalie.Season.PenaltyMinutes += goalie.Game.PenaltyMinutes;
     }
 
     private void GoToNightSimulate()
