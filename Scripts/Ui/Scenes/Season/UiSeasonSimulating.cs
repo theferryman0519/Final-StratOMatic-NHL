@@ -151,6 +151,8 @@ public class UiSeasonSimulating : UiSceneBase {
 
         GameplayController.Inst.GameData = null;
 
+        SeasonsController.Inst.SeasonGameNight += 1;
+
         _loadingBar.value = 1f;
         isLoading = false;
 
