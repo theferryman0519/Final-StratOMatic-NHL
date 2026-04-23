@@ -70,7 +70,7 @@ public class UiSeasonOptions : UiSceneBase {
 		PlayerPrefs.SetString(ConstantController.Pref_SeasonOptions, $"True/{fatigueSelection}/{goalieFatigueSelection}/{injuriesSelection}/Hall of Famer");
 
 		UsersController.Inst.UserData.SeasonStats.IsInSeason = true;
-		UsersController.Inst.UserData.SeasonStats.Id = Guid.NewGuid();
+		UsersController.Inst.UserData.SeasonStats.Id = Guid.NewGuid().ToString();
 		UsersController.Inst.UserData.SeasonStats.League = SeasonsController.Inst.SeasonData.League;
 		UsersController.Inst.UserData.SeasonStats.Team = SeasonsController.Inst.SeasonData.Team.Team.Code;
 		UsersController.Inst.UserData.SeasonStats.CurrentWins = 0;

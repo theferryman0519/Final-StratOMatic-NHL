@@ -57,7 +57,7 @@ public class UiSeasonResults : UiSceneBase {
 	}
 #endregion
 #region -------------------- Private Methods --------------------
-    private async void SaveSeasonData()
+    private void SaveSeasonData()
     {
         CoreController.Inst.WriteLog(this.GetType().Name, $"Saving the season data.");
 
@@ -80,7 +80,7 @@ public class UiSeasonResults : UiSceneBase {
         else if (result == "Tie") { UsersController.Inst.UserData.SeasonStats.CurrentTies += 1; }
         else if (result == "OTL") { UsersController.Inst.UserData.SeasonStats.CurrentOTLs += 1; }
 
-        UsersController.Inst.SaveUserData(() =>
+        UsersController.Inst.SaveUserData(async () =>
         {
             // Home Team
             foreach (Skater homeSkater in homeTeam.SkaterLineup.Values)
@@ -99,7 +99,7 @@ public class UiSeasonResults : UiSceneBase {
             // Away Team
             foreach (Skater awaySkater in awayTeam.SkaterLineup.Values)
             {
-                string homeSkaterSeasonString = SaveController.Inst.SaveSkaterSeasonData(awaySkater);
+                string awaySkaterSeasonString = SaveController.Inst.SaveSkaterSeasonData(awaySkater);
 
                 await FirebaseController.Inst.PutSkaterSeason(awaySkater.Id, UsersController.Inst.UserData.Id, awaySkaterSeasonString);
             }

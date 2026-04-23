@@ -2,6 +2,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -97,6 +98,11 @@ public class UiSeasonSimulating : UiSceneBase {
             {
                 continue;
             }
+            
+            ConstantController.LeagueType league = game.HomeTeam.Team.League.Contains("NHL") ? ConstantController.LeagueType.NHL : ConstantController.LeagueType.PWHL;
+            
+            Team homeMainTeam = TeamsController.Inst.GetTeamFromCode(GameplayController.Inst.GameData.HomeTeam.Team.Code, league);
+            Team awayMainTeam = TeamsController.Inst.GetTeamFromCode(GameplayController.Inst.GameData.AwayTeam.Team.Code, league);
 
             ResetGameStats(game.HomeTeam);
             ResetGameStats(game.AwayTeam);
@@ -129,7 +135,7 @@ public class UiSeasonSimulating : UiSceneBase {
             // Away Team
             foreach (Skater awaySkater in game.AwayTeam.SkaterLineup.Values)
             {
-                string homeSkaterSeasonString = SaveController.Inst.SaveSkaterSeasonData(awaySkater);
+                string awaySkaterSeasonString = SaveController.Inst.SaveSkaterSeasonData(awaySkater);
 
                 await FirebaseController.Inst.PutSkaterSeason(awaySkater.Id, UsersController.Inst.UserData.Id, awaySkaterSeasonString);
             }

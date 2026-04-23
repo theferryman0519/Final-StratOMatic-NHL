@@ -2,6 +2,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -245,11 +246,11 @@ public class UiSeasonStandings : UiSceneBase {
             SeasonTableRow row = Instantiate(_tableRowPrefab, _container);
 
             row.SetColumnA(team.Info.Code);
-            row.SetColumnB(team.Season.Wins);
-            row.SetColumnC(team.Season.Losses);
-            row.SetColumnD(team.Season.Ties);
-            row.SetColumnE(team.Season.OTLs);
-            row.SetColumnF(team.Season.Points);
+            row.SetColumnB(team.Season.Wins.ToString("n0"));
+            row.SetColumnC(team.Season.Losses.ToString("n0"));
+            row.SetColumnD(team.Season.Ties.ToString("n0"));
+            row.SetColumnE(team.Season.OTLs.ToString("n0"));
+            row.SetColumnF(team.Season.Points.ToString("n0"));
 
             row.Setbackground(altBackground);
         }

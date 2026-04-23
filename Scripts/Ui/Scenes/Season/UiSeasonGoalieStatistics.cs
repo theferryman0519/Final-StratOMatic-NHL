@@ -2,6 +2,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -174,7 +175,7 @@ public class UiSeasonGoalieStatistics : UiSceneBase {
         if (isNhl)
         {
             seasonGoalies = new(GoaliesController.Inst.NhlGoalies[SeasonsController.Inst.SeasonData.Team.Team.Code]);
-            sortedGoalies = SortSkaterListBy(option, seasonGoalies);
+            sortedGoalies = SortGoalieListBy(option, seasonGoalies);
 
             InstantiateRows(sortedGoalies);
         }
@@ -182,7 +183,7 @@ public class UiSeasonGoalieStatistics : UiSceneBase {
         else // PWHL
         {
             seasonGoalies = new(GoaliesController.Inst.PwhlGoalies[SeasonsController.Inst.SeasonData.Team.Team.Code]);
-            sortedGoalies = SortSkaterListBy(option, seasonGoalies);
+            sortedGoalies = SortGoalieListBy(option, seasonGoalies);
 
             InstantiateRows(sortedGoalies);
         }
@@ -201,17 +202,17 @@ public class UiSeasonGoalieStatistics : UiSceneBase {
             SeasonTableRow row = Instantiate(_tableRowPrefab, _container);
 
             row.SetColumnA(goalie.Info.LastName);
-            row.SetColumnB(goalie.Season.GamesPlayed);
-            row.SetColumnC(goalie.Season.Wins);
-            row.SetColumnD(goalie.Season.Losses);
-            row.SetColumnE(goalie.Season.Shutouts);
-            row.SetColumnF(goalie.Season.GoalsAgainst);
+            row.SetColumnB(goalie.Season.GamesPlayed.ToString("n0"));
+            row.SetColumnC(goalie.Season.Wins.ToString("n0"));
+            row.SetColumnD(goalie.Season.Losses.ToString("n0"));
+            row.SetColumnE(goalie.Season.Shutouts.ToString("n0"));
+            row.SetColumnF(goalie.Season.GoalsAgainst.ToString("n0"));
 
             row.Setbackground(altBackground);
         }
     }
 
-    private List<Team> SortSkaterListBy(int option, List<Goalie> goalies)
+    private List<Goalie> SortGoalieListBy(int option, List<Goalie> goalies)
     {
         CoreController.Inst.WriteLog(this.GetType().Name, $"Sorting the list of goalies.");
 

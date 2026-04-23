@@ -278,12 +278,12 @@ public class SeasonCreation : MonoBehaviour {
             Dictionary<string, Goalie> awayGoalies = new();
 
             homeGoalies.Add("G", TeamsController.Inst.GetDefaultStartingGoalie(gameTeams[0], leagueType));
-            awayGoalies.Add("G", TeamsController.Inst.GetDefaultStartingGoalie(awayTeam, leagueType));
+            awayGoalies.Add("G", TeamsController.Inst.GetDefaultStartingGoalie(gameTeams[1], leagueType));
 
             game.HomeTeam.SkaterLineup = TeamsController.Inst.GetDefaultLineup(gameTeams[0], leagueType);
             game.HomeTeam.GoalieLineup = homeGoalies;
 
-            game.AwayTeam.SkaterLineup = TeamsController.Inst.GetDefaultLineup(awayTeam, leagueType);
+            game.AwayTeam.SkaterLineup = TeamsController.Inst.GetDefaultLineup(gameTeams[1], leagueType);
             game.AwayTeam.GoalieLineup = awayGoalies;
         }
 

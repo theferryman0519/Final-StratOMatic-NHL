@@ -2,6 +2,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -71,14 +72,14 @@ public class UiSeasonNextGame : UiSceneBase {
         int night = SeasonsController.Inst.SeasonGameNight;
         List<Game> nightGames = new(SeasonsController.Inst.SeasonData.GameNights.FirstOrDefault(g => g.Number == night).Games);
 
-        Game nextGame = nightGames.FirstOrDefault(ng => ng.HomeTeam.Team.Code == SeasonController.Inst.SeasonData.Team.Team.Code);
+        Game nextGame = nightGames.FirstOrDefault(ng => ng.HomeTeam.Team.Code == SeasonsController.Inst.SeasonData.Team.Team.Code);
 
         GameplayController.Inst.CreateSeasonGame();
         GameplayController.Inst.GameData = nextGame;
 
         GameTeam nextTeam = nextGame.AwayTeam;
 
-        string league = SeasonController.Inst.SeasonData.League.Contains("NHL") ? "NHL" : "PWHL";
+        string league = SeasonsController.Inst.SeasonData.League.Contains("NHL") ? "NHL" : "PWHL";
         string nextTeamString = $"{league}_{nextTeam.Team.Code}_ON";
 
         _opponentIcon.sprite = ConstantController.Inst.IconSprites[nextTeamString];

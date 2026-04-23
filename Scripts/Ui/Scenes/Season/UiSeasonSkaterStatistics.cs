@@ -2,6 +2,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -176,7 +177,7 @@ public class UiSeasonSkaterStatistics : UiSceneBase {
             seasonSkaters = new(SkatersController.Inst.NhlSkaters[SeasonsController.Inst.SeasonData.Team.Team.Code]);
             sortedSkaters = SortSkaterListBy(option, seasonSkaters);
 
-            InstantiateRows(sortedTeams);
+            InstantiateRows(sortedSkaters);
         }
 
         else // PWHL
@@ -184,7 +185,7 @@ public class UiSeasonSkaterStatistics : UiSceneBase {
             seasonSkaters = new(SkatersController.Inst.PwhlSkaters[SeasonsController.Inst.SeasonData.Team.Team.Code]);
             sortedSkaters = SortSkaterListBy(option, seasonSkaters);
 
-            InstantiateRows(sortedTeams);
+            InstantiateRows(sortedSkaters);
         }
     }
 
@@ -201,17 +202,17 @@ public class UiSeasonSkaterStatistics : UiSceneBase {
             SeasonTableRow row = Instantiate(_tableRowPrefab, _container);
 
             row.SetColumnA(skater.Info.LastName);
-            row.SetColumnB(skater.Season.GamesPlayed);
-            row.SetColumnC(skater.Season.Goals);
-            row.SetColumnD(skater.Season.Assists);
-            row.SetColumnE(skater.Season.Points);
-            row.SetColumnF(skater.Season.PenaltyMinutes);
+            row.SetColumnB(skater.Season.GamesPlayed.ToString("n0"));
+            row.SetColumnC(skater.Season.Goals.ToString("n0"));
+            row.SetColumnD(skater.Season.Assists.ToString("n0"));
+            row.SetColumnE(skater.Season.Points.ToString("n0"));
+            row.SetColumnF(skater.Season.PenaltyMinutes.ToString("n0"));
 
             row.Setbackground(altBackground);
         }
     }
 
-    private List<Team> SortSkaterListBy(int option, List<Skater> skaters)
+    private List<Skater> SortSkaterListBy(int option, List<Skater> skaters)
     {
         CoreController.Inst.WriteLog(this.GetType().Name, $"Sorting the list of skaters.");
 

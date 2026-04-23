@@ -13,7 +13,7 @@ using SoM.Controllers;
 using SoM.Models;
 
 namespace SoM.Ui {
-public class SeasonTableTow : MonoBehaviour {
+public class SeasonTableRow : MonoBehaviour {
 
 #region -------------------- Serialized Variables --------------------
     [Header("Text Elements")]

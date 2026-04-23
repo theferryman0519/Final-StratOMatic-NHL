@@ -23,6 +23,8 @@ public class PullGoalieEvents : MonoBehaviour {
     public Skater ExtraSkater;
     public Skater ShootingSkater;
 
+    public GameTeam PulledGoalieTeam;
+
     public bool IsEmptyNetShot;
 
     public ConstantController.ShotType ShotType;
@@ -59,16 +61,17 @@ public class PullGoalieEvents : MonoBehaviour {
         GameplayController.Inst.StatsSet.ResetFullTeamStamina(true);
         GameplayController.Inst.StatsSet.ResetFullTeamStamina(false);
 
-        GameplayController.Inst.GameData.PullGoalieTeam = GameplayController.Inst.GameData.PossTeam == "Home" ? GameplayController.Inst.GameData.HomeTeam : GameplayController.Inst.GameData.AwayTeam;
+        PulledGoalieTeam = GameplayController.Inst.GameData.PossTeam == "Home" ? GameplayController.Inst.GameData.HomeTeam : GameplayController.Inst.GameData.AwayTeam;
+        GameplayController.Inst.GameData.PullGoalieTeam = GameplayController.Inst.GameData.PossTeam == "Home" ? "Home" : "Away";
 
         EventRun newEventRun = new EventRun
         {
             InfoText = $"When a team pulls their goalie, they will get an extra attacker to help attempt to generate some offense and score.",
-            ActionText = $"It looks like the coach for the {GameplayController.Inst.GameData.PullGoalieTeam.Team.NickName} is calling over the goalie, trying to get an extra attacker on the ice.",
+            ActionText = $"It looks like the coach for the {PulledGoalieTeam.Team.NickName} is calling over the goalie, trying to get an extra attacker on the ice.",
             ButtonText = "Continue",
         };
 
-        GameplayController.Inst.GameData.PullGoalieTeam.IsGoaliePulled = false;
+        PulledGoalieTeam.IsGoaliePulled = false;
         EventsController.Inst.CurrentEventRun = newEventRun;
         EventsController.Inst.ContinueAction = GeneratePullGoalieShots;
 
@@ -82,7 +85,7 @@ public class PullGoalieEvents : MonoBehaviour {
         EventRun newEventRun = new EventRun
         {
             InfoText = $"At the start after a team pulls their goalie, a shot list is generated based on the team's overall Offense ratings.",
-            ActionText = $"With the goalie pulled, the {GameplayController.Inst.GameData.PullGoalieTeam.Team.CityName} {GameplayController.Inst.GameData.PullGoalieTeam.Team.NickName} look to add some offense to their game.",
+            ActionText = $"With the goalie pulled, the {PulledGoalieTeam.Team.CityName} {PulledGoalieTeam.Team.NickName} look to add some offense to their game.",
             ButtonText = "Continue",
         };
 

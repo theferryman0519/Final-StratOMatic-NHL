@@ -10,6 +10,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Audio;
 using UnityEngine.SceneManagement;
+using Random = UnityEngine.Random;
 
 // Game Dependencies
 using SoM.Controllers;
@@ -58,6 +59,7 @@ public class GoalieCreation : MonoBehaviour {
             goaliePenalty = string.Empty;
             totalGames = 0;
 
+            winPercentage = 0f;
             goalsAgainstPerGame = 0f;
             shotsAgainstPerGame = 0f;
             assistsPerGame = 0f;
@@ -333,44 +335,144 @@ public class GoalieCreation : MonoBehaviour {
 
         List<string> ratingActions = new();
 
-        float penaltyMinutes = penaltyMinutesPerGame / 0.1f;
-        float assists = assistsPerGame / 0.1f;
-        float goalsAgainst = goalsAgainstPerGame / 2.85f;
-        float shotsAgainst = shotsAgainstPerGame / 28f;
+        if (totalGames < 1)
+        {
+            return new List<string>
+            {
+                "SAVE", "SAVE", "SAVE", "SAVE", "SAVE", "SAVE",
+                "GOAL", "GOAL", "BREAKAWAY", "SAVE", "PENALTY"
+            };
+        }
 
-        float penaltyShare = Mathf.Clamp(0.03f + 0.05f * (penaltyMinutes - 1f), 0f, 0.15f);
-        float breakawayShare = Mathf.Clamp(0.10f + 0.06f * (shotsAgainst - 1f) + 0.04f * (goalsAgainst - 1f) - 0.03f * (assists - 1f), 0.05f, 0.22f);
-        float goalShare = Mathf.Clamp(0.22f + 0.12f * (goalsAgainst - 1f) + 0.04f * (shotsAgainst - 1f), 0.1f, 0.45f);
+        float savePct = 0f;
+        if (shotsAgainstPerGame > 0f)
+        {
+            savePct = (shotsAgainstPerGame - goalsAgainstPerGame) / shotsAgainstPerGame;
+        }
 
+        float savePctScore = Mathf.InverseLerp(0.840f, 0.930f, savePct);
+        float gaaScore = 1.5f - Mathf.InverseLerp(2.0f, 4.2f, goalsAgainstPerGame);
+        float shotsScore = Mathf.InverseLerp(22f, 34f, shotsAgainstPerGame);
+        float assistsScore = Mathf.InverseLerp(0f, 0.35f, assistsPerGame);
+        float pimScore = Mathf.InverseLerp(0f, 1.8f, penaltyMinutesPerGame);
+
+        float goalieQuality =
+            (savePctScore * 0.55f) +
+            (gaaScore * Random.Range(0f, 1.2f)) +
+            ((1f - shotsScore) * 0.10f) +
+            (assistsScore * 0.05f) +
+            ((1f - pimScore) * 0.05f);
+
+        goalieQuality = Mathf.Clamp01(goalieQuality);
+
+        float penaltyShare = Mathf.Lerp(0.02f, 0.10f, pimScore);
+        float breakawayShare = Mathf.Lerp(0.20f, 0.08f, goalieQuality) + (shotsScore * 0.04f);
+        float goalShare = Mathf.Lerp(0.42f, 0.12f, goalieQuality);
         float saveShare = 1f - penaltyShare - breakawayShare - goalShare;
-        saveShare = Mathf.Clamp(saveShare, 0f, 1f);
 
-        int penaltyCount = (int)Math.Round(11 * penaltyShare, MidpointRounding.AwayFromZero);
-        int breakawayCount = (int)Math.Round(11 * breakawayShare, MidpointRounding.AwayFromZero);
-        int goalCount = (int)Math.Round(11 * goalShare, MidpointRounding.AwayFromZero);
-        int saveCount = 11 - penaltyCount - breakawayCount - goalCount;
+        penaltyShare = Mathf.Clamp(penaltyShare, 0.01f, 0.15f);
+        breakawayShare = Mathf.Clamp(breakawayShare, 0.06f, 0.24f);
+        goalShare = Mathf.Clamp(goalShare, 0.08f, 0.46f);
+        saveShare = Mathf.Clamp(saveShare, 0.20f, 0.75f);
+        
+        float noiseStrength = 0.025f;
+
+        float goalNoise = Random.Range(0, noiseStrength);
+        float breakawayNoise = Random.Range(-noiseStrength, noiseStrength);
+        float penaltyNoise = Random.Range(-noiseStrength, noiseStrength);
+
+        goalShare += goalNoise;
+        breakawayShare += breakawayNoise;
+        penaltyShare += penaltyNoise;
+
+        saveShare = 1f - goalShare - breakawayShare - penaltyShare;
+
+        goalShare = Mathf.Clamp(goalShare, 0.08f, 0.46f);
+        breakawayShare = Mathf.Clamp(breakawayShare, 0.06f, 0.24f);
+        penaltyShare = Mathf.Clamp(penaltyShare, 0.01f, 0.15f);
+        saveShare = Mathf.Clamp(saveShare, 0.20f, 0.75f);
+
+        float totalShare = goalShare + breakawayShare + penaltyShare + saveShare;
+        goalShare /= totalShare;
+        breakawayShare /= totalShare;
+        penaltyShare /= totalShare;
+        saveShare /= totalShare;
+
+        Dictionary<string, int> counts = DistributeCounts(
+            11f * goalShare,
+            11f * penaltyShare,
+            11f * saveShare,
+            11f * breakawayShare
+        );
 
         List<string> actionPool = new();
-        List<string> weightedActions = new();
+        actionPool.AddRange(Enumerable.Repeat("GOAL", counts["GOAL"]));
+        actionPool.AddRange(Enumerable.Repeat("PENALTY", counts["PENALTY"]));
+        actionPool.AddRange(Enumerable.Repeat("SAVE", counts["SAVE"]));
+        actionPool.AddRange(Enumerable.Repeat("BREAKAWAY", counts["BREAKAWAY"]));
+
+        List<string> weightedActions = ApplyWinPercentageWeighting(actionPool);
+
         Dictionary<int, string> weightedActionDict = new();
-
-        actionPool.AddRange(Enumerable.Repeat("GOAL", goalCount));
-        actionPool.AddRange(Enumerable.Repeat("PENALTY", penaltyCount));
-        actionPool.AddRange(Enumerable.Repeat("SAVE", saveCount));
-        actionPool.AddRange(Enumerable.Repeat("BREAKAWAY", breakawayCount));
-
-        weightedActions = ApplyWinPercentageWeighting(actionPool);
 
         for (int i = 0; i < orderedSums.Length; i++)
         {
-            int index = i;
-
-            weightedActionDict.Add(orderedSums[index], weightedActions[index]);
+            weightedActionDict.Add(orderedSums[i], weightedActions[i]);
         }
 
-        ratingActions = weightedActionDict.OrderBy(kvp => kvp.Key).Select(kvp => kvp.Value).ToList();
+        ratingActions = weightedActionDict
+            .OrderBy(kvp => kvp.Key)
+            .Select(kvp => kvp.Value)
+            .ToList();
+
+        ratingActions = SpreadGoalResults(ratingActions);
 
         return ratingActions;
+    }
+
+    private Dictionary<string, int> DistributeCounts(
+        float goalRaw,
+        float penaltyRaw,
+        float saveRaw,
+        float breakawayRaw)
+    {
+        Dictionary<string, float> rawCounts = new()
+        {
+            { "GOAL", goalRaw },
+            { "PENALTY", penaltyRaw },
+            { "SAVE", saveRaw },
+            { "BREAKAWAY", breakawayRaw }
+        };
+
+        Dictionary<string, int> finalCounts = rawCounts.ToDictionary(
+            kvp => kvp.Key,
+            kvp => Mathf.FloorToInt(kvp.Value)
+        );
+
+        int usedSlots = finalCounts.Values.Sum();
+        int remainingSlots = 11 - usedSlots;
+
+        foreach (var kvp in rawCounts
+                     .OrderByDescending(x => x.Value - Mathf.Floor(x.Value))
+                     .ThenBy(x => GetActionPriorityForRemainder(x.Key))
+                     .Take(remainingSlots))
+        {
+            finalCounts[kvp.Key]++;
+        }
+
+        return finalCounts;
+    }
+
+    private int GetActionPriorityForRemainder(string action)
+    {
+        return action switch
+        {
+            "GOAL" => 0,
+            "BREAKAWAY" => 1,
+            "SAVE" => 2,
+            "PENALTY" => 3,
+            _ => 4
+        };
     }
 
     private List<string> ApplyWinPercentageWeighting(List<string> actionPool)
@@ -411,7 +513,6 @@ public class GoalieCreation : MonoBehaviour {
                 mappedActions[slotIndex] = sortedActions[high];
                 high--;
             }
-
             else
             {
                 mappedActions[slotIndex] = sortedActions[low];
@@ -421,6 +522,38 @@ public class GoalieCreation : MonoBehaviour {
 
         actionPool.AddRange(mappedActions);
         return actionPool;
+    }
+
+    private List<string> SpreadGoalResults(List<string> ratingActions)
+    {
+        if (ratingActions == null || ratingActions.Count != 11) { return ratingActions; }
+
+        List<int> goalIndices = ratingActions
+            .Select((action, index) => new { action, index })
+            .Where(x => x.action == "GOAL")
+            .Select(x => x.index)
+            .ToList();
+
+        if (goalIndices.Count <= 1) { return ratingActions; }
+
+        List<string> adjusted = new(ratingActions);
+
+        foreach (int index in goalIndices)
+        {
+            adjusted[index] = "SAVE";
+        }
+        
+        int goalCount = goalIndices.Count;
+        
+        while (goalCount > 0)
+        {
+            int index = Random.Range(0, 11);
+            adjusted[index] = "GOAL";
+
+            goalCount--;
+        }
+
+        return adjusted;
     }
 
     private int GetActionRank(string action)

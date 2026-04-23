@@ -2,6 +2,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -254,9 +255,9 @@ public class UiSeasonTeamStatistics : UiSceneBase {
             row.SetColumnA(team.Info.Code);
             row.SetColumnB($"{ppp.ToString("n2")}%");
             row.SetColumnC($"{fop.ToString("n2")}%");
-            row.SetColumnD(team.Season.Goals);
+            row.SetColumnD(team.Season.Goals.ToString("n0"));
             row.SetColumnE($"{sp.ToString("n2")}%");
-            row.SetColumnF(team.Season.Hits);
+            row.SetColumnF(team.Season.Hits.ToString("n0"));
 
             row.Setbackground(altBackground);
         }
