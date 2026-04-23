@@ -20,6 +20,7 @@ public class SaveController : Singleton<SaveController> {
 #region -------------------- Serialized Variables --------------------
     [Header("Save Data Elements")]
     [SerializeField] private GameSaveData _gameSaveData;
+    [SerializeField] private SeasonSaveData _seasonSaveData;
 #endregion
 #region -------------------- Public Variables --------------------
     public GameDatabase SavedGame;
@@ -39,6 +40,7 @@ public class SaveController : Singleton<SaveController> {
         CoreController.Inst.WriteLog(this.GetType().Name, $"Initializing the controller.");
 
         if (_gameSaveData == null) { _gameSaveData = gameObject.AddComponent<GameSaveData>(); }
+        if (_seasonSaveData == null) { _seasonSaveData = gameObject.AddComponent<SeasonSaveData>(); }
 
         CoreController.Inst.LoadingStepCompleted();
     }
@@ -55,26 +57,22 @@ public class SaveController : Singleton<SaveController> {
 
     public SeasonDatabase SaveUserSeasonData()
     {
-        // TODO
-        return null;
+        return _seasonSaveData.SaveUserSeasonData();
     }
 
     public string SaveSkaterSeasonData(Skater skater)
     {
-        // TODO
-        return null;
+        return _seasonSaveData.SaveSkaterSeasonData(skater);
     }
 
     public string SaveGoalieSeasonData(Goalie goalie)
     {
-        // TODO
-        return null;
+        return _seasonSaveData.SaveGoalieSeasonData(goalie);
     }
 
     public string SaveTeamSeasonData(GameTeam gameTeam)
     {
-        // TODO
-        return null;
+        return _seasonSaveData.SaveTeamSeasonData(gameTeam);
     }
 #endregion
 #region -------------------- Private Methods --------------------
