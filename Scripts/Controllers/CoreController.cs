@@ -32,76 +32,76 @@ public class CoreController : Singleton<CoreController> {
     public bool IsLoaded;
 
     // Persistent Scenes
-    public string Scene_Persistent00 = "Persistent_00_Controllers";
+    public string Scene_Persistent00 = "Persistent_00_Controllers"; // DONE
     
     // Main Scenes
-    public string Scene_Main00 = "Main_00_Opening";
-    public string Scene_Main01 = "Main_01_Loading";
-    public string Scene_Main02 = "Main_02_LogIn";
-    public string Scene_Main03 = "Main_03_SignUp";
-    public string Scene_Main04 = "Main_04_SignUpTeam";
-    public string Scene_Main05 = "Main_05_SavedGame";
+    public string Scene_Main00 = "Main_00_Opening"; // DONE
+    public string Scene_Main01 = "Main_01_Loading"; // DONE
+    public string Scene_Main02 = "Main_02_LogIn"; // DONE
+    public string Scene_Main03 = "Main_03_SignUp"; // DONE
+    public string Scene_Main04 = "Main_04_SignUpTeam"; // DONE
+    public string Scene_Main05 = "Main_05_SavedGame"; // NEED UI
 
     // Home Scenes
-    public string Scene_Home00 = "Home_00_Main";
+    public string Scene_Home00 = "Home_00_Main"; // DONE
 
     // Settings Scenes
-    public string Scene_Settings00 = "Settings_00_Main";
-    public string Scene_Settings01 = "Settings_01_Statistics";
-    public string Scene_Settings02 = "Settings_02_UpdateProfile";
-    public string Scene_Settings03 = "Settings_03_UpdateTeam";
+    public string Scene_Settings00 = "Settings_00_Main"; // DONE
+    public string Scene_Settings01 = "Settings_01_Statistics"; // TODO
+    public string Scene_Settings02 = "Settings_02_UpdateProfile"; // DONE
+    public string Scene_Settings03 = "Settings_03_UpdateTeam"; // DONE
     
     // Gameplay Scenes
-    public string Scene_Gameplay00 = "Gameplay_00_Main";
+    public string Scene_Gameplay00 = "Gameplay_00_Main"; // DONE
 
     // Exhibition Scenes
-    public string Scene_Exhibition00 = "Exhibition_00_Team";
-    public string Scene_Exhibition01 = "Exhibition_01_Options";
-    public string Scene_Exhibition02 = "Exhibition_02_Lines";
-    public string Scene_Exhibition03 = "Exhibition_03_Ready";
-    public string Scene_Exhibition04 = "Exhibition_04_Loading";
-    public string Scene_Exhibition05 = "Exhibition_05_Results";
+    public string Scene_Exhibition00 = "Exhibition_00_Team"; // DONE
+    public string Scene_Exhibition01 = "Exhibition_01_Options"; // DONE
+    public string Scene_Exhibition02 = "Exhibition_02_Lines"; // DONE
+    public string Scene_Exhibition03 = "Exhibition_03_Ready"; // DONE
+    public string Scene_Exhibition04 = "Exhibition_04_Loading"; // DONE
+    public string Scene_Exhibition05 = "Exhibition_05_Results"; // DONE
 
     // Multiplayer Scenes
-    public string Scene_Multiplayer00 = "Multiplayer_00_Main";
-    public string Scene_Multiplayer01 = "Multiplayer_01_HostOptions";
-    public string Scene_Multiplayer02 = "Multiplayer_02_JoinPasscode";
-    public string Scene_Multiplayer03 = "Multiplayer_03_Waiting";
-    public string Scene_Multiplayer04 = "Multiplayer_04_Team";
-    public string Scene_Multiplayer05 = "Multiplayer_05_Lines";
-    public string Scene_Multiplayer06 = "Multiplayer_06_ReadyWaiting";
-    public string Scene_Multiplayer07 = "Multiplayer_07_ReadyStart";
-    public string Scene_Multiplayer08 = "Multiplayer_08_Loading";
-    public string Scene_Multiplayer09 = "Multiplayer_09_Results";
+    public string Scene_Multiplayer00 = "Multiplayer_00_Main"; // TODO
+    public string Scene_Multiplayer01 = "Multiplayer_01_HostOptions"; // TODO
+    public string Scene_Multiplayer02 = "Multiplayer_02_JoinPasscode"; // TODO
+    public string Scene_Multiplayer03 = "Multiplayer_03_Waiting"; // TODO
+    public string Scene_Multiplayer04 = "Multiplayer_04_Team"; // TODO
+    public string Scene_Multiplayer05 = "Multiplayer_05_Lines"; // TODO
+    public string Scene_Multiplayer06 = "Multiplayer_06_ReadyWaiting"; // TODO
+    public string Scene_Multiplayer07 = "Multiplayer_07_ReadyStart"; // TODO
+    public string Scene_Multiplayer08 = "Multiplayer_08_Loading"; // TODO
+    public string Scene_Multiplayer09 = "Multiplayer_09_Results"; // TODO
 
     // Season Scenes
-    public string Scene_Season00 = "Season_00_Team";
-    public string Scene_Season01 = "Season_01_Options";
-    public string Scene_Season02 = "Season_02_NextGame";
-    public string Scene_Season03 = "Season_03_Standings";
-    public string Scene_Season04 = "Season_04_TeamStatistics";
-    public string Scene_Season05 = "Season_05_SkaterStatistics";
-    public string Scene_Season06 = "Season_06_GoalieStatistics";
-    public string Scene_Season07 = "Season_07_Ready";
-    public string Scene_Season08 = "Season_08_Lines";
-    public string Scene_Season09 = "Season_09_Loading";
-    public string Scene_Season10 = "Season_10_Results";
-    public string Scene_Season11 = "Season_11_Simulating";
+    public string Scene_Season00 = "Season_00_Team"; // NEED UI
+    public string Scene_Season01 = "Season_01_Options"; // NEED UI
+    public string Scene_Season02 = "Season_02_NextGame"; // NEED UI
+    public string Scene_Season03 = "Season_03_Standings"; // NEED UI
+    public string Scene_Season04 = "Season_04_TeamStatistics"; // NEED UI
+    public string Scene_Season05 = "Season_05_SkaterStatistics"; // NEED UI
+    public string Scene_Season06 = "Season_06_GoalieStatistics"; // NEED UI
+    public string Scene_Season07 = "Season_07_Ready"; // NEED UI
+    public string Scene_Season08 = "Season_08_Lines"; // NEED UI
+    public string Scene_Season09 = "Season_09_Loading"; // NEED UI
+    public string Scene_Season10 = "Season_10_Results"; // NEED UI
+    public string Scene_Season11 = "Season_11_Simulating"; // NEED UI
 
     // Playoff Scenes
-    public string Scene_Playoff00 = "Playoff_00_Start";
-    public string Scene_Playoff01 = "Playoff_01_NextGame";
-    public string Scene_Playoff02 = "Playoff_02_Bracket";
-    public string Scene_Playoff03 = "Playoff_03_TeamStatistics";
-    public string Scene_Playoff04 = "Playoff_04_SkaterStatistics";
-    public string Scene_Playoff05 = "Playoff_05_GoalieStatistics";
-    public string Scene_Playoff06 = "Playoff_06_Ready";
-    public string Scene_Playoff07 = "Playoff_07_Lines";
-    public string Scene_Playoff08 = "Playoff_08_Loading";
-    public string Scene_Playoff09 = "Playoff_09_Results";
-    public string Scene_Playoff10 = "Playoff_10_Simulating";
-    public string Scene_Playoff11 = "Playoff_11_FullSimulating";
-    public string Scene_Playoff12 = "Playoff_12_Champion";
+    public string Scene_Playoff00 = "Playoff_00_Start"; // TODO
+    public string Scene_Playoff01 = "Playoff_01_NextGame"; // TODO
+    public string Scene_Playoff02 = "Playoff_02_Bracket"; // TODO
+    public string Scene_Playoff03 = "Playoff_03_TeamStatistics"; // TODO
+    public string Scene_Playoff04 = "Playoff_04_SkaterStatistics"; // TODO
+    public string Scene_Playoff05 = "Playoff_05_GoalieStatistics"; // TODO
+    public string Scene_Playoff06 = "Playoff_06_Ready"; // NEED UI
+    public string Scene_Playoff07 = "Playoff_07_Lines"; // NEED UI
+    public string Scene_Playoff08 = "Playoff_08_Loading"; // NEED UI
+    public string Scene_Playoff09 = "Playoff_09_Results"; // TODO
+    public string Scene_Playoff10 = "Playoff_10_Simulating"; // TODO
+    public string Scene_Playoff11 = "Playoff_11_FullSimulating"; // TODO
+    public string Scene_Playoff12 = "Playoff_12_Champion"; // TODO
 #endregion
 #region -------------------- Private Variables --------------------
     private bool isInitializing = false;
