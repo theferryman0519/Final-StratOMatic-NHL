@@ -115,7 +115,7 @@ public class SeasonsController : Singleton<SeasonsController> {
                     GameNights = new(),
                 };
 
-                SeasonData.GameNights = await SaveController.Inst.LoadSeasonGameNightsData(SeasonData.Version);
+                SeasonData.GameNights = await SaveController.Inst.LoadSeasonGameNightsData(seasonData);
         
                 ConstantController.LeagueType leagueType = ConstantController.LeagueType.None;
         
