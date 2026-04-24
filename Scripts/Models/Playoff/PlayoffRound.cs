@@ -18,7 +18,7 @@ public class PlayoffRound {
     public int Round { get; set; }
 
     public List<Team> Teams { get; set; } = new();
-    public List<GameNight> GameNights { get; set; } = new();
+    public List<(int TeamA, int TeamB)> RoundRecords { get; set; } = new();
 #endregion
 #region -------------------- Private Variables --------------------
     
