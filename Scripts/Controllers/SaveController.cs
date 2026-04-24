@@ -86,6 +86,26 @@ public class SaveController : Singleton<SaveController> {
     }
 #endregion
 #region ---------- Playoff Data ----------
+    public PlayoffDatabase SaveUserPlayoffData()
+    {
+        return _playoffSaveData.SaveUserPlayoffData();
+    }
+
+    public string SaveSkaterPlayoffData(Skater skater)
+    {
+        return _playoffSaveData.SaveSkaterPlayoffData(skater);
+    }
+
+    public string SaveGoaliePlayoffData(Goalie goalie)
+    {
+        return _playoffSaveData.SaveGoaliePlayoffData(goalie);
+    }
+
+    public string SaveTeamPlayoffData(GameTeam gameTeam)
+    {
+        return _playoffSaveData.SaveTeamPlayoffData(gameTeam);
+    }
+
     public async Task<List<PlayoffRound>> LoadPlayoffRoundData(PlayoffDatabase playoffData)
     {
         return _playoffSaveData.LoadPlayoffRoundData(playoffData);
