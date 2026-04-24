@@ -399,6 +399,16 @@ public class PanelController : Singleton<PanelController> {
                 newPanel.SpriteA = 1;
                 break;
             
+            // Saved Game
+            case ConstantController.PanelType.SavedGameDeleteGame:
+                newPanel.Title = "Delete Saved Game";
+                newPanel.Body = "Are you sure you wish to delete the game that is currently in progress? You will go Home if you wish to delete the game.";
+                newPanel.ButtonA = "Yes, Delete and Go Home";
+                newPanel.ButtonB = "No, Return";
+                newPanel.HasCloseButton = true;
+                newPanel.ButtonCount = 2;
+                break;
+            
             // Multiplayer
             case ConstantController.PanelType.MultiplayerOpponentLeft:
                 newPanel.Title = "Opponent Left";
