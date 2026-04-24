@@ -21,6 +21,8 @@ public class PlayoffsController : Singleton<PlayoffsController> {
 #endregion
 #region -------------------- Public Variables --------------------
     public Playoff PlayoffData;
+
+    public int CurrentNight;
 #endregion
 #region -------------------- Private Variables --------------------
     
@@ -58,6 +60,8 @@ public class PlayoffsController : Singleton<PlayoffsController> {
         };
 
         PlayoffData = await _playoffCreation.CreatePlayoff(newPlayoffDatabase);
+
+        CurrentNight = 1;
 
         continueAction?.Invoke();
     }
@@ -108,6 +112,8 @@ public class PlayoffsController : Singleton<PlayoffsController> {
                     CurrentRound = playoffData.Round,
                     Rounds = new(),
                 };
+
+                CurrentNight = playoffData.GameNumber;
 
                 PlayoffData.Rounds = await SaveController.Inst.LoadPlayoffRoundData(playoffData);
         
