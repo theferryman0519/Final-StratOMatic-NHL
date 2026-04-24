@@ -113,7 +113,6 @@ public class SeasonSaveData : MonoBehaviour {
 
         teamData += UsersController.Inst.UserData.Id + "/";
         teamData += gameTeam.Season.GamesPlayed.ToString() + "/";
-
         teamData += gameTeam.Season.Wins.ToString() + "/";
         teamData += gameTeam.Season.Losses.ToString() + "/";
         teamData += gameTeam.Season.Ties.ToString() + "/";
