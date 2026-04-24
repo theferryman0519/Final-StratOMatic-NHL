@@ -39,6 +39,25 @@ public class PlayoffsController : Singleton<PlayoffsController> {
 
         // TODO
     }
+
+    public TeamPlayoff GetTeamPlayoff(GameTeam team)
+    {
+        CoreController.Inst.WriteLog(this.GetType().Name, $"Getting a team's playoff record.");
+
+        ConstantController.LeagueType league = ConstantController.LeagueType.None;
+
+        if (team.Team.League.Contains("NHL")) { league = ConstantController.LeagueType.NHL; }
+        else { league = ConstantController.LeagueType.PWHL; }
+
+        Team mainTeam = TeamsController.Inst.GetTeamFromCode(team.Team.Code, league);
+
+        if (mainTeam.Playoff != null)
+        {
+            return mainTeam.Playoff;
+        }
+
+        return null;
+    }
 #endregion
 #region -------------------- Private Methods --------------------
     
