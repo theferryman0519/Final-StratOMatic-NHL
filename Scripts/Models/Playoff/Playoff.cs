@@ -18,6 +18,8 @@ public class Playoff {
     public string Id { get; set; }
     public string League { get; set; }
 
+    public int CurrentRound { get; set; }
+
     public GameTeam Team { get; set; }
 
     public List<PlayoffRound> Rounds { get; set; } = new();
