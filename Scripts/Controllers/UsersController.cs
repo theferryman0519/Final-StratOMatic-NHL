@@ -154,11 +154,14 @@ public class UsersController : Singleton<UsersController> {
             League = string.IsNullOrEmpty(seasonStats) ? "league" : seasonStats.Split('/')[1].Trim(),
             Team = string.IsNullOrEmpty(seasonStats) ? "team" : seasonStats.Split('/')[2].Trim(),
             IsInSeason = string.IsNullOrEmpty(seasonStats) ? false : (seasonStats.Split('/')[3].Trim() == "true"),
-            CurrentWins = string.IsNullOrEmpty(seasonStats) ? 0 : Int32.Parse(seasonStats.Split('/')[4].Trim()),
-            CurrentLosses = string.IsNullOrEmpty(seasonStats) ? 0 : Int32.Parse(seasonStats.Split('/')[5].Trim()),
-            CurrentTies = string.IsNullOrEmpty(seasonStats) ? 0 : Int32.Parse(seasonStats.Split('/')[6].Trim()),
-            CurrentOTLs = string.IsNullOrEmpty(seasonStats) ? 0 : Int32.Parse(seasonStats.Split('/')[7].Trim()),
-            TotalCups = string.IsNullOrEmpty(seasonStats) ? 0 : Int32.Parse(seasonStats.Split('/')[8].Trim()),
+            IsInPlayoffs = string.IsNullOrEmpty(seasonStats) ? false : (seasonStats.Split('/')[4].Trim() == "true"),
+            CurrentWins = string.IsNullOrEmpty(seasonStats) ? 0 : Int32.Parse(seasonStats.Split('/')[5].Trim()),
+            CurrentLosses = string.IsNullOrEmpty(seasonStats) ? 0 : Int32.Parse(seasonStats.Split('/')[6].Trim()),
+            CurrentTies = string.IsNullOrEmpty(seasonStats) ? 0 : Int32.Parse(seasonStats.Split('/')[7].Trim()),
+            CurrentOTLs = string.IsNullOrEmpty(seasonStats) ? 0 : Int32.Parse(seasonStats.Split('/')[8].Trim()),
+            CurrentPlayoffWins = string.IsNullOrEmpty(seasonStats) ? 0 : Int32.Parse(seasonStats.Split('/')[9].Trim()),
+            CurrentPlayoffLosses = string.IsNullOrEmpty(seasonStats) ? 0 : Int32.Parse(seasonStats.Split('/')[10].Trim()),
+            TotalCups = string.IsNullOrEmpty(seasonStats) ? 0 : Int32.Parse(seasonStats.Split('/')[11].Trim()),
         };
 
         return userSeasonStats;
@@ -211,10 +214,13 @@ public class UsersController : Singleton<UsersController> {
         finalString += UserData.SeasonStats.League + "/";
         finalString += UserData.SeasonStats.Team + "/";
         finalString += UserData.SeasonStats.IsInSeason.ToString() + "/";
+        finalString += UserData.SeasonStats.IsInPlayoffs.ToString() + "/";
         finalString += UserData.SeasonStats.CurrentWins.ToString() + "/";
         finalString += UserData.SeasonStats.CurrentLosses.ToString() + "/";
         finalString += UserData.SeasonStats.CurrentTies.ToString() + "/";
         finalString += UserData.SeasonStats.CurrentOTLs.ToString() + "/";
+        finalString += UserData.SeasonStats.CurrentPlayoffWins.ToString() + "/";
+        finalString += UserData.SeasonStats.CurrentPlayoffLosses.ToString() + "/";
         finalString += UserData.SeasonStats.TotalCups.ToString();
 
         return finalString;
