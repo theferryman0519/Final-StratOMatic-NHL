@@ -52,6 +52,7 @@ public class PlayoffsController : Singleton<PlayoffsController> {
             Team = team,
             Round = 1,
             GameNumber = 1,
+            RoundData = new(),
             SkaterLineup = new(),
             GoalieLineup = new(),
         };
