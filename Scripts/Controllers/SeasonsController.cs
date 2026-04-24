@@ -72,7 +72,7 @@ public class SeasonsController : Singleton<SeasonsController> {
     {
         CoreController.Inst.WriteLog(this.GetType().Name, $"Loading the current season.");
 
-        // TODO
+        LoadSeasonData();
 
         continueAction?.Invoke();
     }
@@ -114,6 +114,8 @@ public class SeasonsController : Singleton<SeasonsController> {
                     Version = seasonData.Version,
                     GameNights = new(),
                 };
+
+                SeasonData.GameNights = await SaveController.Inst.LoadSeasonGameNightsData(SeasonData.Version);
         
                 ConstantController.LeagueType leagueType = ConstantController.LeagueType.None;
         
