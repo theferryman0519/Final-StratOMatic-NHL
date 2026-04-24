@@ -70,7 +70,7 @@ public class PlayoffsController : Singleton<PlayoffsController> {
     {
         CoreController.Inst.WriteLog(this.GetType().Name, $"Loading the current playoff.");
 
-        // TODO
+        LoadPlayoffData();
 
         continueAction?.Invoke();
     }
