@@ -21,6 +21,7 @@ public class SaveController : Singleton<SaveController> {
     [Header("Save Data Elements")]
     [SerializeField] private GameSaveData _gameSaveData;
     [SerializeField] private SeasonSaveData _seasonSaveData;
+    [SerializeField] private PlayoffSaveData _playoffSaveData;
 #endregion
 #region -------------------- Public Variables --------------------
     public GameDatabase SavedGame;
@@ -35,16 +36,19 @@ public class SaveController : Singleton<SaveController> {
     
 #endregion
 #region -------------------- Public Methods --------------------
+#region ---------- Initialization ----------
     public void InitializeController()
     {
         CoreController.Inst.WriteLog(this.GetType().Name, $"Initializing the controller.");
 
         if (_gameSaveData == null) { _gameSaveData = gameObject.AddComponent<GameSaveData>(); }
         if (_seasonSaveData == null) { _seasonSaveData = gameObject.AddComponent<SeasonSaveData>(); }
+        if (_playoffSaveData == null) { _playoffSaveData = gameObject.AddComponent<PlayoffSaveData>(); }
 
         CoreController.Inst.LoadingStepCompleted();
     }
-
+#endregion
+#region ---------- Game Data ----------
     public GameDatabase GetCurrentGameSaveData()
     {
         return _gameSaveData.GetCurrentGameSaveData();
@@ -54,7 +58,8 @@ public class SaveController : Singleton<SaveController> {
     {
         return _gameSaveData.LoadGameFromSaveData(loadGame);
     }
-
+#endregion
+#region ---------- Season Data ----------
     public SeasonDatabase SaveUserSeasonData()
     {
         return _seasonSaveData.SaveUserSeasonData();
@@ -75,10 +80,17 @@ public class SaveController : Singleton<SaveController> {
         return _seasonSaveData.SaveTeamSeasonData(gameTeam);
     }
 
-    public List<GameNight> LoadSeasonGameNightsData(SeasonDatabase seasonDatabase)
+    public async Task<List<GameNight>> LoadSeasonGameNightsData(SeasonDatabase seasonDatabase)
     {
         return _seasonSaveData.LoadSeasonGameNightsData(seasonDatabase);
     }
+#endregion
+#region ---------- Playoff Data ----------
+    public async Task<List<PlayoffRound>> LoadPlayoffRoundData(PlayoffDatabase playoffData)
+    {
+        return _playoffSaveData.LoadPlayoffRoundData(playoffData);
+    }
+#endregion
 #endregion
 #region -------------------- Private Methods --------------------
     
