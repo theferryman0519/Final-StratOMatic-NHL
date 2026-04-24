@@ -21,11 +21,14 @@ public class UserSeasonStats {
     public string Team { get; set; }
 
     public bool IsInSeason { get; set; }
+    public bool IsInPlayoffs { get; set; }
     
     public int CurrentWins { get; set; }
     public int CurrentLosses { get; set; }
     public int CurrentTies { get; set; }
     public int CurrentOTLs { get; set; }
+    public int CurrentPlayoffWins { get; set; }
+    public int CurrentPlayoffLosses { get; set; }
     public int TotalCups { get; set; }
 #endregion
 #region -------------------- Private Variables --------------------
