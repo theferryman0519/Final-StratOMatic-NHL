@@ -179,6 +179,9 @@ public class ConstantController : Singleton<ConstantController> {
         SettingsResetAccount,
         SettingsDeleteAccount,
 
+        // Saved Game
+        SavedGameDeleteGame,
+
         // Multiplayer
         MultiplayerOpponentLeft,
 
