@@ -4,6 +4,7 @@ using System.Collections;
 using System.Net.Http;
 using System.Threading.Tasks;
 using UnityEngine;
+using UnityEngine.InputSystem.LowLevel;
 using UnityEngine.SceneManagement;
 
 #if UNITY_ANDROID
@@ -17,7 +18,6 @@ using Unity.Notifications.iOS;
 
 // Game Dependencies
 using SoM.Core;
-using UnityEngine.InputSystem.LowLevel;
 
 namespace SoM.Controllers {
 public class CoreController : Singleton<CoreController> {
