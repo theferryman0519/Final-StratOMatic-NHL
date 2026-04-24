@@ -439,8 +439,3 @@ public class PanelController : Singleton<PanelController> {
     }
 #endregion
 }}
-
-// case ConstantController.PanelType.xxxx:
-//                 newPanel.Title = "xxxx";
-//                 newPanel.Body = "xxxx.";
-//                 break;
