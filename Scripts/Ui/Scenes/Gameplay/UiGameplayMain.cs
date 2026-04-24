@@ -68,7 +68,15 @@ public class UiGameplayMain : MonoBehaviour {
 
         AnimationController.Inst.FadeOutObjects(_overlays, () =>
         {
-            EventsController.Inst.RunGameFlowEvent(0);
+            if (GameplayController.Inst.GameData.Period == 1 && GameplayController.Inst.GameData.CardsDrawn == 0)
+            {
+                EventsController.Inst.RunGameFlowEvent(0);
+            }
+
+            else
+            {
+                EventsController.Inst.RunOffenseEvent(0);
+            }
         });
     }
 #endregion
