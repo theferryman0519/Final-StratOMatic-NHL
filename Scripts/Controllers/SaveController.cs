@@ -74,6 +74,11 @@ public class SaveController : Singleton<SaveController> {
     {
         return _seasonSaveData.SaveTeamSeasonData(gameTeam);
     }
+
+    public List<GameNight> LoadSeasonGameNightsData(int version)
+    {
+        return _seasonSaveData.LoadSeasonGameNightsData(version);
+    }
 #endregion
 #region -------------------- Private Methods --------------------
     
