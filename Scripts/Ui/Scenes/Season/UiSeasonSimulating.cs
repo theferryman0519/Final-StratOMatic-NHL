@@ -151,12 +151,19 @@ public class UiSeasonSimulating : UiSceneBase {
 
         GameplayController.Inst.GameData = null;
 
-        SeasonsController.Inst.SeasonGameNight += 1;
-
         _loadingBar.value = 1f;
         isLoading = false;
 
-        GoToNewScene(CoreController.Inst.Scene_Season02);
+        SeasonsController.Inst.SeasonGameNight += 1;
+
+        string nextScene = CoreController.Inst.Scene_Season02;
+
+        if (SeasonsController.Inst.SeasonGameNight > SeasonsController.Inst.SeasonData.GameNights.Count)
+        {
+            nextScene = CoreController.Inst.Scene_Playoff00;
+        }
+
+        GoToNewScene(nextScene);
     }
 
     private void ResetGameStats(GameTeam gameTeam)
