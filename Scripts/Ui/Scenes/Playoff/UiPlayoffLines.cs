@@ -8,6 +8,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Audio;
 using UnityEngine.SceneManagement;
+using Random = UnityEngine.Random;
 
 // Game Dependencies
 using SoM.Controllers;
@@ -52,6 +53,21 @@ public class UiPlayoffLines : UiSceneBase {
     {
         InitializeUi();
     }
+
+	void Update()
+    {
+	    if (GameplayController.Inst.GameData.HomeTeam.SkaterLineup.Count == 18 && GameplayController.Inst.GameData.HomeTeam.GoalieLineup.Count == 1)
+	    {
+		    _notCompleteObject.SetActive(false);
+		    _continueObject.SetActive(true);
+	    }
+
+	    else
+	    {
+		    _notCompleteObject.SetActive(true);
+		    _continueObject.SetActive(false);
+	    }
+    }
 #endregion
 #region -------------------- Coroutines --------------------
     
@@ -66,8 +82,9 @@ public class UiPlayoffLines : UiSceneBase {
 		_positionDropdown.SetListener(ChangePositionOption);
 		_editLinesPanel.HidePanel();
 
-		SetFromPlayerPrefs();
+		ClearAllPositions();
 		ChangePositionOption(0);
+		SetLinesFromPrefs();
 
         base.InitializeUi();
 	}
@@ -76,67 +93,79 @@ public class UiPlayoffLines : UiSceneBase {
     private void SetLinesFromDefault()
     {
         CoreController.Inst.WriteLog(this.GetType().Name, $"Setting the full line-up from default selection.");
+        
+        string teamCode = GameplayController.Inst.GameData.HomeTeam.Team.Code;
+        string teamLeagueString = GameplayController.Inst.GameData.HomeTeam.Team.League;
+        
+        ConstantController.LeagueType teamLeague = ConstantController.LeagueType.None;
+        
+        if (teamLeagueString == "NHL") { teamLeague = ConstantController.LeagueType.NHL; }
+        else if (teamLeagueString == "PWHL") { teamLeague = ConstantController.LeagueType.PWHL; }
+        
+        Dictionary<string, Skater> defaultSkaters = TeamsController.Inst.GetDefaultLineup(teamCode, teamLeague);
+        Goalie defaultGoalie = TeamsController.Inst.GetDefaultStartingGoalie(teamCode, teamLeague);
+        
+        GameplayController.Inst.GameData.HomeTeam.SkaterLineup.Clear();
+        GameplayController.Inst.GameData.HomeTeam.GoalieLineup.Clear();
 
-		string teamCode = GameplayController.Inst.GameData.HomeTeam.Team.Code;
-		string teamLeagueString = GameplayController.Inst.GameData.HomeTeam.Team.League;
+        GameplayController.Inst.GameData.HomeTeam.SkaterLineup = defaultSkaters;
+        GameplayController.Inst.GameData.HomeTeam.GoalieLineup["G"] = defaultGoalie;
 
-		ConstantController.LeagueType teamLeague = ConstantController.LeagueType.None;
+        RefreshAllPositions();
+    }
 
-		if (teamLeagueString == "NHL") { teamLeague = ConstantController.LeagueType.NHL; }
-		else if (teamLeagueString == "NHLFranchise") { teamLeague = ConstantController.LeagueType.NHLFranchise; }
-		else if (teamLeagueString == "PWHL") { teamLeague = ConstantController.LeagueType.PWHL; }
-		else if (teamLeagueString == "PWHLFranchise") { teamLeague = ConstantController.LeagueType.PWHLFranchise; }
+	private void SetLinesFromPrefs()
+    {
+        CoreController.Inst.WriteLog(this.GetType().Name, $"Setting the lineup from saved prefs.");
 
-		Dictionary<string, Skater> defaultSkaters = TeamsController.Inst.GetDefaultLineup(teamCode, teamLeague);
+		GameplayController.Inst.GameData.HomeTeam.SkaterLineup.Clear();
+        GameplayController.Inst.GameData.HomeTeam.GoalieLineup.Clear();
 
-		Goalie defaultGoalie = TeamsController.Inst.GetDefaultStartingGoalie(teamCode, teamLeague);
-
-		for (int s = 0; s < defaultSkaters.Count; s++)
+		if (PlayerPrefs.HasKey(ConstantController.Pref_DefaultSeasonLeague) && 
+			PlayerPrefs.HasKey(ConstantController.Pref_DefaultSeasonTeam) && 
+			PlayerPrefs.HasKey(ConstantController.Pref_DefaultSeasonLineup))
 		{
-			_editLinePositions[s].ThisFullPos = defaultSkaters.ElementAt(s).Key;
-			_editLinePositions[s].ThisSkater = defaultSkaters.ElementAt(s).Value;
-			_editLinePositions[s].ThisGoalie = null;
+            string leagueDefault = string.Empty;
+            string teamDefault = string.Empty;
+			string lineupDefault = string.Empty;
 
-			string pos = defaultSkaters.ElementAt(s).Key.Contains("D") ? "D" : "F";
+			leagueDefault = PlayerPrefs.GetString(ConstantController.Pref_DefaultSeasonLeague);
+            teamDefault = PlayerPrefs.GetString(ConstantController.Pref_DefaultSeasonTeam);
+			lineupDefault = PlayerPrefs.GetString(ConstantController.Pref_DefaultSeasonLineup);
 
-			_editLinePositions[s].SetPosition(pos, true, defaultSkaters.ElementAt(s).Value, null);
-
-			int posOption = 0;
-
-			if (defaultSkaters.ElementAt(s).Key.Contains("D")) { posOption = 1; }
-			else if (defaultSkaters.ElementAt(s).Key.Contains("G")) { posOption = 2; }
-
-			_editLinePositions[s].RemoveButton.SetListener(() =>
+			if (teamDefault == GameplayController.Inst.GameData.HomeTeam.Team.Code)
 			{
-				ClearPosition(defaultSkaters.ElementAt(s).Key, _editLinePositions[s]);
-			});
+				string[] lineupDefaultArray = lineupDefault.Split('/');
 
-			_editLinePositions[s].SelectButton.SetListener(() =>
-			{
-				ShowSelectionPanel(posOption, defaultSkaters.ElementAt(s).Key);
-			});
-		}
+				List<Skater> defaultTeamSkaters = new();
+				List<Goalie> defaultTeamGoalies = new();
 
-		int goalieIndex = _editLinePositions.Count - 1;
+				if (leagueDefault == "NHL")
+				{
+					defaultTeamSkaters = SkatersController.Inst.NhlSkaters[teamDefault];
+					defaultTeamGoalies = GoaliesController.Inst.NhlGoalies[teamDefault];
+				}
 
-		_editLinePositions[goalieIndex].ThisFullPos = "G";
-		_editLinePositions[goalieIndex].ThisSkater = null;
-		_editLinePositions[goalieIndex].ThisGoalie = defaultGoalie;
-		_editLinePositions[goalieIndex].SetPosition("G", true, null, defaultGoalie);
+				else if (leagueDefault == "PWHL")
+				{
+					defaultTeamSkaters = SkatersController.Inst.PwhlSkaters[teamDefault];
+					defaultTeamGoalies = GoaliesController.Inst.PwhlGoalies[teamDefault];
+				}
 
-		_editLinePositions[goalieIndex].RemoveButton.SetListener(() =>
-		{
-			ClearPosition("G", _editLinePositions[goalieIndex]);
-		});
+				if (defaultTeamSkaters.Count > 0 && defaultTeamGoalies.Count > 0 && lineupDefaultArray.Length == 19)
+				{
+					for (int i = 0; i < positionsList.Count - 1; i++)
+					{
+						Skater skater = defaultTeamSkaters.FirstOrDefault(s => s.Id == lineupDefaultArray[i]);
+						if (skater != null) { GameplayController.Inst.GameData.HomeTeam.SkaterLineup.Add(positionsList[i], skater); }
+					}
 
-		_editLinePositions[goalieIndex].SelectButton.SetListener(() =>
-		{
-			ShowSelectionPanel(2, "G");
-		});
+					Goalie goalie = defaultTeamGoalies.FirstOrDefault(g => g.Id == lineupDefaultArray[18]);
+					if (goalie != null) { GameplayController.Inst.GameData.HomeTeam.GoalieLineup.Add("G", goalie); }
+				}
 
-		foreach (EditLinePositionPrefab prefab in _editLinePositions)
-		{
-			positionObjectsDict.Add(prefab.ThisFullPos, prefab);
+				RefreshAllPositions();
+			}
 		}
     }
 
@@ -166,10 +195,30 @@ public class UiPlayoffLines : UiSceneBase {
         GoToNewScene(CoreController.Inst.Scene_Playoff01);
     }
 
+	private void SetLinesToPlayerPrefs()
+	{
+		CoreController.Inst.WriteLog(this.GetType().Name, $"Setting lines to player prefs.");
+
+		string userTeam = GameplayController.Inst.GameData.HomeTeam.Team.Code;
+        string userLeague = GameplayController.Inst.GameData.HomeTeam.Team.League;
+		string userLineup = string.Empty;
+
+		foreach (Skater skater in GameplayController.Inst.GameData.HomeTeam.SkaterLineup.Values)
+		{
+			userLineup += $"{skater.Id}/";
+		}
+
+		userLineup += $"{GameplayController.Inst.GameData.HomeTeam.GoalieLineup["G"].Id}";
+
+		PlayerPrefs.SetString(ConstantController.Pref_DefaultSeasonLeague, userLeague);
+		PlayerPrefs.SetString(ConstantController.Pref_DefaultSeasonTeam, userTeam);
+		PlayerPrefs.SetString(ConstantController.Pref_DefaultSeasonLineup, userLineup);
+	}
+
 	private void ShowSelectionPanel(int posOption, string pos)
     {
         CoreController.Inst.WriteLog(this.GetType().Name, $"Showing the position selection panel.");
-
+        
         _editLinesPanel.gameObject.SetActive(true);
 		_editLinesPanel.SelectedPosition = pos;
 		_editLinesPanel.RefreshAction = RefreshAllPositions;
@@ -205,72 +254,55 @@ public class UiPlayoffLines : UiSceneBase {
 	{
 		CoreController.Inst.WriteLog(this.GetType().Name, $"Refreshing the set line-up for all selections.");
 
-		positionObjectsDict.Clear();
-
-		for (int i = 0; i < positionsList.Count; i++)
-		{
-			int index = i;
-
-			positionObjectsDict.Add(positionsList[index], _editLinePositions[index]);
-		}
-
 		ClearAllPositions();
 
-		foreach (KeyValuePair<string, Skater> skater in GameplayController.Inst.GameData.HomeTeam.SkaterLineup)
+		foreach (KeyValuePair<string, EditLinePositionPrefab> posObject in positionObjectsDict)
 		{
-			EditLinePositionPrefab skaterPosPrefab = positionObjectsDict[skater.Key];
-
-			skaterPosPrefab.ThisFullPos = skater.Key;
-			skaterPosPrefab.ThisSkater = skater.Value;
-			skaterPosPrefab.ThisGoalie = null;
-
-			skaterPosPrefab.SetPosition(skater.Key, true);
-
-			int posOption = 0;
-
-			if (skater.Key.Contains("D")) { posOption = 1; }
-
-			skaterPosPrefab.RemoveButton.SetListener(() =>
+			posObject.Value.ThisFullPos = posObject.Key;
+			posObject.Value.ThisGoalie = null;
+			
+			if (GameplayController.Inst.GameData.HomeTeam.SkaterLineup.ContainsKey(posObject.Key))
 			{
-				ClearPosition(skater.Key, skaterPosPrefab);
-
-				GameplayController.Inst.GameData.HomeTeam.SkaterLineup.Remove(skater.Key);
-
-				RefreshAllPositions();
-			});
-
-			skaterPosPrefab.SelectButton.SetListener(() =>
-			{
-				ShowSelectionPanel(posOption, skater.Key);
-			});
-		}
-
-		foreach (KeyValuePair<string, Goalie> goalie in GameplayController.Inst.GameData.HomeTeam.GoalieLineup)
-		{
-			EditLinePositionPrefab goaliePosPrefab = positionObjectsDict[goalie.Key];
-
-			goaliePosPrefab.ThisFullPos = goalie.Key;
-			goaliePosPrefab.ThisSkater = null;
-			goaliePosPrefab.ThisGoalie = goalie.Value;
-
-			goaliePosPrefab.SetPosition(goalie.Key, true);
-
-			int posOption = 2;
-
-			goaliePosPrefab.RemoveButton.SetListener(() =>
-			{
-				ClearPosition(goalie.Key, goaliePosPrefab);
-
-				GameplayController.Inst.GameData.HomeTeam.GoalieLineup.Remove(goalie.Key);
+				posObject.Value.ThisSkater = GameplayController.Inst.GameData.HomeTeam.SkaterLineup[posObject.Key];
+				posObject.Value.SetPosition(posObject.Key.Substring(0, posObject.Key.Length - 1), true, posObject.Value.ThisSkater, null);
 				
-				RefreshAllPositions();
-			});
+				int posOption = 0;
 
-			goaliePosPrefab.SelectButton.SetListener(() =>
+				if (IsDefensePos(posObject.Key)) { posOption = 1; }
+				
+				posObject.Value.RemoveButton.SetListener(() =>
+				{
+					GameplayController.Inst.GameData.HomeTeam.SkaterLineup.Remove(posObject.Key);
+					ClearPosition(posObject.Key, posObject.Value);
+				});
+
+				posObject.Value.SelectButton.SetListener(() =>
+				{
+					ShowSelectionPanel(posOption, posObject.Key);
+				});
+			}
+
+			else
 			{
-				ShowSelectionPanel(posOption, goalie.Key);
-			});
+				posObject.Value.ThisSkater = null;
+			}
 		}
+		
+		positionObjectsDict.ElementAt(18).Value.ThisFullPos = "G";
+		positionObjectsDict.ElementAt(18).Value.ThisSkater = null;
+		positionObjectsDict.ElementAt(18).Value.ThisGoalie = GameplayController.Inst.GameData.HomeTeam.GoalieLineup["G"];
+		positionObjectsDict.ElementAt(18).Value.SetPosition("G", true, null, GameplayController.Inst.GameData.HomeTeam.GoalieLineup["G"]);
+
+		positionObjectsDict.ElementAt(18).Value.RemoveButton.SetListener(() =>
+		{
+			GameplayController.Inst.GameData.HomeTeam.GoalieLineup.Remove("G");
+			ClearPosition("G", positionObjectsDict.ElementAt(18).Value);
+		});
+
+		positionObjectsDict.ElementAt(18).Value.SelectButton.SetListener(() =>
+		{
+			ShowSelectionPanel(2, "G");
+		});
 	}
 
 	private void ClearAllPositions()
@@ -278,21 +310,34 @@ public class UiPlayoffLines : UiSceneBase {
 		CoreController.Inst.WriteLog(this.GetType().Name, $"Resetting the set line-up to clear all selections.");
 
 		positionObjectsDict.Clear();
+		
+		positionObjectsDict.Add("C1", _editLinePositions[0]);
+		positionObjectsDict.Add("LW1", _editLinePositions[1]);
+		positionObjectsDict.Add("RW1", _editLinePositions[2]);
+		positionObjectsDict.Add("C2", _editLinePositions[3]);
+		positionObjectsDict.Add("LW2", _editLinePositions[4]);
+		positionObjectsDict.Add("RW2", _editLinePositions[5]);
+		positionObjectsDict.Add("C3", _editLinePositions[6]);
+		positionObjectsDict.Add("LW3", _editLinePositions[7]);
+		positionObjectsDict.Add("RW3", _editLinePositions[8]);
+		positionObjectsDict.Add("C4", _editLinePositions[9]);
+		positionObjectsDict.Add("LW4", _editLinePositions[10]);
+		positionObjectsDict.Add("RW4", _editLinePositions[11]);
+		positionObjectsDict.Add("LD1", _editLinePositions[12]);
+		positionObjectsDict.Add("RD1", _editLinePositions[13]);
+		positionObjectsDict.Add("LD2", _editLinePositions[14]);
+		positionObjectsDict.Add("RD2", _editLinePositions[15]);
+		positionObjectsDict.Add("LD3", _editLinePositions[16]);
+		positionObjectsDict.Add("RD3", _editLinePositions[17]);
+		positionObjectsDict.Add("G", _editLinePositions[18]);
 
-		for (int i = 0; i < positionsList.Count; i++)
+		foreach (KeyValuePair<string, EditLinePositionPrefab> prefab in positionObjectsDict)
 		{
-			int index = i;
-
-			positionObjectsDict.Add(positionsList[index], _editLinePositions[index]);
-		}
-
-		foreach (KeyValuePair<string, EditLinePositionPrefab> posPrefab in positionObjectsDict)
-		{
-			ClearPosition(posPrefab.Key, posPrefab.Value);
+			ClearPosition(prefab.Key, prefab.Value, true);
 		}
 	}
 
-	private void ClearPosition(string pos, EditLinePositionPrefab prefab)
+	private void ClearPosition(string pos, EditLinePositionPrefab prefab, bool isClearingAll = false)
 	{
 		prefab.ThisFullPos = pos;
 		prefab.ThisSkater = null;
@@ -302,23 +347,33 @@ public class UiPlayoffLines : UiSceneBase {
 
 		int posOption = 0;
 
-		if (pos.Contains("D")) { posOption = 1; }
-		else if (pos.Contains("G")) { posOption = 2; }
+		if (IsDefensePos(pos)) { posOption = 1; }
+		if (pos == "G") { posOption = 2; }
 
-		prefab.RemoveButton.RemoveListener();
+		prefab.RemoveButton.SetListener(() =>
+		{
+			GameplayController.Inst.GameData.HomeTeam.SkaterLineup.Remove(pos);
+			ClearPosition(pos, prefab);
+		});
 		prefab.SelectButton.SetListener(() =>
 		{
 			ShowSelectionPanel(posOption, pos);
 		});
+
+		if (!isClearingAll)
+		{
+			RefreshAllPositions();
+		}
 	}
 
-    private void SetFromPlayerPrefs()
-    {
-        CoreController.Inst.WriteLog(this.GetType().Name, $"Setting lines from PlayerPrefs.");
-
-        ClearAllPositions();
-
-        // TODO
-    }
+	private bool IsDefensePos(string pos)
+	{
+		if (pos.StartsWith("LD") || pos.StartsWith("RD"))
+		{
+			return true;
+		}
+		
+		return false;
+	}
 #endregion
 }}
