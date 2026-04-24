@@ -185,7 +185,10 @@ public class SeasonCreation : MonoBehaviour {
 
         List<GameNight> gameNights = new();
 
-        for (int i = 0; i < 82; i++)
+        // int maxNights = seasonDatabase.League == "NHL" ? 82 : 82;
+        int maxNights = 82;
+
+        for (int i = 0; i < maxNights; i++)
         {
             int index = i;
 
@@ -207,7 +210,9 @@ public class SeasonCreation : MonoBehaviour {
             Games = new(),
         };
 
-        for (int i = 0; i < 16; i++)
+        int maxGames = seasonDatabase.League == "NHL" ? 16 : 4;
+
+        for (int i = 0; i < maxGames; i++)
         {
             int gameIndex = i;
 
