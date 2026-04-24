@@ -23,8 +23,10 @@ public class UiPlayoffReady : UiSceneBase {
     [Header("Text Elements")]
     [SerializeField] private TMP_Text _roundText;
     [SerializeField] private TMP_Text _homeTeamText;
+    [SerializeField] private TMP_Text _homeRecordText;
     [SerializeField] private TMP_Text _homeLinesText;
     [SerializeField] private TMP_Text _awayTeamText;
+    [SerializeField] private TMP_Text _awayRecordText;
     [SerializeField] private TMP_Text _awayLinesText;
 
     [Header("Icon Elements")]
@@ -76,7 +78,49 @@ public class UiPlayoffReady : UiSceneBase {
     {
         CoreController.Inst.WriteLog(this.GetType().Name, $"Setting the game data.");
 
-        // TODO
+        GameTeam homeTeam = GameplayController.Inst.GameData.HomeTeam;
+        GameTeam awayTeam = GameplayController.Inst.GameData.AwayTeam;
+
+        _homeTeamText.text = homeTeam.Team.Code;
+        _awayTeamText.text = awayTeam.Team.Code;
+        
+        string homeLeague = homeTeam.Team.League.Contains("NHL") ? "NHL" : "PWHL";
+        string awayLeague = awayTeam.Team.League.Contains("NHL") ? "NHL" : "PWHL";
+
+        string homeString = $"{homeLeague}_{homeTeam.Team.Code}_ON";
+        string awayString = $"{awayLeague}_{awayTeam.Team.Code}_ON";
+
+        _homeIcon.sprite = ConstantController.Inst.IconSprites[homeString];
+        _awayIcon.sprite = ConstantController.Inst.IconSprites[awayString];
+
+        _homeLinesText.text = $"C: {homeTeam.SkaterLineup["C1"].Info.LastName}" + "\n" +
+            $"LW: {homeTeam.SkaterLineup["LW1"].Info.LastName}" + "\n" +
+            $"RW: {homeTeam.SkaterLineup["RW1"].Info.LastName}" + "\n\n" +
+            $"LD: {homeTeam.SkaterLineup["LD1"].Info.LastName}" + "\n" +
+            $"RD: {homeTeam.SkaterLineup["RD1"].Info.LastName}" + "\n\n" +
+            $"G: {homeTeam.GoalieLineup["G"].Info.LastName}";
+        
+        _awayLinesText.text = $"C: {awayTeam.SkaterLineup["C1"].Info.LastName}" + "\n" +
+            $"LW: {awayTeam.SkaterLineup["LW1"].Info.LastName}" + "\n" +
+            $"RW: {awayTeam.SkaterLineup["RW1"].Info.LastName}" + "\n\n" +
+            $"LD: {awayTeam.SkaterLineup["LD1"].Info.LastName}" + "\n" +
+            $"RD: {awayTeam.SkaterLineup["RD1"].Info.LastName}" + "\n\n" +
+            $"G: {awayTeam.GoalieLineup["G"].Info.LastName}";
+        
+        _homeRecordText.text = $"{UsersController.Inst.UserData.SeasonStats.CurrentPlayoffWins} - {UsersController.Inst.UserData.SeasonStats.CurrentPlayoffLosses}";
+        
+        TeamSeason opponentPlayoff = PlayoffsController.Inst.GetTeamPlayoff(awayTeam);
+
+        _awayRecordText.text = $"{opponentPlayoff.Wins} - {opponentPlayoff.Losses}";
+
+        string roundText = string.Empty;
+
+        if (PlayoffsController.Inst.PlayoffData.CurrentRound == 1) { roundText = "First Round"; }
+        else if (PlayoffsController.Inst.PlayoffData.CurrentRound == 2) { roundText = "Divisional Round"; }
+        else if (PlayoffsController.Inst.PlayoffData.CurrentRound == 3) { roundText = "Conference Finals"; }
+        else { roundText = "Stanley Cup Finals"; }
+
+        _roundText.text = roundText;
     }
 #endregion
 }}
